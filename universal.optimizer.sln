@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversalOptimizer", "UniversalOptimizer\UniversalOptimizer.csproj", "{D444CB84-2B4F-4D4C-A30E-A6B85CCA82B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{BCBD56A8-471A-4D2A-AA73-C91240382D47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphFileTransformations", "Tools\GraphFileTransformations\GraphFileTransformations.csproj", "{D33BCA3F-1FF9-4FF8-B21A-8736B8D5D605}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProblemInstanceTransformations", "Tools\ProblemInstanceTransformations\ProblemInstanceTransformations.csproj", "{FEA9DC15-101D-4401-9E50-FD8EC0A56198}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D444CB84-2B4F-4D4C-A30E-A6B85CCA82B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D444CB84-2B4F-4D4C-A30E-A6B85CCA82B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D444CB84-2B4F-4D4C-A30E-A6B85CCA82B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D444CB84-2B4F-4D4C-A30E-A6B85CCA82B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D33BCA3F-1FF9-4FF8-B21A-8736B8D5D605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D33BCA3F-1FF9-4FF8-B21A-8736B8D5D605}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D33BCA3F-1FF9-4FF8-B21A-8736B8D5D605}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D33BCA3F-1FF9-4FF8-B21A-8736B8D5D605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEA9DC15-101D-4401-9E50-FD8EC0A56198}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEA9DC15-101D-4401-9E50-FD8EC0A56198}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEA9DC15-101D-4401-9E50-FD8EC0A56198}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEA9DC15-101D-4401-9E50-FD8EC0A56198}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D33BCA3F-1FF9-4FF8-B21A-8736B8D5D605} = {BCBD56A8-471A-4D2A-AA73-C91240382D47}
+		{FEA9DC15-101D-4401-9E50-FD8EC0A56198} = {BCBD56A8-471A-4D2A-AA73-C91240382D47}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0E9C1655-9598-4E24-962A-C12A47F4906D}
+	EndGlobalSection
+EndGlobal
