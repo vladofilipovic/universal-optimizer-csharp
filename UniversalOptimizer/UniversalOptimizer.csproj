@@ -7,4 +7,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="opt\**" />
+    <Compile Remove="uo\algorithm\**" />
+    <Compile Remove="uo\target_solution\**" />
+    <Compile Remove="uo\utils\**" />
+    <EmbeddedResource Remove="opt\**" />
+    <EmbeddedResource Remove="uo\algorithm\**" />
+    <EmbeddedResource Remove="uo\target_solution\**" />
+    <EmbeddedResource Remove="uo\utils\**" />
+    <None Remove="opt\**" />
+    <None Remove="uo\algorithm\**" />
+    <None Remove="uo\target_solution\**" />
+    <None Remove="uo\utils\**" />
+  </ItemGroup>
+
 </Project>
