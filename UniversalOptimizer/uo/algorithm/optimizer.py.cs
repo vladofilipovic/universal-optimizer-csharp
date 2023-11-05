@@ -1,7 +1,7 @@
-//  
-// The :mod:`~uo.algorithm.optimizer` module describes the class :class:`~uo.algorithm.Optimizer`.
-// 
-namespace algorithm {
+///  
+/// The :mod:`~uo.Algorithm.optimizer` module describes the class :class:`~uo.Algorithm.Optimizer`.
+/// 
+namespace uo.Algorithm {
     
     using Path = pathlib.Path;
     
@@ -17,191 +17,179 @@ namespace algorithm {
     
     using logger = uo.utils.logger.logger;
     
-    using OutputControl = uo.algorithm.output_control.OutputControl;
+    using OutputControl = uo.Algorithm.OutputControl.OutputControl;
     
-    using TargetProblem = uo.target_problem.target_problem.TargetProblem;
+    using TargetProblem = uo.TargetProblem.TargetProblem.TargetProblem;
     
-    using TargetSolution = uo.target_solution.target_solution.TargetSolution;
+    using TargetSolution = uo.TargetSolution.TargetSolution.TargetSolution;
     
     using System;
     
     using System.Linq;
-    
-    public static class optimizer {
         
-        public static object directory = Path(@__file__).resolve();
-        
-        static optimizer() {
-            sys.path.append(directory.parent);
-        }
-        
-        // 
-        //     This class describes Optimizer
-        //     
-        public class Optimizer
-            : ABCMeta {
+        public abstract class Optimizer: {
             
-            public object @__best_solution;
+            private object _best_solution;
             
-            public object @__execution_ended;
+            private object _execution_ended;
             
-            public object @__execution_started;
+            private object _execution_started;
             
-            public object @__iteration_best_found;
+            private object _iteration_best_found;
             
-            public object @__name;
+            private object _name;
             
-            public object @__output_control;
+            private object _OutputControl;
             
-            public object @__second_when_best_obtained;
+            private object _second_when_best_obtained;
             
-            public object @__target_problem;
+            private object _TargetProblem;
             
             [abstractmethod]
-            public Optimizer(string name, object output_control, object target_problem) {
-                this.@__name = name;
-                this.@__output_control = output_control;
-                if (target_problem is TargetProblem) {
-                    this.@__target_problem = target_problem.copy();
+            public Optimizer(string name, object OutputControl, object TargetProblem) {
+                _name = name;
+                _OutputControl = OutputControl;
+                if (TargetProblem is TargetProblem) {
+                    _TargetProblem = TargetProblem.copy();
                 } else {
-                    this.@__target_problem = target_problem;
+                    _TargetProblem = TargetProblem;
                 }
-                this.@__execution_started = null;
-                this.@__execution_ended = null;
-                this.@__best_solution = null;
+                _execution_started = null;
+                _execution_ended = null;
+                _best_solution = null;
             }
             
-            // 
-            //         Internal copy of the current optimizer
-            // 
-            //         :return:  new `Optimizer` instance with the same properties
-            //         :rtype: :class:`uo.algorithm.Optimizer`
-            //         
+            /// 
+            ///         Internal copy of the current optimizer
+            /// 
+            ///         :return:  new `Optimizer` instance with the same properties
+            ///         :rtype: :class:`uo.Algorithm.Optimizer`
+            ///         
             [abstractmethod]
-            public virtual void @__copy__() {
+            public virtual void _copy__() {
                 var opt = deepcopy(this);
                 return opt;
             }
             
-            // 
-            //         Copy the current optimizer
-            // 
-            //         :return:  new `Optimizer` instance with the same properties
-            //         :rtype: :class:`uo.algorithm.Optimizer`
-            //         
+            /// 
+            ///         Copy the current optimizer
+            /// 
+            ///         :return:  new `Optimizer` instance with the same properties
+            ///         :rtype: :class:`uo.Algorithm.Optimizer`
+            ///         
             [abstractmethod]
             public virtual void copy() {
-                return this.@__copy__();
+                return _copy__();
             }
             
-            // 
-            //         Property getter for the name of the optimizer
-            //         
-            //         :return: name of the algorithm instance 
-            //         :rtype: str
-            //         
+            /// 
+            ///         Property getter for the name of the optimizer
+            ///         
+            ///         :return: name of the algorithm instance 
+            ///         :rtype: str
+            ///         
             public object name {
                 get {
-                    return this.@__name;
+                    return _name;
                 }
             }
             
-            // 
-            //         Property getter for the target problem to be solved
-            //         
-            //         :return TargetProblem: target problem to be solved 
-            //         
-            public object target_problem {
+            /// 
+            ///         Property getter for the target problem to be solved
+            ///         
+            ///         :return TargetProblem: target problem to be solved 
+            ///         
+            public object TargetProblem {
                 get {
-                    return this.@__target_problem;
+                    return _TargetProblem;
                 }
             }
             
-            // 
-            //         Property getter for time when execution started
-            //         
-            //         :return datetime: time when execution started 
-            //         
-            // 
-            //         Property setter for time when execution started
-            // 
-            //         :param datetime value: time when execution started
-            //         
+            /// 
+            ///         Property getter for time when execution started
+            ///         
+            ///         :return datetime: time when execution started 
+            ///         
+            /// 
+            ///         Property setter for time when execution started
+            /// 
+            ///         :param datetime value: time when execution started
+            ///         
             public object execution_started {
                 get {
-                    return this.@__execution_started;
+                    return _execution_started;
                 }
                 set {
-                    this.@__execution_started = value;
+                    _execution_started = value;
                 }
             }
             
-            // 
-            //         Property getter for time when execution ended
-            //         
-            //         :return datetime: time when execution ended 
-            //         
-            // 
-            //         Property setter for time when execution ended
-            //         
-            //         :param datetime value: time when execution ended
-            //         
+            /// 
+            ///         Property getter for time when execution ended
+            ///         
+            ///         :return datetime: time when execution ended 
+            ///         
+            /// 
+            ///         Property setter for time when execution ended
+            ///         
+            ///         :param datetime value: time when execution ended
+            ///         
             public object execution_ended {
                 get {
-                    return this.@__execution_ended;
+                    return _execution_ended;
                 }
                 set {
-                    this.@__execution_ended = value;
+                    _execution_ended = value;
                 }
             }
             
-            // 
-            //         Property getter for the best solution obtained during metaheuristic execution
-            //         
-            //         :return: best solution so far 
-            //         :rtype: TargetSolution
-            //         
-            // 
-            //         Property setter for the best solution so far
-            //         
-            //         :param TargetSolution value: best solution so far
-            //         
+            /// 
+            ///         Property getter for the best solution obtained during metaheuristic execution
+            ///         
+            ///         :return: best solution so far 
+            ///         :rtype: TargetSolution
+            ///         
+            /// 
+            ///         Property setter for the best solution so far
+            ///         
+            ///         :param TargetSolution value: best solution so far
+            ///         
             public object best_solution {
                 get {
-                    return this.@__best_solution;
+                    return _best_solution;
                 }
                 set {
-                    this.@__best_solution = value;
+                    _best_solution = value;
                 }
             }
             
-            // 
-            //         Property getter for the output control of the executing algorithm
-            //         
-            //         :return: output control of the executing algorithm
-            //         :rtype: `OutputControl`
-            //         
-            // 
-            //         Property setter for the output control of the executing algorithm
-            //         
-            //         :param int value: `OutputControl`
-            //         
-            public object output_control {
+            /// 
+            ///         Property getter for the output control of the executing algorithm
+            ///         
+            ///         :return: output control of the executing algorithm
+            ///         :rtype: `OutputControl`
+            ///         
+            /// 
+            ///         Property setter for the output control of the executing algorithm
+            ///         
+            ///         :param int value: `OutputControl`
+            ///         
+            public object OutputControl {
                 get {
-                    return this.@__output_control;
+                    return _OutputControl;
                 }
                 set {
-                    this.@__output_control = value;
+                    _OutputControl = value;
                 }
             }
             
-            // 
-            //         Write headers(with field names) to output file, if necessary 
-            //         
+            /// 
+            ///         Write headers(with field names) to output file, if necessary 
+            ///         
             public virtual void write_output_headers_if_needed() {
-                if (this.output_control.write_to_output) {
-                    var output = this.output_control.output_file;
-                    var f_hs = this.output_control.fields_headings;
+                if (this.OutputControl.write_to_output) {
+                    var output = this.OutputControl.output_file;
+                    var f_hs = this.OutputControl.fields_headings;
                     var line = "";
                     foreach (var f_h in f_hs) {
                         output.write(f_h);
@@ -214,46 +202,46 @@ namespace algorithm {
                 }
             }
             
-            // 
-            //         Write data(with field values) to output file, if necessary 
-            // 
-            //         :param str step_name: name of the step when data should be written to output - have to be one of the following values: 'after_algorithm', 'before_algorithm', 'after_iteration', 'before_iteration', 'after_evaluation', 'before_evaluation', 'after_step_in_iteration', 'before_step_in_iteration'
-            //         :param str step_name_value: what should be written to the output instead of step_name
-            //         
-            public virtual object write_output_values_if_needed(string step_name, string step_name_value) {
+            /// 
+            ///         Write data(with field values) to output file, if necessary 
+            /// 
+            ///         :param str step_name: name of the step when data should be written to output - have to be one of the following values: 'after_algorithm', 'before_algorithm', 'after_iteration', 'before_iteration', 'after_evaluation', 'before_evaluation', 'after_step_in_iteration', 'before_step_in_iteration'
+            ///         :param str step_nameValue: what should be written to the output instead of step_name
+            ///         
+            public virtual object write_outputValues_if_needed(string step_name, string step_nameValue) {
                 object s_data;
-                if (this.output_control.write_to_output) {
-                    var output = this.output_control.output_file;
+                if (this.OutputControl.write_to_output) {
+                    var output = this.OutputControl.output_file;
                     var should_write = false;
                     if (step_name == "after_algorithm") {
                         should_write = true;
                     } else if (step_name == "before_algorithm") {
-                        should_write = this.output_control.write_before_algorithm;
+                        should_write = this.OutputControl.write_before_algorithm;
                     } else if (step_name == "after_iteration") {
-                        should_write = this.output_control.write_after_iteration;
+                        should_write = this.OutputControl.write_after_iteration;
                     } else if (step_name == "before_iteration") {
-                        should_write = this.output_control.write_before_iteration;
+                        should_write = this.OutputControl.write_before_iteration;
                     } else if (step_name == "after_evaluation") {
-                        should_write = this.output_control.write_after_evaluation;
+                        should_write = this.OutputControl.write_after_evaluation;
                     } else if (step_name == "before_evaluation") {
-                        should_write = this.output_control.write_before_evaluation;
+                        should_write = this.OutputControl.write_before_evaluation;
                     } else if (step_name == "after_step_in_iteration") {
-                        should_write = this.output_control.write_after_step_in_iteration;
+                        should_write = this.OutputControl.write_after_step_in_iteration;
                     } else if (step_name == "before_step_in_iteration") {
-                        should_write = this.output_control.write_before_step_in_iteration;
+                        should_write = this.OutputControl.write_before_step_in_iteration;
                     } else {
                         throw new ValueError("Supplied step name '" + step_name + "' is not valid.");
                     }
                     if (should_write) {
                         var line = "";
-                        var fields_def = this.output_control.fields_definitions;
+                        var fields_def = this.OutputControl.fields_definitions;
                         foreach (var f_def in fields_def) {
                             if (f_def != "") {
                                 try {
                                     var data = eval(f_def);
                                     s_data = data.ToString();
                                     if (s_data == "step_name") {
-                                        s_data = step_name_value;
+                                        s_data = step_nameValue;
                                     }
                                 } catch {
                                     s_data = "XXX";
@@ -268,110 +256,110 @@ namespace algorithm {
                 }
             }
             
-            // 
-            //         Copies function argument to become the best solution within metaheuristic instance and update info about time 
-            //         and iteration when the best solution is updated 
-            // 
-            //         :param TargetSolution solution: solution that is source for coping operation
-            //         
+            /// 
+            ///         Copies function argument to become the best solution within metaheuristic instance and update info about time 
+            ///         and iteration when the best solution is updated 
+            /// 
+            ///         :param TargetSolution solution: solution that is source for coping operation
+            ///         
             public virtual object copy_to_best_solution(object solution) {
-                this.@__best_solution = solution.copy();
-                this.@__second_when_best_obtained = (datetime.now() - this.execution_started).total_seconds();
-                this.@__iteration_best_found = this.iteration;
+                _best_solution = solution.copy();
+                _second_when_best_obtained = (datetime.now() - this.execution_started).total_seconds();
+                _iteration_best_found = this.iteration;
             }
             
-            // 
-            //         String representation of the 'Algorithm' instance
-            //         
-            //         :param delimiter: delimiter between fields
-            //         :type delimiter: str
-            //         :param indentation: level of indentation
-            //         :type indentation: int, optional, default value 0
-            //         :param indentation_symbol: indentation symbol
-            //         :type indentation_symbol: str, optional, default value ''
-            //         :param group_start: group start string 
-            //         :type group_start: str, optional, default value '{'
-            //         :param group_end: group end string 
-            //         :type group_end: str, optional, default value '}'
-            //         :return: string representation of instance that controls output
-            //         :rtype: str
-            //         
-            public virtual string string_rep(
+            /// 
+            ///         String representation of the 'Algorithm' instance
+            ///         
+            ///         :param delimiter: delimiter between fields
+            ///         :type delimiter: str
+            ///         :param indentation: level of indentation
+            ///         :type indentation: int, optional, default value 0
+            ///         :param indentationSymbol: indentation symbol
+            ///         :type indentationSymbol: str, optional, default value ''
+            ///         :param groupStart: group start string 
+            ///         :type groupStart: str, optional, default value '{'
+            ///         :param groupEnd: group end string 
+            ///         :type groupEnd: str, optional, default value '}'
+            ///         :return: string representation of instance that controls output
+            ///         :rtype: str
+            ///         
+            public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
-                string indentation_symbol = "",
-                string group_start = "{",
-                string group_end = "}") {
+                string indentationSymbol = "",
+                string groupStart = "{",
+                string groupEnd = "}") {
                 var s = delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s = group_start;
+                s = groupStart;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
                 s += "name=" + this.name + delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s += "target_problem=" + this.target_problem.string_rep(delimiter, indentation + 1, indentation_symbol, "{", "}") + delimiter;
-                s += "__output_control=" + this.@__output_control.string_rep(delimiter, indentation + 1, indentation_symbol, "{", "}") + delimiter;
+                s += "TargetProblem=" + this.TargetProblem.stringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
+                s += "_OutputControl=" + _OutputControl.stringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
                 s += "execution_started=" + this.execution_started.ToString() + delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
                 s += "execution_ended=" + this.execution_ended.ToString() + delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s += "best_solution=" + this.best_solution.string_rep(delimiter, indentation + 1, indentation_symbol, group_start, group_end) + delimiter;
+                s += "best_solution=" + this.best_solution.stringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s += group_end;
+                s += groupEnd;
                 return s;
             }
             
-            // 
-            //         Method for optimization   
-            //         
+            /// 
+            ///         Method for optimization   
+            ///         
             [abstractmethod]
             public virtual object optimize() {
                 throw new NotImplemented();
             }
             
-            // 
-            //         String representation of the 'Algorithm' instance
-            //         
-            //         :return: string representation of the 'Algorithm' instance
-            //         :rtype: str
-            //         
+            /// 
+            ///         String representation of the 'Algorithm' instance
+            ///         
+            ///         :return: string representation of the 'Algorithm' instance
+            ///         :rtype: str
+            ///         
             [abstractmethod]
             public override string ToString() {
-                return this.string_rep("|");
+                return this.StringRep("|");
             }
             
-            // 
-            //         Representation of the 'Algorithm' instance
-            //         
-            //         :return: string representation of the 'Algorithm' instance
-            //         :rtype: str
-            //         
+            /// 
+            ///         Representation of the 'Algorithm' instance
+            ///         
+            ///         :return: string representation of the 'Algorithm' instance
+            ///         :rtype: str
+            ///         
             [abstractmethod]
-            public virtual string @__repr__() {
-                return this.string_rep("\n");
+            public virtual string _repr__() {
+                return this.StringRep("\n");
             }
             
-            // 
-            //         Formatted 'Algorithm' instance
-            //         
-            //         :param str spec: format specification
-            //         :return: formatted 'Algorithm' instance
-            //         :rtype: str
-            //         
+            /// 
+            ///         Formatted 'Algorithm' instance
+            ///         
+            ///         :param str spec: format specification
+            ///         :return: formatted 'Algorithm' instance
+            ///         :rtype: str
+            ///         
             [abstractmethod]
-            public virtual string @__format__(string spec) {
-                return this.string_rep("|");
+            public virtual string _format__(string spec) {
+                return this.StringRep("|");
             }
         }
     }

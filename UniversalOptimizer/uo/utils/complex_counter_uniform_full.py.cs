@@ -18,108 +18,108 @@ namespace utils {
     
     public static class complex_counter_uniform_full {
         
-        public static object directory = Path(@__file__).resolve();
+        public static object directory = Path(_file__).resolve();
         
         static complex_counter_uniform_full() {
             sys.path.append(directory.parent);
             main();
         }
         
-        // 
-        //     This class describes complex counter with uniform values, that counts full 
-        //     
+        /// 
+        ///     This class describes complex counter with uniform values, that counts full 
+        ///     
         public class ComplexCounterUniformFull {
             
-            public object @__counter_size;
+            private object _counter_size;
             
-            public List<int> @__counters;
+            public List<int> _counters;
             
-            public object @__number_of_counters;
+            private object _number_of_counters;
             
             public ComplexCounterUniformFull(int number_of_counters, int counter_size) {
-                this.@__number_of_counters = number_of_counters;
-                this.@__counter_size = counter_size;
-                this.@__counters = new List<int> {
+                _number_of_counters = number_of_counters;
+                _counter_size = counter_size;
+                _counters = new List<int> {
                     0
                 } * number_of_counters;
             }
             
-            // 
-            //         Internal copy of the current complex counter
-            // 
-            //         :return:  new `ComplexCounterUniformFull` instance with the same properties
-            //         :rtype: :class:`uo.utils.ComplexCounterUniformFull`
-            //         
-            public virtual void @__copy__() {
+            /// 
+            ///         Internal copy of the current complex counter
+            /// 
+            ///         :return:  new `ComplexCounterUniformFull` instance with the same properties
+            ///         :rtype: :class:`uo.utils.ComplexCounterUniformFull`
+            ///         
+            public virtual void _copy__() {
                 var cc = deepcopy(this);
                 return cc;
             }
             
-            // 
-            //         Copy the current complex counter
-            // 
-            //         :return:  new `ComplexCounterUniformFull` instance with the same properties
-            //         :rtype: :class:`uo.utils.ComplexCounterUniformFull`
-            //         
+            /// 
+            ///         Copy the current complex counter
+            /// 
+            ///         :return:  new `ComplexCounterUniformFull` instance with the same properties
+            ///         :rtype: :class:`uo.utils.ComplexCounterUniformFull`
+            ///         
             public virtual void copy() {
-                return this.@__copy__();
+                return _copy__();
             }
             
-            // 
-            //         Returns current state of the complex counter
-            // 
-            //         :return: current state of the complex counter
-            //         :rtype: list[int]
-            //         
+            /// 
+            ///         Returns current state of the complex counter
+            /// 
+            ///         :return: current state of the complex counter
+            ///         :rtype: list[int]
+            ///         
             public virtual object current_state() {
-                return this.@__counters;
+                return _counters;
             }
             
-            // 
-            //         Resets the complex counter to its initial position.
-            // 
-            //         :return: if progress is possible after resetting
-            //         :rtype: bool
-            //         
+            /// 
+            ///         Resets the complex counter to its initial position.
+            /// 
+            ///         :return: if progress is possible after resetting
+            ///         :rtype: bool
+            ///         
             public virtual bool reset() {
-                foreach (var i in Enumerable.Range(0, this.@__number_of_counters)) {
-                    this.@__counters[i] = 0;
+                foreach (var i in Enumerable.Range(0, _number_of_counters)) {
+                    _counters[i] = 0;
                 }
-                return this.@__number_of_counters * this.@__counter_size > 0;
+                return _number_of_counters * _counter_size > 0;
             }
             
-            // 
-            //         Make the progress to the complex counter. At the same time, determine if complex counter can progress.
-            // 
-            //         :return: if progress is successful
-            //         :rtype: bool
-            //         
+            /// 
+            ///         Make the progress to the complex counter. At the same time, determine if complex counter can progress.
+            /// 
+            ///         :return: if progress is successful
+            ///         :rtype: bool
+            ///         
             public virtual bool progress() {
                 var finish = true;
-                foreach (var i in Enumerable.Range(0, this.@__number_of_counters - 0)) {
-                    if (this.@__counters[i] < this.@__counter_size - 1) {
+                foreach (var i in Enumerable.Range(0, _number_of_counters - 0)) {
+                    if (_counters[i] < _counter_size - 1) {
                         finish = false;
                     }
                 }
                 if (finish) {
                     return false;
                 }
-                var ind_not_max = this.@__number_of_counters - 1;
+                var ind_not_max = _number_of_counters - 1;
                 foreach (var i in Enumerable.Range(0, Convert.ToInt32(Math.Ceiling(Convert.ToDouble(-1 - ind_not_max) / -1))).Select(_x_1 => ind_not_max + _x_1 * -1)) {
-                    if (this.@__counters[i] < this.@__counter_size - 1) {
+                    if (_counters[i] < _counter_size - 1) {
                         ind_not_max = i;
                         break;
                     }
                 }
-                this.@__counters[ind_not_max] += 1;
-                foreach (var i in Enumerable.Range(ind_not_max + 1, this.@__number_of_counters - (ind_not_max + 1))) {
-                    this.@__counters[i] = 0;
+                _counters[ind_not_max] += 1;
+                foreach (var i in Enumerable.Range(ind_not_max + 1, _number_of_counters - (ind_not_max + 1))) {
+                    _counters[i] = 0;
                 }
                 return true;
             }
         }
         
-        // testing the developed class
+        /// testing the developed class
         public static void main() {
             var cc = new ComplexCounterUniformFull(4, 6);
             var can_progress = cc.reset();
@@ -130,7 +130,7 @@ namespace utils {
         }
         
         static complex_counter_uniform_full() {
-            if (@__name__ == "__main__") {
+            if (_name__ == "__main__") {
             }
         }
     }

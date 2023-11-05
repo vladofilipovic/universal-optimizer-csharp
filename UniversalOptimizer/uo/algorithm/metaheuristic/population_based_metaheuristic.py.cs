@@ -1,7 +1,4 @@
-//  
-// The :mod:`~uo.algorithm.metaheuristic.population_based_metaheuristic` module describes the class :class:`~uo.algorithm.metaheuristic.population_based_metaheuristic.PopulationBasedMetaheuristic`.
-// 
-namespace algorithm.metaheuristic {
+namespace uo.Algorithm.Metaheuristic {
     
     using Path = pathlib.Path;
     
@@ -31,180 +28,180 @@ namespace algorithm.metaheuristic {
     
     using logger = uo.utils.logger.logger;
     
-    using TargetProblem = uo.target_problem.target_problem.TargetProblem;
+    using TargetProblem = uo.TargetProblem.TargetProblem.TargetProblem;
     
-    using TargetSolution = uo.target_solution.target_solution.TargetSolution;
+    using TargetSolution = uo.TargetSolution.TargetSolution.TargetSolution;
     
-    using OutputControl = uo.algorithm.output_control.OutputControl;
+    using OutputControl = uo.Algorithm.OutputControl.OutputControl;
     
-    using FinishControl = uo.algorithm.metaheuristic.finish_control.FinishControl;
+    using FinishControl = uo.Algorithm.metaheuristic.finish_control.FinishControl;
     
-    using AdditionalStatisticsControl = uo.algorithm.metaheuristic.additional_statistics_control.AdditionalStatisticsControl;
+    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additional_statistics_control.AdditionalStatisticsControl;
     
-    using Metaheuristic = uo.algorithm.metaheuristic.metaheuristic.Metaheuristic;
+    using Metaheuristic = uo.Algorithm.metaheuristic.metaheuristic.Metaheuristic;
     
     using System;
     
     using System.Linq;
     
-    public static class population_based_metaheuristic {
+    public static class PopulationBasedMetaheuristic {
         
-        public static object directory = Path(@__file__).resolve();
+        public static object directory = Path(_file__).resolve();
         
-        static population_based_metaheuristic() {
+        static PopulationBasedMetaheuristic() {
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent);
         }
         
-        // 
-        //     This class represent population metaheuristic
-        //     
+        /// 
+        ///     This class represent population metaheuristic
+        ///     
         public class PopulationBasedMetaheuristic
             : Metaheuristic, ABCMeta {
             
-            public object @__current_solution;
+            private object _currentSolution;
             
-            public object @__current_solutions;
+            private object _currentSolutions;
             
             [abstractmethod]
             public PopulationBasedMetaheuristic(
                 string name,
                 object finish_control,
-                int random_seed,
+                int randomSeed,
                 object additional_statistics_control,
-                object output_control,
-                object target_problem,
+                object OutputControl,
+                object TargetProblem,
                 object initial_solutions)
-                : base(finish_control: finish_control, random_seed: random_seed, additional_statistics_control: additional_statistics_control, output_control: output_control, target_problem: target_problem) {
+                : base(finish_control: finish_control, randomSeed: randomSeed, additional_statistics_control: additional_statistics_control, OutputControl: OutputControl, TargetProblem: TargetProblem) {
                 if (initial_solutions is not null) {
                     if (initial_solution is list[TargetSolution]) {
-                        this.@__current_solutions = initial_solution.copy();
+                        _currentSolutions = initial_solution.copy();
                     } else {
-                        this.@__current_solution = initial_solution;
+                        _currentSolution = initial_solution;
                     }
                 } else {
-                    this.@__current_solution = null;
+                    _currentSolution = null;
                 }
             }
             
-            // 
-            //         Internal copy of the current population based metaheuristic
-            // 
-            //         :return: new `PopulationBasedMetaheuristic` instance with the same properties
-            //         :rtype: `PopulationBasedMetaheuristic`
-            //         
+            /// 
+            ///         Internal copy of the current population based metaheuristic
+            /// 
+            ///         :return: new `PopulationBasedMetaheuristic` instance with the same properties
+            ///         :rtype: `PopulationBasedMetaheuristic`
+            ///         
             [abstractmethod]
-            public virtual object @__copy__() {
+            public virtual object _copy__() {
                 var met = deepcopy(this);
                 return met;
             }
             
-            // 
-            //         Copy the current population based metaheuristic
-            //         
-            //         :return: new `PopulationBasedMetaheuristic` instance with the same properties
-            //         :rtype: `PopulationBasedMetaheuristic`
-            //         
+            /// 
+            ///         Copy the current population based metaheuristic
+            ///         
+            ///         :return: new `PopulationBasedMetaheuristic` instance with the same properties
+            ///         :rtype: `PopulationBasedMetaheuristic`
+            ///         
             [abstractmethod]
             public virtual object copy() {
-                return this.@__copy__();
+                return _copy__();
             }
             
-            // 
-            //         Property getter for the current solutions used during population based metaheuristic execution
-            // 
-            //         :return: list of the :class:`uo.target_solution.TargetSolution` class subtype -- current solutions of the problem 
-            //         :rtype: list[TargetSolution]        
-            //         
-            // 
-            //         Property setter for the population of current solutions used during population-based metaheuristic execution
-            // 
-            //         :param value: the current solutions
-            //         :type value: list[TargetSolution]
-            //         
-            public object current_solutions {
+            /// 
+            ///         Property getter for the current solutions used during population based metaheuristic execution
+            /// 
+            ///         :return: list of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solutions of the problem 
+            ///         :rtype: list[TargetSolution]        
+            ///         
+            /// 
+            ///         Property setter for the population of current solutions used during population-based metaheuristic execution
+            /// 
+            ///         :param value: the current solutions
+            ///         :type value: list[TargetSolution]
+            ///         
+            public object currentSolutions {
                 get {
-                    return this.@__current_solutions;
+                    return _currentSolutions;
                 }
                 set {
-                    this.@__current_solutions = value;
+                    _currentSolutions = value;
                 }
             }
             
-            // 
-            //         String representation of the SingleSolutionMetaheuristic instance
-            //         
-            //         :param delimiter: delimiter between fields
-            //         :type delimiter: str
-            //         :param indentation: level of indentation
-            //         :type indentation: int, optional, default value 0
-            //         :param indentation_symbol: indentation symbol
-            //         :type indentation_symbol: str, optional, default value ''
-            //         :param group_start: group start string 
-            //         :type group_start: str, optional, default value '{'
-            //         :param group_end: group end string 
-            //         :type group_end: str, optional, default value '}'
-            //         :return: string representation of instance that controls output
-            //         :rtype: str
-            //         
-            public virtual string string_rep(
+            /// 
+            ///         String representation of the SingleSolutionMetaheuristic instance
+            ///         
+            ///         :param delimiter: delimiter between fields
+            ///         :type delimiter: str
+            ///         :param indentation: level of indentation
+            ///         :type indentation: int, optional, default value 0
+            ///         :param indentationSymbol: indentation symbol
+            ///         :type indentationSymbol: str, optional, default value ''
+            ///         :param groupStart: group start string 
+            ///         :type groupStart: str, optional, default value '{'
+            ///         :param groupEnd: group end string 
+            ///         :type groupEnd: str, optional, default value '}'
+            ///         :return: string representation of instance that controls output
+            ///         :rtype: str
+            ///         
+            public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
-                string indentation_symbol = "",
-                string group_start = "{",
-                string group_end = "}") {
+                string indentationSymbol = "",
+                string groupStart = "{",
+                string groupEnd = "}") {
                 var s = delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s += group_start;
-                s = base.string_rep(delimiter, indentation, indentation_symbol, "", "");
+                s += groupStart;
+                s = base.stringRep(delimiter, indentation, indentationSymbol, "", "");
                 s += delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s += "current_solutions=" + this.current_solutions.ToString() + delimiter;
+                s += "currentSolutions=" + this.currentSolutions.ToString() + delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s += group_end;
+                s += groupEnd;
                 return s;
             }
             
-            // 
-            //         String representation of the `SingleSolutionMetaheuristic` instance
-            //         
-            //         :return: string representation of the `SingleSolutionMetaheuristic` instance
-            //         :rtype: str
-            //         
+            /// 
+            ///         String representation of the `SingleSolutionMetaheuristic` instance
+            ///         
+            ///         :return: string representation of the `SingleSolutionMetaheuristic` instance
+            ///         :rtype: str
+            ///         
             [abstractmethod]
             public override string ToString() {
-                var s = this.string_rep("|");
+                var s = this.stringRep("|");
                 return s;
             }
             
-            // 
-            //         String representation of the `SingleSolutionMetaheuristic` instance
-            //         
-            //         :return: string representation of the `SingleSolutionMetaheuristic` instance
-            //         :rtype: str
-            //         
+            /// 
+            ///         String representation of the `SingleSolutionMetaheuristic` instance
+            ///         
+            ///         :return: string representation of the `SingleSolutionMetaheuristic` instance
+            ///         :rtype: str
+            ///         
             [abstractmethod]
-            public virtual string @__repr__() {
-                var s = this.string_rep("\n");
+            public virtual string _repr__() {
+                var s = this.stringRep("\n");
                 return s;
             }
             
-            // 
-            //         Formatted the `SingleSolutionMetaheuristic` instance
-            //         
-            //         :param str spec: format specification
-            //         :return: formatted `Metaheuristic` instance
-            //         :rtype: str
-            //         
+            /// 
+            ///         Formatted the `SingleSolutionMetaheuristic` instance
+            ///         
+            ///         :param str spec: format specification
+            ///         :return: formatted `Metaheuristic` instance
+            ///         :rtype: str
+            ///         
             [abstractmethod]
-            public virtual string @__format__(string spec) {
-                return this.string_rep("|");
+            public virtual string _format__(string spec) {
+                return this.StringRep("|");
             }
         }
     }

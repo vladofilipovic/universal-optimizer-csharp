@@ -1,16 +1,11 @@
-//  
-// The :mod:`~uo.target_problem.target_problem` module describes the class :class:`~uo.target_problem.TargetProblem`.
-// 
-namespace target_problem {
+namespace uo.TargetProblem {
         
     using System;
     
     using System.Linq;
            
-    public abstract class TargetProblem: ICloneable
+    public abstract class TargetProblem
     {
-
-
         public bool IsMinimization { get; init; }
             
         public string Name { get; init; }
@@ -20,12 +15,7 @@ namespace target_problem {
             IsMinimization = isMinimization;
         }
 
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual string stringRep(
+        public virtual string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",
@@ -53,7 +43,7 @@ namespace target_problem {
 
         public override string ToString()
         {
-            return stringRep("|");
+            return StringRep("|");
         }
     }
 }

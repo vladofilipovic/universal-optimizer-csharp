@@ -8,18 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="opt\**" />
-    <Compile Remove="uo\algorithm\**" />
-    <Compile Remove="uo\target_solution\**" />
-    <Compile Remove="uo\utils\**" />
-    <EmbeddedResource Remove="opt\**" />
-    <EmbeddedResource Remove="uo\algorithm\**" />
-    <EmbeddedResource Remove="uo\target_solution\**" />
-    <EmbeddedResource Remove="uo\utils\**" />
-    <None Remove="opt\**" />
-    <None Remove="uo\algorithm\**" />
-    <None Remove="uo\target_solution\**" />
-    <None Remove="uo\utils\**" />
+    <Folder Include="opt\multi_objective\" />
+    <Folder Include="opt\single_objective\combinatorial\traveling_salesperson_problem\" />
+    <Folder Include="opt\single_objective\global\" />
+    <Folder Include="uo\algorithm\metaheuristic\electro_magnetism_like_metaheusristic\" />
+    <Folder Include="uo\algorithm\metaheuristic\genetic_algorithm\" />
   </ItemGroup>
 
 </Project>

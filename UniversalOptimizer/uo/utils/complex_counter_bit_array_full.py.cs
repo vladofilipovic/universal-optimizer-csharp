@@ -18,92 +18,92 @@ namespace utils {
     
     public static class complex_counter_bit_array_full {
         
-        public static object directory = Path(@__file__).resolve();
+        public static object directory = Path(_file__).resolve();
         
         static complex_counter_bit_array_full() {
             sys.path.append(directory.parent);
             main();
         }
         
-        // 
-        //     This class describes complex counter with uniform values, that counts full 
-        //     
+        /// 
+        ///     This class describes complex counter with uniform values, that counts full 
+        ///     
         public class ComplexCounterBitArrayFull {
             
-            public object @__counters;
+            private object _counters;
             
-            public object @__number_of_counters;
+            private object _number_of_counters;
             
             public ComplexCounterBitArrayFull(int number_of_counters) {
-                this.@__number_of_counters = number_of_counters;
-                this.@__counters = BitArray(number_of_counters);
+                _number_of_counters = number_of_counters;
+                _counters = BitArray(number_of_counters);
             }
             
-            // 
-            //         Internal copy of the current complex counter
-            // 
-            //         :return:  new `ComplexCounterBitArrayFull` instance with the same properties
-            //         :rtype: :class:`uo.utils.ComplexCounterBitArrayFull`
-            //         
-            public virtual ComplexCounterBitArrayFull @__copy__() {
-                var cc = new ComplexCounterBitArrayFull(this.@__number_of_counters);
-                cc.@__counters = BitArray(bin: this.@__counters.bin);
+            /// 
+            ///         Internal copy of the current complex counter
+            /// 
+            ///         :return:  new `ComplexCounterBitArrayFull` instance with the same properties
+            ///         :rtype: :class:`uo.utils.ComplexCounterBitArrayFull`
+            ///         
+            public virtual ComplexCounterBitArrayFull _copy__() {
+                var cc = new ComplexCounterBitArrayFull(_number_of_counters);
+                cc._counters = BitArray(bin: _counters.bin);
                 return cc;
             }
             
-            // 
-            //         Copy the current complex counter
-            // 
-            //         :return:  new `ComplexCounterBitArrayFull` instance with the same properties
-            //         :rtype: :class:`uo.utils.ComplexCounterBitArrayFull`
-            //         
+            /// 
+            ///         Copy the current complex counter
+            /// 
+            ///         :return:  new `ComplexCounterBitArrayFull` instance with the same properties
+            ///         :rtype: :class:`uo.utils.ComplexCounterBitArrayFull`
+            ///         
             public virtual void copy() {
-                return this.@__copy__();
+                return _copy__();
             }
             
-            // 
-            //         Returns current state of the complex counter
-            // 
-            //         :return: current state of the complex counter
-            //         :rtype: BitArray
-            //         
+            /// 
+            ///         Returns current state of the complex counter
+            /// 
+            ///         :return: current state of the complex counter
+            ///         :rtype: BitArray
+            ///         
             public virtual object current_state() {
-                return this.@__counters;
+                return _counters;
             }
             
-            // 
-            //         Resets the complex counter to its initial position.
-            // 
-            //         :return: if progress is possible after resetting
-            //         :rtype: bool
-            //         
+            /// 
+            ///         Resets the complex counter to its initial position.
+            /// 
+            ///         :return: if progress is possible after resetting
+            ///         :rtype: bool
+            ///         
             public virtual bool reset() {
-                this.@__counters.set(false);
-                return this.@__number_of_counters > 0;
+                _counters.set(false);
+                return _number_of_counters > 0;
             }
             
-            // 
-            //         Make the progress to the complex counter. At the same time, determine if complex counter can progress.
-            // 
-            //         :return: if progress is successful
-            //         :rtype: bool
-            //         
+            /// 
+            ///         Make the progress to the complex counter. At the same time, determine if complex counter can progress.
+            /// 
+            ///         :return: if progress is successful
+            ///         :rtype: bool
+            ///         
             public virtual bool progress() {
-                if (this.@__counters.all(true)) {
+                if (_counters.all(true)) {
                     return false;
                 }
-                var ind_not_max = this.@__counters.find("0b0")[0];
-                this.@__counters[ind_not_max] = true;
-                this.@__counters.set(false, Enumerable.Range(0, ind_not_max - 0));
+                var ind_not_max = _counters.find("0b0")[0];
+                _counters[ind_not_max] = true;
+                _counters.set(false, Enumerable.Range(0, ind_not_max - 0));
                 return true;
             }
             
             public virtual bool can_progress() {
-                return !this.@__counters.all(true);
+                return !_counters.all(true);
             }
         }
         
-        // testing the developed class
+        /// testing the developed class
         public static void main() {
             var cc = new ComplexCounterBitArrayFull(6);
             var can_progress = cc.reset();
@@ -114,7 +114,7 @@ namespace utils {
         }
         
         static complex_counter_bit_array_full() {
-            if (@__name__ == "__main__") {
+            if (_name__ == "__main__") {
             }
         }
     }

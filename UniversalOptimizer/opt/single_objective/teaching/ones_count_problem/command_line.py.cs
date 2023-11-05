@@ -1,6 +1,6 @@
-//  
-// The :mod:`~opt.single_objective.teaching.ones_count_problem.command_line` module is used for obtaining execution parameters for execution of the optimizers for max ones problem.
-// 
+///  
+/// The :mod:`~opt.single_objective.teaching.ones_count_problem.command_line` module is used for obtaining execution parameters for execution of the optimizers for max ones problem.
+/// 
 namespace single_objective.teaching.ones_count_problem {
     
     using sys;
@@ -19,7 +19,7 @@ namespace single_objective.teaching.ones_count_problem {
     
     public static class command_line {
         
-        public static object directory = Path(@__file__).resolve();
+        public static object directory = Path(_file__).resolve();
         
         static command_line() {
             sys.path.append(directory.parent);
@@ -47,7 +47,7 @@ namespace single_objective.teaching.ones_count_problem {
                 false},
             {
                 "outputFields",
-                "iteration, evaluation, best_solution.fitness_value, best_solution.argument()"},
+                "iteration, evaluation, best_solution.fitnessValue, best_solution.argument()"},
             {
                 "outputMoments",
                 "after_algorithm, after_evaluation"},
@@ -103,9 +103,9 @@ namespace single_objective.teaching.ones_count_problem {
                 "solutionType",
                 ""}};
         
-        //  The `parse_arguments` function parses execution parameters for execution of the optimizers for max 
-        //                 ones problem.
-        //         
+        ///  The `parse_arguments` function parses execution parameters for execution of the optimizers for max 
+        ///                 ones problem.
+        ///         
         public static void parse_arguments() {
             var parser = ArgumentParser();
             var subparsers = parser.add_subparsers(dest: "algorithm");

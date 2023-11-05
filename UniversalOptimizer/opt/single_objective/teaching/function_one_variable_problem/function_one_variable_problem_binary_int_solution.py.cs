@@ -12,11 +12,11 @@ namespace single_objective.teaching.function_one_variable_problem {
     
     using randint = random.randint;
     
-    using TargetProblem = uo.target_problem.target_problem.TargetProblem;
+    using TargetProblem = uo.TargetProblem.TargetProblem.TargetProblem;
     
-    using QualityOfSolution = uo.target_solution.target_solution.QualityOfSolution;
+    using QualityOfSolution = uo.TargetSolution.TargetSolution.QualityOfSolution;
     
-    using TargetSolution = uo.target_solution.target_solution.TargetSolution;
+    using TargetSolution = uo.TargetSolution.TargetSolution.TargetSolution;
     
     using logger = uo.utils.logger.logger;
     
@@ -30,7 +30,7 @@ namespace single_objective.teaching.function_one_variable_problem {
     
     public static class function_one_variable_problem_binary_int_solution {
         
-        public static object directory = Path(@__file__).resolve();
+        public static object directory = Path(_file__).resolve();
         
         static function_one_variable_problem_binary_int_solution() {
             sys.path.append(directory);
@@ -43,11 +43,11 @@ namespace single_objective.teaching.function_one_variable_problem {
         public class FunctionOneVariableProblemBinaryIntSolution
             : TargetSolution[intfloat] {
             
-            public object @__domain_from;
+            private object _domain_from;
             
-            public object @__domain_to;
+            private object _domain_to;
             
-            public object @__number_of_intervals;
+            private object _number_of_intervals;
             
             public object representation;
             
@@ -55,19 +55,19 @@ namespace single_objective.teaching.function_one_variable_problem {
                 double domain_from,
                 double domain_to,
                 int number_of_intervals,
-                int random_seed = null,
-                bool evaluation_cache_is_used = false,
-                int evaluation_cache_max_size = 0,
-                bool distance_calculation_cache_is_used = false,
-                int distance_calculation_cache_max_size = 0)
-                : base(random_seed: random_seed, fitness_value: null, objective_value: null, is_feasible: false, evaluation_cache_is_used: evaluation_cache_is_used, evaluation_cache_max_size: evaluation_cache_max_size, distance_calculation_cache_is_used: distance_calculation_cache_is_used, distance_calculation_cache_max_size: distance_calculation_cache_max_size) {
-                this.@__domain_from = domain_from;
-                this.@__domain_to = domain_to;
-                this.@__number_of_intervals = number_of_intervals;
+                int randomSeed = null,
+                bool evaluationCacheIsUsed = false,
+                int evaluationCacheMaxSize = 0,
+                bool distanceCalculationCacheIsUsed = false,
+                int distanceCalculationCacheMaxSize = 0)
+                : base(randomSeed: randomSeed, fitnessValue: null, objectiveValue: null, isFeasible: false, evaluationCacheIsUsed: evaluationCacheIsUsed, evaluationCacheMaxSize: evaluationCacheMaxSize, distanceCalculationCacheIsUsed: distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize: distanceCalculationCacheMaxSize) {
+                _domain_from = domain_from;
+                _domain_to = domain_to;
+                _number_of_intervals = number_of_intervals;
             }
             
-            public virtual void @__copy__() {
-                var sol = base.@__copy__();
+            public virtual void _copy__() {
+                var sol = base._copy__();
                 sol.domain_from = this.domain_from;
                 sol.domain_to = this.domain_to;
                 sol.number_of_intervals = this.number_of_intervals;
@@ -75,41 +75,41 @@ namespace single_objective.teaching.function_one_variable_problem {
             }
             
             public virtual object copy() {
-                return this.@__copy__();
+                return _copy__();
             }
             
             public virtual object copy_to(object destination) {
-                destination = this.@__copy__();
+                destination = _copy__();
             }
             
             public object domain_from {
                 get {
-                    return this.@__domain_from;
+                    return _domain_from;
                 }
                 set {
-                    this.@__domain_from = value;
+                    _domain_from = value;
                 }
             }
             
             public object domain_to {
                 get {
-                    return this.@__domain_to;
+                    return _domain_to;
                 }
                 set {
-                    this.@__domain_to = value;
+                    _domain_to = value;
                 }
             }
             
             public object number_of_intervals {
                 get {
-                    return this.@__number_of_intervals;
+                    return _number_of_intervals;
                 }
                 set {
-                    this.@__number_of_intervals = value;
+                    _number_of_intervals = value;
                 }
             }
             
-            public virtual void @__make_to_be_feasible_helper__(object problem) {
+            public virtual void _make_to_beFeasible_helper__(object problem) {
                 if (this.representation > this.number_of_intervals) {
                     this.representation = this.number_of_intervals;
                 }
@@ -119,16 +119,16 @@ namespace single_objective.teaching.function_one_variable_problem {
                 return this.domain_from + representation * (this.domain_to - this.domain_from) / this.number_of_intervals;
             }
             
-            public virtual object init_random(object problem) {
+            public virtual object InitRandom(object problem) {
                 this.representation = randint(0, this.number_of_intervals);
-                this.@__make_to_be_feasible_helper__(problem);
+                _make_to_beFeasible_helper__(problem);
             }
             
-            public virtual object init_from(int representation, object problem) {
+            public virtual object InitFrom(int representation, object problem) {
                 this.representation = representation;
             }
             
-            public virtual object calculate_quality_directly(int representation, object problem) {
+            public virtual object CalculateQualityDirectly(int representation, object problem) {
                 var arg = this.argument(representation);
                 var res = eval(problem.expression, new Dictionary<object, object> {
                     {
@@ -137,54 +137,54 @@ namespace single_objective.teaching.function_one_variable_problem {
                 return QualityOfSolution(res, res, true);
             }
             
-            public virtual int native_representation(string representation_str) {
-                var ret = Convert.ToInt32(representation_str, 2);
+            public virtual int NativeRepresentation(string representationStr) {
+                var ret = Convert.ToInt32(representationStr, 2);
                 return ret;
             }
             
-            public static double representation_distance_directly(object solution_code_1, string solution_code_2) {
-                var rep_1 = this.native_representation(solution_code_1);
-                var rep_2 = this.native_representation(solution_code_2);
+            public static double RepresentationDistanceDirectly(object solution_code_1, string solution_code_2) {
+                var rep_1 = this.NativeRepresentation(solution_code_1);
+                var rep_2 = this.NativeRepresentation(solution_code_2);
                 var result = (rep_1 ^ rep_2).count(true);
                 return result;
             }
             
-            public virtual string string_rep(
+            public virtual string StringRep(
                 string delimiter = "\n",
                 int indentation = 0,
-                string indentation_symbol = "   ",
-                string group_start = "{",
-                string group_end = "}") {
+                string indentationSymbol = "   ",
+                string groupStart = "{",
+                string groupEnd = "}") {
                 var s = delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s += group_start;
-                s += base.string_rep(delimiter, indentation, indentation_symbol, "", "");
+                s += groupStart;
+                s += base.stringRep(delimiter, indentation, indentationSymbol, "", "");
                 s += delimiter;
                 s += delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s += "string_representation()=" + this.string_representation().ToString();
+                s += "stringRepresentation()=" + this.stringRepresentation().ToString();
                 s += delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                    s += indentation_symbol;
+                    s += indentationSymbol;
                 }
-                s += group_end;
+                s += groupEnd;
                 return s;
             }
             
             public override string ToString() {
-                return this.string_rep("\n", 0, "   ", "{", "}");
+                return this.StringRep("\n", 0, "   ", "{", "}");
             }
             
-            public virtual string @__repr__() {
-                return this.string_rep("\n", 0, "   ", "{", "}");
+            public virtual string _repr__() {
+                return this.StringRep("\n", 0, "   ", "{", "}");
             }
             
-            public virtual string @__format__(string spec) {
-                return this.string_rep("\n", 0, "   ", "{", "}");
+            public virtual string _format__(string spec) {
+                return this.StringRep("\n", 0, "   ", "{", "}");
             }
         }
     }

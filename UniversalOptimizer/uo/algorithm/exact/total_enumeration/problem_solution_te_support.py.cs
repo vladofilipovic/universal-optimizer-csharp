@@ -1,7 +1,7 @@
-//  
-// The :mod:`~uo.algorithm.exact.total_enumeration.problem_solution_te_support` module describes the class :class:`~uo.algorithm.exact.total_enumeration.problem_solution_te_support.ProblemSolutionTeSupport`.
-// 
-namespace algorithm.exact.total_enumeration {
+///  
+/// The :mod:`~uo.Algorithm.exact.total_enumeration.problem_solution_te_support` module describes the class :class:`~uo.Algorithm.exact.total_enumeration.problem_solution_te_support.ProblemSolutionTeSupport`.
+/// 
+namespace uo.Algorithm.exact.total_enumeration {
     
     using Path = pathlib.Path;
     
@@ -17,17 +17,17 @@ namespace algorithm.exact.total_enumeration {
     
     using Generic = typing.Generic;
     
-    using TargetProblem = uo.target_problem.target_problem.TargetProblem;
+    using TargetProblem = uo.TargetProblem.TargetProblem.TargetProblem;
     
-    using TargetSolution = uo.target_solution.target_solution.TargetSolution;
+    using TargetSolution = uo.TargetSolution.TargetSolution.TargetSolution;
     
-    using Algorithm = uo.algorithm.algorithm.Algorithm;
+    using Algorithm = uo.Algorithm.algorithm.Algorithm;
     
     using System;
     
     public static class problem_solution_te_support {
         
-        public static object directory = Path(@__file__).resolve();
+        public static object directory = Path(_file__).resolve();
         
         static problem_solution_te_support() {
             sys.path.append(directory.parent);
@@ -42,55 +42,55 @@ namespace algorithm.exact.total_enumeration {
         public class ProblemSolutionTeSupport
             : Generic[R_coA_co], ABCMeta {
             
-            // 
-            //         Resets internal counter of the total enumerator, so process will start over. Internal state of the solution 
-            //         will be set to reflect reset operation. 
-            // 
-            //         :param `TargetProblem` problem: problem that is solved
-            //         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
-            //         :param `Algorithm` optimizer: optimizer that is executed
-            //         
+            /// 
+            ///         Resets internal counter of the total enumerator, so process will start over. Internal state of the solution 
+            ///         will be set to reflect reset operation. 
+            /// 
+            ///         :param `TargetProblem` problem: problem that is solved
+            ///         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
+            ///         :param `Algorithm` optimizer: optimizer that is executed
+            ///         
             [abstractmethod]
             public virtual object reset(object problem, object solution, object optimizer) {
                 throw new NotImplementedException();
             }
             
-            // 
-            //         Progress internal counter of the total enumerator, so next configuration will be taken into consideration. 
-            //         Internal state of the solution will be set to reflect progress operation.  
-            // 
-            //         :param `TargetProblem` problem: problem that is solved
-            //         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
-            //         :param `Algorithm` optimizer: optimizer that is executed
-            //         
+            /// 
+            ///         Progress internal counter of the total enumerator, so next configuration will be taken into consideration. 
+            ///         Internal state of the solution will be set to reflect progress operation.  
+            /// 
+            ///         :param `TargetProblem` problem: problem that is solved
+            ///         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
+            ///         :param `Algorithm` optimizer: optimizer that is executed
+            ///         
             [abstractmethod]
             public virtual object progress(object problem, object solution, object optimizer) {
                 throw new NotImplementedException();
             }
             
-            // 
-            //         Check if total enumeration process is not at end.  
-            // 
-            //         :param `TargetProblem` problem: problem that is solved
-            //         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
-            //         :param `Algorithm` optimizer: optimizer that is executed
-            //         :return: indicator if total enumeration process is not at end 
-            //         :rtype: bool
-            //         
+            /// 
+            ///         Check if total enumeration process is not at end.  
+            /// 
+            ///         :param `TargetProblem` problem: problem that is solved
+            ///         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
+            ///         :param `Algorithm` optimizer: optimizer that is executed
+            ///         :return: indicator if total enumeration process is not at end 
+            ///         :rtype: bool
+            ///         
             [abstractmethod]
             public virtual bool can_progress(object problem, object solution, object optimizer) {
                 throw new NotImplementedException();
             }
             
-            // 
-            //         Returns overall number of evaluations required for finishing total enumeration process.  
-            // 
-            //         :param `TargetProblem` problem: problem that is solved
-            //         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
-            //         :param `Algorithm` optimizer: optimizer that is executed
-            //         :return: overall number of evaluations required for finishing total enumeration process
-            //         :rtype: int
-            //         
+            /// 
+            ///         Returns overall number of evaluations required for finishing total enumeration process.  
+            /// 
+            ///         :param `TargetProblem` problem: problem that is solved
+            ///         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
+            ///         :param `Algorithm` optimizer: optimizer that is executed
+            ///         :return: overall number of evaluations required for finishing total enumeration process
+            ///         :rtype: int
+            ///         
             [abstractmethod]
             public virtual int overall_number_of_evaluations(object problem, object solution, object optimizer) {
                 throw new NotImplementedException();
