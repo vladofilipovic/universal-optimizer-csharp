@@ -43,7 +43,7 @@ namespace utils {
             ///         Internal copy of the current complex counter
             /// 
             ///         :return:  new `ComplexCounterBitArrayFull` instance with the same properties
-            ///         :rtype: :class:`uo.utils.ComplexCounterBitArrayFull`
+            ///         return type :class:`uo.utils.ComplexCounterBitArrayFull`
             ///         
             public virtual ComplexCounterBitArrayFull _copy__() {
                 var cc = new ComplexCounterBitArrayFull(_number_of_counters);
@@ -55,7 +55,7 @@ namespace utils {
             ///         Copy the current complex counter
             /// 
             ///         :return:  new `ComplexCounterBitArrayFull` instance with the same properties
-            ///         :rtype: :class:`uo.utils.ComplexCounterBitArrayFull`
+            ///         return type :class:`uo.utils.ComplexCounterBitArrayFull`
             ///         
             public virtual void copy() {
                 return _copy__();
@@ -65,7 +65,7 @@ namespace utils {
             ///         Returns current state of the complex counter
             /// 
             ///         :return: current state of the complex counter
-            ///         :rtype: BitArray
+            ///         return type BitArray
             ///         
             public virtual object current_state() {
                 return _counters;
@@ -75,7 +75,7 @@ namespace utils {
             ///         Resets the complex counter to its initial position.
             /// 
             ///         :return: if progress is possible after resetting
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public virtual bool reset() {
                 _counters.set(false);
@@ -86,7 +86,7 @@ namespace utils {
             ///         Make the progress to the complex counter. At the same time, determine if complex counter can progress.
             /// 
             ///         :return: if progress is successful
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public virtual bool progress() {
                 if (_counters.all(true)) {

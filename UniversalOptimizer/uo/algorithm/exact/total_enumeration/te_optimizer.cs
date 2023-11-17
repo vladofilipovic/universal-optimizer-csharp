@@ -142,7 +142,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         Internal copy of the current total enumeration algorithm
             /// 
             ///         :return: new `TotalEnumeration` instance with the same properties
-            ///         :rtype: `TotalEnumeration`
+            ///         return type `TotalEnumeration`
             ///         
             public virtual void _copy__() {
                 var tot = deepcopy(this);
@@ -153,7 +153,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         Copy the current total enumeration algorithm
             ///         
             ///         :return: new `TotalEnumeration` instance with the same properties
-            ///         :rtype: `TotalEnumeration`
+            ///         return type `TotalEnumeration`
             ///         
             public virtual void copy() {
                 return _copy__();
@@ -163,7 +163,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         Property getter for the current solution used during VNS execution
             /// 
             ///         :return: instance of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solution of the problem 
-            ///         :rtype: :class:`TargetSolution`        
+            ///         return type :class:`TargetSolution`        
             ///         
             /// 
             ///         Property setter for the current solution used during VNS execution
@@ -184,7 +184,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         Property getter for the current iteration during TE execution
             /// 
             ///         :return: current iteration number 
-            ///         :rtype: int       
+            ///         return type int       
             ///         
             /// 
             ///         Property setter for the current iteration during TE execution
@@ -251,7 +251,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -278,7 +278,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         String representation of the 'TotalEnumeration' instance
             ///         
             ///         :return: string representation of the 'TotalEnumeration' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 return this.StringRep("|");
@@ -288,7 +288,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         Representation of the 'TotalEnumeration' instance
             ///         
             ///         :return: string representation of the 'TotalEnumeration' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _repr__() {
                 return this.StringRep("\n");
@@ -299,7 +299,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         
             ///         :param str spec: format specification
             ///         :return: formatted 'TotalEnumeration' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _format__(string spec) {
                 return this.StringRep("|");

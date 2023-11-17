@@ -1,3 +1,6 @@
+///  
+/// The :mod:`~uo.Algorithm.metaheuristic.SingleSolutionMetaheuristic` module describes the class :class:`~uo.Algorithm.metaheuristic.SingleSolutionMetaheuristic.SingleSolutionMetaheuristic`.
+/// 
 namespace uo.Algorithm.Metaheuristic {
     
     using Path = pathlib.Path;
@@ -44,38 +47,36 @@ namespace uo.Algorithm.Metaheuristic {
     
     using System.Linq;
     
-    public static class PopulationBasedMetaheuristic {
+    public static class SingleSolutionMetaheuristic {
         
         public static object directory = Path(_file__).resolve();
         
-        static PopulationBasedMetaheuristic() {
+        static SingleSolutionMetaheuristic() {
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent);
         }
         
         /// 
-        ///     This class represent population metaheuristic
+        ///     This class represent single solution metaheuristic
         ///     
-        public class PopulationBasedMetaheuristic
+        public class SingleSolutionMetaheuristic
             : Metaheuristic, ABCMeta {
             
             private object _currentSolution;
             
-            private object _currentSolutions;
-            
             [abstractmethod]
-            public PopulationBasedMetaheuristic(
+            public SingleSolutionMetaheuristic(
                 string name,
                 object finish_control,
                 int randomSeed,
                 object additional_statistics_control,
                 object OutputControl,
                 object TargetProblem,
-                object initial_solutions)
+                object initial_solution)
                 : base(finish_control: finish_control, randomSeed: randomSeed, additional_statistics_control: additional_statistics_control, OutputControl: OutputControl, TargetProblem: TargetProblem) {
-                if (initial_solutions is not null) {
-                    if (initial_solution is list[TargetSolution]) {
-                        _currentSolutions = initial_solution.copy();
+                if (initial_solution is not null) {
+                    if (initial_solution is TargetSolution) {
+                        _currentSolution = initial_solution.copy();
                     } else {
                         _currentSolution = initial_solution;
                     }
@@ -85,46 +86,46 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Internal copy of the current population based metaheuristic
+            ///         Internal copy of the current single solution metaheuristic
             /// 
-            ///         :return: new `PopulationBasedMetaheuristic` instance with the same properties
-            ///         :rtype: `PopulationBasedMetaheuristic`
+            ///         :return: new `SingleSolutionMetaheuristic` instance with the same properties
+            ///         return type `SingleSolutionMetaheuristic`
             ///         
             [abstractmethod]
-            public virtual object _copy__() {
+            public virtual void _copy__() {
                 var met = deepcopy(this);
                 return met;
             }
             
             /// 
-            ///         Copy the current population based metaheuristic
+            ///         Copy the current single solution metaheuristic
             ///         
-            ///         :return: new `PopulationBasedMetaheuristic` instance with the same properties
-            ///         :rtype: `PopulationBasedMetaheuristic`
+            ///         :return: new `SingleSolutionMetaheuristic` instance with the same properties
+            ///         return type `SingleSolutionMetaheuristic`
             ///         
             [abstractmethod]
-            public virtual object copy() {
+            public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Property getter for the current solutions used during population based metaheuristic execution
+            ///         Property getter for the current solution used during single solution metaheuristic execution
             /// 
-            ///         :return: list of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solutions of the problem 
-            ///         :rtype: list[TargetSolution]        
+            ///         :return: instance of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solution of the problem 
+            ///         return type :class:`TargetSolution`        
             ///         
             /// 
-            ///         Property setter for the population of current solutions used during population-based metaheuristic execution
+            ///         Property setter for the current solution used during single solution metaheuristic execution
             /// 
-            ///         :param value: the current solutions
-            ///         :type value: list[TargetSolution]
+            ///         :param value: the current solution
+            ///         :type value: :class:`TargetSolution`
             ///         
-            public object currentSolutions {
+            public object currentSolution {
                 get {
-                    return _currentSolutions;
+                    return _currentSolution;
                 }
                 set {
-                    _currentSolutions = value;
+                    _currentSolution = value;
                 }
             }
             
@@ -142,7 +143,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -160,7 +161,7 @@ namespace uo.Algorithm.Metaheuristic {
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
                     s += indentationSymbol;
                 }
-                s += "currentSolutions=" + this.currentSolutions.ToString() + delimiter;
+                s += "currentSolution=" + this.currentSolution.ToString() + delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
                     s += indentationSymbol;
                 }
@@ -172,7 +173,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         String representation of the `SingleSolutionMetaheuristic` instance
             ///         
             ///         :return: string representation of the `SingleSolutionMetaheuristic` instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public override string ToString() {
@@ -184,7 +185,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         String representation of the `SingleSolutionMetaheuristic` instance
             ///         
             ///         :return: string representation of the `SingleSolutionMetaheuristic` instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public virtual string _repr__() {
@@ -197,7 +198,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         
             ///         :param str spec: format specification
             ///         :return: formatted `Metaheuristic` instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public virtual string _format__(string spec) {

@@ -74,7 +74,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for maximum number of evaluations 
             /// 
             ///         :return: maximum number of evaluations 
-            ///         :rtype: int
+            ///         return type int
             ///         
             public object evaluations_max {
                 get {
@@ -86,7 +86,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for maximum number of iterations 
             /// 
             ///         :return: maximum number of iterations 
-            ///         :rtype: int
+            ///         return type int
             ///         
             public object iterations_max {
                 get {
@@ -98,7 +98,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for maximum number of seconds for metaheuristic execution 
             /// 
             ///         :return: maximum number of seconds 
-            ///         :rtype: float
+            ///         return type float
             ///         
             public object seconds_max {
                 get {
@@ -110,7 +110,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for finish criteria property 
             /// 
             ///         :return: list of finish criteria separated with `&`
-            ///         :rtype: str
+            ///         return type str
             ///         
             /// 
             ///         Property setter for the finish criteria property
@@ -139,7 +139,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for property `check_evaluations`
             /// 
             ///         :return: if number of evaluations is within finish criteria
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object check_evaluations {
                 get {
@@ -151,7 +151,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for property `check_iterations`
             /// 
             ///         :return: if number of iterations is within finish criteria
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object check_iterations {
                 get {
@@ -163,7 +163,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for property `check_seconds`
             /// 
             ///         :return: if elapsed time (in seconds) is within finish criteria
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object check_seconds {
                 get {
@@ -178,7 +178,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         :param int iteration: number of iterations for metaheuristic execution
             ///         :param float elapsed_seconds: elapsed time (in seconds) for metaheuristic execution
             ///         :return: if execution is finished
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public virtual object is_finished(int evaluation, int iteration, double elapsed_seconds) {
                 return this.check_evaluations && evaluation >= this.evaluations_max || this.check_iterations && iteration >= this.iterations_max || this.check_seconds && elapsed_seconds >= this.seconds_max;
@@ -198,7 +198,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -238,7 +238,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         String representation of the finish control 
             /// 
             ///         :return: string representation of the finish control 
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 return this.StringRep("|");
@@ -248,7 +248,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Representation of the finish control 
             /// 
             ///         :return: string representation of finish control 
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _repr__() {
                 return this.StringRep("\n");
@@ -259,7 +259,7 @@ namespace uo.Algorithm.Metaheuristic {
             /// 
             ///         :param str spec: format specification
             ///         :return: formatted finish control structure
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _format__(string spec) {
                 return this.StringRep("|");

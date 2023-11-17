@@ -74,7 +74,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for maximum number of local optima that will be kept
             /// 
             ///         :return: maximum number of local optima that will be kept
-            ///         :rtype: int
+            ///         return type int
             ///         
             public object max_local_optima {
                 get {
@@ -86,7 +86,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for keep property 
             /// 
             ///         :return: comma-separated list of values vo be kept
-            ///         :rtype: str
+            ///         return type str
             ///         
             /// 
             ///         Property setter for the keep property 
@@ -112,7 +112,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for property if all solution codes to be kept
             /// 
             ///         :return: if all solution codes to be kept
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object keep_all_solution_codes {
                 get {
@@ -124,7 +124,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for decision if more local optima should be kept
             /// 
             ///         :return: if more local optima should be kept
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object keep_more_local_optima {
                 get {
@@ -137,7 +137,7 @@ namespace uo.Algorithm.Metaheuristic {
             /// 
             ///         :param representation: solution representation to be inserted into all solution code
             ///         :type representation: str
-            ///         :rtype: None
+            ///         return type None
             ///         
             public virtual object add_to_all_solution_codes_if_required(string representation) {
                 if (this.keep_all_solution_codes) {
@@ -152,7 +152,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         :param float solution_to_add_fitness: fitness value of the solution to be added to local optima structure
             ///         :param str best_solution_rep: string representation of the best solution so far
             ///         :return:  if adding is successful e.g. currentSolution is new element in the structure
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public virtual bool add_to_more_local_optima_if_required(string solution_to_add_rep, object solution_to_add_fitness, string best_solution_rep) {
                 if (!this.keep_more_local_optima) {
@@ -189,7 +189,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -230,7 +230,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         String representation of the cache control and statistics structure
             /// 
             ///         :return: string representation of the cache control and statistics structure
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 return this.StringRep("|");
@@ -240,7 +240,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Representation of the cache control and statistics structure
             /// 
             ///         :return: string representation of cache control and statistics structure
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _repr__() {
                 return this.StringRep("\n");
@@ -251,7 +251,7 @@ namespace uo.Algorithm.Metaheuristic {
             /// 
             ///         :param str spec: format specification
             ///         :return: formatted cache control and statistics structure
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _format__(string spec) {
                 return this.StringRep("|");

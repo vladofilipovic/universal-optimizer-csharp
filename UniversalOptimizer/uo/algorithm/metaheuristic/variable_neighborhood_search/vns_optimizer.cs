@@ -199,7 +199,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         Internal copy of the current instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`
             /// 
             ///         :return: new instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer` with the same properties
-            ///         :rtype: :class:`uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`        
+            ///         return type :class:`uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`        
             ///         
             public virtual void _copy__() {
                 var vns_opt = deepcopy(this);
@@ -210,7 +210,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         Copy the current instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`
             /// 
             ///         :return: new instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer` with the same properties
-            ///         :rtype: :class:`uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`        
+            ///         return type :class:`uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`        
             ///         
             public virtual void copy() {
                 return _copy__();
@@ -220,7 +220,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         Property getter for the `k_min` parameter for VNS
             /// 
             ///         :return: `k_min` parameter for VNS 
-            ///         :rtype: int
+            ///         return type int
             ///         
             public object k_min {
                 get {
@@ -232,7 +232,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         Property getter for the `k_max` parameter for VNS
             /// 
             ///         :return: k_max parameter for VNS 
-            ///         :rtype: int
+            ///         return type int
             ///         
             public object k_max {
                 get {
@@ -301,7 +301,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -346,7 +346,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         String representation of the `VnsOptimizer` instance
             /// 
             ///         :return: string representation of the `VnsOptimizer` instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 var s = this.stringRep("|");
@@ -357,7 +357,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         String representation of the `VnsOptimizer` instance
             /// 
             ///         :return: string representation of the `VnsOptimizer` instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _repr__() {
                 var s = this.stringRep("\n");
@@ -369,7 +369,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             /// 
             ///         :param spec: str -- format specification 
             ///         :return: formatted `VnsOptimizer` instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _format__(string spec) {
                 return this.StringRep("\n", 0, "   ", "{", "}");

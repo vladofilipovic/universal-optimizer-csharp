@@ -41,7 +41,7 @@ namespace uo.Algorithm {
             ///         Internal copy of the current algorithm
             /// 
             ///         :return:  new `Algorithm` instance with the same properties
-            ///         :rtype: :class:`uo.Algorithm.Algorithm`
+            ///         return type :class:`uo.Algorithm.Algorithm`
             ///         
             [abstractmethod]
             public virtual void _copy__() {
@@ -53,7 +53,7 @@ namespace uo.Algorithm {
             ///         Copy the current algorithm
             /// 
             ///         :return:  new `Algorithm` instance with the same properties
-            ///         :rtype: :class:`uo.Algorithm.Algorithm`
+            ///         return type :class:`uo.Algorithm.Algorithm`
             ///         
             [abstractmethod]
             public virtual void copy() {
@@ -64,7 +64,7 @@ namespace uo.Algorithm {
             ///         Property getter for current number of evaluations during algorithm execution
             ///         
             ///         :return: current number of evaluations 
-            ///         :rtype: int
+            ///         return type int
             ///         
             /// 
             ///         Property setter for current number of evaluations
@@ -82,7 +82,7 @@ namespace uo.Algorithm {
             ///         Property getter for the iteration of metaheuristic execution
             ///         
             ///         :return: iteration
-            ///         :rtype: int
+            ///         return type int
             ///         
             /// 
             ///         Property setter the iteration of metaheuristic execution
@@ -113,7 +113,7 @@ namespace uo.Algorithm {
             ///         :param TargetSolution sol2: second solution
             ///         :return: `True` if first solution is better, `False` if first solution is worse, `None` if fitnesses of both 
             ///                 solutions are equal
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public virtual bool is_first_solution_better(object sol1, object sol2) {
                 object fit2;
@@ -171,7 +171,7 @@ namespace uo.Algorithm {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -216,7 +216,7 @@ namespace uo.Algorithm {
             ///         String representation of the 'Algorithm' instance
             ///         
             ///         :return: string representation of the 'Algorithm' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public override string ToString() {
@@ -227,7 +227,7 @@ namespace uo.Algorithm {
             ///         Representation of the 'Algorithm' instance
             ///         
             ///         :return: string representation of the 'Algorithm' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public virtual string _repr__() {
@@ -239,7 +239,7 @@ namespace uo.Algorithm {
             ///         
             ///         :param str spec: format specification
             ///         :return: formatted 'Algorithm' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public virtual string _format__(string spec) {

@@ -58,7 +58,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param str data_format: data format of the file
             /// 
             ///         :return: all data that describe problem
-            ///         :rtype: int
+            ///         return type int
             ///         
             [classmethod]
             public static int _load_from_file__(object cls, string file_path, string data_format) {
@@ -93,7 +93,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Internal copy of the `OnesCountProblem` problem
             /// 
             ///         :return: new `OnesCountProblem` instance with the same properties
-            ///         :rtype: `OnesCountProblem`
+            ///         return type `OnesCountProblem`
             ///         
             public virtual void _copy__() {
                 var pr = deepcopy(this);
@@ -104,7 +104,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Copy the `OnesCountProblem` problem
             /// 
             ///         :return: new `OnesCountProblem` instance with the same properties
-            ///         :rtype: OnesCountProblem
+            ///         return type OnesCountProblem
             ///         
             public virtual void copy() {
                 return _copy__();
@@ -114,7 +114,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Property getter for dimension of the target problem
             /// 
             ///         :return: dimension of the target problem instance 
-            ///         :rtype: int
+            ///         return type int
             ///         
             public object dimension {
                 get {
@@ -136,7 +136,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -163,7 +163,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         String representation of the max ones problem structure
             /// 
             ///         :return: string representation of the max ones problem structure
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 return this.StringRep("|", 0, "", "{", "}");

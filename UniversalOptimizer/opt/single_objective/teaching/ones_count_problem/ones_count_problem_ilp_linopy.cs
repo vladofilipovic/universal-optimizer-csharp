@@ -109,7 +109,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Internal copy of the current algorithm
             /// 
             ///         :return:  new `OnesCountProblemIntegerLinearProgrammingSolver` instance with the same properties
-            ///         :rtype: :class:`OnesCountProblemIntegerLinearProgrammingSolver`
+            ///         return type :class:`OnesCountProblemIntegerLinearProgrammingSolver`
             ///         
             public virtual void _copy__() {
                 var alg = deepcopy(this);
@@ -120,7 +120,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Copy the current algorithm
             /// 
             ///         :return:  new `OnesCountProblemIntegerLinearProgrammingSolver` instance with the same properties
-            ///         :rtype: :class:``OnesCountProblemIntegerLinearProgrammingSolver``
+            ///         return type :class:``OnesCountProblemIntegerLinearProgrammingSolver``
             ///         
             public virtual void copy() {
                 return _copy__();
@@ -130,7 +130,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Property getter for the ILP model
             ///         
             ///         :return: model of the problem 
-            ///         :rtype: `Model`
+            ///         return type `Model`
             ///         
             public object model {
                 get {
@@ -180,7 +180,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -203,7 +203,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         String representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
             ///         
             ///         :return: string representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 return this.StringRep("|");
@@ -213,7 +213,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
             ///         
             ///         :return: string representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _repr__() {
                 return this.StringRep("\n");
@@ -224,7 +224,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         
             ///         :param str spec: format specification
             ///         :return: formatted 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _format__(string spec) {
                 return this.StringRep("|");

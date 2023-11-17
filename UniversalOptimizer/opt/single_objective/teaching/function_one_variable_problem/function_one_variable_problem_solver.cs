@@ -1,7 +1,7 @@
 ///  
-/// The :mod:`opt.single_objective.teaching.ones_count_problem.solver` contains programming code that optimize :ref:`Max Ones Problem` with various optimization techniques.
+/// The :mod:`opt.single_objective.teaching.function_one_variable_problem_solver` contains programming code that optimize :ref:`Max Function 1 Variable Problem` with various optimization techniques.
 /// 
-namespace single_objective.teaching.ones_count_problem {
+namespace single_objective.teaching.function_one_variable_problem {
     
     using sys;
     
@@ -49,27 +49,17 @@ namespace single_objective.teaching.ones_count_problem {
     
     using ProblemSolutionVnsSupport = uo.Algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
     
-    using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.single_objective.teaching.ones_count_problem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
+    using FunctionOneVariableProblem = opt.single_objective.teaching.function_one_variable_problem.function_one_variable_problem.FunctionOneVariableProblem;
     
-    using OnesCountProblemIntegerLinearProgrammingSolver = opt.single_objective.teaching.ones_count_problem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolver;
+    using FunctionOneVariableProblemBinaryIntSolution = opt.single_objective.teaching.function_one_variable_problem.function_one_variable_problem_binary_int_solution.FunctionOneVariableProblemBinaryIntSolution;
     
-    using OnesCountProblem = opt.single_objective.teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
+    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = opt.single_objective.teaching.function_one_variable_problem.function_one_variable_problem_binary_int_solution_vns_support.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
     
-    using OnesCountProblemBinaryIntSolution = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution.OnesCountProblemBinaryIntSolution;
-    
-    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport;
-    
-    using OnesCountProblemBinaryBitArraySolution = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
-    
-    using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_vns_support.OnesCountProblemBinaryBitArraySolutionVnsSupport;
-    
-    using OnesCountProblemBinaryBitArraySolutionTeSupport = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_te_support.OnesCountProblemBinaryBitArraySolutionTeSupport;
-    
-    public static class ones_count_problem_solver {
+    public static class function_one_variable_problem_solver {
         
         public static object directory = Path(_file__).resolve();
         
-        static ones_count_problem_solver() {
+        static function_one_variable_problem_solver() {
             sys.path.append(directory);
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent);
@@ -77,9 +67,9 @@ namespace single_objective.teaching.ones_count_problem {
         }
         
         /// 
-        ///     Instance of the class :class:`MaxOneProblemSolverConstructionParameters` represents constructor parameters for max ones problem solver.
+        ///     Instance of the class :class:`FunctionOneVariableProblemSolverConstructionParameters` represents constructor parameters for max ones problem solver.
         ///     
-        public class MaxOneProblemSolverConstructionParameters {
+        public class FunctionOneVariableProblemSolverConstructionParameters {
             
             public object finish_control;
             
@@ -90,8 +80,6 @@ namespace single_objective.teaching.ones_count_problem {
             public object OutputControl;
             
             public object TargetProblem;
-            
-            public object te_problem_solution_support;
             
             public object vns_additional_statistics_control;
             
@@ -126,18 +114,16 @@ namespace single_objective.teaching.ones_count_problem {
             public object vns_k_max = null;
             
             public object vns_local_search_type = null;
-            
-            public object te_problem_solution_support = null;
         }
         
         /// 
-        ///     Instance of the class :class:`MaxOneProblemSolver` any of the developed solvers max ones problem.
+        ///     Instance of the class :class:`FunctionOneVariableProblemSolver` any of the developed solvers max ones problem.
         ///     
-        public class OnesCountProblemSolver {
+        public class FunctionOneVariableProblemSolver {
             
             private object _optimizer;
             
-            public OnesCountProblemSolver(
+            public FunctionOneVariableProblemSolver(
                 string method = null,
                 object finish_control = null,
                 object OutputControl = null,
@@ -148,28 +134,23 @@ namespace single_objective.teaching.ones_count_problem {
                 object vns_additional_statistics_control = null,
                 int vns_k_min = null,
                 int vns_k_max = null,
-                string vns_local_search_type = null,
-                object te_problem_solution_support = null) {
+                string vns_local_search_type = null) {
                 _optimizer = null;
                 if (method == "variable_neighborhood_search") {
                     _optimizer = VnsOptimizer(finish_control: finish_control, OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution, problem_solution_vns_support: vns_problem_solution_support, randomSeed: vnsRandomSeed, additional_statistics_control: vns_additional_statistics_control, k_min: vns_k_min, k_max: vns_k_max, local_search_type: vns_local_search_type);
-                } else if (method == "total_enumeration") {
-                    _optimizer = TeOptimizer(OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution, problem_solution_te_support: te_problem_solution_support);
-                } else if (method == "integer_linear_programming") {
-                    _optimizer = OnesCountProblemIntegerLinearProgrammingSolver(OutputControl: OutputControl, problem: TargetProblem);
                 } else {
-                    throw new ValueError("Invalid optimization method {} - should be one of: '{}', '{}', '{}'.".format(method, "variable_neighborhood_search", "total_enumeration", "integer_linear_programming"));
+                    throw new ValueError("Invalid optimization method {} - should be: '{}'.".format(method, "variable_neighborhood_search"));
                 }
             }
             
             /// 
-            ///         Additional constructor. Create new `OnesCountProblemSolver` instance from construction parameters
+            ///         Additional constructor. Create new `FunctionOneVariableProblemSolver` instance from construction parameters
             /// 
-            ///         :param `MaxOneProblemSolverConstructionParameters` construction_params: parameters for construction 
+            ///         :param `FunctionOneVariableProblemSolverConstructionParameters` construction_params: parameters for construction 
             ///         
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_params = null) {
-                return cls(method: construction_params.method, finish_control: construction_params.finish_control, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initial_solution: construction_params.initial_solution, vns_problem_solution_support: construction_params.vns_problem_solution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additional_statistics_control: construction_params.vns_additional_statistics_control, vns_k_min: construction_params.vns_k_min, vns_k_max: construction_params.vns_k_max, vns_local_search_type: construction_params.vns_local_search_type, te_problem_solution_support: construction_params.te_problem_solution_support);
+                return cls(method: construction_params.method, finish_control: construction_params.finish_control, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initial_solution: construction_params.initial_solution, vns_problem_solution_support: construction_params.vns_problem_solution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additional_statistics_control: construction_params.vns_additional_statistics_control, vns_k_min: construction_params.vns_k_min, vns_k_max: construction_params.vns_k_max, vns_local_search_type: construction_params.vns_local_search_type);
             }
             
             /// 
@@ -179,7 +160,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         
             [classmethod]
             public static void from_variable_neighborhood_search(object cls, object vns_construction_params = null) {
-                var @params = new MaxOneProblemSolverConstructionParameters();
+                var @params = new FunctionOneVariableProblemSolverConstructionParameters();
                 @params.method = "variable_neighborhood_search";
                 @params.finish_control = vns_construction_params.finish_control;
                 @params.OutputControl = vns_construction_params.OutputControl;
@@ -195,40 +176,10 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Total Enumeration`
-            /// 
-            ///         :param TeOptimizerConstructionParameters te_construction_params: construction parameters 
-            ///         
-            [classmethod]
-            public static void from_total_enumeration(object cls, object te_construction_params = null) {
-                var @params = new MaxOneProblemSolverConstructionParameters();
-                @params.method = "total_enumeration";
-                @params.OutputControl = te_construction_params.OutputControl;
-                @params.TargetProblem = te_construction_params.TargetProblem;
-                @params.initial_solution = te_construction_params.initial_solution;
-                @params.te_problem_solution_support = te_construction_params.problem_solution_te_support;
-                return cls.from_construction_tuple(@params);
-            }
-            
-            /// 
-            ///         Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Integer Linear Programming`
-            /// 
-            ///         :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` ilp_construction_params: construction parameters 
-            ///         
-            [classmethod]
-            public static void from_integer_linear_programming(object cls, object ilp_construction_params = null) {
-                var @params = new MaxOneProblemSolverConstructionParameters();
-                @params.method = "integer_linear_programming";
-                @params.OutputControl = ilp_construction_params.OutputControl;
-                @params.TargetProblem = ilp_construction_params.TargetProblem;
-                return cls.from_construction_tuple(@params);
-            }
-            
-            /// 
             ///         Property getter for the optimizer used for solving
             /// 
             ///         :return: optimizer
-            ///         :rtype: `Optimizer`
+            ///         return type `Optimizer`
             ///         
             public object opt {
                 get {

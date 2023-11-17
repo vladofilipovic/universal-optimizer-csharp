@@ -127,7 +127,7 @@ namespace uo.TargetSolution
         ///         :param groupEnd: group end string 
         ///         :type groupEnd: str, optional, default value '}'
         ///         :return: string representation of instance that controls output
-        ///         :rtype: str
+        ///         return type str
         ///         
         public virtual string StringRep(
             string delimiter,
@@ -169,7 +169,7 @@ namespace uo.TargetSolution
         ///         String representation of the `EvaluationCacheControlStatistics` instance
         /// 
         ///         :return: string representation of the `EvaluationCacheControlStatistics` instance
-        ///         :rtype: str
+        ///         return type str
         ///         
         public override string ToString()
         {

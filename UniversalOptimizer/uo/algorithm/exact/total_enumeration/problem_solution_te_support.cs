@@ -75,7 +75,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
             ///         :param `Algorithm` optimizer: optimizer that is executed
             ///         :return: indicator if total enumeration process is not at end 
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             [abstractmethod]
             public virtual bool can_progress(object problem, object solution, object optimizer) {
@@ -89,7 +89,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             ///         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
             ///         :param `Algorithm` optimizer: optimizer that is executed
             ///         :return: overall number of evaluations required for finishing total enumeration process
-            ///         :rtype: int
+            ///         return type int
             ///         
             [abstractmethod]
             public virtual int overall_number_of_evaluations(object problem, object solution, object optimizer) {

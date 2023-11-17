@@ -16,19 +16,19 @@ namespace utils {
     
     using System.Linq;
     
-    public static class complex_counter_uniform_full {
+    public static class complex_counter_uniform_distinct {
         
         public static object directory = Path(_file__).resolve();
         
-        static complex_counter_uniform_full() {
+        static complex_counter_uniform_distinct() {
             sys.path.append(directory.parent);
             main();
         }
         
         /// 
-        ///     This class describes complex counter with uniform values, that counts full 
+        ///     This class describes complex counter with uniform values, that counts only ascending data 
         ///     
-        public class ComplexCounterUniformFull {
+        public class ComplexCounterUniformAscending {
             
             private object _counter_size;
             
@@ -36,7 +36,7 @@ namespace utils {
             
             private object _number_of_counters;
             
-            public ComplexCounterUniformFull(int number_of_counters, int counter_size) {
+            public ComplexCounterUniformAscending(int number_of_counters, int counter_size) {
                 _number_of_counters = number_of_counters;
                 _counter_size = counter_size;
                 _counters = new List<int> {
@@ -47,19 +47,19 @@ namespace utils {
             /// 
             ///         Internal copy of the current complex counter
             /// 
-            ///         :return:  new `ComplexCounterUniformFull` instance with the same properties
-            ///         :rtype: :class:`uo.utils.ComplexCounterUniformFull`
+            ///         :return:  new `ComplexCounterUniformAscending` instance with the same properties
+            ///         return type :class:`uo.utils.ComplexCounterUniformAscending`
             ///         
             public virtual void _copy__() {
-                var cc = deepcopy(this);
-                return cc;
+                var ccud = deepcopy(this);
+                return ccud;
             }
             
             /// 
             ///         Copy the current complex counter
             /// 
-            ///         :return:  new `ComplexCounterUniformFull` instance with the same properties
-            ///         :rtype: :class:`uo.utils.ComplexCounterUniformFull`
+            ///         :return:  new `ComplexCounterUniformAscending` instance with the same properties
+            ///         return type :class:`uo.utils.ComplexCounterUniformAscending`
             ///         
             public virtual void copy() {
                 return _copy__();
@@ -69,7 +69,7 @@ namespace utils {
             ///         Returns current state of the complex counter
             /// 
             ///         :return: current state of the complex counter
-            ///         :rtype: list[int]
+            ///         return type list[int]
             ///         
             public virtual object current_state() {
                 return _counters;
@@ -79,11 +79,11 @@ namespace utils {
             ///         Resets the complex counter to its initial position.
             /// 
             ///         :return: if progress is possible after resetting
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public virtual bool reset() {
                 foreach (var i in Enumerable.Range(0, _number_of_counters)) {
-                    _counters[i] = 0;
+                    _counters[i] = i;
                 }
                 return _number_of_counters * _counter_size > 0;
             }
@@ -92,7 +92,7 @@ namespace utils {
             ///         Make the progress to the complex counter. At the same time, determine if complex counter can progress.
             /// 
             ///         :return: if progress is successful
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public virtual bool progress() {
                 var finish = true;
@@ -121,7 +121,7 @@ namespace utils {
         
         /// testing the developed class
         public static void main() {
-            var cc = new ComplexCounterUniformFull(4, 6);
+            var cc = new ComplexCounterUniformAscending(4, 6);
             var can_progress = cc.reset();
             foreach (var i in Enumerable.Range(1, 1400 - 1)) {
                 Console.WriteLine(cc.current_state());
@@ -129,7 +129,7 @@ namespace utils {
             }
         }
         
-        static complex_counter_uniform_full() {
+        static complex_counter_uniform_distinct() {
             if (_name__ == "__main__") {
             }
         }

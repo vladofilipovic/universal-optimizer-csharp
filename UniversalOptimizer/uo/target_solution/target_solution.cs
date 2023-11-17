@@ -7,7 +7,6 @@ namespace uo.TargetSolution
     using System.Linq;
 
     using uo.TargetProblem;
-    using static uo.TargetSolution.DistanceCalculationCacheControlStatistics;
 
     public struct QualityOfSolution
     {
@@ -46,7 +45,7 @@ namespace uo.TargetSolution
 
         public TargetSolution(
             string name,
-            int randomSeed,
+            int? randomSeed,
             double fitnessValue,
             List<double> fitnessValues,
             double objectiveValue,
@@ -58,15 +57,15 @@ namespace uo.TargetSolution
             int distanceCalculationCacheMaxSize)
         {
             _name = name;
-            if (randomSeed != 0)
+            if (randomSeed is not null && randomSeed != 0)
             {
-                _randomSeed = randomSeed;
+                _randomSeed = randomSeed.GetValueOrDefault();
             }
             else
             {
                 _randomSeed = (int)DateTime.UtcNow.Ticks;
             }
-            _randomGenerator = new Random(randomSeed);
+            _randomGenerator = new Random(_randomSeed);
             _fitnessValue = fitnessValue;
             _fitnessValues = fitnessValues;
             _objectiveValue = objectiveValue;
@@ -80,12 +79,13 @@ namespace uo.TargetSolution
             RepresentationDistanceCacheCS = new DistanceCalculationCacheControlStatistics<R_co>(distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize);
         }
 
-        /// 
+        /// <summary>
         ///         Property getter for the name of the target solution
-        /// 
-        ///         :return: name of the target solution instance 
-        ///         :rtype: str
-        ///         
+        /// </summary>
+        /// <returns>
+        ///         name of the target solution instance 
+        ///         return type string
+        /// </returns>        
         public string Name
         {
             get
@@ -186,14 +186,15 @@ namespace uo.TargetSolution
             }
         }
 
-        /// 
+        /// <summary>
         ///         Argument of the target solution
-        /// 
-        ///         :param representation: internal representation of the solution
+        /// </summary>
+        /// <param name='representation'> internal representation of the solution
         ///         :type representation: R_co
-        ///         :return: argument of the solution 
-        ///         :rtype: A_co
-        ///         
+        /// </param>
+        /// <returns> argument of the solution 
+        ///         return type A_co
+        /// </returns>        
         public abstract A_co Argument(R_co representation);
 
         /// 
@@ -202,7 +203,7 @@ namespace uo.TargetSolution
         ///         :param representation: internal representation of the solution
         ///         :type representation: R_co
         ///         :return: string representation of the solution 
-        ///         :rtype: str
+        ///         return type str
         ///         
         public virtual string StringRepresentation()
         {
@@ -222,7 +223,7 @@ namespace uo.TargetSolution
         /// 
         ///         :param str representationStr: solution's representation as string (e.g. solution code)
         ///         :return: solution's native representation 
-        ///         :rtype: R_co
+        ///         return type R_co
         ///         
         public abstract R_co NativeRepresentation(string representationStr);
 
@@ -241,7 +242,7 @@ namespace uo.TargetSolution
         ///         :param R_co representation: native representation of the solution for which objective value, fitness and feasibility are calculated
         ///         :param TargetProblem problem: problem that is solved
         ///         :return: objective value, fitness value and feasibility of the solution instance 
-        ///         :rtype: `QualityOfSolution`
+        ///         return type `QualityOfSolution`
         ///         
         public abstract QualityOfSolution CalculateQualityDirectly(object representation, object problem);
 
@@ -250,7 +251,7 @@ namespace uo.TargetSolution
         /// 
         ///         :param TargetProblem TargetProblem: problem that is solved
         ///         :return: objective value, fitness value and feasibility of the solution instance 
-        ///         :rtype: `QualityOfSolution`
+        ///         return type `QualityOfSolution`
         ///         
         public virtual QualityOfSolution CalculateQuality(TargetProblem targetProblem)
         {
@@ -301,17 +302,17 @@ namespace uo.TargetSolution
         ///         :param `R_co` representation_1: native representation for the first solution
         ///         :param `R_co` representation_2: native representation for the second solution
         ///         :return: distance 
-        ///         :rtype: float
+        ///         return type float
         ///         
         public abstract double RepresentationDistanceDirectly(R_co representation_1, R_co representation_2);
-   
+
         /// 
         ///         Calculate distance between two native representations, with optional cache consultation
         /// 
         ///         :param `R_co` representation_1: native representation for the first solution
         ///         :param `R_co` representation_2: native representation for the second solution
         ///         :return: distance 
-        ///         :rtype: float
+        ///         return type float
         ///         
         public virtual double RepresentationDistance(R_co representation_1, R_co representation_2)
         {
@@ -357,7 +358,7 @@ namespace uo.TargetSolution
         ///         :param groupEnd: group end string 
         ///         :type groupEnd: str, optional, default value '}'
         ///         :return: string representation of instance that controls output
-        ///         :rtype: str
+        ///         return type str
         ///         
         public virtual string StringRep(
             string delimiter,
@@ -429,7 +430,7 @@ namespace uo.TargetSolution
         ///         String representation of the target solution instance
         /// 
         ///         :return: string representation of the target solution instance
-        ///         :rtype: str
+        ///         return type str
         ///         
         public override string ToString()
         {

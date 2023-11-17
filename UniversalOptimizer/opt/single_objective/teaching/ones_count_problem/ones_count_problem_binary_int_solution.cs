@@ -57,7 +57,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Internal copy of the `OnesCountProblemBinaryIntSolution`
             /// 
             ///         :return: new `OnesCountProblemBinaryIntSolution` instance with the same properties
-            ///         :rtype: OnesCountProblemBinaryIntSolution
+            ///         return type OnesCountProblemBinaryIntSolution
             ///         
             public virtual void _copy__() {
                 var sol = deepcopy(this);
@@ -68,7 +68,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Copy the `OnesCountProblemBinaryIntSolution`
             ///         
             ///         :return: new `OnesCountProblemBinaryIntSolution` instance with the same properties
-            ///         :rtype: `OnesCountProblemBinaryIntSolution`
+            ///         return type `OnesCountProblemBinaryIntSolution`
             ///         
             public virtual void copy() {
                 return _copy__();
@@ -101,7 +101,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param representation: internal representation of the solution
             ///         :type representation: int
             ///         :return: solution representation as string
-            ///         :rtype: str 
+            ///         return type str 
             ///         
             public virtual string argument(int representation) {
                 return bin(representation);
@@ -142,7 +142,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param int representation: native representation of the solution whose fitness, objective and feasibility is calculated
             ///         :param TargetProblem problem: problem that is solved
             ///         :return: objective value, fitness value and feasibility of the solution instance  
-            ///         :rtype: `QualityOfSolution`
+            ///         return type `QualityOfSolution`
             ///         
             public virtual object CalculateQualityDirectly(int representation, object problem) {
                 var ones_count = representation.bit_count();
@@ -154,7 +154,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// 
             ///         :param str representationStr: solution's representation as string
             ///         :return: solution's representation as int
-            ///         :rtype: int
+            ///         return type int
             ///         
             public virtual int NativeRepresentation(string representationStr) {
                 var ret = Convert.ToInt32(representationStr, 2);
@@ -167,7 +167,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param str solution_code_1: solution code for the first solution
             ///         :param str solution_code_2: solution code for the second solution
             ///         :return: distance between two solutions represented by its code
-            ///         :rtype: float
+            ///         return type float
             ///         
             public static double RepresentationDistanceDirectly(object solution_code_1, string solution_code_2) {
                 var rep_1 = this.NativeRepresentation(solution_code_1);
@@ -190,7 +190,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter = "\n",
@@ -222,7 +222,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         String representation of the solution instance
             /// 
             ///         :return: string representation of the solution instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 return this.StringRep("\n", 0, "   ", "{", "}");
@@ -232,7 +232,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Representation of the solution instance
             /// 
             ///         :return: string representation of the solution instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _repr__() {
                 return this.StringRep("\n", 0, "   ", "{", "}");
@@ -243,7 +243,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// 
             ///         :param str spec: format specification
             ///         :return: formatted solution instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _format__(string spec) {
                 return this.StringRep("\n", 0, "   ", "{", "}");

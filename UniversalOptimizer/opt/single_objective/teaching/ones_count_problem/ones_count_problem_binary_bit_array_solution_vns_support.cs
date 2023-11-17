@@ -1,9 +1,10 @@
 ///  
-/// .. _py_ones_count_problem_int_solution_vns_support:
+/// ..  _py_ones_count_problem_bit_array_solution_vns_support:
 /// 
-/// The :mod:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution_vns_support` contains 
-/// class :class:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport`, 
-/// that represents solution of the :ref:`Problem_Max_Ones`, where `int` representation of the problem has been used.
+/// The :mod:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_vns_support` 
+/// contains class :class:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_vns_support.OnesCountProblemBinaryBitArraySolutionVnsSupport`, 
+/// that represents supporting parts of the `VNS` algorithm, where solution of the :ref:`Problem_Max_Ones` have `BitArray` 
+/// representation.
 /// 
 namespace single_objective.teaching.ones_count_problem {
     
@@ -15,7 +16,15 @@ namespace single_objective.teaching.ones_count_problem {
     
     using choice = random.choice;
     
-    using randint = random.randint;
+    using random = random.random;
+    
+    using Bits = bitstring.Bits;
+    
+    using BitArray = bitstring.BitArray;
+    
+    using BitStream = bitstring.BitStream;
+    
+    using pack = bitstring.pack;
     
     using logger = uo.utils.logger.logger;
     
@@ -29,7 +38,7 @@ namespace single_objective.teaching.ones_count_problem {
     
     using OnesCountProblem = opt.single_objective.teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     
-    using OnesCountProblemBinaryIntSolution = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution.OnesCountProblemBinaryIntSolution;
+    using OnesCountProblemBinaryBitArraySolution = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
     
     using System.Collections.Generic;
     
@@ -37,56 +46,56 @@ namespace single_objective.teaching.ones_count_problem {
     
     using System.Linq;
     
-    public static class ones_count_problem_binary_int_solution_vns_support {
+    public static class ones_count_problem_binary_bit_array_solution_vns_support {
         
         public static object directory = Path(_file__).resolve();
         
-        static ones_count_problem_binary_int_solution_vns_support() {
+        static ones_count_problem_binary_bit_array_solution_vns_support() {
+            sys.path.append(directory);
             sys.path.append(directory.parent);
-            sys.path.append(directory.parent.parent);
             sys.path.append(directory.parent.parent.parent);
             sys.path.append(directory.parent.parent.parent.parent);
             sys.path.append(directory.parent.parent.parent.parent.parent);
         }
         
-        public class OnesCountProblemBinaryIntSolutionVnsSupport
-            : ProblemSolutionVnsSupport[intstr] {
+        public class OnesCountProblemBinaryBitArraySolutionVnsSupport
+            : ProblemSolutionVnsSupport[BitArraystr] {
             
-            public OnesCountProblemBinaryIntSolutionVnsSupport() {
+            public OnesCountProblemBinaryBitArraySolutionVnsSupport() {
                 return;
             }
             
             /// 
-            ///         Internal copy of the `OnesCountProblemBinaryIntSolutionVnsSupport`
+            ///         Internal copy of the `OnesCountProblemBinaryBitArraySolutionVnsSupport`
             /// 
-            ///         :return: new `OnesCountProblemBinaryIntSolutionVnsSupport` instance with the same properties
-            ///         :rtype: OnesCountProblemBinaryIntSolutionVnsSupport
+            ///         :return: new `OnesCountProblemBinaryBitArraySolutionVnsSupport` instance with the same properties
+            ///         return type `OnesCountProblemBinaryBitArraySolutionVnsSupport`
             ///         
             public virtual void _copy__() {
-                var sup = deepcopy(this);
-                return sup;
+                var sol = deepcopy(this);
+                return sol;
             }
             
             /// 
-            ///         Copy the `OnesCountProblemBinaryIntSolutionVnsSupport`
-            ///         
-            ///         :return: new `OnesCountProblemBinaryIntSolutionVnsSupport` instance with the same properties
-            ///         :rtype: `OnesCountProblemBinaryIntSolutionVnsSupport`
+            ///         Copy the `OnesCountProblemBinaryBitArraySolutionVnsSupport` instance
+            /// 
+            ///         :return: new `OnesCountProblemBinaryBitArraySolutionVnsSupport` instance with the same properties
+            ///         return type `OnesCountProblemBinaryBitArraySolutionVnsSupport`
             ///         
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Random VNS shaking of k parts such that new solution code does not differ more than k from all solution codes 
+            ///         Random shaking of k parts such that new solution code does not differ more than k from all solution codes 
             ///         inside shakingPoints 
             /// 
             ///         :param int k: int parameter for VNS
             ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryIntSolution` solution: solution used for the problem that is solved
+            ///         :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
             ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         :return: if shaking is successful
-            ///         :rtype: bool
+            ///         :return: if randomization is successful
+            ///         return type bool
             ///         
             public virtual bool shaking(int k, object problem, object solution, object optimizer) {
                 if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
@@ -99,13 +108,13 @@ namespace single_objective.teaching.ones_count_problem {
                     foreach (var i in Enumerable.Range(0, k - 0)) {
                         positions.append(choice(Enumerable.Range(0, problem.dimension)));
                     }
-                    var mask = 0;
-                    foreach (var p in positions) {
-                        mask |= 1 << p;
+                    var repr = BitArray(solution.representation.tobytes());
+                    foreach (var pos in positions) {
+                        repr[pos] = !repr[pos];
                     }
-                    solution.representation ^= mask;
+                    solution.representation = repr;
                     var all_ok = true;
-                    if (solution.representation.bit_count() > problem.dimension) {
+                    if (solution.representation.count(value: 1) > problem.dimension) {
                         all_ok = false;
                     }
                     if (all_ok) {
@@ -115,11 +124,12 @@ namespace single_objective.teaching.ones_count_problem {
                 if (tries < limit) {
                     optimizer.evaluation += 1;
                     if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
-                        return solution;
+                        return false;
                     }
                     optimizer.write_outputValues_if_needed("before_evaluation", "b_e");
                     solution.evaluate(problem);
                     optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
+                    optimizer.write_outputValues_if_needed("after_step_in_iteration", "shaking");
                     return true;
                 } else {
                     return false;
@@ -131,10 +141,10 @@ namespace single_objective.teaching.ones_count_problem {
             ///         
             ///         :param int k: int parameter for VNS
             ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryIntSolution` solution: solution used for the problem that is solved
+            ///         :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
             ///         :param `Algorithm` optimizer: optimizer that is executed
             ///         :return: result of the local search procedure 
-            ///         :rtype: OnesCountProblemBinaryIntSolution
+            ///         return type OnesCountProblemBinaryBitArraySolution
             ///         
             public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer) {
                 if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
@@ -152,11 +162,7 @@ namespace single_objective.teaching.ones_count_problem {
                     /// collect positions for inversion from indexes
                     var positions = indexes.current_state();
                     /// invert and compare, switch of new is better
-                    var mask = 0;
-                    foreach (var i in positions) {
-                        mask |= 1 << i;
-                    }
-                    solution.representation ^= mask;
+                    solution.representation.invert(positions);
                     optimizer.evaluation += 1;
                     if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                         return solution;
@@ -166,10 +172,10 @@ namespace single_objective.teaching.ones_count_problem {
                     optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
                     if (new_triplet.fitnessValue > best_triplet.fitnessValue) {
                         best_triplet = new_triplet;
-                        best_rep = solution.representation;
+                        best_rep = BitArray(bin: solution.representation.bin);
                     }
-                    solution.representation ^= mask;
-                    /// increment indexes and set in_loop accordingly
+                    solution.representation.invert(positions);
+                    /// increment indexes and set in_loop according to the state
                     in_loop = indexes.progress();
                 }
                 if (best_rep is not null) {
@@ -187,10 +193,10 @@ namespace single_objective.teaching.ones_count_problem {
             ///         
             ///         :param int k: int parameter for VNS
             ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryIntSolution` solution: solution used for the problem that is solved
+            ///         :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
             ///         :param `Algorithm` optimizer: optimizer that is executed
             ///         :return: result of the local search procedure 
-            ///         :rtype: OnesCountProblemBinaryIntSolution
+            ///         return type OnesCountProblemBinaryBitArraySolution
             ///         
             public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer) {
                 if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
@@ -207,11 +213,7 @@ namespace single_objective.teaching.ones_count_problem {
                     /// collect positions for inversion from indexes
                     var positions = indexes.current_state();
                     /// invert and compare, switch and exit if new is better
-                    var mask = 0;
-                    foreach (var i in positions) {
-                        mask |= 1 << i;
-                    }
-                    solution.representation ^= mask;
+                    solution.representation.invert(positions);
                     optimizer.evaluation += 1;
                     if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                         return solution;
@@ -220,12 +222,12 @@ namespace single_objective.teaching.ones_count_problem {
                     var new_triplet = solution.CalculateQuality(problem);
                     optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
                     if (new_triplet.fitnessValue > best_fv) {
-                        solution.fitnessValue = new_triplet.fitnessValue;
                         solution.objectiveValue = new_triplet.objectiveValue;
+                        solution.fitnessValue = new_triplet.fitnessValue;
                         solution.isFeasible = new_triplet.isFeasible;
                         return solution;
                     }
-                    solution.representation ^= mask;
+                    solution.representation.invert(positions);
                     /// increment indexes and set in_loop accordingly
                     in_loop = indexes.progress();
                 }
@@ -233,7 +235,7 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         String representation of the vns support instance
+            ///         String representation of the vns support structure
             /// 
             ///         :param delimiter: delimiter between fields
             ///         :type delimiter: str
@@ -246,7 +248,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of vns support instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -254,14 +256,14 @@ namespace single_objective.teaching.ones_count_problem {
                 string indentationSymbol = "",
                 string groupStart = "{",
                 string groupEnd = "}") {
-                return "OnesCountProblemBinaryIntSolutionVnsSupport";
+                return "OnesCountProblemBinaryBitArraySolutionVnsSupport";
             }
             
             /// 
             ///         String representation of the vns support instance
             /// 
             ///         :return: string representation of the vns support instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 return this.StringRep("|");
@@ -271,7 +273,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Representation of the vns support instance
             /// 
             ///         :return: string representation of the vns support instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _repr__() {
                 return this.StringRep("\n");
@@ -282,7 +284,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// 
             ///         :param str spec: format specification
             ///         :return: formatted vns support instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _format__(string spec) {
                 return this.StringRep("|");

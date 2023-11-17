@@ -63,7 +63,7 @@ namespace uo.Algorithm {
             ///         Internal copy of the current optimizer
             /// 
             ///         :return:  new `Optimizer` instance with the same properties
-            ///         :rtype: :class:`uo.Algorithm.Optimizer`
+            ///         return type :class:`uo.Algorithm.Optimizer`
             ///         
             [abstractmethod]
             public virtual void _copy__() {
@@ -75,7 +75,7 @@ namespace uo.Algorithm {
             ///         Copy the current optimizer
             /// 
             ///         :return:  new `Optimizer` instance with the same properties
-            ///         :rtype: :class:`uo.Algorithm.Optimizer`
+            ///         return type :class:`uo.Algorithm.Optimizer`
             ///         
             [abstractmethod]
             public virtual void copy() {
@@ -86,7 +86,7 @@ namespace uo.Algorithm {
             ///         Property getter for the name of the optimizer
             ///         
             ///         :return: name of the algorithm instance 
-            ///         :rtype: str
+            ///         return type str
             ///         
             public object name {
                 get {
@@ -147,7 +147,7 @@ namespace uo.Algorithm {
             ///         Property getter for the best solution obtained during metaheuristic execution
             ///         
             ///         :return: best solution so far 
-            ///         :rtype: TargetSolution
+            ///         return type TargetSolution
             ///         
             /// 
             ///         Property setter for the best solution so far
@@ -167,7 +167,7 @@ namespace uo.Algorithm {
             ///         Property getter for the output control of the executing algorithm
             ///         
             ///         :return: output control of the executing algorithm
-            ///         :rtype: `OutputControl`
+            ///         return type `OutputControl`
             ///         
             /// 
             ///         Property setter for the output control of the executing algorithm
@@ -282,7 +282,7 @@ namespace uo.Algorithm {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -332,7 +332,7 @@ namespace uo.Algorithm {
             ///         String representation of the 'Algorithm' instance
             ///         
             ///         :return: string representation of the 'Algorithm' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public override string ToString() {
@@ -343,7 +343,7 @@ namespace uo.Algorithm {
             ///         Representation of the 'Algorithm' instance
             ///         
             ///         :return: string representation of the 'Algorithm' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public virtual string _repr__() {
@@ -355,7 +355,7 @@ namespace uo.Algorithm {
             ///         
             ///         :param str spec: format specification
             ///         :return: formatted 'Algorithm' instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public virtual string _format__(string spec) {

@@ -67,7 +67,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Internal copy of the `OnesCountProblemBinaryBitArraySolutionTeSupport`
             /// 
             ///         :return: new `OnesCountProblemBinaryBitArraySolutionTeSupport` instance with the same properties
-            ///         :rtype: `OnesCountProblemBinaryBitArraySolutionTeSupport`
+            ///         return type `OnesCountProblemBinaryBitArraySolutionTeSupport`
             ///         
             public virtual void _copy__() {
                 var sol = deepcopy(this);
@@ -78,7 +78,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Copy the `OnesCountProblemBinaryBitArraySolutionTeSupport` instance
             /// 
             ///         :return: new `OnesCountProblemBinaryBitArraySolutionTeSupport` instance with the same properties
-            ///         :rtype: `OnesCountProblemBinaryBitArraySolutionTeSupport`
+            ///         return type `OnesCountProblemBinaryBitArraySolutionTeSupport`
             ///         
             public virtual void copy() {
                 return _copy__();
@@ -126,7 +126,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
             ///         :param `Algorithm` optimizer: optimizer that is executed
             ///         :return: indicator if total enumeration process is not at end 
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public virtual bool can_progress(object problem, object solution, object optimizer) {
                 return _bit_array_counter.can_progress();
@@ -139,7 +139,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
             ///         :param `Algorithm` optimizer: optimizer that is executed
             ///         :return: overall number of evaluations required for finishing total enumeration process
-            ///         :rtype: int
+            ///         return type int
             ///         
             public virtual int overall_number_of_evaluations(object problem, object solution, object optimizer) {
                 return pow(2, problem.dimension);
@@ -159,7 +159,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of vns support instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -174,7 +174,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         String representation of the te support instance
             /// 
             ///         :return: string representation of the te support instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 return this.StringRep("|");
@@ -184,7 +184,7 @@ namespace single_objective.teaching.ones_count_problem {
             ///         Representation of the te support instance
             /// 
             ///         :return: string representation of the te support instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _repr__() {
                 return this.StringRep("\n");
@@ -195,7 +195,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// 
             ///         :param str spec: format specification
             ///         :return: formatted te support instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _format__(string spec) {
                 return this.StringRep("|");

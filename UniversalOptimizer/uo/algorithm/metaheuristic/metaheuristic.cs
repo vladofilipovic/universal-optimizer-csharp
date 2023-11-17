@@ -53,7 +53,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Internal copy of the current metaheuristic
             /// 
             ///         :return: new `Metaheuristic` instance with the same properties
-            ///         :rtype: `Metaheuristic`
+            ///         return type `Metaheuristic`
             ///         
             [abstractmethod]
             public virtual void _copy__() {
@@ -65,7 +65,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Copy the current metaheuristic
             ///         
             ///         :return: new `Metaheuristic` instance with the same properties
-            ///         :rtype: `Metaheuristic`
+            ///         return type `Metaheuristic`
             ///         
             [abstractmethod]
             public virtual void copy() {
@@ -76,7 +76,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for the structure that controls finish criteria for metaheuristic execution
             ///         
             ///         :return: structure that controls finish criteria for metaheuristic execution 
-            ///         :rtype: `FinishControl`
+            ///         return type `FinishControl`
             ///         
             public object finish_control {
                 get {
@@ -88,7 +88,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for the random seed used during metaheuristic execution
             ///         
             ///         :return: random seed 
-            ///         :rtype: int
+            ///         return type int
             ///         
             public object randomSeed {
                 get {
@@ -100,7 +100,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Property getter for the structure that controls keeping of the statistic during metaheuristic execution
             ///         
             ///         :return: structure that controls that controls keeping of the statistic during metaheuristic execution 
-            ///         :rtype: `AdditionalStatisticsControl`
+            ///         return type `AdditionalStatisticsControl`
             ///         
             public object additional_statistics_control {
                 get {
@@ -120,7 +120,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         Calculate time elapsed during execution of the metaheuristic algorithm 
             ///         
             ///         :return: elapsed time (in seconds)
-            ///         :rtype: float
+            ///         return type float
             ///         
             public virtual double elapsed_seconds() {
                 var delta = datetime.now() - this.execution_started;
@@ -166,7 +166,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -222,7 +222,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         String representation of the `Metaheuristic` instance
             ///         
             ///         :return: string representation of the `Metaheuristic` instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public override string ToString() {
@@ -234,7 +234,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         String representation of the `Metaheuristic` instance
             ///         
             ///         :return: string representation of the `Metaheuristic` instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public virtual string _repr__() {
@@ -247,7 +247,7 @@ namespace uo.Algorithm.Metaheuristic {
             ///         
             ///         :param str spec: format specification
             ///         :return: formatted `Metaheuristic` instance
-            ///         :rtype: str
+            ///         return type str
             ///         
             [abstractmethod]
             public virtual string _format__(string spec) {

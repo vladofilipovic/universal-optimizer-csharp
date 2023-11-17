@@ -50,7 +50,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         :param `Algorithm` optimizer: optimizer that is executed
             ///         :param `list[R_co]` solutionRepresentations: solution representations that should be shaken
             ///         :return: if shaking is successful
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             [abstractmethod]
             public virtual bool shaking(
@@ -70,7 +70,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         :param `TargetSolution` solution: solution used for the problem that is solved
             ///         :param `Algorithm` optimizer: optimizer that is executed
             ///         :return: result of the local search procedure 
-            ///         :rtype: TargetSolution
+            ///         return type TargetSolution
             ///         
             [abstractmethod]
             public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer) {
@@ -85,7 +85,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             ///         :param `TargetSolution` solution: solution used for the problem that is solved
             ///         :param `Algorithm` optimizer: optimizer that is executed
             ///         :return: result of the local search procedure 
-            ///         :rtype: TargetSolution
+            ///         return type TargetSolution
             ///         
             [abstractmethod]
             public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer) {

@@ -148,7 +148,7 @@ namespace uo.Algorithm {
             ///         Property getter for determining if write to output 
             /// 
             ///         :return: if write to output during algorithm execution, or not 
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object write_to_output {
                 get {
@@ -160,7 +160,7 @@ namespace uo.Algorithm {
             ///         Property getter for output file 
             /// 
             ///         :return: output file to which algorithm will write
-            ///         :rtype: `TextIOWrapper`
+            ///         return type `TextIOWrapper`
             ///         
             /// 
             ///         Property setter for the output file
@@ -178,7 +178,7 @@ namespace uo.Algorithm {
             ///         Property getter for `fields_headings` property 
             /// 
             ///         :return: list of fields headings for output
-            ///         :rtype: list[str]
+            ///         return type list[str]
             ///         
             public object fields_headings {
                 get {
@@ -190,7 +190,7 @@ namespace uo.Algorithm {
             ///         Property getter for `fields_definitions` property 
             /// 
             ///         :return: list of fields definitions to be evaluated during output
-            ///         :rtype: list[str]
+            ///         return type list[str]
             ///         
             public object fields_definitions {
                 get {
@@ -202,7 +202,7 @@ namespace uo.Algorithm {
             ///         Property getter for `fields_definitions` property 
             /// 
             ///         :return: comma-separated string with list of fields for output
-            ///         :rtype: str
+            ///         return type str
             ///         
             /// 
             ///         Property setter for the fields property
@@ -220,7 +220,7 @@ namespace uo.Algorithm {
             ///         Property getter for moments property 
             /// 
             ///         :return: comma-separated list of moments for output
-            ///         :rtype: str
+            ///         return type str
             ///         
             /// 
             ///         Property setter for the moments property
@@ -261,7 +261,7 @@ namespace uo.Algorithm {
             ///         Property getter for property `write_before_algorithm`
             /// 
             ///         :return: should write to the output prior to algorithm execution
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object write_before_algorithm {
                 get {
@@ -273,7 +273,7 @@ namespace uo.Algorithm {
             ///         Property getter for property `write_after_algorithm`
             /// 
             ///         :return: should write to the output after algorithm execution
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object write_after_algorithm {
                 get {
@@ -285,7 +285,7 @@ namespace uo.Algorithm {
             ///         Property getter for property `write_before_iteration`
             /// 
             ///         :return: should write to the output prior to algorithm iteration
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object write_before_iteration {
                 get {
@@ -297,7 +297,7 @@ namespace uo.Algorithm {
             ///         Property getter for property `write_after_iteration`
             /// 
             ///         :return: should write to the output after algorithm iteration
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object write_after_iteration {
                 get {
@@ -309,7 +309,7 @@ namespace uo.Algorithm {
             ///         Property getter for property `write_before_evaluation`
             /// 
             ///         :return: should write to the output prior to evaluation
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object write_before_evaluation {
                 get {
@@ -321,7 +321,7 @@ namespace uo.Algorithm {
             ///         Property getter for property `write_after_evaluation`
             /// 
             ///         :return: should write to the output after evaluation
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object write_after_evaluation {
                 get {
@@ -333,7 +333,7 @@ namespace uo.Algorithm {
             ///         Property getter for property `write_before_step_in_iteration`
             /// 
             ///         :return: should write to the output prior to step in iteration
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object write_before_step_in_iteration {
                 get {
@@ -345,7 +345,7 @@ namespace uo.Algorithm {
             ///         Property getter for property `write_after_step_in_iteration`
             /// 
             ///         :return: should write to the output after step in iteration
-            ///         :rtype: bool
+            ///         return type bool
             ///         
             public object write_after_step_in_iteration {
                 get {
@@ -367,7 +367,7 @@ namespace uo.Algorithm {
             ///         :param groupEnd: group end string 
             ///         :type groupEnd: str, optional, default value '}'
             ///         :return: string representation of instance that controls output
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string StringRep(
                 string delimiter,
@@ -411,7 +411,7 @@ namespace uo.Algorithm {
             ///         String representation of the cache control and statistics structure
             /// 
             ///         :return: string representation of the cache control and statistics structure
-            ///         :rtype: str
+            ///         return type str
             ///         
             public override string ToString() {
                 return this.StringRep("|");
@@ -421,7 +421,7 @@ namespace uo.Algorithm {
             ///         Representation of the cache control and statistics structure
             /// 
             ///         :return: string representation of cache control and statistics structure
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _repr__() {
                 return this.StringRep("\n");
@@ -432,7 +432,7 @@ namespace uo.Algorithm {
             /// 
             ///         :param str spec: format specification
             ///         :return: formatted cache control and statistics structure
-            ///         :rtype: str
+            ///         return type str
             ///         
             public virtual string _format__(string spec) {
                 return this.StringRep("|");
