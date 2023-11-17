@@ -40,11 +40,11 @@ namespace utils {
             }
             
             /// 
-            ///         Internal copy of the current complex counter
+            /// Internal copy of the current complex counter
             /// 
-            ///         :return:  new `ComplexCounterBitArrayFull` instance with the same properties
-            ///         return type :class:`uo.utils.ComplexCounterBitArrayFull`
-            ///         
+            /// :return:  new `ComplexCounterBitArrayFull` instance with the same properties
+            /// return type :class:`uo.utils.ComplexCounterBitArrayFull`
+            /// 
             public virtual ComplexCounterBitArrayFull _copy__() {
                 var cc = new ComplexCounterBitArrayFull(_number_of_counters);
                 cc._counters = BitArray(bin: _counters.bin);
@@ -52,42 +52,42 @@ namespace utils {
             }
             
             /// 
-            ///         Copy the current complex counter
+            /// Copy the current complex counter
             /// 
-            ///         :return:  new `ComplexCounterBitArrayFull` instance with the same properties
-            ///         return type :class:`uo.utils.ComplexCounterBitArrayFull`
-            ///         
+            /// :return:  new `ComplexCounterBitArrayFull` instance with the same properties
+            /// return type :class:`uo.utils.ComplexCounterBitArrayFull`
+            /// 
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Returns current state of the complex counter
+            /// Returns current state of the complex counter
             /// 
-            ///         :return: current state of the complex counter
-            ///         return type BitArray
-            ///         
+            /// :return: current state of the complex counter
+            /// return type BitArray
+            /// 
             public virtual object current_state() {
                 return _counters;
             }
             
             /// 
-            ///         Resets the complex counter to its initial position.
+            /// Resets the complex counter to its initial position.
             /// 
-            ///         :return: if progress is possible after resetting
-            ///         return type bool
-            ///         
+            /// :return: if progress is possible after resetting
+            /// return type bool
+            /// 
             public virtual bool reset() {
                 _counters.set(false);
                 return _number_of_counters > 0;
             }
             
             /// 
-            ///         Make the progress to the complex counter. At the same time, determine if complex counter can progress.
+            /// Make the progress to the complex counter. At the same time, determine if complex counter can progress.
             /// 
-            ///         :return: if progress is successful
-            ///         return type bool
-            ///         
+            /// :return: if progress is successful
+            /// return type bool
+            /// 
             public virtual bool progress() {
                 if (_counters.all(true)) {
                     return false;

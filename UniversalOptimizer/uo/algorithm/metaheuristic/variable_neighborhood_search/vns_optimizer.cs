@@ -66,9 +66,9 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
         }
         
         /// 
-        ///         Instance of the class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search_constructor_parameters.
-        ///         VnsOptimizerConstructionParameters` represents constructor parameters for VNS algorithm.
-        ///         
+        /// Instance of the class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search_constructor_parameters.
+        /// VnsOptimizerConstructionParameters` represents constructor parameters for VNS algorithm.
+        /// 
         public class VnsOptimizerConstructionParameters {
             
             public object additional_statistics_control;
@@ -186,42 +186,42 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             }
             
             /// 
-            ///         Additional constructor, that creates new instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`. 
+            /// Additional constructor, that creates new instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`. 
             /// 
-            ///         :param `VnsOptimizerConstructionParameters` construction_tuple: tuple with all constructor parameters
-            ///         
+            /// :param `VnsOptimizerConstructionParameters` construction_tuple: tuple with all constructor parameters
+            /// 
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_tuple) {
                 return cls(construction_tuple.finish_control, construction_tuple.randomSeed, construction_tuple.additional_statistics_control, construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initial_solution, construction_tuple.problem_solution_vns_support, construction_tuple.k_min, construction_tuple.k_max, construction_tuple.local_search_type);
             }
             
             /// 
-            ///         Internal copy of the current instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`
+            /// Internal copy of the current instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`
             /// 
-            ///         :return: new instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer` with the same properties
-            ///         return type :class:`uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`        
-            ///         
+            /// :return: new instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer` with the same properties
+            /// return type :class:`uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`        
+            /// 
             public virtual void _copy__() {
                 var vns_opt = deepcopy(this);
                 return vns_opt;
             }
             
             /// 
-            ///         Copy the current instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`
+            /// Copy the current instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`
             /// 
-            ///         :return: new instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer` with the same properties
-            ///         return type :class:`uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`        
-            ///         
+            /// :return: new instance of class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer` with the same properties
+            /// return type :class:`uo.Algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`        
+            /// 
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Property getter for the `k_min` parameter for VNS
+            /// Property getter for the `k_min` parameter for VNS
             /// 
-            ///         :return: `k_min` parameter for VNS 
-            ///         return type int
-            ///         
+            /// :return: `k_min` parameter for VNS 
+            /// return type int
+            /// 
             public object k_min {
                 get {
                     return _k_min;
@@ -229,11 +229,11 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             }
             
             /// 
-            ///         Property getter for the `k_max` parameter for VNS
+            /// Property getter for the `k_max` parameter for VNS
             /// 
-            ///         :return: k_max parameter for VNS 
-            ///         return type int
-            ///         
+            /// :return: k_max parameter for VNS 
+            /// return type int
+            /// 
             public object k_max {
                 get {
                     return _k_max;
@@ -241,37 +241,37 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             }
             
             /// 
-            ///         Initialization of the VNS algorithm
-            ///         
+            /// Initialization of the VNS algorithm
+            /// 
             public virtual object init() {
                 _k_current = this.k_min;
                 this.currentSolution.InitRandom(this.TargetProblem);
                 this.currentSolution.evaluate(this.TargetProblem);
-                this.copy_to_best_solution(this.currentSolution);
+                this.copy_to_bestSolution(this.currentSolution);
             }
             
             /// 
-            ///         One iteration within main loop of the VNS algorithm
-            ///         
+            /// One iteration within main loop of the VNS algorithm
+            /// 
             public virtual object main_loop_iteration() {
-                this.write_outputValues_if_needed("before_step_in_iteration", "shaking");
+                this.write_outputValues_if_needed("beforeStepInIteration", "shaking");
                 if (!_shaking_method(_k_current, this.TargetProblem, this.currentSolution, this)) {
-                    this.write_outputValues_if_needed("after_step_in_iteration", "shaking");
+                    this.write_outputValues_if_needed("afterStepInIteration", "shaking");
                     return false;
                 }
-                this.write_outputValues_if_needed("after_step_in_iteration", "shaking");
+                this.write_outputValues_if_needed("afterStepInIteration", "shaking");
                 this.iteration += 1;
                 while (_k_current <= _k_max) {
-                    this.write_outputValues_if_needed("before_step_in_iteration", "ls");
+                    this.write_outputValues_if_needed("beforeStepInIteration", "ls");
                     this.currentSolution = _ls_method(_k_current, this.TargetProblem, this.currentSolution, this);
-                    this.write_outputValues_if_needed("after_step_in_iteration", "ls");
+                    this.write_outputValues_if_needed("afterStepInIteration", "ls");
                     /// update auxiliary structure that keeps all solution codes
                     this.additional_statistics_control.add_to_all_solution_codes_if_required(this.currentSolution.stringRepresentation());
-                    this.additional_statistics_control.add_to_more_local_optima_if_required(this.currentSolution.stringRepresentation(), this.currentSolution.fitnessValue, this.best_solution.stringRepresentation());
-                    var new_is_better = this.is_first_solution_better(this.currentSolution, this.best_solution);
+                    this.additional_statistics_control.add_to_more_local_optima_if_required(this.currentSolution.stringRepresentation(), this.currentSolution.fitnessValue, this.bestSolution.stringRepresentation());
+                    var new_is_better = this.is_first_solution_better(this.currentSolution, this.bestSolution);
                     var make_move = new_is_better;
                     if (new_is_better is null) {
-                        if (this.currentSolution.stringRepresentation() == this.best_solution.stringRepresentation()) {
+                        if (this.currentSolution.stringRepresentation() == this.bestSolution.stringRepresentation()) {
                             make_move = false;
                         } else {
                             logger.debug("VnsOptimizer::main_loop_iteration: Same solution quality, generating random true with probability 0.5");
@@ -279,7 +279,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
                         }
                     }
                     if (make_move) {
-                        this.copy_to_best_solution(this.currentSolution);
+                        this.copy_to_bestSolution(this.currentSolution);
                         _k_current = this.k_min;
                     } else {
                         _k_current += 1;
@@ -288,21 +288,21 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             }
             
             /// 
-            ///         String representation of the `VnsOptimizer` instance
+            /// String representation of the `VnsOptimizer` instance
             /// 
-            ///         :param delimiter: delimiter between fields
-            ///         :type delimiter: str
-            ///         :param indentation: level of indentation
-            ///         :type indentation: int, optional, default value 0
-            ///         :param indentationSymbol: indentation symbol
-            ///         :type indentationSymbol: str, optional, default value ''
-            ///         :param groupStart: group start string 
-            ///         :type groupStart: str, optional, default value '{'
-            ///         :param groupEnd: group end string 
-            ///         :type groupEnd: str, optional, default value '}'
-            ///         :return: string representation of instance that controls output
-            ///         return type str
-            ///         
+            /// :param delimiter: delimiter between fields
+            /// :type delimiter: str
+            /// :param indentation: level of indentation
+            /// :type indentation: int, optional, default value 0
+            /// :param indentationSymbol: indentation symbol
+            /// :type indentationSymbol: str, optional, default value ''
+            /// :param groupStart: group start string 
+            /// :type groupStart: str, optional, default value '{'
+            /// :param groupEnd: group end string 
+            /// :type groupEnd: str, optional, default value '}'
+            /// :return: string representation of instance that controls output
+            /// return type str
+            /// 
             public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
@@ -343,34 +343,34 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             }
             
             /// 
-            ///         String representation of the `VnsOptimizer` instance
+            /// String representation of the `VnsOptimizer` instance
             /// 
-            ///         :return: string representation of the `VnsOptimizer` instance
-            ///         return type str
-            ///         
+            /// :return: string representation of the `VnsOptimizer` instance
+            /// return type str
+            /// 
             public override string ToString() {
                 var s = this.stringRep("|");
                 return s;
             }
             
             /// 
-            ///         String representation of the `VnsOptimizer` instance
+            /// String representation of the `VnsOptimizer` instance
             /// 
-            ///         :return: string representation of the `VnsOptimizer` instance
-            ///         return type str
-            ///         
+            /// :return: string representation of the `VnsOptimizer` instance
+            /// return type str
+            /// 
             public virtual string _repr__() {
                 var s = this.stringRep("\n");
                 return s;
             }
             
             /// 
-            ///         Formatted the VnsOptimizer instance
+            /// Formatted the VnsOptimizer instance
             /// 
-            ///         :param spec: str -- format specification 
-            ///         :return: formatted `VnsOptimizer` instance
-            ///         return type str
-            ///         
+            /// :param spec: str -- format specification 
+            /// :return: formatted `VnsOptimizer` instance
+            /// return type str
+            /// 
             public virtual string _format__(string spec) {
                 return this.StringRep("\n", 0, "   ", "{", "}");
             }

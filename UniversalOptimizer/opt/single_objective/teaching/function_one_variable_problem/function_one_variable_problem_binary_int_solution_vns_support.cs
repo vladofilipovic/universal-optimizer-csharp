@@ -1,108 +1,129 @@
-namespace single_objective.teaching.function_one_variable_problem {
-    
+namespace UniversalOptimizer.opt.single_objective.teaching
+{
+
     using sys;
-    
+
     using Path = pathlib.Path;
-    
+
     using deepcopy = copy.deepcopy;
-    
+
     using choice = random.choice;
-    
+
     using randint = random.randint;
-    
+
     using logger = uo.utils.logger.logger;
-    
+
     using ComplexCounterUniformAscending = uo.utils.complex_counter_uniform_distinct.ComplexCounterUniformAscending;
-    
+
     using QualityOfSolution = uo.TargetSolution.TargetSolution.QualityOfSolution;
-    
+
     using Algorithm = uo.Algorithm.algorithm.Algorithm;
-    
+
     using ProblemSolutionVnsSupport = uo.Algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
-    
-    using FunctionOneVariableProblem = opt.single_objective.teaching.function_one_variable_problem.function_one_variable_problem.FunctionOneVariableProblem;
-    
-    using FunctionOneVariableProblemBinaryIntSolution = opt.single_objective.teaching.function_one_variable_problem.function_one_variable_problem_binary_int_solution.FunctionOneVariableProblemBinaryIntSolution;
-    
+
+    using FunctionOneVariableProblem = teaching.function_one_variable_problem.function_one_variable_problem.FunctionOneVariableProblem;
+
+    using FunctionOneVariableProblemBinaryIntSolution = teaching.function_one_variable_problem.function_one_variable_problem_binary_int_solution.FunctionOneVariableProblemBinaryIntSolution;
+
     using System.Collections.Generic;
-    
+
     using System;
-    
+
     using System.Linq;
-    
-    public static class function_one_variable_problem_binary_int_solution_vns_support {
-        
+
+    public static class function_one_variable_problem_binary_int_solution_vns_support
+    {
+
         public static object directory = Path(_file__).resolve();
-        
-        static function_one_variable_problem_binary_int_solution_vns_support() {
+
+        static function_one_variable_problem_binary_int_solution_vns_support()
+        {
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent);
             sys.path.append(directory.parent.parent.parent);
             sys.path.append(directory.parent.parent.parent.parent);
             sys.path.append(directory.parent.parent.parent.parent.parent);
         }
-        
+
         public class FunctionOneVariableProblemBinaryIntSolutionVnsSupport
-            : ProblemSolutionVnsSupport[intfloat] {
-            
-            public FunctionOneVariableProblemBinaryIntSolutionVnsSupport() {
+            : ProblemSolutionVnsSupport[intfloat]
+        {
+
+            public FunctionOneVariableProblemBinaryIntSolutionVnsSupport()
+            {
                 return;
             }
-            
-            public virtual void _copy__() {
+
+            public virtual void _copy__()
+            {
                 var sup = deepcopy(this);
                 return sup;
             }
-            
-            public virtual object copy() {
+
+            public virtual object copy()
+            {
                 return _copy__();
             }
-            
-            public virtual bool shaking(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+
+            public virtual bool shaking(int k, object problem, object solution, object optimizer)
+            {
+                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                {
                     return false;
                 }
                 var tries = 0;
                 var limit = 10000;
                 var representation_length = 32;
-                while (tries < limit) {
+                while (tries < limit)
+                {
                     var positions = new List<object>();
-                    foreach (var i in Enumerable.Range(0, k - 0)) {
+                    foreach (var i in Enumerable.Range(0, k - 0))
+                    {
                         positions.append(choice(Enumerable.Range(0, representation_length)));
                     }
                     var mask = 0;
-                    foreach (var p in positions) {
+                    foreach (var p in positions)
+                    {
                         mask |= 1 << p;
                     }
                     solution.representation ^= mask;
                     var all_ok = true;
-                    if (solution.representation.bit_count() > representation_length) {
+                    if (solution.representation.bit_count() > representation_length)
+                    {
                         all_ok = false;
                     }
-                    if (all_ok) {
+                    if (all_ok)
+                    {
                         break;
                     }
                 }
-                if (tries < limit) {
+                if (tries < limit)
+                {
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                    {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("before_evaluation", "b_e");
+                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
                     solution.evaluate(problem);
-                    optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
+                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
                     return true;
-                } else {
+                }
+                else
+                {
                     return false;
                 }
             }
-            
-            public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer) {
+
+            public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer)
+            {
                 var representation_length = 32;
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                {
                     return solution;
                 }
-                if (k < 1 || k > representation_length) {
+                if (k < 1 || k > representation_length)
+                {
                     return solution;
                 }
                 object best_rep = null;
@@ -110,23 +131,27 @@ namespace single_objective.teaching.function_one_variable_problem {
                 /// initialize indexes
                 var indexes = ComplexCounterUniformAscending(k, representation_length);
                 var in_loop = indexes.reset();
-                while (in_loop) {
+                while (in_loop)
+                {
                     /// collect positions for inversion from indexes
                     var positions = indexes.current_state();
                     /// invert and compare, switch of new is better
                     var mask = 0;
-                    foreach (var i in positions) {
+                    foreach (var i in positions)
+                    {
                         mask |= 1 << i;
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                    {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("before_evaluation", "b_e");
+                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
                     var new_triplet = solution.CalculateQuality(problem);
-                    optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
-                    if (new_triplet.fitnessValue > best_triplet.fitnessValue) {
+                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                    if (new_triplet.fitnessValue > best_triplet.fitnessValue)
+                    {
                         best_triplet = new_triplet;
                         best_rep = solution.representation;
                     }
@@ -134,7 +159,8 @@ namespace single_objective.teaching.function_one_variable_problem {
                     /// increment indexes and set in_loop accordingly
                     in_loop = indexes.progress();
                 }
-                if (best_rep is not null) {
+                if (best_rep is not null)
+                {
                     solution.representation = best_rep;
                     solution.objectiveValue = best_triplet.objectiveValue;
                     solution.fitnessValue = best_triplet.fitnessValue;
@@ -143,36 +169,43 @@ namespace single_objective.teaching.function_one_variable_problem {
                 }
                 return solution;
             }
-            
-            public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer) {
+
+            public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer)
+            {
                 var representation_length = 32;
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                {
                     return solution;
                 }
-                if (k < 1 || k > representation_length) {
+                if (k < 1 || k > representation_length)
+                {
                     return solution;
                 }
                 var best_fv = solution.fitnessValue;
                 /// initialize indexes
                 var indexes = ComplexCounterUniformAscending(k, representation_length);
                 var in_loop = indexes.reset();
-                while (in_loop) {
+                while (in_loop)
+                {
                     /// collect positions for inversion from indexes
                     var positions = indexes.current_state();
                     /// invert and compare, switch and exit if new is better
                     var mask = 0;
-                    foreach (var i in positions) {
+                    foreach (var i in positions)
+                    {
                         mask |= 1 << i;
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                    {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("before_evaluation", "b_e");
+                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
                     var new_triplet = solution.CalculateQuality(problem);
-                    optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
-                    if (new_triplet.fitnessValue > best_fv) {
+                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                    if (new_triplet.fitnessValue > best_fv)
+                    {
                         solution.fitnessValue = new_triplet.fitnessValue;
                         solution.objectiveValue = new_triplet.objectiveValue;
                         solution.isFeasible = new_triplet.isFeasible;
@@ -184,26 +217,30 @@ namespace single_objective.teaching.function_one_variable_problem {
                 }
                 return solution;
             }
-            
+
             public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",
                 string groupStart = "{",
-                string groupEnd = "}") {
+                string groupEnd = "}")
+            {
                 return "FunctionOneVariableProblemBinaryIntSolutionVnsSupport";
             }
-            
-            public override string ToString() {
-                return this.StringRep("|");
+
+            public override string ToString()
+            {
+                return StringRep("|");
             }
-            
-            public virtual string _repr__() {
-                return this.StringRep("\n");
+
+            public virtual string _repr__()
+            {
+                return StringRep("\n");
             }
-            
-            public virtual string _format__(string spec) {
-                return this.StringRep("|");
+
+            public virtual string _format__(string spec)
+            {
+                return StringRep("|");
             }
         }
     }

@@ -33,11 +33,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Helper function that determines which criteria should be checked during
+            /// Helper function that determines which criteria should be checked during
             /// 
-            ///         :param str keep: comma-separated list of values that should be kept 
-            ///         (currently keep contains strings `all_solution_code`, `more_local_optima`) 
-            ///         
+            /// :param str keep: comma-separated list of values that should be kept 
+            /// (currently keep contains strings `all_solution_code`, `more_local_optima`) 
+            /// 
             public virtual void _determine_keep_helper__(string keep) {
                 _keep_all_solution_codes = false;
                 _keep_more_local_optima = false;
@@ -71,11 +71,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Property getter for maximum number of local optima that will be kept
+            /// Property getter for maximum number of local optima that will be kept
             /// 
-            ///         :return: maximum number of local optima that will be kept
-            ///         return type int
-            ///         
+            /// :return: maximum number of local optima that will be kept
+            /// return type int
+            /// 
             public object max_local_optima {
                 get {
                     return _max_local_optima;
@@ -83,14 +83,14 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Property getter for keep property 
+            /// Property getter for keep property 
             /// 
-            ///         :return: comma-separated list of values vo be kept
-            ///         return type str
-            ///         
+            /// :return: comma-separated list of values vo be kept
+            /// return type str
             /// 
-            ///         Property setter for the keep property 
-            ///         
+            /// 
+            /// Property setter for the keep property 
+            /// 
             public object keep {
                 get {
                     var ret = "";
@@ -109,11 +109,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Property getter for property if all solution codes to be kept
+            /// Property getter for property if all solution codes to be kept
             /// 
-            ///         :return: if all solution codes to be kept
-            ///         return type bool
-            ///         
+            /// :return: if all solution codes to be kept
+            /// return type bool
+            /// 
             public object keep_all_solution_codes {
                 get {
                     return _keep_all_solution_codes;
@@ -121,11 +121,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Property getter for decision if more local optima should be kept
+            /// Property getter for decision if more local optima should be kept
             /// 
-            ///         :return: if more local optima should be kept
-            ///         return type bool
-            ///         
+            /// :return: if more local optima should be kept
+            /// return type bool
+            /// 
             public object keep_more_local_optima {
                 get {
                     return _keep_more_local_optima;
@@ -133,12 +133,12 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Filling all solution code, if necessary 
+            /// Filling all solution code, if necessary 
             /// 
-            ///         :param representation: solution representation to be inserted into all solution code
-            ///         :type representation: str
-            ///         return type None
-            ///         
+            /// :param representation: solution representation to be inserted into all solution code
+            /// :type representation: str
+            /// return type None
+            /// 
             public virtual object add_to_all_solution_codes_if_required(string representation) {
                 if (this.keep_all_solution_codes) {
                     AdditionalStatisticsControl.all_solution_codes.add(representation);
@@ -146,15 +146,15 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Add solution to the local optima structure 
+            /// Add solution to the local optima structure 
             /// 
-            ///         :param str solution_to_add_rep: string representation of the solution to be added to local optima structure
-            ///         :param float solution_to_add_fitness: fitness value of the solution to be added to local optima structure
-            ///         :param str best_solution_rep: string representation of the best solution so far
-            ///         :return:  if adding is successful e.g. currentSolution is new element in the structure
-            ///         return type bool
-            ///         
-            public virtual bool add_to_more_local_optima_if_required(string solution_to_add_rep, object solution_to_add_fitness, string best_solution_rep) {
+            /// :param str solution_to_add_rep: string representation of the solution to be added to local optima structure
+            /// :param float solution_to_add_fitness: fitness value of the solution to be added to local optima structure
+            /// :param str bestSolution_rep: string representation of the best solution so far
+            /// :return:  if adding is successful e.g. currentSolution is new element in the structure
+            /// return type bool
+            /// 
+            public virtual bool add_to_more_local_optima_if_required(string solution_to_add_rep, object solution_to_add_fitness, string bestSolution_rep) {
                 if (!this.keep_more_local_optima) {
                     return false;
                 }
@@ -165,7 +165,7 @@ namespace uo.Algorithm.Metaheuristic {
                     /// removing random, just taking care not to remove the best ones
                     while (true) {
                         var code = random.choice(AdditionalStatisticsControl.more_local_optima.keys());
-                        if (code != best_solution_rep) {
+                        if (code != bestSolution_rep) {
                             AdditionalStatisticsControl.more_local_optima.Remove(code);
                             break;
                         }
@@ -176,21 +176,21 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         String representation of the target solution instance
+            /// String representation of the target solution instance
             /// 
-            ///         :param delimiter: delimiter between fields
-            ///         :type delimiter: str
-            ///         :param indentation: level of indentation
-            ///         :type indentation: int, optional, default value 0
-            ///         :param indentationSymbol: indentation symbol
-            ///         :type indentationSymbol: str, optional, default value ''
-            ///         :param groupStart: group start string 
-            ///         :type groupStart: str, optional, default value '{'
-            ///         :param groupEnd: group end string 
-            ///         :type groupEnd: str, optional, default value '}'
-            ///         :return: string representation of instance that controls output
-            ///         return type str
-            ///         
+            /// :param delimiter: delimiter between fields
+            /// :type delimiter: str
+            /// :param indentation: level of indentation
+            /// :type indentation: int, optional, default value 0
+            /// :param indentationSymbol: indentation symbol
+            /// :type indentationSymbol: str, optional, default value ''
+            /// :param groupStart: group start string 
+            /// :type groupStart: str, optional, default value '{'
+            /// :param groupEnd: group end string 
+            /// :type groupEnd: str, optional, default value '}'
+            /// :return: string representation of instance that controls output
+            /// return type str
+            /// 
             public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
@@ -227,32 +227,32 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         String representation of the cache control and statistics structure
+            /// String representation of the cache control and statistics structure
             /// 
-            ///         :return: string representation of the cache control and statistics structure
-            ///         return type str
-            ///         
+            /// :return: string representation of the cache control and statistics structure
+            /// return type str
+            /// 
             public override string ToString() {
                 return this.StringRep("|");
             }
             
             /// 
-            ///         Representation of the cache control and statistics structure
+            /// Representation of the cache control and statistics structure
             /// 
-            ///         :return: string representation of cache control and statistics structure
-            ///         return type str
-            ///         
+            /// :return: string representation of cache control and statistics structure
+            /// return type str
+            /// 
             public virtual string _repr__() {
                 return this.StringRep("\n");
             }
             
             /// 
-            ///         Formatted the cache control and statistics structure
+            /// Formatted the cache control and statistics structure
             /// 
-            ///         :param str spec: format specification
-            ///         :return: formatted cache control and statistics structure
-            ///         return type str
-            ///         
+            /// :param str spec: format specification
+            /// :return: formatted cache control and statistics structure
+            /// return type str
+            /// 
             public virtual string _format__(string spec) {
                 return this.StringRep("|");
             }

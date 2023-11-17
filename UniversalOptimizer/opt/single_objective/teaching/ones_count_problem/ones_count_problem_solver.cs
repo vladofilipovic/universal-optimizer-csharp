@@ -163,20 +163,20 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Additional constructor. Create new `OnesCountProblemSolver` instance from construction parameters
+            /// Additional constructor. Create new `OnesCountProblemSolver` instance from construction parameters
             /// 
-            ///         :param `MaxOneProblemSolverConstructionParameters` construction_params: parameters for construction 
-            ///         
+            /// :param `MaxOneProblemSolverConstructionParameters` construction_params: parameters for construction 
+            /// 
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_params = null) {
                 return cls(method: construction_params.method, finish_control: construction_params.finish_control, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initial_solution: construction_params.initial_solution, vns_problem_solution_support: construction_params.vns_problem_solution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additional_statistics_control: construction_params.vns_additional_statistics_control, vns_k_min: construction_params.vns_k_min, vns_k_max: construction_params.vns_k_max, vns_local_search_type: construction_params.vns_local_search_type, te_problem_solution_support: construction_params.te_problem_solution_support);
             }
             
             /// 
-            ///         Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Variable Neighborhood Search`
+            /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Variable Neighborhood Search`
             /// 
-            ///         :param VnsOptimizerConstructionParameters vns_construction_params: construction parameters 
-            ///         
+            /// :param VnsOptimizerConstructionParameters vns_construction_params: construction parameters 
+            /// 
             [classmethod]
             public static void from_variable_neighborhood_search(object cls, object vns_construction_params = null) {
                 var @params = new MaxOneProblemSolverConstructionParameters();
@@ -195,10 +195,10 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Total Enumeration`
+            /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Total Enumeration`
             /// 
-            ///         :param TeOptimizerConstructionParameters te_construction_params: construction parameters 
-            ///         
+            /// :param TeOptimizerConstructionParameters te_construction_params: construction parameters 
+            /// 
             [classmethod]
             public static void from_total_enumeration(object cls, object te_construction_params = null) {
                 var @params = new MaxOneProblemSolverConstructionParameters();
@@ -211,10 +211,10 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Integer Linear Programming`
+            /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Integer Linear Programming`
             /// 
-            ///         :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` ilp_construction_params: construction parameters 
-            ///         
+            /// :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` ilp_construction_params: construction parameters 
+            /// 
             [classmethod]
             public static void from_integer_linear_programming(object cls, object ilp_construction_params = null) {
                 var @params = new MaxOneProblemSolverConstructionParameters();
@@ -225,11 +225,11 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Property getter for the optimizer used for solving
+            /// Property getter for the optimizer used for solving
             /// 
-            ///         :return: optimizer
-            ///         return type `Optimizer`
-            ///         
+            /// :return: optimizer
+            /// return type `Optimizer`
+            /// 
             public object opt {
                 get {
                     return _optimizer;

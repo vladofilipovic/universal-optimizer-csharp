@@ -57,37 +57,37 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Internal copy of the `OnesCountProblemBinaryIntSolutionVnsSupport`
+            /// Internal copy of the `OnesCountProblemBinaryIntSolutionVnsSupport`
             /// 
-            ///         :return: new `OnesCountProblemBinaryIntSolutionVnsSupport` instance with the same properties
-            ///         return type OnesCountProblemBinaryIntSolutionVnsSupport
-            ///         
+            /// :return: new `OnesCountProblemBinaryIntSolutionVnsSupport` instance with the same properties
+            /// return type OnesCountProblemBinaryIntSolutionVnsSupport
+            /// 
             public virtual void _copy__() {
                 var sup = deepcopy(this);
                 return sup;
             }
             
             /// 
-            ///         Copy the `OnesCountProblemBinaryIntSolutionVnsSupport`
-            ///         
-            ///         :return: new `OnesCountProblemBinaryIntSolutionVnsSupport` instance with the same properties
-            ///         return type `OnesCountProblemBinaryIntSolutionVnsSupport`
-            ///         
+            /// Copy the `OnesCountProblemBinaryIntSolutionVnsSupport`
+            /// 
+            /// :return: new `OnesCountProblemBinaryIntSolutionVnsSupport` instance with the same properties
+            /// return type `OnesCountProblemBinaryIntSolutionVnsSupport`
+            /// 
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Random VNS shaking of k parts such that new solution code does not differ more than k from all solution codes 
-            ///         inside shakingPoints 
+            /// Random VNS shaking of k parts such that new solution code does not differ more than k from all solution codes 
+            /// inside shakingPoints 
             /// 
-            ///         :param int k: int parameter for VNS
-            ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryIntSolution` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         :return: if shaking is successful
-            ///         return type bool
-            ///         
+            /// :param int k: int parameter for VNS
+            /// :param `OnesCountProblem` problem: problem that is solved
+            /// :param `OnesCountProblemBinaryIntSolution` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// :return: if shaking is successful
+            /// return type bool
+            /// 
             public virtual bool shaking(int k, object problem, object solution, object optimizer) {
                 if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                     return false;
@@ -117,9 +117,9 @@ namespace single_objective.teaching.ones_count_problem {
                     if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("before_evaluation", "b_e");
+                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
                     solution.evaluate(problem);
-                    optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
+                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
                     return true;
                 } else {
                     return false;
@@ -127,15 +127,15 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Executes "best improvement" variant of the local search procedure 
-            ///         
-            ///         :param int k: int parameter for VNS
-            ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryIntSolution` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         :return: result of the local search procedure 
-            ///         return type OnesCountProblemBinaryIntSolution
-            ///         
+            /// Executes "best improvement" variant of the local search procedure 
+            /// 
+            /// :param int k: int parameter for VNS
+            /// :param `OnesCountProblem` problem: problem that is solved
+            /// :param `OnesCountProblemBinaryIntSolution` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// :return: result of the local search procedure 
+            /// return type OnesCountProblemBinaryIntSolution
+            /// 
             public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer) {
                 if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                     return solution;
@@ -161,9 +161,9 @@ namespace single_objective.teaching.ones_count_problem {
                     if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("before_evaluation", "b_e");
+                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
                     var new_triplet = solution.CalculateQuality(problem);
-                    optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
+                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
                     if (new_triplet.fitnessValue > best_triplet.fitnessValue) {
                         best_triplet = new_triplet;
                         best_rep = solution.representation;
@@ -183,15 +183,15 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Executes "first improvement" variant of the local search procedure 
-            ///         
-            ///         :param int k: int parameter for VNS
-            ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryIntSolution` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         :return: result of the local search procedure 
-            ///         return type OnesCountProblemBinaryIntSolution
-            ///         
+            /// Executes "first improvement" variant of the local search procedure 
+            /// 
+            /// :param int k: int parameter for VNS
+            /// :param `OnesCountProblem` problem: problem that is solved
+            /// :param `OnesCountProblemBinaryIntSolution` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// :return: result of the local search procedure 
+            /// return type OnesCountProblemBinaryIntSolution
+            /// 
             public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer) {
                 if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                     return solution;
@@ -216,9 +216,9 @@ namespace single_objective.teaching.ones_count_problem {
                     if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("before_evaluation", "b_e");
+                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
                     var new_triplet = solution.CalculateQuality(problem);
-                    optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
+                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
                     if (new_triplet.fitnessValue > best_fv) {
                         solution.fitnessValue = new_triplet.fitnessValue;
                         solution.objectiveValue = new_triplet.objectiveValue;
@@ -233,21 +233,21 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         String representation of the vns support instance
+            /// String representation of the vns support instance
             /// 
-            ///         :param delimiter: delimiter between fields
-            ///         :type delimiter: str
-            ///         :param indentation: level of indentation
-            ///         :type indentation: int, optional, default value 0
-            ///         :param indentationSymbol: indentation symbol
-            ///         :type indentationSymbol: str, optional, default value ''
-            ///         :param groupStart: group start string 
-            ///         :type groupStart: str, optional, default value '{'
-            ///         :param groupEnd: group end string 
-            ///         :type groupEnd: str, optional, default value '}'
-            ///         :return: string representation of vns support instance
-            ///         return type str
-            ///         
+            /// :param delimiter: delimiter between fields
+            /// :type delimiter: str
+            /// :param indentation: level of indentation
+            /// :type indentation: int, optional, default value 0
+            /// :param indentationSymbol: indentation symbol
+            /// :type indentationSymbol: str, optional, default value ''
+            /// :param groupStart: group start string 
+            /// :type groupStart: str, optional, default value '{'
+            /// :param groupEnd: group end string 
+            /// :type groupEnd: str, optional, default value '}'
+            /// :return: string representation of vns support instance
+            /// return type str
+            /// 
             public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
@@ -258,32 +258,32 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         String representation of the vns support instance
+            /// String representation of the vns support instance
             /// 
-            ///         :return: string representation of the vns support instance
-            ///         return type str
-            ///         
+            /// :return: string representation of the vns support instance
+            /// return type str
+            /// 
             public override string ToString() {
                 return this.StringRep("|");
             }
             
             /// 
-            ///         Representation of the vns support instance
+            /// Representation of the vns support instance
             /// 
-            ///         :return: string representation of the vns support instance
-            ///         return type str
-            ///         
+            /// :return: string representation of the vns support instance
+            /// return type str
+            /// 
             public virtual string _repr__() {
                 return this.StringRep("\n");
             }
             
             /// 
-            ///         Formatted the vns support instance
+            /// Formatted the vns support instance
             /// 
-            ///         :param str spec: format specification
-            ///         :return: formatted vns support instance
-            ///         return type str
-            ///         
+            /// :param str spec: format specification
+            /// :return: formatted vns support instance
+            /// return type str
+            /// 
             public virtual string _format__(string spec) {
                 return this.StringRep("|");
             }

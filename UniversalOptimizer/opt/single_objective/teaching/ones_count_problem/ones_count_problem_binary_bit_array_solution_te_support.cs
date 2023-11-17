@@ -64,103 +64,103 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Internal copy of the `OnesCountProblemBinaryBitArraySolutionTeSupport`
+            /// Internal copy of the `OnesCountProblemBinaryBitArraySolutionTeSupport`
             /// 
-            ///         :return: new `OnesCountProblemBinaryBitArraySolutionTeSupport` instance with the same properties
-            ///         return type `OnesCountProblemBinaryBitArraySolutionTeSupport`
-            ///         
+            /// :return: new `OnesCountProblemBinaryBitArraySolutionTeSupport` instance with the same properties
+            /// return type `OnesCountProblemBinaryBitArraySolutionTeSupport`
+            /// 
             public virtual void _copy__() {
                 var sol = deepcopy(this);
                 return sol;
             }
             
             /// 
-            ///         Copy the `OnesCountProblemBinaryBitArraySolutionTeSupport` instance
+            /// Copy the `OnesCountProblemBinaryBitArraySolutionTeSupport` instance
             /// 
-            ///         :return: new `OnesCountProblemBinaryBitArraySolutionTeSupport` instance with the same properties
-            ///         return type `OnesCountProblemBinaryBitArraySolutionTeSupport`
-            ///         
+            /// :return: new `OnesCountProblemBinaryBitArraySolutionTeSupport` instance with the same properties
+            /// return type `OnesCountProblemBinaryBitArraySolutionTeSupport`
+            /// 
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Resets internal counter of the total enumerator, so process will start over. Internal state of the solution 
-            ///         will be set to reflect reset operation. 
+            /// Resets internal counter of the total enumerator, so process will start over. Internal state of the solution 
+            /// will be set to reflect reset operation. 
             /// 
-            ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         
+            /// :param `OnesCountProblem` problem: problem that is solved
+            /// :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// 
             public virtual object reset(object problem, object solution, object optimizer) {
                 _bit_array_counter = ComplexCounterBitArrayFull(problem.dimension);
                 _bit_array_counter.reset();
                 solution.InitFrom(_bit_array_counter.current_state(), problem);
-                optimizer.write_outputValues_if_needed("before_evaluation", "b_e");
+                optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
                 optimizer.evaluation += 1;
                 solution.evaluate(problem);
-                optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
+                optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
             }
             
             /// 
-            ///         Progress internal counter of the total enumerator, so next configuration will be taken into consideration. 
-            ///         Internal state of the solution will be set to reflect progress operation.  
+            /// Progress internal counter of the total enumerator, so next configuration will be taken into consideration. 
+            /// Internal state of the solution will be set to reflect progress operation.  
             /// 
-            ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         
+            /// :param `OnesCountProblem` problem: problem that is solved
+            /// :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// 
             public virtual object progress(object problem, object solution, object optimizer) {
                 _bit_array_counter.progress();
                 solution.InitFrom(_bit_array_counter.current_state(), problem);
-                optimizer.write_outputValues_if_needed("before_evaluation", "b_e");
+                optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
                 optimizer.evaluation += 1;
                 solution.evaluate(problem);
-                optimizer.write_outputValues_if_needed("after_evaluation", "a_e");
+                optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
             }
             
             /// 
-            ///         Check if total enumeration process is not at end.  
+            /// Check if total enumeration process is not at end.  
             /// 
-            ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         :return: indicator if total enumeration process is not at end 
-            ///         return type bool
-            ///         
+            /// :param `OnesCountProblem` problem: problem that is solved
+            /// :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// :return: indicator if total enumeration process is not at end 
+            /// return type bool
+            /// 
             public virtual bool can_progress(object problem, object solution, object optimizer) {
                 return _bit_array_counter.can_progress();
             }
             
             /// 
-            ///         Returns overall number of evaluations required for finishing total enumeration process.  
+            /// Returns overall number of evaluations required for finishing total enumeration process.  
             /// 
-            ///         :param `OnesCountProblem` problem: problem that is solved
-            ///         :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         :return: overall number of evaluations required for finishing total enumeration process
-            ///         return type int
-            ///         
+            /// :param `OnesCountProblem` problem: problem that is solved
+            /// :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// :return: overall number of evaluations required for finishing total enumeration process
+            /// return type int
+            /// 
             public virtual int overall_number_of_evaluations(object problem, object solution, object optimizer) {
                 return pow(2, problem.dimension);
             }
             
             /// 
-            ///         String representation of the te support structure
+            /// String representation of the te support structure
             /// 
-            ///         :param delimiter: delimiter between fields
-            ///         :type delimiter: str
-            ///         :param indentation: level of indentation
-            ///         :type indentation: int, optional, default value 0
-            ///         :param indentationSymbol: indentation symbol
-            ///         :type indentationSymbol: str, optional, default value ''
-            ///         :param groupStart: group start string 
-            ///         :type groupStart: str, optional, default value '{'
-            ///         :param groupEnd: group end string 
-            ///         :type groupEnd: str, optional, default value '}'
-            ///         :return: string representation of vns support instance
-            ///         return type str
-            ///         
+            /// :param delimiter: delimiter between fields
+            /// :type delimiter: str
+            /// :param indentation: level of indentation
+            /// :type indentation: int, optional, default value 0
+            /// :param indentationSymbol: indentation symbol
+            /// :type indentationSymbol: str, optional, default value ''
+            /// :param groupStart: group start string 
+            /// :type groupStart: str, optional, default value '{'
+            /// :param groupEnd: group end string 
+            /// :type groupEnd: str, optional, default value '}'
+            /// :return: string representation of vns support instance
+            /// return type str
+            /// 
             public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
@@ -171,32 +171,32 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         String representation of the te support instance
+            /// String representation of the te support instance
             /// 
-            ///         :return: string representation of the te support instance
-            ///         return type str
-            ///         
+            /// :return: string representation of the te support instance
+            /// return type str
+            /// 
             public override string ToString() {
                 return this.StringRep("|");
             }
             
             /// 
-            ///         Representation of the te support instance
+            /// Representation of the te support instance
             /// 
-            ///         :return: string representation of the te support instance
-            ///         return type str
-            ///         
+            /// :return: string representation of the te support instance
+            /// return type str
+            /// 
             public virtual string _repr__() {
                 return this.StringRep("\n");
             }
             
             /// 
-            ///         Formatted the te support instance
+            /// Formatted the te support instance
             /// 
-            ///         :param str spec: format specification
-            ///         :return: formatted te support instance
-            ///         return type str
-            ///         
+            /// :param str spec: format specification
+            /// :return: formatted te support instance
+            /// return type str
+            /// 
             public virtual string _format__(string spec) {
                 return this.StringRep("|");
             }

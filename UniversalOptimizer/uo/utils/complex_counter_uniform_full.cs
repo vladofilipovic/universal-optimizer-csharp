@@ -45,42 +45,42 @@ namespace utils {
             }
             
             /// 
-            ///         Internal copy of the current complex counter
+            /// Internal copy of the current complex counter
             /// 
-            ///         :return:  new `ComplexCounterUniformFull` instance with the same properties
-            ///         return type :class:`uo.utils.ComplexCounterUniformFull`
-            ///         
+            /// :return:  new `ComplexCounterUniformFull` instance with the same properties
+            /// return type :class:`uo.utils.ComplexCounterUniformFull`
+            /// 
             public virtual void _copy__() {
                 var cc = deepcopy(this);
                 return cc;
             }
             
             /// 
-            ///         Copy the current complex counter
+            /// Copy the current complex counter
             /// 
-            ///         :return:  new `ComplexCounterUniformFull` instance with the same properties
-            ///         return type :class:`uo.utils.ComplexCounterUniformFull`
-            ///         
+            /// :return:  new `ComplexCounterUniformFull` instance with the same properties
+            /// return type :class:`uo.utils.ComplexCounterUniformFull`
+            /// 
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Returns current state of the complex counter
+            /// Returns current state of the complex counter
             /// 
-            ///         :return: current state of the complex counter
-            ///         return type list[int]
-            ///         
+            /// :return: current state of the complex counter
+            /// return type list[int]
+            /// 
             public virtual object current_state() {
                 return _counters;
             }
             
             /// 
-            ///         Resets the complex counter to its initial position.
+            /// Resets the complex counter to its initial position.
             /// 
-            ///         :return: if progress is possible after resetting
-            ///         return type bool
-            ///         
+            /// :return: if progress is possible after resetting
+            /// return type bool
+            /// 
             public virtual bool reset() {
                 foreach (var i in Enumerable.Range(0, _number_of_counters)) {
                     _counters[i] = 0;
@@ -89,11 +89,11 @@ namespace utils {
             }
             
             /// 
-            ///         Make the progress to the complex counter. At the same time, determine if complex counter can progress.
+            /// Make the progress to the complex counter. At the same time, determine if complex counter can progress.
             /// 
-            ///         :return: if progress is successful
-            ///         return type bool
-            ///         
+            /// :return: if progress is successful
+            /// return type bool
+            /// 
             public virtual bool progress() {
                 var finish = true;
                 foreach (var i in Enumerable.Range(0, _number_of_counters - 0)) {

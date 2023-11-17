@@ -54,40 +54,40 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Internal copy of the `OnesCountProblemBinaryIntSolution`
+            /// Internal copy of the `OnesCountProblemBinaryIntSolution`
             /// 
-            ///         :return: new `OnesCountProblemBinaryIntSolution` instance with the same properties
-            ///         return type OnesCountProblemBinaryIntSolution
-            ///         
+            /// :return: new `OnesCountProblemBinaryIntSolution` instance with the same properties
+            /// return type OnesCountProblemBinaryIntSolution
+            /// 
             public virtual void _copy__() {
                 var sol = deepcopy(this);
                 return sol;
             }
             
             /// 
-            ///         Copy the `OnesCountProblemBinaryIntSolution`
-            ///         
-            ///         :return: new `OnesCountProblemBinaryIntSolution` instance with the same properties
-            ///         return type `OnesCountProblemBinaryIntSolution`
-            ///         
+            /// Copy the `OnesCountProblemBinaryIntSolution`
+            /// 
+            /// :return: new `OnesCountProblemBinaryIntSolution` instance with the same properties
+            /// return type `OnesCountProblemBinaryIntSolution`
+            /// 
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Copy the `OnesCountProblemBinaryIntSolution` to the already existing destination `OnesCountProblemBinaryIntSolution`
+            /// Copy the `OnesCountProblemBinaryIntSolution` to the already existing destination `OnesCountProblemBinaryIntSolution`
             /// 
-            ///         :param `OnesCountProblemBinaryIntSolution` destination: destination `OnesCountProblemBinaryIntSolution`
-            ///         
+            /// :param `OnesCountProblemBinaryIntSolution` destination: destination `OnesCountProblemBinaryIntSolution`
+            /// 
             public virtual object copy_to(object destination) {
                 destination = _copy__();
             }
             
             /// 
-            ///         Helper function that modifies representation to be feasible
+            /// Helper function that modifies representation to be feasible
             /// 
-            ///         :param `TargetProblem` problem: problem which is solved by solution
-            ///         
+            /// :param `TargetProblem` problem: problem which is solved by solution
+            /// 
             public virtual void _make_to_beFeasible_helper__(object problem) {
                 var mask = ~0;
                 mask <<= 32 - problem.dimension;
@@ -96,22 +96,22 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Argument of the target solution for specific problem
+            /// Argument of the target solution for specific problem
             /// 
-            ///         :param representation: internal representation of the solution
-            ///         :type representation: int
-            ///         :return: solution representation as string
-            ///         return type str 
-            ///         
+            /// :param representation: internal representation of the solution
+            /// :type representation: int
+            /// :return: solution representation as string
+            /// return type str 
+            /// 
             public virtual string argument(int representation) {
                 return bin(representation);
             }
             
             /// 
-            ///         Random initialization of the solution
+            /// Random initialization of the solution
             /// 
-            ///         :param `TargetProblem` problem: problem which is solved by solution
-            ///         
+            /// :param `TargetProblem` problem: problem which is solved by solution
+            /// 
             public virtual object InitRandom(object problem) {
                 if (problem.dimension is null) {
                     throw new ValueError("Problem dimension should not be None!");
@@ -127,48 +127,48 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Initialization of the solution, by setting its native representation 
+            /// Initialization of the solution, by setting its native representation 
             /// 
-            ///         :param int representation: representation that will be ste to solution
-            ///         :param `TargetProblem` problem: problem which is solved by solution
-            ///         
+            /// :param int representation: representation that will be ste to solution
+            /// :param `TargetProblem` problem: problem which is solved by solution
+            /// 
             public virtual object InitFrom(int representation, object problem) {
                 this.representation = representation;
             }
             
             /// 
-            ///         Fitness calculation of the max ones binary int solution
+            /// Fitness calculation of the max ones binary int solution
             /// 
-            ///         :param int representation: native representation of the solution whose fitness, objective and feasibility is calculated
-            ///         :param TargetProblem problem: problem that is solved
-            ///         :return: objective value, fitness value and feasibility of the solution instance  
-            ///         return type `QualityOfSolution`
-            ///         
+            /// :param int representation: native representation of the solution whose fitness, objective and feasibility is calculated
+            /// :param TargetProblem problem: problem that is solved
+            /// :return: objective value, fitness value and feasibility of the solution instance  
+            /// return type `QualityOfSolution`
+            /// 
             public virtual object CalculateQualityDirectly(int representation, object problem) {
                 var ones_count = representation.bit_count();
                 return QualityOfSolution(ones_count, ones_count, true);
             }
             
             /// 
-            ///         Obtain `int` representation from string representation of the integer binary solution of the Max Ones problem 
+            /// Obtain `int` representation from string representation of the integer binary solution of the Max Ones problem 
             /// 
-            ///         :param str representationStr: solution's representation as string
-            ///         :return: solution's representation as int
-            ///         return type int
-            ///         
+            /// :param str representationStr: solution's representation as string
+            /// :return: solution's representation as int
+            /// return type int
+            /// 
             public virtual int NativeRepresentation(string representationStr) {
                 var ret = Convert.ToInt32(representationStr, 2);
                 return ret;
             }
             
             /// 
-            ///         Calculating distance between two solutions determined by its code
+            /// Calculating distance between two solutions determined by its code
             /// 
-            ///         :param str solution_code_1: solution code for the first solution
-            ///         :param str solution_code_2: solution code for the second solution
-            ///         :return: distance between two solutions represented by its code
-            ///         return type float
-            ///         
+            /// :param str solution_code_1: solution code for the first solution
+            /// :param str solution_code_2: solution code for the second solution
+            /// :return: distance between two solutions represented by its code
+            /// return type float
+            /// 
             public static double RepresentationDistanceDirectly(object solution_code_1, string solution_code_2) {
                 var rep_1 = this.NativeRepresentation(solution_code_1);
                 var rep_2 = this.NativeRepresentation(solution_code_2);
@@ -177,21 +177,21 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         String representation of the solution instance
+            /// String representation of the solution instance
             /// 
-            ///         :param delimiter: delimiter between fields
-            ///         :type delimiter: str
-            ///         :param indentation: level of indentation
-            ///         :type indentation: int, optional, default value 0
-            ///         :param indentationSymbol: indentation symbol
-            ///         :type indentationSymbol: str, optional, default value ''
-            ///         :param groupStart: group start string 
-            ///         :type groupStart: str, optional, default value '{'
-            ///         :param groupEnd: group end string 
-            ///         :type groupEnd: str, optional, default value '}'
-            ///         :return: string representation of instance that controls output
-            ///         return type str
-            ///         
+            /// :param delimiter: delimiter between fields
+            /// :type delimiter: str
+            /// :param indentation: level of indentation
+            /// :type indentation: int, optional, default value 0
+            /// :param indentationSymbol: indentation symbol
+            /// :type indentationSymbol: str, optional, default value ''
+            /// :param groupStart: group start string 
+            /// :type groupStart: str, optional, default value '{'
+            /// :param groupEnd: group end string 
+            /// :type groupEnd: str, optional, default value '}'
+            /// :return: string representation of instance that controls output
+            /// return type str
+            /// 
             public virtual string StringRep(
                 string delimiter = "\n",
                 int indentation = 0,
@@ -219,32 +219,32 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         String representation of the solution instance
+            /// String representation of the solution instance
             /// 
-            ///         :return: string representation of the solution instance
-            ///         return type str
-            ///         
+            /// :return: string representation of the solution instance
+            /// return type str
+            /// 
             public override string ToString() {
                 return this.StringRep("\n", 0, "   ", "{", "}");
             }
             
             /// 
-            ///         Representation of the solution instance
+            /// Representation of the solution instance
             /// 
-            ///         :return: string representation of the solution instance
-            ///         return type str
-            ///         
+            /// :return: string representation of the solution instance
+            /// return type str
+            /// 
             public virtual string _repr__() {
                 return this.StringRep("\n", 0, "   ", "{", "}");
             }
             
             /// 
-            ///         Formatted the solution instance
+            /// Formatted the solution instance
             /// 
-            ///         :param str spec: format specification
-            ///         :return: formatted solution instance
-            ///         return type str
-            ///         
+            /// :param str spec: format specification
+            /// :return: formatted solution instance
+            /// return type str
+            /// 
             public virtual string _format__(string spec) {
                 return this.StringRep("\n", 0, "   ", "{", "}");
             }

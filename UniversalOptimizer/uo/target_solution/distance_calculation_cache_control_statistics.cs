@@ -70,7 +70,7 @@ namespace uo.TargetSolution
             }
         }
 
-        ///                 
+        ///         
         /// <summary>
         /// Gets or sets the cache.
         /// </summary>

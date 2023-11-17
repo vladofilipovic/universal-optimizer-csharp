@@ -27,9 +27,9 @@ namespace uo.Algorithm.Metaheuristic {
             
             private object RandomSeed;
             
-            public datetime execution_ended;
+            public datetime executionEnded;
             
-            public datetime execution_started;
+            public datetime executionStarted;
             
             [abstractmethod]
             public Metaheuristic(
@@ -50,11 +50,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Internal copy of the current metaheuristic
+            /// Internal copy of the current metaheuristic
             /// 
-            ///         :return: new `Metaheuristic` instance with the same properties
-            ///         return type `Metaheuristic`
-            ///         
+            /// :return: new `Metaheuristic` instance with the same properties
+            /// return type `Metaheuristic`
+            /// 
             [abstractmethod]
             public virtual void _copy__() {
                 var met = deepcopy(this);
@@ -62,22 +62,22 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Copy the current metaheuristic
-            ///         
-            ///         :return: new `Metaheuristic` instance with the same properties
-            ///         return type `Metaheuristic`
-            ///         
+            /// Copy the current metaheuristic
+            /// 
+            /// :return: new `Metaheuristic` instance with the same properties
+            /// return type `Metaheuristic`
+            /// 
             [abstractmethod]
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Property getter for the structure that controls finish criteria for metaheuristic execution
-            ///         
-            ///         :return: structure that controls finish criteria for metaheuristic execution 
-            ///         return type `FinishControl`
-            ///         
+            /// Property getter for the structure that controls finish criteria for metaheuristic execution
+            /// 
+            /// :return: structure that controls finish criteria for metaheuristic execution 
+            /// return type `FinishControl`
+            /// 
             public object finish_control {
                 get {
                     return _finish_control;
@@ -85,11 +85,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Property getter for the random seed used during metaheuristic execution
-            ///         
-            ///         :return: random seed 
-            ///         return type int
-            ///         
+            /// Property getter for the random seed used during metaheuristic execution
+            /// 
+            /// :return: random seed 
+            /// return type int
+            /// 
             public object randomSeed {
                 get {
                     return RandomSeed;
@@ -97,11 +97,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Property getter for the structure that controls keeping of the statistic during metaheuristic execution
-            ///         
-            ///         :return: structure that controls that controls keeping of the statistic during metaheuristic execution 
-            ///         return type `AdditionalStatisticsControl`
-            ///         
+            /// Property getter for the structure that controls keeping of the statistic during metaheuristic execution
+            /// 
+            /// :return: structure that controls that controls keeping of the statistic during metaheuristic execution 
+            /// return type `AdditionalStatisticsControl`
+            /// 
             public object additional_statistics_control {
                 get {
                     return _additional_statistics_control;
@@ -109,65 +109,65 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         One iteration within main loop of the metaheuristic algorithm
-            ///         
+            /// One iteration within main loop of the metaheuristic algorithm
+            /// 
             [abstractmethod]
             public virtual object main_loop_iteration() {
                 throw new NotImplementedException();
             }
             
             /// 
-            ///         Calculate time elapsed during execution of the metaheuristic algorithm 
-            ///         
-            ///         :return: elapsed time (in seconds)
-            ///         return type float
-            ///         
+            /// Calculate time elapsed during execution of the metaheuristic algorithm 
+            /// 
+            /// :return: elapsed time (in seconds)
+            /// return type float
+            /// 
             public virtual double elapsed_seconds() {
-                var delta = datetime.now() - this.execution_started;
+                var delta = datetime.now() - this.executionStarted;
                 return delta.total_seconds();
             }
             
             /// 
-            ///         Main loop of the metaheuristic algorithm
-            ///         
+            /// Main loop of the metaheuristic algorithm
+            /// 
             public virtual object main_loop() {
                 while (!this.finish_control.is_finished(this.evaluation, this.iteration, this.elapsed_seconds())) {
-                    this.write_outputValues_if_needed("before_iteration", "b_i");
+                    this.write_outputValues_if_needed("beforeIteration", "b_i");
                     this.main_loop_iteration();
-                    this.write_outputValues_if_needed("after_iteration", "a_i");
-                    logger.debug("Iteration: " + this.iteration.ToString() + ", Evaluations: " + this.evaluation.ToString() + ", Best solution objective: " + this.best_solution.objectiveValue.ToString() + ", Best solution fitness: " + this.best_solution.fitnessValue.ToString() + ", Best solution: " + this.best_solution.stringRepresentation().ToString());
+                    this.write_outputValues_if_needed("afterIteration", "a_i");
+                    logger.debug("Iteration: " + this.iteration.ToString() + ", Evaluations: " + this.evaluation.ToString() + ", Best solution objective: " + this.bestSolution.objectiveValue.ToString() + ", Best solution fitness: " + this.bestSolution.fitnessValue.ToString() + ", Best solution: " + this.bestSolution.stringRepresentation().ToString());
                 }
             }
             
             /// 
-            ///         Executing optimization by the metaheuristic algorithm
-            ///         
+            /// Executing optimization by the metaheuristic algorithm
+            /// 
             public virtual object optimize() {
-                this.execution_started = datetime.now();
+                this.executionStarted = datetime.now();
                 this.init();
-                this.write_output_headers_if_needed();
-                this.write_outputValues_if_needed("before_algorithm", "b_a");
+                this.writeOutputHeadersIfNeeded();
+                this.write_outputValues_if_needed("beforeAlgorithm", "b_a");
                 this.main_loop();
-                this.execution_ended = datetime.now();
-                this.write_outputValues_if_needed("after_algorithm", "a_a");
+                this.executionEnded = datetime.now();
+                this.write_outputValues_if_needed("afterAlgorithm", "a_a");
             }
             
             /// 
-            ///         String representation of the Metaheuristic instance
-            ///         
-            ///         :param delimiter: delimiter between fields
-            ///         :type delimiter: str
-            ///         :param indentation: level of indentation
-            ///         :type indentation: int, optional, default value 0
-            ///         :param indentationSymbol: indentation symbol
-            ///         :type indentationSymbol: str, optional, default value ''
-            ///         :param groupStart: group start string 
-            ///         :type groupStart: str, optional, default value '{'
-            ///         :param groupEnd: group end string 
-            ///         :type groupEnd: str, optional, default value '}'
-            ///         :return: string representation of instance that controls output
-            ///         return type str
-            ///         
+            /// String representation of the Metaheuristic instance
+            /// 
+            /// :param delimiter: delimiter between fields
+            /// :type delimiter: str
+            /// :param indentation: level of indentation
+            /// :type indentation: int, optional, default value 0
+            /// :param indentationSymbol: indentation symbol
+            /// :type indentationSymbol: str, optional, default value ''
+            /// :param groupStart: group start string 
+            /// :type groupStart: str, optional, default value '{'
+            /// :param groupEnd: group end string 
+            /// :type groupEnd: str, optional, default value '}'
+            /// :return: string representation of instance that controls output
+            /// return type str
+            /// 
             public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
@@ -200,16 +200,16 @@ namespace uo.Algorithm.Metaheuristic {
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
                     s += indentationSymbol;
                 }
-                s += "_iteration_best_found=" + _iteration_best_found.ToString() + delimiter;
+                s += "_iterationBestFound=" + _iterationBestFound.ToString() + delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
                     s += indentationSymbol;
                 }
-                s += "_second_when_best_obtained=" + _second_when_best_obtained.ToString() + delimiter;
-                if (this.execution_ended is not null && this.execution_started is not null) {
+                s += "_timeWhenBestObtained=" + _timeWhenBestObtained.ToString() + delimiter;
+                if (this.executionEnded is not null && this.executionStarted is not null) {
                     foreach (var i in Enumerable.Range(0, indentation - 0)) {
                         s += indentationSymbol;
                     }
-                    s += "execution time=" + (this.execution_ended - this.execution_started).total_seconds().ToString() + delimiter;
+                    s += "execution time=" + (this.executionEnded - this.executionStarted).total_seconds().ToString() + delimiter;
                 }
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
                     s += indentationSymbol;
@@ -219,11 +219,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         String representation of the `Metaheuristic` instance
-            ///         
-            ///         :return: string representation of the `Metaheuristic` instance
-            ///         return type str
-            ///         
+            /// String representation of the `Metaheuristic` instance
+            /// 
+            /// :return: string representation of the `Metaheuristic` instance
+            /// return type str
+            /// 
             [abstractmethod]
             public override string ToString() {
                 var s = this.stringRep("|");
@@ -231,11 +231,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         String representation of the `Metaheuristic` instance
-            ///         
-            ///         :return: string representation of the `Metaheuristic` instance
-            ///         return type str
-            ///         
+            /// String representation of the `Metaheuristic` instance
+            /// 
+            /// :return: string representation of the `Metaheuristic` instance
+            /// return type str
+            /// 
             [abstractmethod]
             public virtual string _repr__() {
                 var s = this.stringRep("\n");
@@ -243,12 +243,12 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Formatted the `Metaheuristic` instance
-            ///         
-            ///         :param str spec: format specification
-            ///         :return: formatted `Metaheuristic` instance
-            ///         return type str
-            ///         
+            /// Formatted the `Metaheuristic` instance
+            /// 
+            /// :param str spec: format specification
+            /// :return: formatted `Metaheuristic` instance
+            /// return type str
+            /// 
             [abstractmethod]
             public virtual string _format__(string spec) {
                 return this.StringRep("|");

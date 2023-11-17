@@ -41,17 +41,17 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             : Generic[R_coA_co], ABCMeta {
             
             /// 
-            ///         Random VNS shaking of several parts such that new solution code does not differ more than supplied from all 
-            ///         solution codes inside collection
+            /// Random VNS shaking of several parts such that new solution code does not differ more than supplied from all 
+            /// solution codes inside collection
             /// 
-            ///         :param int k: int parameter for VNS
-            ///         :param `TargetProblem` problem: problem that is solved
-            ///         :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         :param `list[R_co]` solutionRepresentations: solution representations that should be shaken
-            ///         :return: if shaking is successful
-            ///         return type bool
-            ///         
+            /// :param int k: int parameter for VNS
+            /// :param `TargetProblem` problem: problem that is solved
+            /// :param `TargetSolution[R_co,A_co]` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// :param `list[R_co]` solutionRepresentations: solution representations that should be shaken
+            /// :return: if shaking is successful
+            /// return type bool
+            /// 
             [abstractmethod]
             public virtual bool shaking(
                 int k,
@@ -63,30 +63,30 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             }
             
             /// 
-            ///         Executes "best improvement" variant of the local search procedure 
-            ///         
-            ///         :param int k: int parameter for VNS
-            ///         :param `TargetProblem` problem: problem that is solved
-            ///         :param `TargetSolution` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         :return: result of the local search procedure 
-            ///         return type TargetSolution
-            ///         
+            /// Executes "best improvement" variant of the local search procedure 
+            /// 
+            /// :param int k: int parameter for VNS
+            /// :param `TargetProblem` problem: problem that is solved
+            /// :param `TargetSolution` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// :return: result of the local search procedure 
+            /// return type TargetSolution
+            /// 
             [abstractmethod]
             public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer) {
                 throw new NotImplementedException();
             }
             
             /// 
-            ///         Executes "first improvement" variant of the local search procedure 
-            ///         
-            ///         :param int k: int parameter for VNS
-            ///         :param `TargetProblem` problem: problem that is solved
-            ///         :param `TargetSolution` solution: solution used for the problem that is solved
-            ///         :param `Algorithm` optimizer: optimizer that is executed
-            ///         :return: result of the local search procedure 
-            ///         return type TargetSolution
-            ///         
+            /// Executes "first improvement" variant of the local search procedure 
+            /// 
+            /// :param int k: int parameter for VNS
+            /// :param `TargetProblem` problem: problem that is solved
+            /// :param `TargetSolution` solution: solution used for the problem that is solved
+            /// :param `Algorithm` optimizer: optimizer that is executed
+            /// :return: result of the local search procedure 
+            /// return type TargetSolution
+            /// 
             [abstractmethod]
             public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer) {
                 throw new NotImplementedException();

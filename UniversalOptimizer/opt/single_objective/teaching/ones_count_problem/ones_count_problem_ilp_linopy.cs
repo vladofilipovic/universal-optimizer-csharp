@@ -48,8 +48,8 @@ namespace single_objective.teaching.ones_count_problem {
         }
         
         /// 
-        ///         Instance of the class :class:`OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` represents constructor parameters for max ones problem ILP solver.
-        ///         
+        /// Instance of the class :class:`OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` represents constructor parameters for max ones problem ILP solver.
+        /// 
         public class OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters {
             
             public object OutputControl;
@@ -80,13 +80,13 @@ namespace single_objective.teaching.ones_count_problem {
             
             private object _model;
             
-            public OnesCountProblemIntegerLinearProgrammingSolution best_solution;
+            public OnesCountProblemIntegerLinearProgrammingSolution bestSolution;
             
             public int evaluation;
             
-            public datetime execution_ended;
+            public datetime executionEnded;
             
-            public datetime execution_started;
+            public datetime executionStarted;
             
             public int iteration;
             
@@ -96,42 +96,42 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Additional constructor. Create new `OnesCountProblemIntegerLinearProgrammingSolver` instance from construction parameters
+            /// Additional constructor. Create new `OnesCountProblemIntegerLinearProgrammingSolver` instance from construction parameters
             /// 
-            ///         :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` construction_params: parameters for construction 
-            ///         
+            /// :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` construction_params: parameters for construction 
+            /// 
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_params = null) {
                 return cls(construction_tuple.OutputControl, construction_tuple.TargetProblem);
             }
             
             /// 
-            ///         Internal copy of the current algorithm
+            /// Internal copy of the current algorithm
             /// 
-            ///         :return:  new `OnesCountProblemIntegerLinearProgrammingSolver` instance with the same properties
-            ///         return type :class:`OnesCountProblemIntegerLinearProgrammingSolver`
-            ///         
+            /// :return:  new `OnesCountProblemIntegerLinearProgrammingSolver` instance with the same properties
+            /// return type :class:`OnesCountProblemIntegerLinearProgrammingSolver`
+            /// 
             public virtual void _copy__() {
                 var alg = deepcopy(this);
                 return alg;
             }
             
             /// 
-            ///         Copy the current algorithm
+            /// Copy the current algorithm
             /// 
-            ///         :return:  new `OnesCountProblemIntegerLinearProgrammingSolver` instance with the same properties
-            ///         return type :class:``OnesCountProblemIntegerLinearProgrammingSolver``
-            ///         
+            /// :return:  new `OnesCountProblemIntegerLinearProgrammingSolver` instance with the same properties
+            /// return type :class:``OnesCountProblemIntegerLinearProgrammingSolver``
+            /// 
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Property getter for the ILP model
-            ///         
-            ///         :return: model of the problem 
-            ///         return type `Model`
-            ///         
+            /// Property getter for the ILP model
+            /// 
+            /// :return: model of the problem 
+            /// return type `Model`
+            /// 
             public object model {
                 get {
                     return _model;
@@ -139,12 +139,12 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         Uses ILP model in order to solve OnesCountProblem
-            ///         
+            /// Uses ILP model in order to solve OnesCountProblem
+            /// 
             public virtual object optimize() {
                 this.iteration = -1;
                 this.evaluation = -1;
-                this.execution_started = datetime.now();
+                this.executionStarted = datetime.now();
                 var l = new List<object>();
                 foreach (var i in Enumerable.Range(0, this.TargetProblem.dimension)) {
                     l.append(0);
@@ -160,28 +160,28 @@ namespace single_objective.teaching.ones_count_problem {
                     this.model.add_objective(x.sum(), sense: "max");
                 }
                 this.model.solve();
-                this.execution_ended = datetime.now();
-                this.write_outputValues_if_needed("after_algorithm", "a_a");
-                this.best_solution = new OnesCountProblemIntegerLinearProgrammingSolution(this.model.solution.x);
+                this.executionEnded = datetime.now();
+                this.write_outputValues_if_needed("afterAlgorithm", "a_a");
+                this.bestSolution = new OnesCountProblemIntegerLinearProgrammingSolution(this.model.solution.x);
                 ///logger.debug(self.model.solution.x)
             }
             
             /// 
-            ///         String representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         
-            ///         :param delimiter: delimiter between fields
-            ///         :type delimiter: str
-            ///         :param indentation: level of indentation
-            ///         :type indentation: int, optional, default value 0
-            ///         :param indentationSymbol: indentation symbol
-            ///         :type indentationSymbol: str, optional, default value ''
-            ///         :param groupStart: group start string 
-            ///         :type groupStart: str, optional, default value '{'
-            ///         :param groupEnd: group end string 
-            ///         :type groupEnd: str, optional, default value '}'
-            ///         :return: string representation of instance that controls output
-            ///         return type str
-            ///         
+            /// String representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
+            /// 
+            /// :param delimiter: delimiter between fields
+            /// :type delimiter: str
+            /// :param indentation: level of indentation
+            /// :type indentation: int, optional, default value 0
+            /// :param indentationSymbol: indentation symbol
+            /// :type indentationSymbol: str, optional, default value ''
+            /// :param groupStart: group start string 
+            /// :type groupStart: str, optional, default value '{'
+            /// :param groupEnd: group end string 
+            /// :type groupEnd: str, optional, default value '}'
+            /// :return: string representation of instance that controls output
+            /// return type str
+            /// 
             public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
@@ -200,32 +200,32 @@ namespace single_objective.teaching.ones_count_problem {
             }
             
             /// 
-            ///         String representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         
-            ///         :return: string representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         return type str
-            ///         
+            /// String representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
+            /// 
+            /// :return: string representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
+            /// return type str
+            /// 
             public override string ToString() {
                 return this.StringRep("|");
             }
             
             /// 
-            ///         Representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         
-            ///         :return: string representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         return type str
-            ///         
+            /// Representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
+            /// 
+            /// :return: string representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
+            /// return type str
+            /// 
             public virtual string _repr__() {
                 return this.StringRep("\n");
             }
             
             /// 
-            ///         Formatted 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         
-            ///         :param str spec: format specification
-            ///         :return: formatted 'OnesCountProblemIntegerLinearProgrammingSolver' instance
-            ///         return type str
-            ///         
+            /// Formatted 'OnesCountProblemIntegerLinearProgrammingSolver' instance
+            /// 
+            /// :param str spec: format specification
+            /// :return: formatted 'OnesCountProblemIntegerLinearProgrammingSolver' instance
+            /// return type str
+            /// 
             public virtual string _format__(string spec) {
                 return this.StringRep("|");
             }

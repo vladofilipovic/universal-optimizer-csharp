@@ -85,11 +85,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Internal copy of the current population based metaheuristic
+            /// Internal copy of the current population based metaheuristic
             /// 
-            ///         :return: new `PopulationBasedMetaheuristic` instance with the same properties
-            ///         return type `PopulationBasedMetaheuristic`
-            ///         
+            /// :return: new `PopulationBasedMetaheuristic` instance with the same properties
+            /// return type `PopulationBasedMetaheuristic`
+            /// 
             [abstractmethod]
             public virtual object _copy__() {
                 var met = deepcopy(this);
@@ -97,28 +97,28 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Copy the current population based metaheuristic
-            ///         
-            ///         :return: new `PopulationBasedMetaheuristic` instance with the same properties
-            ///         return type `PopulationBasedMetaheuristic`
-            ///         
+            /// Copy the current population based metaheuristic
+            /// 
+            /// :return: new `PopulationBasedMetaheuristic` instance with the same properties
+            /// return type `PopulationBasedMetaheuristic`
+            /// 
             [abstractmethod]
             public virtual object copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Property getter for the current solutions used during population based metaheuristic execution
+            /// Property getter for the current solutions used during population based metaheuristic execution
             /// 
-            ///         :return: list of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solutions of the problem 
-            ///         return type list[TargetSolution]        
-            ///         
+            /// :return: list of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solutions of the problem 
+            /// return type list[TargetSolution]        
             /// 
-            ///         Property setter for the population of current solutions used during population-based metaheuristic execution
             /// 
-            ///         :param value: the current solutions
-            ///         :type value: list[TargetSolution]
-            ///         
+            /// Property setter for the population of current solutions used during population-based metaheuristic execution
+            /// 
+            /// :param value: the current solutions
+            /// :type value: list[TargetSolution]
+            /// 
             public object currentSolutions {
                 get {
                     return _currentSolutions;
@@ -129,21 +129,21 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         String representation of the SingleSolutionMetaheuristic instance
-            ///         
-            ///         :param delimiter: delimiter between fields
-            ///         :type delimiter: str
-            ///         :param indentation: level of indentation
-            ///         :type indentation: int, optional, default value 0
-            ///         :param indentationSymbol: indentation symbol
-            ///         :type indentationSymbol: str, optional, default value ''
-            ///         :param groupStart: group start string 
-            ///         :type groupStart: str, optional, default value '{'
-            ///         :param groupEnd: group end string 
-            ///         :type groupEnd: str, optional, default value '}'
-            ///         :return: string representation of instance that controls output
-            ///         return type str
-            ///         
+            /// String representation of the SingleSolutionMetaheuristic instance
+            /// 
+            /// :param delimiter: delimiter between fields
+            /// :type delimiter: str
+            /// :param indentation: level of indentation
+            /// :type indentation: int, optional, default value 0
+            /// :param indentationSymbol: indentation symbol
+            /// :type indentationSymbol: str, optional, default value ''
+            /// :param groupStart: group start string 
+            /// :type groupStart: str, optional, default value '{'
+            /// :param groupEnd: group end string 
+            /// :type groupEnd: str, optional, default value '}'
+            /// :return: string representation of instance that controls output
+            /// return type str
+            /// 
             public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
@@ -169,11 +169,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         String representation of the `SingleSolutionMetaheuristic` instance
-            ///         
-            ///         :return: string representation of the `SingleSolutionMetaheuristic` instance
-            ///         return type str
-            ///         
+            /// String representation of the `SingleSolutionMetaheuristic` instance
+            /// 
+            /// :return: string representation of the `SingleSolutionMetaheuristic` instance
+            /// return type str
+            /// 
             [abstractmethod]
             public override string ToString() {
                 var s = this.stringRep("|");
@@ -181,11 +181,11 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         String representation of the `SingleSolutionMetaheuristic` instance
-            ///         
-            ///         :return: string representation of the `SingleSolutionMetaheuristic` instance
-            ///         return type str
-            ///         
+            /// String representation of the `SingleSolutionMetaheuristic` instance
+            /// 
+            /// :return: string representation of the `SingleSolutionMetaheuristic` instance
+            /// return type str
+            /// 
             [abstractmethod]
             public virtual string _repr__() {
                 var s = this.stringRep("\n");
@@ -193,12 +193,12 @@ namespace uo.Algorithm.Metaheuristic {
             }
             
             /// 
-            ///         Formatted the `SingleSolutionMetaheuristic` instance
-            ///         
-            ///         :param str spec: format specification
-            ///         :return: formatted `Metaheuristic` instance
-            ///         return type str
-            ///         
+            /// Formatted the `SingleSolutionMetaheuristic` instance
+            /// 
+            /// :param str spec: format specification
+            /// :return: formatted `Metaheuristic` instance
+            /// return type str
+            /// 
             [abstractmethod]
             public virtual string _format__(string spec) {
                 return this.StringRep("|");

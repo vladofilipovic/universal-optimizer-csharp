@@ -47,10 +47,10 @@ namespace single_objective.teaching.ones_count_problem {
                 false},
             {
                 "outputFields",
-                "iteration, evaluation, best_solution.fitnessValue, best_solution.argument()"},
+                "iteration, evaluation, bestSolution.fitnessValue, bestSolution.argument()"},
             {
                 "outputMoments",
-                "after_algorithm, after_evaluation"},
+                "afterAlgorithm, afterEvaluation"},
             {
                 "inputFilePath",
                 "opt/single_objective/teaching/ones_count_problem/inputs/dimension_77.txt"},
@@ -104,8 +104,8 @@ namespace single_objective.teaching.ones_count_problem {
                 ""}};
         
         ///  The `parse_arguments` function parses execution parameters for execution of the optimizers for max 
-        ///                 ones problem.
-        ///         
+        ///         ones problem.
+        /// 
         public static void parse_arguments() {
             var parser = ArgumentParser();
             var subparsers = parser.add_subparsers(dest: "algorithm");
@@ -114,8 +114,8 @@ namespace single_objective.teaching.ones_count_problem {
             parser_vns.add_argument("--writeToOutputFile", type: @bool, @default: true, help: "Should results of metaheuristic execution be written to output file.");
             parser_vns.add_argument("--outputFilePath", type: str, @default: "output/out.txt", help: "File path of the output file. File path '' means that it is within 'outputs' folder.");
             parser_vns.add_argument("--outputFileNameAppendTimeStamp", type: @bool, @default: false, help: "Should timestamp be automatically added to the name of the output file.");
-            parser_vns.add_argument("--outputFields", type: str, @default: "iteration, evaluation, self.best_solution.argument()", help: "Comma-separated list of fields whose values will be outputted during algorithm execution. Fields 'iteration, evaluation' means that current iterations and current evaluation will be outputted.");
-            parser_vns.add_argument("--outputMoments", type: str, @default: "after_algorithm, after_iteration", help: "Comma-separated list of moments when values will be outputted during algorithm execution. List contains of following elements: 'before_algorithm', 'after_algorithm', 'before_iteration', 'after_iteration', 'before_evaluation', 'after_evaluation', 'before_step_in_iteration', 'after_step_in_iteration'Moments 'after_algorithm' means that result will be outputted after algorithm.");
+            parser_vns.add_argument("--outputFields", type: str, @default: "iteration, evaluation, self.bestSolution.argument()", help: "Comma-separated list of fields whose values will be outputted during algorithm execution. Fields 'iteration, evaluation' means that current iterations and current evaluation will be outputted.");
+            parser_vns.add_argument("--outputMoments", type: str, @default: "afterAlgorithm, afterIteration", help: "Comma-separated list of moments when values will be outputted during algorithm execution. List contains of following elements: 'beforeAlgorithm', 'afterAlgorithm', 'beforeIteration', 'afterIteration', 'beforeEvaluation', 'afterEvaluation', 'beforeStepInIteration', 'afterStepInIteration'Moments 'afterAlgorithm' means that result will be outputted after algorithm.");
             parser_vns.add_argument("--inputFilePath", type: str, @default: "inputs/ones_count_problem/dim_25.txt", help: "Input file path for the instance of the problem. ");
             parser_vns.add_argument("--inputFormat", type: str, choices: new List<string> {
                 "txt",
@@ -148,8 +148,8 @@ namespace single_objective.teaching.ones_count_problem {
             parser_te.add_argument("--writeToOutputFile", type: @bool, @default: true, help: "Should results of metaheuristic execution be written to output file.");
             parser_te.add_argument("--outputFilePath", type: str, @default: "output/out.txt", help: "File path of the output file. File path '' means that it is within 'outputs' folder.");
             parser_te.add_argument("--outputFileNameAppendTimeStamp", type: @bool, @default: false, help: "Should timestamp be automatically added to the name of the output file.");
-            parser_te.add_argument("--outputFields", type: str, @default: "iteration, evaluation, self.best_solution.argument()", help: "Comma-separated list of fields whose values will be outputted during algorithm execution. Fields 'iteration, evaluation' means that current iterations and current evaluation will be outputted.");
-            parser_te.add_argument("--outputMoments", type: str, @default: "after_algorithm, after_iteration", help: "Comma-separated list of moments when values will be outputted during algorithm execution. List contains of following elements: 'before_algorithm', 'after_algorithm', 'before_iteration', 'after_iteration', 'before_evaluation', 'after_evaluation', 'before_step_in_iteration', 'after_step_in_iteration'Moments 'after_algorithm' means that result will be outputted after algorithm.");
+            parser_te.add_argument("--outputFields", type: str, @default: "iteration, evaluation, self.bestSolution.argument()", help: "Comma-separated list of fields whose values will be outputted during algorithm execution. Fields 'iteration, evaluation' means that current iterations and current evaluation will be outputted.");
+            parser_te.add_argument("--outputMoments", type: str, @default: "afterAlgorithm, afterIteration", help: "Comma-separated list of moments when values will be outputted during algorithm execution. List contains of following elements: 'beforeAlgorithm', 'afterAlgorithm', 'beforeIteration', 'afterIteration', 'beforeEvaluation', 'afterEvaluation', 'beforeStepInIteration', 'afterStepInIteration'Moments 'afterAlgorithm' means that result will be outputted after algorithm.");
             parser_te.add_argument("--inputFilePath", type: str, @default: "inputs/ones_count_problem/dim_25.txt", help: "Input file path for the instance of the problem. ");
             parser_te.add_argument("--inputFormat", type: str, choices: new List<string> {
                 "txt",
@@ -165,8 +165,8 @@ namespace single_objective.teaching.ones_count_problem {
             parser_ilp.add_argument("--writeToOutputFile", type: @bool, @default: true, help: "Should results of metaheuristic execution be written to output file.");
             parser_ilp.add_argument("--outputFilePath", type: str, @default: "output/out.txt", help: "File path of the output file. File path '' means that it is within 'outputs' folder.");
             parser_ilp.add_argument("--outputFileNameAppendTimeStamp", type: @bool, @default: false, help: "Should timestamp be automatically added to the name of the output file.");
-            parser_ilp.add_argument("--outputFields", type: str, @default: "iteration, evaluation, self.best_solution.argument()", help: "Comma-separated list of fields whose values will be outputted during algorithm execution. Fields 'iteration, evaluation' means that current iterations and current evaluation will be outputted.");
-            parser_ilp.add_argument("--outputMoments", type: str, @default: "after_algorithm, after_iteration", help: "Comma-separated list of moments when values will be outputted during algorithm execution. List contains of following elements: 'before_algorithm', 'after_algorithm', 'before_iteration', 'after_iteration', 'before_evaluation', 'after_evaluation', 'before_step_in_iteration', 'after_step_in_iteration'Moments 'after_algorithm' means that result will be outputted after algorithm.");
+            parser_ilp.add_argument("--outputFields", type: str, @default: "iteration, evaluation, self.bestSolution.argument()", help: "Comma-separated list of fields whose values will be outputted during algorithm execution. Fields 'iteration, evaluation' means that current iterations and current evaluation will be outputted.");
+            parser_ilp.add_argument("--outputMoments", type: str, @default: "afterAlgorithm, afterIteration", help: "Comma-separated list of moments when values will be outputted during algorithm execution. List contains of following elements: 'beforeAlgorithm', 'afterAlgorithm', 'beforeIteration', 'afterIteration', 'beforeEvaluation', 'afterEvaluation', 'beforeStepInIteration', 'afterStepInIteration'Moments 'afterAlgorithm' means that result will be outputted after algorithm.");
             parser_ilp.add_argument("--inputFilePath", type: str, @default: "inputs/ones_count_problem/dim_25.txt", help: "Input file path for the instance of the problem. ");
             parser_ilp.add_argument("--inputFormat", type: str, choices: new List<string> {
                 "txt",

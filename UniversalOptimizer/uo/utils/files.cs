@@ -19,10 +19,10 @@ namespace utils {
         }
         
         /// 
-        ///         Ensure existence of the specific directory in the file system
-        ///         
-        ///         :param path_to_dir:str -- path of the directory whose existence should be ensured
-        ///         
+        /// Ensure existence of the specific directory in the file system
+        /// 
+        /// :param path_to_dir:str -- path of the directory whose existence should be ensured
+        /// 
         public static object ensure_dir(string path_to_dir) {
             if (!os.path.exists(path_to_dir)) {
                 os.mkdir(path_to_dir);

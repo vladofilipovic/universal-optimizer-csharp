@@ -1,7 +1,6 @@
 namespace uo.TargetSolution
 {
 
-
     using System.Collections.Generic;
 
     using System;
@@ -9,9 +8,9 @@ namespace uo.TargetSolution
     using System.Linq;
 
 
-    /// 
-    ///     Class that represents control statistics for evaluation caching.
-    ///     
+    /// <summary>
+    /// Class that represents control statistics for evaluation caching.
+    /// </summary>
     public class EvaluationCacheControlStatistics
     {
 
@@ -25,6 +24,11 @@ namespace uo.TargetSolution
 
         private int _maxCacheSize;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EvaluationCacheControlStatistics"/> class.
+        /// </summary>
+        /// <param name="isCaching">if set to <c>true</c> [is caching].</param>
+        /// <param name="maxCacheSize">Maximum size of the cache.</param>
         public EvaluationCacheControlStatistics(bool isCaching = false, int maxCacheSize = 0)
         {
             _isCaching = isCaching;
@@ -34,9 +38,12 @@ namespace uo.TargetSolution
             _cacheRequestCount = 0;
         }
 
-        /// 
-        ///         Property getter and setter for decision if caching is used during evaluation, or not 
-        ///         
+        /// <summary>
+        /// Property getter and setter for decision if caching is used during evaluation, or not.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is caching; otherwise, <c>false</c>.
+        /// </value>
         public bool IsCaching
         {
             get
@@ -49,9 +56,13 @@ namespace uo.TargetSolution
             }
         }
 
+        /// <summary>
+        /// Property getter for maximum size of the cache - if 0 cache is with unlimited size.
+        /// </summary>
+        /// <value>
+        /// The maximum size of the cache.
+        /// </value>
         /// 
-        ///         Property getter for maximum size of the cache - if 0 cache is with unlimited size 
-        ///         
         public int MaxCacheSize
         {
             get
@@ -60,9 +71,13 @@ namespace uo.TargetSolution
             }
         }
 
+        /// <summary>
+        /// Property getter and setter for cache.
+        /// </summary>
+        /// <value>
+        /// The cache.
+        /// </value>
         /// 
-        ///         Property getter and setter for cache 
-        ///                  
         public Dictionary<string, QualityOfSolution> Cache
         {
             get
@@ -75,8 +90,12 @@ namespace uo.TargetSolution
             }
         }
 
-        /// 
-        ///         Property getter for cache hit count 
+        /// <summary>
+        /// Property getter for cache hit count.
+        /// </summary>
+        /// <value>
+        /// The cache hit count.
+        /// </value>
         /// 
         public int CacheHitCount
         {
@@ -86,16 +105,20 @@ namespace uo.TargetSolution
             }
         }
 
-        /// 
-        ///         Increments number of cache hits during evaluation 
-        ///         
+        /// <summary>
+        /// Increments the cache hit count - number of cache hits during evaluation.
+        /// </summary>
         public virtual void IncrementCacheHitCount()
         {
             _cacheHitCount += 1;
         }
 
-        /// 
-        ///         Property getter for cache request count 
+        /// <summary>
+        /// Property getter for cache request count.
+        /// </summary>
+        /// <value>
+        /// The cache request count.
+        /// </value>
         /// 
         public int CacheRequestCount
         {
@@ -105,30 +128,25 @@ namespace uo.TargetSolution
             }
         }
 
+        /// <summary>
+        /// Increments number of cache requests.
+        /// </summary>
         /// 
-        ///         Increments number of cache requests 
-        ///         
         public virtual void IncrementCacheRequestCount()
         {
             _cacheRequestCount += 1;
         }
 
+        /// <summary>
+        /// String representation of the `EvaluationCacheControlStatistics` instance.
+        /// </summary>
+        /// <param name="delimiter">The delimiter.</param>
+        /// <param name="indentation">The indentation.</param>
+        /// <param name="indentationSymbol">The indentation symbol.</param>
+        /// <param name="groupStart">The group start.</param>
+        /// <param name="groupEnd">The group end.</param>
+        /// <returns></returns>
         /// 
-        ///         String representation of the `EvaluationCacheControlStatistics` instance
-        /// 
-        ///         :param delimiter: delimiter between fields
-        ///         :type delimiter: str
-        ///         :param indentation: level of indentation
-        ///         :type indentation: int, optional, default value 0
-        ///         :param indentationSymbol: indentation symbol
-        ///         :type indentationSymbol: str, optional, default value ''
-        ///         :param groupStart: group start string 
-        ///         :type groupStart: str, optional, default value '{'
-        ///         :param groupEnd: group end string 
-        ///         :type groupEnd: str, optional, default value '}'
-        ///         :return: string representation of instance that controls output
-        ///         return type str
-        ///         
         public virtual string StringRep(
             string delimiter,
             int indentation = 0,
@@ -165,12 +183,12 @@ namespace uo.TargetSolution
             return s;
         }
 
-        /// 
-        ///         String representation of the `EvaluationCacheControlStatistics` instance
-        /// 
-        ///         :return: string representation of the `EvaluationCacheControlStatistics` instance
-        ///         return type str
-        ///         
+        /// <summary>
+        /// String representation of the `EvaluationCacheControlStatistics` instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this `EvaluationCacheControlStatistics` instance.
+        /// </returns>
         public override string ToString()
         {
             return this.StringRep("|", 0, "", "{", "}");

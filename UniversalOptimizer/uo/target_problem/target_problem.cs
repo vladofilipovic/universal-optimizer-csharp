@@ -3,14 +3,17 @@ namespace uo.TargetProblem {
     using System;
     
     using System.Linq;
-           
-    public abstract class TargetProblem
+
+    /// <summary>
+    /// Class that abstracts target problem, which should be solved.
+    /// </summary>
+    public abstract class TargetProblem: ICloneable
     {
         /// <summary>
         /// Gets a value indicating whether this instance is minimization.
         /// </summary>
         /// <value>
-/        ///   <c>true</c> if this instance is minimization; otherwise, <c>false</c>.
+        ///   <c>true</c> if this instance is minimization; otherwise, <c>false</c>.
         /// </value>
         public bool IsMinimization { get; init; }
 
@@ -32,6 +35,14 @@ namespace uo.TargetProblem {
             Name = name;
             IsMinimization = isMinimization;
         }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public abstract TargetProblem Clone();
 
         /// <summary>
         /// Returns string representation of the problem.

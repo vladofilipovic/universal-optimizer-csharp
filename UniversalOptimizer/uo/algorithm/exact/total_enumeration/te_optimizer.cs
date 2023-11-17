@@ -96,9 +96,9 @@ namespace uo.Algorithm.exact.total_enumeration {
             
             public int evaluation;
             
-            public datetime execution_ended;
+            public datetime executionEnded;
             
-            public datetime execution_started;
+            public datetime executionStarted;
             
             public int iteration;
             
@@ -129,48 +129,48 @@ namespace uo.Algorithm.exact.total_enumeration {
             }
             
             /// 
-            ///         Additional constructor, that creates new instance of class :class:`~uo.Algorithm.exact.te_optimizer.TeOptimizer`. 
+            /// Additional constructor, that creates new instance of class :class:`~uo.Algorithm.exact.te_optimizer.TeOptimizer`. 
             /// 
-            ///         :param `TeOptimizerConstructionParameters` construction_tuple: tuple with all constructor parameters
-            ///         
+            /// :param `TeOptimizerConstructionParameters` construction_tuple: tuple with all constructor parameters
+            /// 
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_tuple) {
                 return cls(construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initial_solution, construction_tuple.problem_solution_te_support);
             }
             
             /// 
-            ///         Internal copy of the current total enumeration algorithm
+            /// Internal copy of the current total enumeration algorithm
             /// 
-            ///         :return: new `TotalEnumeration` instance with the same properties
-            ///         return type `TotalEnumeration`
-            ///         
+            /// :return: new `TotalEnumeration` instance with the same properties
+            /// return type `TotalEnumeration`
+            /// 
             public virtual void _copy__() {
                 var tot = deepcopy(this);
                 return tot;
             }
             
             /// 
-            ///         Copy the current total enumeration algorithm
-            ///         
-            ///         :return: new `TotalEnumeration` instance with the same properties
-            ///         return type `TotalEnumeration`
-            ///         
+            /// Copy the current total enumeration algorithm
+            /// 
+            /// :return: new `TotalEnumeration` instance with the same properties
+            /// return type `TotalEnumeration`
+            /// 
             public virtual void copy() {
                 return _copy__();
             }
             
             /// 
-            ///         Property getter for the current solution used during VNS execution
+            /// Property getter for the current solution used during VNS execution
             /// 
-            ///         :return: instance of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solution of the problem 
-            ///         return type :class:`TargetSolution`        
-            ///         
+            /// :return: instance of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solution of the problem 
+            /// return type :class:`TargetSolution`        
             /// 
-            ///         Property setter for the current solution used during VNS execution
             /// 
-            ///         :param value: the current solution
-            ///         :type value: :class:`TargetSolution`
-            ///         
+            /// Property setter for the current solution used during VNS execution
+            /// 
+            /// :param value: the current solution
+            /// :type value: :class:`TargetSolution`
+            /// 
             public object currentSolution {
                 get {
                     return _currentSolution;
@@ -181,17 +181,17 @@ namespace uo.Algorithm.exact.total_enumeration {
             }
             
             /// 
-            ///         Property getter for the current iteration during TE execution
+            /// Property getter for the current iteration during TE execution
             /// 
-            ///         :return: current iteration number 
-            ///         return type int       
-            ///         
+            /// :return: current iteration number 
+            /// return type int       
             /// 
-            ///         Property setter for the current iteration during TE execution
             /// 
-            ///         :param value: the current iteration
-            ///         :type value: int
-            ///         
+            /// Property setter for the current iteration during TE execution
+            /// 
+            /// :param value: the current iteration
+            /// :type value: int
+            /// 
             public object iteration {
                 get {
                     return _iteration;
@@ -202,57 +202,57 @@ namespace uo.Algorithm.exact.total_enumeration {
             }
             
             /// 
-            ///         Initialization of the total enumeration algorithm
-            ///         
+            /// Initialization of the total enumeration algorithm
+            /// 
             public virtual void init() {
                 _reset_method(this.TargetProblem, this.currentSolution, this);
-                this.write_outputValues_if_needed("before_evaluation", "b_e");
+                this.write_outputValues_if_needed("beforeEvaluation", "b_e");
                 this.evaluation += 1;
                 this.currentSolution.evaluate(this.TargetProblem);
-                this.write_outputValues_if_needed("after_evaluation", "a_e");
-                this.copy_to_best_solution(this.currentSolution);
+                this.write_outputValues_if_needed("afterEvaluation", "a_e");
+                this.copy_to_bestSolution(this.currentSolution);
                 this.iteration = 1;
             }
             
             public virtual object optimize() {
-                this.execution_started = datetime.now();
+                this.executionStarted = datetime.now();
                 this.init();
                 logger.debug("Overall number of evaluations: {}".format(_problem_solution_te_support.overall_number_of_evaluations(this.TargetProblem, this.currentSolution, this)));
-                this.write_output_headers_if_needed();
-                this.write_outputValues_if_needed("before_algorithm", "b_a");
+                this.writeOutputHeadersIfNeeded();
+                this.write_outputValues_if_needed("beforeAlgorithm", "b_a");
                 while (true) {
-                    this.write_outputValues_if_needed("before_iteration", "b_i");
+                    this.write_outputValues_if_needed("beforeIteration", "b_i");
                     this.iteration += 1;
                     _progress_method(this.TargetProblem, this.currentSolution, this);
-                    var new_is_better = this.is_first_solution_better(this.currentSolution, this.best_solution);
+                    var new_is_better = this.is_first_solution_better(this.currentSolution, this.bestSolution);
                     if (new_is_better) {
-                        this.copy_to_best_solution(this.currentSolution);
+                        this.copy_to_bestSolution(this.currentSolution);
                     }
-                    this.write_outputValues_if_needed("after_iteration", "a_i");
+                    this.write_outputValues_if_needed("afterIteration", "a_i");
                     if (!_can_progress_method(this.TargetProblem, this.currentSolution, this)) {
                         break;
                     }
                 }
-                this.execution_ended = datetime.now();
-                this.write_outputValues_if_needed("after_algorithm", "a_a");
+                this.executionEnded = datetime.now();
+                this.write_outputValues_if_needed("afterAlgorithm", "a_a");
             }
             
             /// 
-            ///         String representation of the 'TotalEnumeration' instance
-            ///         
-            ///         :param delimiter: delimiter between fields
-            ///         :type delimiter: str
-            ///         :param indentation: level of indentation
-            ///         :type indentation: int, optional, default value 0
-            ///         :param indentationSymbol: indentation symbol
-            ///         :type indentationSymbol: str, optional, default value ''
-            ///         :param groupStart: group start string 
-            ///         :type groupStart: str, optional, default value '{'
-            ///         :param groupEnd: group end string 
-            ///         :type groupEnd: str, optional, default value '}'
-            ///         :return: string representation of instance that controls output
-            ///         return type str
-            ///         
+            /// String representation of the 'TotalEnumeration' instance
+            /// 
+            /// :param delimiter: delimiter between fields
+            /// :type delimiter: str
+            /// :param indentation: level of indentation
+            /// :type indentation: int, optional, default value 0
+            /// :param indentationSymbol: indentation symbol
+            /// :type indentationSymbol: str, optional, default value ''
+            /// :param groupStart: group start string 
+            /// :type groupStart: str, optional, default value '{'
+            /// :param groupEnd: group end string 
+            /// :type groupEnd: str, optional, default value '}'
+            /// :return: string representation of instance that controls output
+            /// return type str
+            /// 
             public virtual string StringRep(
                 string delimiter,
                 int indentation = 0,
@@ -275,32 +275,32 @@ namespace uo.Algorithm.exact.total_enumeration {
             }
             
             /// 
-            ///         String representation of the 'TotalEnumeration' instance
-            ///         
-            ///         :return: string representation of the 'TotalEnumeration' instance
-            ///         return type str
-            ///         
+            /// String representation of the 'TotalEnumeration' instance
+            /// 
+            /// :return: string representation of the 'TotalEnumeration' instance
+            /// return type str
+            /// 
             public override string ToString() {
                 return this.StringRep("|");
             }
             
             /// 
-            ///         Representation of the 'TotalEnumeration' instance
-            ///         
-            ///         :return: string representation of the 'TotalEnumeration' instance
-            ///         return type str
-            ///         
+            /// Representation of the 'TotalEnumeration' instance
+            /// 
+            /// :return: string representation of the 'TotalEnumeration' instance
+            /// return type str
+            /// 
             public virtual string _repr__() {
                 return this.StringRep("\n");
             }
             
             /// 
-            ///         Formatted 'TotalEnumeration' instance
-            ///         
-            ///         :param str spec: format specification
-            ///         :return: formatted 'TotalEnumeration' instance
-            ///         return type str
-            ///         
+            /// Formatted 'TotalEnumeration' instance
+            /// 
+            /// :param str spec: format specification
+            /// :return: formatted 'TotalEnumeration' instance
+            /// return type str
+            /// 
             public virtual string _format__(string spec) {
                 return this.StringRep("|");
             }
