@@ -117,9 +117,9 @@ namespace single_objective.teaching.ones_count_problem {
                     if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
+                    optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                     solution.evaluate(problem);
-                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                    optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
                     return true;
                 } else {
                     return false;
@@ -161,9 +161,9 @@ namespace single_objective.teaching.ones_count_problem {
                     if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
+                    optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                     var new_triplet = solution.CalculateQuality(problem);
-                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                    optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
                     if (new_triplet.fitnessValue > best_triplet.fitnessValue) {
                         best_triplet = new_triplet;
                         best_rep = solution.representation;
@@ -216,9 +216,9 @@ namespace single_objective.teaching.ones_count_problem {
                     if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
+                    optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                     var new_triplet = solution.CalculateQuality(problem);
-                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                    optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
                     if (new_triplet.fitnessValue > best_fv) {
                         solution.fitnessValue = new_triplet.fitnessValue;
                         solution.objectiveValue = new_triplet.objectiveValue;

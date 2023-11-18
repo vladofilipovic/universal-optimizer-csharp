@@ -40,14 +40,14 @@ namespace uo.Algorithm
 
         private readonly bool _writeToOutput;
 
-        public OutputControl(bool writeToOutput = false, StreamWriter? outputFile = null, string fields = "iteration, evaluation, \"step_name\", bestSolution.argument(), bestSolution.fitnessValue, bestSolution.objectiveValue, bestSolution.isFeasible", string moments = "afterAlgorithm")
+        public OutputControl(bool writeToOutput = false, StreamWriter? outputFile = null, string fields = "iteration, evaluation, \"stepName\", bestSolution.argument(), bestSolution.fitnessValue, bestSolution.objectiveValue, bestSolution.isFeasible", string moments = "afterAlgorithm")
         {
             _writeToOutput = writeToOutput;
             _outputFile = outputFile;
             _fieldsHeadings = new List<string> {
                     "iteration",
                     "evaluation",
-                    "step_name",
+                    "stepName",
                     "bestSolutionStringRepresentation",
                     "bestSolution_fitnessValue",
                     "bestSolution_objectiveValue",
@@ -56,7 +56,7 @@ namespace uo.Algorithm
             _fieldsDefinitions = new List<string> {
                     "self.iteration",
                     "self.evaluation",
-                    "\"step_name\"",
+                    "\"stepName\"",
                     "self.bestSolution.stringRepresentation()",
                     "self.bestSolution.fitnessValue",
                     "self.bestSolution.objectiveValue",

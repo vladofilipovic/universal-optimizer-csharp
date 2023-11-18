@@ -104,9 +104,9 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                     {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
+                    optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                     solution.evaluate(problem);
-                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                    optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
                     return true;
                 }
                 else
@@ -147,9 +147,9 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                     {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
+                    optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                     var new_triplet = solution.CalculateQuality(problem);
-                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                    optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
                     if (new_triplet.fitnessValue > best_triplet.fitnessValue)
                     {
                         best_triplet = new_triplet;
@@ -201,9 +201,9 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                     {
                         return solution;
                     }
-                    optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
+                    optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                     var new_triplet = solution.CalculateQuality(problem);
-                    optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                    optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
                     if (new_triplet.fitnessValue > best_fv)
                     {
                         solution.fitnessValue = new_triplet.fitnessValue;

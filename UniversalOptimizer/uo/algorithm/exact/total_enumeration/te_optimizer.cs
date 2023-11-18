@@ -206,11 +206,11 @@ namespace uo.Algorithm.exact.total_enumeration {
             /// 
             public virtual void init() {
                 _reset_method(this.TargetProblem, this.currentSolution, this);
-                this.write_outputValues_if_needed("beforeEvaluation", "b_e");
+                this.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                 this.evaluation += 1;
                 this.currentSolution.evaluate(this.TargetProblem);
-                this.write_outputValues_if_needed("afterEvaluation", "a_e");
-                this.copy_to_bestSolution(this.currentSolution);
+                this.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
+                this.CopyToBestSolution(this.currentSolution);
                 this.iteration = 1;
             }
             
@@ -219,22 +219,22 @@ namespace uo.Algorithm.exact.total_enumeration {
                 this.init();
                 logger.debug("Overall number of evaluations: {}".format(_problem_solution_te_support.overall_number_of_evaluations(this.TargetProblem, this.currentSolution, this)));
                 this.writeOutputHeadersIfNeeded();
-                this.write_outputValues_if_needed("beforeAlgorithm", "b_a");
+                this.WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
                 while (true) {
-                    this.write_outputValues_if_needed("beforeIteration", "b_i");
+                    this.WriteOutputValuesIfNeeded("beforeIteration", "b_i");
                     this.iteration += 1;
                     _progress_method(this.TargetProblem, this.currentSolution, this);
                     var new_is_better = this.is_first_solution_better(this.currentSolution, this.bestSolution);
                     if (new_is_better) {
-                        this.copy_to_bestSolution(this.currentSolution);
+                        this.CopyToBestSolution(this.currentSolution);
                     }
-                    this.write_outputValues_if_needed("afterIteration", "a_i");
+                    this.WriteOutputValuesIfNeeded("afterIteration", "a_i");
                     if (!_can_progress_method(this.TargetProblem, this.currentSolution, this)) {
                         break;
                     }
                 }
                 this.executionEnded = datetime.now();
-                this.write_outputValues_if_needed("afterAlgorithm", "a_a");
+                this.WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
             }
             
             /// 

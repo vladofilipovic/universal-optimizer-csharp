@@ -132,9 +132,9 @@ namespace uo.Algorithm.Metaheuristic {
             /// 
             public virtual object main_loop() {
                 while (!this.finish_control.is_finished(this.evaluation, this.iteration, this.elapsed_seconds())) {
-                    this.write_outputValues_if_needed("beforeIteration", "b_i");
+                    this.WriteOutputValuesIfNeeded("beforeIteration", "b_i");
                     this.main_loop_iteration();
-                    this.write_outputValues_if_needed("afterIteration", "a_i");
+                    this.WriteOutputValuesIfNeeded("afterIteration", "a_i");
                     logger.debug("Iteration: " + this.iteration.ToString() + ", Evaluations: " + this.evaluation.ToString() + ", Best solution objective: " + this.bestSolution.objectiveValue.ToString() + ", Best solution fitness: " + this.bestSolution.fitnessValue.ToString() + ", Best solution: " + this.bestSolution.stringRepresentation().ToString());
                 }
             }
@@ -146,10 +146,10 @@ namespace uo.Algorithm.Metaheuristic {
                 this.executionStarted = datetime.now();
                 this.init();
                 this.writeOutputHeadersIfNeeded();
-                this.write_outputValues_if_needed("beforeAlgorithm", "b_a");
+                this.WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
                 this.main_loop();
                 this.executionEnded = datetime.now();
-                this.write_outputValues_if_needed("afterAlgorithm", "a_a");
+                this.WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
             }
             
             /// 
@@ -203,13 +203,6 @@ namespace uo.Algorithm.Metaheuristic {
                 s += "_iterationBestFound=" + _iterationBestFound.ToString() + delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
                     s += indentationSymbol;
-                }
-                s += "_timeWhenBestObtained=" + _timeWhenBestObtained.ToString() + delimiter;
-                if (this.executionEnded is not null && this.executionStarted is not null) {
-                    foreach (var i in Enumerable.Range(0, indentation - 0)) {
-                        s += indentationSymbol;
-                    }
-                    s += "execution time=" + (this.executionEnded - this.executionStarted).total_seconds().ToString() + delimiter;
                 }
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
                     s += indentationSymbol;

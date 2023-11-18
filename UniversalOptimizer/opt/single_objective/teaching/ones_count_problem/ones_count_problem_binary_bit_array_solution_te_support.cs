@@ -96,10 +96,10 @@ namespace single_objective.teaching.ones_count_problem {
                 _bit_array_counter = ComplexCounterBitArrayFull(problem.dimension);
                 _bit_array_counter.reset();
                 solution.InitFrom(_bit_array_counter.current_state(), problem);
-                optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
+                optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                 optimizer.evaluation += 1;
                 solution.evaluate(problem);
-                optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
             }
             
             /// 
@@ -113,10 +113,10 @@ namespace single_objective.teaching.ones_count_problem {
             public virtual object progress(object problem, object solution, object optimizer) {
                 _bit_array_counter.progress();
                 solution.InitFrom(_bit_array_counter.current_state(), problem);
-                optimizer.write_outputValues_if_needed("beforeEvaluation", "b_e");
+                optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                 optimizer.evaluation += 1;
                 solution.evaluate(problem);
-                optimizer.write_outputValues_if_needed("afterEvaluation", "a_e");
+                optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
             }
             
             /// 

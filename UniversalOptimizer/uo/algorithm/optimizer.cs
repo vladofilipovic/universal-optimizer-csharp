@@ -12,28 +12,20 @@ namespace uo.Algorithm
 
     public abstract class Optimizer<R_co, A_co>
     {
-
-        private TargetSolution<R_co, A_co> _bestSolution;
-
+        private TargetSolution<R_co, A_co>? _bestSolution;
         private DateTime _executionEnded;
-
         private DateTime _executionStarted;
-
-        private TargetSolution<R_co, A_co> _iterationBestFound;
-
-        private string _name;
-
-        private static OutputControl _outputControl;
-
-        private DateTime _timeWhenBestObtained;
-
+        private readonly string _name;
+        private OutputControl _outputControl;
         private TargetProblem _targetProblem;
+        private double _timeWhenBestObtained;
 
         public Optimizer(string name, OutputControl outputControl, TargetProblem targetProblem)
         {
             _name = name;
             _outputControl = outputControl;
             _targetProblem = targetProblem;
+            _timeWhenBestObtained = 0.0;
         }
 
         /// <summary>
@@ -42,7 +34,7 @@ namespace uo.Algorithm
         /// <value>
         /// The name of the optimizer instance.
         /// </value>
-        public object Name
+        public string Name
         {
             get
             {
@@ -56,7 +48,7 @@ namespace uo.Algorithm
         /// <value>
         /// The target problem to be solved.
         /// </value>
-        public object TargetProblem
+        public TargetProblem TargetProblem
         {
             get
             {
@@ -106,7 +98,7 @@ namespace uo.Algorithm
         /// <value>
         /// The best solution so far.
         /// </value>
-         public TargetSolution<R_co,A_co> BestSolution
+        public TargetSolution<R_co, A_co>? BestSolution
         {
             get
             {
@@ -159,54 +151,59 @@ namespace uo.Algorithm
             }
         }
 
-        /// 
-        /// Write data(with field values) to output file, if necessary 
-        /// 
-        /// :param str step_name: name of the step when data should be written to output - have to be one of the following values: 'afterAlgorithm', 'beforeAlgorithm', 'afterIteration', 'beforeIteration', 'afterEvaluation', 'beforeEvaluation', 'afterStepInIteration', 'beforeStepInIteration'
-        /// :param str step_nameValue: what should be written to the output instead of step_name
-        /// 
-        public virtual object write_outputValues_if_needed(string step_name, string step_nameValue)
+        /// <summary>
+        /// Write data(with field values) to output file, if necessary.
+        /// </summary>
+        /// <param name="stepName">Name  of the step when data should be written to output 
+        /// - have to be one of the following values: 'afterAlgorithm', 'beforeAlgorithm', 
+        /// 'afterIteration', 'beforeIteration', 'afterEvaluation', 'beforeEvaluation', 
+        /// 'afterStepInIteration', 'beforeStepInIteration'.</param>
+        /// <param name="stepNameValue">The step name value - what should be written to the output 
+        /// instead of stepName.</param>
+        /// <returns></returns>
+        /// <exception cref="ValueError">Supplied step name '" + stepName + "' is not valid.</exception>
+        public void WriteOutputValuesIfNeeded(string stepName, string stepNameValue)
         {
-            object s_data;
+            string s_data;
             if (this.OutputControl.WriteToOutput)
             {
                 var output = this.OutputControl.OutputFile;
                 var should_write = false;
-                if (step_name == "afterAlgorithm")
+                if (stepName == "afterAlgorithm")
                 {
                     should_write = true;
                 }
-                else if (step_name == "beforeAlgorithm")
+                else if (stepName == "beforeAlgorithm")
                 {
                     should_write = this.OutputControl.WriteBeforeAlgorithm;
                 }
-                else if (step_name == "afterIteration")
+                else if (stepName == "afterIteration")
                 {
                     should_write = this.OutputControl.WriteAfterIteration;
                 }
-                else if (step_name == "beforeIteration")
+                else if (stepName == "beforeIteration")
                 {
                     should_write = this.OutputControl.WriteBeforeIteration;
                 }
-                else if (step_name == "afterEvaluation")
+                else if (stepName == "afterEvaluation")
                 {
                     should_write = this.OutputControl.WriteAfterEvaluation;
                 }
-                else if (step_name == "beforeEvaluation")
+                else if (stepName == "beforeEvaluation")
                 {
                     should_write = this.OutputControl.WriteBeforeEvaluation;
                 }
-                else if (step_name == "afterStepInIteration")
+                else if (stepName == "afterStepInIteration")
                 {
                     should_write = this.OutputControl.WriteAfterStepInIteration;
                 }
-                else if (step_name == "beforeStepInIteration")
+                else if (stepName == "beforeStepInIteration")
                 {
                     should_write = this.OutputControl.WriteBeforeStepInIteration;
                 }
                 else
                 {
-                    throw new ValueError("Supplied step name '" + step_name + "' is not valid.");
+                    throw new Exception("Supplied step name '" + stepName + "' is not valid.");
                 }
                 if (should_write)
                 {
@@ -218,56 +215,56 @@ namespace uo.Algorithm
                         {
                             try
                             {
-                                var data = eval(f_def);
+                                var data = "TODO"; // eval(f_def);
                                 s_data = data.ToString();
-                                if (s_data == "step_name")
+                                if (s_data == "stepName")
                                 {
-                                    s_data = step_nameValue;
+                                    s_data = stepNameValue;
                                 }
                             }
                             catch
                             {
                                 s_data = "XXX";
                             }
-                            output.write(s_data + "\t");
+                            output?.Write(s_data + "\t");
                             line += s_data + "\t";
                         }
                     }
-                    output.write("\n");
-                    logger.info(line);
+                    output?.Write("\n");
                 }
             }
         }
 
-        /// 
-        /// Copies function argument to become the best solution within metaheuristic instance and update info about time 
-        /// and iteration when the best solution is updated 
-        /// 
-        /// :param TargetSolution solution: solution that is source for coping operation
-        /// 
-        public virtual object copy_to_bestSolution(object solution)
+        /// <summary>
+        /// Copies function argument to become the best solution within optimizer instance and update
+        /// info about time and iteration when the best solution is updated.
+        /// </summary>
+        /// <param name="solution">The solution that is source for coping operation.</param>
+        /// <returns></returns>
+        public virtual void CopyToBestSolution(TargetSolution<R_co, A_co> solution)
         {
-            _bestSolution = solution.copy();
-            _timeWhenBestObtained = (datetime.now() - this.executionStarted).total_seconds();
-            _iterationBestFound = this.iteration;
+            _bestSolution = solution.Clone();
+            TimeSpan duration = DateTime.Now - this.ExecutionStarted;
+            _timeWhenBestObtained = duration.TotalNanoseconds;
         }
 
         /// 
-        /// String representation of the 'Algorithm' instance
+        /// Method for optimization   
         /// 
-        /// :param delimiter: delimiter between fields
-        /// :type delimiter: str
-        /// :param indentation: level of indentation
-        /// :type indentation: int, optional, default value 0
-        /// :param indentationSymbol: indentation symbol
-        /// :type indentationSymbol: str, optional, default value ''
-        /// :param groupStart: group start string 
-        /// :type groupStart: str, optional, default value '{'
-        /// :param groupEnd: group end string 
-        /// :type groupEnd: str, optional, default value '}'
-        /// :return: string representation of instance that controls output
-        /// return type str
-        /// 
+        public virtual object Optimize()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// String representation of the optimizer instance.
+        /// </summary>
+        /// <param name="delimiter">The delimiter between fields.</param>
+        /// <param name="indentation">The indentation level.</param>
+        /// <param name="indentationSymbol">The indentation symbol.</param>
+        /// <param name="groupStart">The group start.</param>
+        /// <param name="groupEnd">The group end.</param>
+        /// <returns></returns>
         public virtual string StringRep(
             string delimiter,
             int indentation = 0,
@@ -285,24 +282,30 @@ namespace uo.Algorithm
             {
                 s += indentationSymbol;
             }
-            s += "name=" + this.name + delimiter;
+            s += "name=" + this.Name + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "TargetProblem=" + this.TargetProblem.stringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
-            s += "_OutputControl=" + _OutputControl.stringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
-            s += "executionStarted=" + this.executionStarted.ToString() + delimiter;
+            s += "TargetProblem=" + this.TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
+            s += "_OutputControl=" + this.OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
+            s += "executionStarted=" + this.ExecutionStarted.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "executionEnded=" + this.executionEnded.ToString() + delimiter;
+            s += "executionEnded=" + this.ExecutionEnded.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "bestSolution=" + this.bestSolution.stringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
+            s += "_timeWhenBestObtained=" + _timeWhenBestObtained.ToString() + delimiter;
+            foreach (var i in Enumerable.Range(0, indentation - 0))
+            {
+                s += indentationSymbol;
+            }
+            s += "execution time=" + (this.ExecutionEnded - this.ExecutionStarted).TotalSeconds.ToString() + delimiter;
+            s += "bestSolution=" + this.BestSolution?.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
@@ -311,51 +314,5 @@ namespace uo.Algorithm
             return s;
         }
 
-        /// 
-        /// Method for optimization   
-        /// 
-        [abstractmethod]
-        public virtual object optimize()
-        {
-            throw new NotImplemented();
-        }
-
-        /// 
-        /// String representation of the 'Algorithm' instance
-        /// 
-        /// :return: string representation of the 'Algorithm' instance
-        /// return type str
-        /// 
-        [abstractmethod]
-        public override string ToString()
-        {
-            return this.StringRep("|");
-        }
-
-        /// 
-        /// Representation of the 'Algorithm' instance
-        /// 
-        /// :return: string representation of the 'Algorithm' instance
-        /// return type str
-        /// 
-        [abstractmethod]
-        public virtual string _repr__()
-        {
-            return this.StringRep("\n");
-        }
-
-        /// 
-        /// Formatted 'Algorithm' instance
-        /// 
-        /// :param str spec: format specification
-        /// :return: formatted 'Algorithm' instance
-        /// return type str
-        /// 
-        [abstractmethod]
-        public virtual string _format__(string spec)
-        {
-            return this.StringRep("|");
-        }
     }
-}
 }

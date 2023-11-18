@@ -25,25 +25,21 @@ namespace uo.TargetSolution
     /// </summary>
     /// <typeparam name="R_co">The type for the solution representation.</typeparam>
     /// <typeparam name="A_co">The type for the solution arguments.</typeparam>
-    public abstract class TargetSolution<R_co, A_co>
+    public abstract class TargetSolution<R_co, A_co> : ICloneable
     {
 
         private bool _distanceCalculationCacheIsUsed;
         private int _distanceCalculationCacheMaxSize;
-
         private bool _evaluationCacheIsUsed;
         private int _evaluationCacheMaxSize;
-
-        private string _name;
-
+        private readonly string _name;
         private double _fitnessValue;
         private IEnumerable<double> _fitnessValues;
         private bool _isFeasible;
         private double _objectiveValue;
         private IEnumerable<double> _objectiveValues;
-
-        private int _randomSeed;
-        private Random _randomGenerator;
+        private readonly int _randomSeed;
+        private readonly Random _randomGenerator;
 
         private R_co _representation;
 
@@ -85,6 +81,16 @@ namespace uo.TargetSolution
             _distanceCalculationCacheIsUsed = distanceCalculationCacheIsUsed;
             _distanceCalculationCacheMaxSize = distanceCalculationCacheMaxSize;
             RepresentationDistanceCacheCS = new DistanceCalculationCacheControlStatistics<R_co>(distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize);
+        }
+
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public object Clone()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -444,6 +450,5 @@ namespace uo.TargetSolution
         {
             return this.StringRep("|");
         }
-
     }
 }

@@ -15,14 +15,10 @@ namespace uo.TargetSolution
     {
 
         private Dictionary<string, QualityOfSolution> _cache;
-
         private int _cacheHitCount;
-
         private int _cacheRequestCount;
-
         private bool _isCaching;
-
-        private int _maxCacheSize;
+        private readonly int _maxCacheSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EvaluationCacheControlStatistics"/> class.

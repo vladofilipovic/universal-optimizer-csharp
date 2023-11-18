@@ -247,24 +247,24 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
                 _k_current = this.k_min;
                 this.currentSolution.InitRandom(this.TargetProblem);
                 this.currentSolution.evaluate(this.TargetProblem);
-                this.copy_to_bestSolution(this.currentSolution);
+                this.CopyToBestSolution(this.currentSolution);
             }
             
             /// 
             /// One iteration within main loop of the VNS algorithm
             /// 
             public virtual object main_loop_iteration() {
-                this.write_outputValues_if_needed("beforeStepInIteration", "shaking");
+                this.WriteOutputValuesIfNeeded("beforeStepInIteration", "shaking");
                 if (!_shaking_method(_k_current, this.TargetProblem, this.currentSolution, this)) {
-                    this.write_outputValues_if_needed("afterStepInIteration", "shaking");
+                    this.WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
                     return false;
                 }
-                this.write_outputValues_if_needed("afterStepInIteration", "shaking");
+                this.WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
                 this.iteration += 1;
                 while (_k_current <= _k_max) {
-                    this.write_outputValues_if_needed("beforeStepInIteration", "ls");
+                    this.WriteOutputValuesIfNeeded("beforeStepInIteration", "ls");
                     this.currentSolution = _ls_method(_k_current, this.TargetProblem, this.currentSolution, this);
-                    this.write_outputValues_if_needed("afterStepInIteration", "ls");
+                    this.WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
                     /// update auxiliary structure that keeps all solution codes
                     this.additional_statistics_control.add_to_all_solution_codes_if_required(this.currentSolution.stringRepresentation());
                     this.additional_statistics_control.add_to_more_local_optima_if_required(this.currentSolution.stringRepresentation(), this.currentSolution.fitnessValue, this.bestSolution.stringRepresentation());
@@ -279,7 +279,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
                         }
                     }
                     if (make_move) {
-                        this.copy_to_bestSolution(this.currentSolution);
+                        this.CopyToBestSolution(this.currentSolution);
                         _k_current = this.k_min;
                     } else {
                         _k_current += 1;

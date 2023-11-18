@@ -161,7 +161,7 @@ namespace single_objective.teaching.ones_count_problem {
                 }
                 this.model.solve();
                 this.executionEnded = datetime.now();
-                this.write_outputValues_if_needed("afterAlgorithm", "a_a");
+                this.WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
                 this.bestSolution = new OnesCountProblemIntegerLinearProgrammingSolution(this.model.solution.x);
                 ///logger.debug(self.model.solution.x)
             }

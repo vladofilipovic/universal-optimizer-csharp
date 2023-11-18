@@ -10,12 +10,24 @@ namespace uo.TargetProblem {
     public abstract class TargetProblem: ICloneable
     {
         /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        object ICloneable.Clone()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Gets a value indicating whether this instance is minimization.
         /// </summary>
         /// <value>
         ///   <c>true</c> if this instance is minimization; otherwise, <c>false</c>.
         /// </value>
-        public bool IsMinimization { get; init; }
+        public bool? IsMinimization { get; init; }
 
         /// <summary>
         /// Gets the name.
@@ -87,5 +99,6 @@ namespace uo.TargetProblem {
         {
             return StringRep("|");
         }
+
     }
 }

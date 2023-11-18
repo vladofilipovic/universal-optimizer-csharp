@@ -2,9 +2,7 @@ namespace uo.TargetSolution
 {
 
     using uo.TargetProblem;
-
     using uo.TargetSolution;
-
     using uo.Algorithm;
 
 
@@ -83,6 +81,36 @@ namespace uo.TargetSolution
         public virtual string _format__(string spec)
         {
             return _format__();
+        }
+
+        public override string Argument(object representation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void InitRandom(TargetProblem problem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object NativeRepresentation(string representationStr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void InitFrom(object representation, TargetProblem problem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override QualityOfSolution CalculateQualityDirectly(object representation, object problem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override double RepresentationDistanceDirectly(object representation_1, object representation_2)
+        {
+            throw new NotImplementedException();
         }
     }
 }

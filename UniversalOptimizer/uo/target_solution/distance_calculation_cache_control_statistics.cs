@@ -1,11 +1,8 @@
 
 namespace uo.TargetSolution
 {
-
     using System.Collections.Generic;
-    using System;
     using System.Linq;
-
 
     /// <summary>
     /// Class that represents control statistics for solution code distance calculation cache.
@@ -15,14 +12,10 @@ namespace uo.TargetSolution
     {
 
         private Dictionary<(E_co, E_co), double> _cache;
-
         private int _cacheHitCount;
-
         private int _cacheRequestCount;
-
         private bool _isCaching;
-
-        private int _maxCacheSize;
+        private readonly int _maxCacheSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DistanceCalculationCacheControlStatistics{E_co}"/> class.
