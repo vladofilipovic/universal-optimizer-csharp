@@ -27,9 +27,6 @@ namespace uo.TargetSolution
     /// <typeparam name="A_co">The type for the solution arguments.</typeparam>
     public abstract class TargetSolution<R_co, A_co> : ICloneable
     {
-
-        private bool _distanceCalculationCacheIsUsed;
-        private int _distanceCalculationCacheMaxSize;
         private bool _evaluationCacheIsUsed;
         private int _evaluationCacheMaxSize;
         private readonly string _name;
@@ -40,8 +37,7 @@ namespace uo.TargetSolution
         private IEnumerable<double> _objectiveValues;
         private readonly int _randomSeed;
         private readonly Random _randomGenerator;
-
-        private R_co _representation;
+        private R_co? _representation;
 
         public static EvaluationCacheControlStatistics EvaluationCacheCS = new EvaluationCacheControlStatistics(false, 42);
 
@@ -78,8 +74,6 @@ namespace uo.TargetSolution
             _evaluationCacheIsUsed = evaluationCacheIsUsed;
             _evaluationCacheMaxSize = evaluationCacheMaxSize;
             EvaluationCacheCS = new EvaluationCacheControlStatistics(_evaluationCacheIsUsed, _evaluationCacheMaxSize);
-            _distanceCalculationCacheIsUsed = distanceCalculationCacheIsUsed;
-            _distanceCalculationCacheMaxSize = distanceCalculationCacheMaxSize;
             RepresentationDistanceCacheCS = new DistanceCalculationCacheControlStatistics<R_co>(distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize);
         }
 
@@ -214,11 +208,11 @@ namespace uo.TargetSolution
         {
             get
             {
-                return Representation;
+                return _representation;
             }
             set
             {
-                Representation = value;
+                _representation = value;
             }
         }
 
@@ -292,7 +286,7 @@ namespace uo.TargetSolution
                     eccs.IncrementCacheHitCount();
                     return eccs.Cache[rep];
                 }
-                qos = this.CalculateQualityDirectly(this.Representation, targetProblem);
+                qos = this.CalculateQualityDirectly(Representation, targetProblem);
                 if (eccs.Cache.Count >= eccs.MaxCacheSize)
                 {
                     /// removing random

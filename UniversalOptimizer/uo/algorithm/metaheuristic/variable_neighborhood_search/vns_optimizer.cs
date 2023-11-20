@@ -266,8 +266,8 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
                     this.currentSolution = _ls_method(_k_current, this.TargetProblem, this.currentSolution, this);
                     this.WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
                     /// update auxiliary structure that keeps all solution codes
-                    this.additional_statistics_control.add_to_all_solution_codes_if_required(this.currentSolution.stringRepresentation());
-                    this.additional_statistics_control.add_to_more_local_optima_if_required(this.currentSolution.stringRepresentation(), this.currentSolution.fitnessValue, this.bestSolution.stringRepresentation());
+                    this.additional_statistics_control.add_to_allSolutionCodes_if_required(this.currentSolution.stringRepresentation());
+                    this.additional_statistics_control.add_to_moreLocalOptima_if_required(this.currentSolution.stringRepresentation(), this.currentSolution.fitnessValue, this.bestSolution.stringRepresentation());
                     var new_is_better = this.is_first_solution_better(this.currentSolution, this.bestSolution);
                     var make_move = new_is_better;
                     if (new_is_better is null) {
@@ -330,7 +330,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
                     s += indentationSymbol;
                 }
-                s += "_max_local_optima=" + _max_local_optima.ToString() + delimiter;
+                s += "_maxLocalOptima=" + _maxLocalOptima.ToString() + delimiter;
                 foreach (var i in Enumerable.Range(0, indentation - 0)) {
                     s += indentationSymbol;
                 }

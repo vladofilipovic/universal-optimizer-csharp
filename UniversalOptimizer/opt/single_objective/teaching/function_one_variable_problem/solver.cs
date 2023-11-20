@@ -221,8 +221,8 @@ Which solver will be executed depends of command-line parameter algorithm.
                 var calculation_solutionDistanceCacheMaxSize = parameters["solutionDistanceCalculationCacheMaxSize"];
                 /// additional statistic control setup
                 var additional_statistics_keep = parameters["additionalStatisticsKeep"];
-                var max_local_optima = parameters["additionalStatisticsMaxLocalOptima"];
-                var additional_statistics_control = AdditionalStatisticsControl(keep: additional_statistics_keep, max_local_optima: max_local_optima);
+                var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
+                var additional_statistics_control = AdditionalStatisticsControl(keep: additional_statistics_keep, maxLocalOptima: maxLocalOptima);
                 /// problem to be solved
                 var problem = FunctionOneVariableProblem.from_input_file(input_file_path: input_file_path, input_format: input_format);
                 var start_time = datetime.now();
@@ -262,7 +262,7 @@ Which solver will be executed depends of command-line parameter algorithm.
                     vns_construction_params.additional_statistics_control = additional_statistics_control;
                     vns_construction_params.k_min = k_min;
                     vns_construction_params.k_max = k_max;
-                    vns_construction_params.max_local_optima = max_local_optima;
+                    vns_construction_params.maxLocalOptima = maxLocalOptima;
                     vns_construction_params.local_search_type = local_search_type;
                     var solver = FunctionOneVariableProblemSolver.from_variable_neighborhood_search(vns_construction_params);
                 }
