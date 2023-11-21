@@ -47,27 +47,24 @@ namespace utils
             return _counters;
         }
 
-        /// 
+        /// <summary>
         /// Resets the complex counter to its initial position.
-        /// 
-        /// :return: if progress is possible after resetting
-        /// return type bool
-        /// 
-        public bool reset()
+        /// </summary>
+        /// <returns>Indicator if progress is possible after resetting.</returns>
+        public bool Reset()
         {
-            _counters.Set(0, false);
+            _counters.SetAll(false);
             return _number_of_counters > 0;
         }
 
-        /// 
-        /// Make the progress to the complex counter. At the same time, determine if complex counter can progress.
-        /// 
-        /// :return: if progress is successful
-        /// return type bool
-        /// 
-        public virtual bool progress()
+        /// <summary>
+        /// Make the progress to the complex counter. At the same time, determine if complex 
+        /// counter can progress.
+        /// </summary>
+        /// <returns>Indicator if progress is successful.</returns>
+        public bool Progress()
         {
-            if (_counters.All(true))
+            if (_counters.HasAllSet())
             {
                 return false;
             }
@@ -82,21 +79,5 @@ namespace utils
             return !_counters.all(true);
         }
 
-        /// testing the developed class
-        //public static void main() {
-        //    var cc = new ComplexCounterBitArrayFull(6);
-        //    var can_progress = cc.reset();
-        //    foreach (var i in Enumerable.Range(1, 100 - 1)) {
-        //        Console.WriteLine(cc.current_state().bin);
-        //        can_progress = cc.progress();
-        //    }
-        //}
-
-        static complex_counter_bit_array_full()
-        {
-            if (_name__ == "__main__")
-            {
-            }
-        }
     }
 }
