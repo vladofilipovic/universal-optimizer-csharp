@@ -1,7 +1,7 @@
 ///  
 /// .. _py_ones_count_problem_int_solution:
 /// 
-/// The :mod:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution` contains class :class:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution.OnesCountProblemBinaryIntSolution`, that represents solution of the :ref:`Problem_Max_Ones`, where `int` representation of the problem has been used.
+/// The :mod:`~opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution` contains class :class:`~opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution`, that represents solution of the :ref:`Problem_Max_Ones`, where `int` representation of the problem has been used.
 /// 
 namespace single_objective.teaching.ones_count_problem {
     
@@ -27,11 +27,11 @@ namespace single_objective.teaching.ones_count_problem {
     
     using System.Linq;
     
-    public static class ones_count_problem_binary_int_solution {
+    public static class ones_count_problemBinaryIntSolution {
         
         public static object directory = Path(_file__).resolve();
         
-        static ones_count_problem_binary_int_solution() {
+        static ones_count_problemBinaryIntSolution() {
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent);
             sys.path.append(directory.parent.parent.parent);
@@ -192,7 +192,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// :return: string representation of instance that controls output
             /// return type str
             /// 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter = "\n",
                 int indentation = 0,
                 string indentationSymbol = "   ",

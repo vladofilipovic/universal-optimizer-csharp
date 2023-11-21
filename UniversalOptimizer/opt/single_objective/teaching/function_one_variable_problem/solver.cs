@@ -34,17 +34,17 @@ namespace UniversalOptimizer.opt.single_objective.teaching
 
     using logger = uo.utils.logger.logger;
 
-    using default_parameters_cl = teaching.function_one_variable_problem.command_line.default_parameters_cl;
+    using default_parameters_cl = teaching.FunctionOneVariableProblem.command_line.default_parameters_cl;
 
-    using parse_arguments = teaching.function_one_variable_problem.command_line.parse_arguments;
+    using parse_arguments = teaching.FunctionOneVariableProblem.command_line.parse_arguments;
 
-    using FunctionOneVariableProblem = teaching.function_one_variable_problem.function_one_variable_problem.FunctionOneVariableProblem;
+    using FunctionOneVariableProblem = teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
-    using FunctionOneVariableProblemBinaryIntSolution = teaching.function_one_variable_problem.function_one_variable_problem_binary_int_solution.FunctionOneVariableProblemBinaryIntSolution;
+    using FunctionOneVariableProblemBinaryIntSolution = teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
 
-    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = teaching.function_one_variable_problem.function_one_variable_problem_binary_int_solution_vns_support.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
+    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution_vns_support.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
 
-    using FunctionOneVariableProblemSolver = teaching.function_one_variable_problem.function_one_variable_problem_solver.FunctionOneVariableProblemSolver;
+    using FunctionOneVariableProblemSolver = teaching.FunctionOneVariableProblem.FunctionOneVariableProblem_solver.FunctionOneVariableProblemSolver;
 
     using System.Collections.Generic;
 
@@ -213,7 +213,7 @@ Which solver will be executed depends of command-line parameter algorithm.
                 var max_numberEvaluations = parameters["finishEvaluationsMax"];
                 var max_numberIterations = parameters["finishIterationsMax"];
                 var max_time_for_execution_in_seconds = parameters["finishSecondsMax"];
-                var finish_control = FinishControl(criteria: finish_criteria, evaluations_max: max_numberEvaluations, iterations_max: max_numberIterations, seconds_max: max_time_for_execution_in_seconds);
+                var finish_control = FinishControl(criteria: finish_criteria, evaluationsMax: max_numberEvaluations, iterationsMax: max_numberIterations, secondsMax: max_time_for_execution_in_seconds);
                 /// solution evaluations and calculations cache setup
                 var evaluationCacheIsUsed = parameters["solutionEvaluationCacheIsUsed"];
                 var evaluationCacheMaxSize = parameters["solutionEvaluationCacheMaxSize"];
@@ -243,8 +243,8 @@ Which solver will be executed depends of command-line parameter algorithm.
                     object vns_support = null;
                     if (solution_type == "int")
                     {
-                        var number_of_intervals = parameters["solutionNumberOfIntervals"];
-                        var solution = FunctionOneVariableProblemBinaryIntSolution(domain_from: problem.domain_low, domain_to: problem.domain_high, number_of_intervals: number_of_intervals, randomSeed: rSeed);
+                        var numberOfIntervals = parameters["solutionNumberOfIntervals"];
+                        var solution = FunctionOneVariableProblemBinaryIntSolution(domain_from: problem.domainLow, domain_to: problem.domainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
                         vns_support = FunctionOneVariableProblemBinaryIntSolutionVnsSupport();
                     }
                     else

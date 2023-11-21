@@ -224,7 +224,7 @@ namespace uo.Algorithm.exact.total_enumeration {
                     this.WriteOutputValuesIfNeeded("beforeIteration", "b_i");
                     this.iteration += 1;
                     _progress_method(this.TargetProblem, this.currentSolution, this);
-                    var new_is_better = this.is_first_solution_better(this.currentSolution, this.bestSolution);
+                    var new_is_better = this.IsFirstSolutionBetter(this.currentSolution, this.bestSolution);
                     if (new_is_better) {
                         this.CopyToBestSolution(this.currentSolution);
                     }
@@ -253,7 +253,7 @@ namespace uo.Algorithm.exact.total_enumeration {
             /// :return: string representation of instance that controls output
             /// return type str
             /// 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",

@@ -43,7 +43,7 @@ namespace uo.TargetProblem {
         /// </summary>
         /// <param name="name">name of the target problem</param>
         /// <param name="isMinimization">should minimum or maximum be determined</param>
-        public TargetProblem(string name, bool isMinimization) {
+        public TargetProblem(string name, bool? isMinimization) {
             Name = name;
             IsMinimization = isMinimization;
         }
@@ -65,7 +65,7 @@ namespace uo.TargetProblem {
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns> string representation </returns>
-        public virtual string StringRep(
+        public new string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

@@ -98,7 +98,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// return type bool
             /// 
             public virtual bool shaking(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                     return false;
                 }
                 var tries = 0;
@@ -123,7 +123,7 @@ namespace single_objective.teaching.ones_count_problem {
                 }
                 if (tries < limit) {
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                         return false;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -147,7 +147,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// return type OnesCountProblemBinaryBitArraySolution
             /// 
             public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
@@ -164,7 +164,7 @@ namespace single_objective.teaching.ones_count_problem {
                     /// invert and compare, switch of new is better
                     solution.representation.invert(positions);
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -199,7 +199,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// return type OnesCountProblemBinaryBitArraySolution
             /// 
             public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
@@ -215,7 +215,7 @@ namespace single_objective.teaching.ones_count_problem {
                     /// invert and compare, switch and exit if new is better
                     solution.representation.invert(positions);
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -250,7 +250,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// :return: string representation of vns support instance
             /// return type str
             /// 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",

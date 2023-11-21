@@ -9,6 +9,7 @@ namespace uo.Algorithm
     using System;
 
     using System.Linq;
+    using UniversalOptimizer.uo.utils;
 
     public abstract class Optimizer<R_co, A_co>
     {
@@ -215,7 +216,7 @@ namespace uo.Algorithm
                         {
                             try
                             {
-                                var data = "TODO"; // eval(f_def);
+                                var data = this.ReflectionGetPropertyValue(f_def);
                                 s_data = data.ToString();
                                 if (s_data == "stepName")
                                 {
@@ -265,7 +266,7 @@ namespace uo.Algorithm
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns></returns>
-        public virtual string StringRep(
+        public new string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

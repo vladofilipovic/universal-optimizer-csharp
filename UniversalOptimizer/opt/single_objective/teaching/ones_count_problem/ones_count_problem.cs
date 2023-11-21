@@ -61,16 +61,16 @@ namespace single_objective.teaching.ones_count_problem {
             /// return type int
             /// 
             [classmethod]
-            public static int _load_from_file__(object cls, string file_path, string data_format) {
+            public static int LoadFromFileHelper(object cls, string file_path, string data_format) {
                 logger.debug("Load parameters: file path=" + file_path.ToString() + ", data format representation=" + data_format);
                 if (data_format == "txt") {
                     var input_file = open(file_path, "r");
-                    var text_line = input_file.readline().strip();
+                    var textLine = input_file.readline().strip();
                     /// skip comments
-                    while (text_line.startswith("///") || text_line.startswith(";")) {
-                        text_line = input_file.readline();
+                    while (textLine.startswith("///") || textLine.startswith(";")) {
+                        textLine = input_file.readline();
                     }
-                    var dimension = Convert.ToInt32(text_line.split()[0]);
+                    var dimension = Convert.ToInt32(textLine.split()[0]);
                     return dimension;
                 } else {
                     throw new ValueError("Value for data format \'{} \' is not supported".format(data_format));
@@ -85,7 +85,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// 
             [classmethod]
             public static void from_input_file(object cls, string input_file_path, string input_format) {
-                var dimension = OnesCountProblem._load_from_file__(input_file_path, input_format);
+                var dimension = OnesCountProblem.LoadFromFileHelper(input_file_path, input_format);
                 return cls(dim: dimension);
             }
             
@@ -138,7 +138,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// :return: string representation of instance that controls output
             /// return type str
             /// 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",

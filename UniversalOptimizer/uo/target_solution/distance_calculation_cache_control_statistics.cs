@@ -136,7 +136,7 @@ namespace uo.TargetSolution
         /// <param name="groupEnd">group end <see cref="System.String" /> .</param>
         /// <returns></returns>
         /// 
-        public virtual string StringRep(
+        public new string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

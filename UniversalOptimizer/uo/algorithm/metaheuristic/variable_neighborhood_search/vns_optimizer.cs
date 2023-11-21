@@ -266,9 +266,9 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
                     this.currentSolution = _ls_method(_k_current, this.TargetProblem, this.currentSolution, this);
                     this.WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
                     /// update auxiliary structure that keeps all solution codes
-                    this.additional_statistics_control.add_to_allSolutionCodes_if_required(this.currentSolution.stringRepresentation());
-                    this.additional_statistics_control.add_to_moreLocalOptima_if_required(this.currentSolution.stringRepresentation(), this.currentSolution.fitnessValue, this.bestSolution.stringRepresentation());
-                    var new_is_better = this.is_first_solution_better(this.currentSolution, this.bestSolution);
+                    this.additional_statistics_control.AddToAllSolutionCodesIfRequired(this.currentSolution.stringRepresentation());
+                    this.additional_statistics_control.AddToMoreLocalOptimaIfRequired(this.currentSolution.stringRepresentation(), this.currentSolution.fitnessValue, this.bestSolution.stringRepresentation());
+                    var new_is_better = this.IsFirstSolutionBetter(this.currentSolution, this.bestSolution);
                     var make_move = new_is_better;
                     if (new_is_better is null) {
                         if (this.currentSolution.stringRepresentation() == this.bestSolution.stringRepresentation()) {
@@ -303,7 +303,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             /// :return: string representation of instance that controls output
             /// return type str
             /// 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",

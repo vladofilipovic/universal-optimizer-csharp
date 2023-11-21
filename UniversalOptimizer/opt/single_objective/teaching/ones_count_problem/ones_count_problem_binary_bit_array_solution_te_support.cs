@@ -161,7 +161,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// :return: string representation of vns support instance
             /// return type str
             /// 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",

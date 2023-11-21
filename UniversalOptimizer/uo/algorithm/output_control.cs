@@ -15,29 +15,17 @@ namespace uo.Algorithm
     /// 
     public class OutputControl
     {
-
         public List<string> _fieldsDefinitions;
-
         public List<string> _fieldsHeadings;
-
         private StreamWriter? _outputFile;
-
         public bool _writeAfterAlgorithm;
-
         public bool _writeAfterEvaluation;
-
         public bool _writeAfterIteration;
-
         public bool _writeAfterStepInIteration;
-
         public bool _writeBeforeAlgorithm;
-
         public bool _writeBeforeEvaluation;
-
         public bool _writeBeforeIteration;
-
         public bool _writeBeforeStepInIteration;
-
         private readonly bool _writeToOutput;
 
         public OutputControl(bool writeToOutput = false, StreamWriter? outputFile = null, string fields = "iteration, evaluation, \"stepName\", bestSolution.argument(), bestSolution.fitnessValue, bestSolution.objectiveValue, bestSolution.isFeasible", string moments = "afterAlgorithm")
@@ -70,7 +58,7 @@ namespace uo.Algorithm
         /// Helper function that determines fields header list and field definition lists of the control instance.
         /// </summary>
         /// <param name="fields">Comma-separated list of fields for output - basically fields of the
-        /// optimizer object (e.g. `bestSolution.fitnessValue`, `iteration`, `evaluation`, `seconds_max`
+        /// optimizer object (e.g. `bestSolution.fitnessValue`, `iteration`, `evaluation`, `secondsMax`
         /// etc.) and last word in specific field should he header of the column in .csv file</param>
         private void DetermineFieldsHelper(string fields)
         {
@@ -414,7 +402,7 @@ namespace uo.Algorithm
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns></returns>
-        public virtual string StringRep(
+        public new string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

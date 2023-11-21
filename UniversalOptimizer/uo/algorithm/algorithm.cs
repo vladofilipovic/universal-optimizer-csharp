@@ -81,35 +81,36 @@ namespace uo.Algorithm
             _iterationBestFound = this._iteration;
         }
 
-        /// 
-        /// Checks if first solution is better than the second one
-        /// 
-        /// :param TargetSolution sol1: first solution
-        /// :param TargetSolution sol2: second solution
-        /// :return: `True` if first solution is better, `False` if first solution is worse, `None` if fitnesses of both 
-        ///         solutions are equal
-        /// return type bool
-        /// 
-        public virtual bool is_first_solution_better(TargetSolution<R_co,A_co> sol1, TargetSolution<R_co, A_co> sol2)
+        /// <summary>
+        /// Determines whether [is first solution better] [the specified sol1].
+        /// </summary>
+        /// <param name="sol1">The first solution.</param>
+        /// <param name="sol2">The second solution.</param>
+        /// <returns>
+        ///   <c>true</c> if [is first solution better] [the specified sol1]; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="System.Exception">Target problem have to be defined within
+        /// algorithm.</exception>
+        public bool? IsFirstSolutionBetter(TargetSolution<R_co,A_co> sol1, TargetSolution<R_co, A_co> sol2)
         {
-            QualityOfSolution fit2;
-            QualityOfSolution fit1;
+            double? fit2;
+            double? fit1;
             if (this.TargetProblem is null)
             {
                 throw new Exception("Target problem have to be defined within algorithm.");
             }
             if (this.TargetProblem.IsMinimization is null)
             {
-                throw new ValueError("Information if minimization or maximization is set within metaheuristic target problemhave to be defined.");
+                throw new Exception("Information if minimization or maximization is set within target problem have to be defined.");
             }
-            var is_minimization = this.TargetProblem.is_minimization;
+            bool isMinimization = this.TargetProblem.IsMinimization??false;
             if (sol1 is null)
             {
                 fit1 = null;
             }
             else
             {
-                fit1 = sol1.CalculateQuality(this.TargetProblem).fitnessValue;
+                fit1 = sol1.CalculateQuality(this.TargetProblem).FitnessValue;
             }
             if (sol2 is null)
             {
@@ -117,7 +118,7 @@ namespace uo.Algorithm
             }
             else
             {
-                fit2 = sol2.CalculateQuality(this.TargetProblem).fitnessValue;
+                fit2 = sol2.CalculateQuality(this.TargetProblem).FitnessValue;
             }
             /// with fitness is better than without fitness
             if (fit1 is null)
@@ -136,7 +137,7 @@ namespace uo.Algorithm
                 return true;
             }
             /// if better, return true
-            if (is_minimization && fit1 < fit2 || !is_minimization && fit1 > fit2)
+            if (isMinimization && fit1 < fit2 || !isMinimization && fit1 > fit2)
             {
                 return true;
             }
@@ -155,23 +156,16 @@ namespace uo.Algorithm
         public abstract void Init();
 
 
-        /// 
-        /// String representation of the 'Algorithm' instance
-        /// 
-        /// :param delimiter: delimiter between fields
-        /// :type delimiter: str
-        /// :param indentation: level of indentation
-        /// :type indentation: int, optional, default value 0
-        /// :param indentationSymbol: indentation symbol
-        /// :type indentationSymbol: str, optional, default value ''
-        /// :param groupStart: group start string 
-        /// :type groupStart: str, optional, default value '{'
-        /// :param groupEnd: group end string 
-        /// :type groupEnd: str, optional, default value '}'
-        /// :return: string representation of instance that controls output
-        /// return type str
-        /// 
-        public virtual string StringRep(
+        /// <summary>
+        /// String representation of the algorithm instance.
+        /// </summary>
+        /// <param name="delimiter">The delimiter between fields.</param>
+        /// <param name="indentation">The indentation level.</param>
+        /// <param name="indentationSymbol">The indentation symbol.</param>
+        /// <param name="groupStart">The group start.</param>
+        /// <param name="groupEnd">The group end.</param>
+        /// <returns></returns>
+        public new string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",
@@ -188,28 +182,28 @@ namespace uo.Algorithm
             {
                 s += indentationSymbol;
             }
-            s += "name=" + this.name + delimiter;
+            s += "name=" + this.Name + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "TargetProblem=" + this.TargetProblem.stringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
+            s += "TargetProblem=" + this.TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "_OutputControl=" + _OutputControl.stringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
+            s += "OutputControl=" + OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
             s += "_evaluation=" + _evaluation.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "executionStarted=" + this.executionStarted.ToString() + delimiter;
+            s += "executionStarted=" + this.ExecutionStarted.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "executionEnded=" + this.executionEnded.ToString() + delimiter;
+            s += "executionEnded=" + this.ExecutionEnded.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
@@ -218,42 +212,17 @@ namespace uo.Algorithm
             return s;
         }
 
-        /// 
-        /// String representation of the 'Algorithm' instance
-        /// 
-        /// :return: string representation of the 'Algorithm' instance
-        /// return type str
-        /// 
-        [abstractmethod]
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             return this.StringRep("|");
         }
 
-        /// 
-        /// Representation of the 'Algorithm' instance
-        /// 
-        /// :return: string representation of the 'Algorithm' instance
-        /// return type str
-        /// 
-        [abstractmethod]
-        public virtual string _repr__()
-        {
-            return this.StringRep("\n");
-        }
-
-        /// 
-        /// Formatted 'Algorithm' instance
-        /// 
-        /// :param str spec: format specification
-        /// :return: formatted 'Algorithm' instance
-        /// return type str
-        /// 
-        [abstractmethod]
-        public virtual string _format__(string spec)
-        {
-            return this.StringRep("|");
-        }
     }
 }
-}
+

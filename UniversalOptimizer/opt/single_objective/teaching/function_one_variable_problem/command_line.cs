@@ -1,7 +1,7 @@
 ///  
-/// The :mod:`~opt.single_objective.teaching.function_one_variable_problem.command_line` module is used for obtaining execution parameters for execution of the optimizers for max ones problem.
+/// The :mod:`~opt.single_objective.teaching.FunctionOneVariableProblem.command_line` module is used for obtaining execution parameters for execution of the optimizers for max ones problem.
 /// 
-namespace single_objective.teaching.function_one_variable_problem {
+namespace single_objective.teaching.FunctionOneVariableProblem {
     
     using sys;
     

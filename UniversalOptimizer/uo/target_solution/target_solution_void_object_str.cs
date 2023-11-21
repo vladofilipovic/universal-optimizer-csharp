@@ -63,7 +63,7 @@ namespace uo.TargetSolution
             return 0;
         }
 
-        public virtual string StringRepresentation()
+        public new string StringRepresentation()
         {
             return this.ToString();
         }

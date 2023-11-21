@@ -20,6 +20,7 @@ namespace uo.Algorithm.Metaheuristic
         private int _maxLocalOptima;
         public static HashSet<string>? AllSolutionCodes;
         public static Dictionary<string, float>? MoreLocalOptima;
+        private Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalStatisticsControl"/> class.
@@ -33,6 +34,7 @@ namespace uo.Algorithm.Metaheuristic
                     "moreLocalOptima"
                 };
             _maxLocalOptima = maxLocalOptima;
+            _random = new Random();
             DetermineKeepHelper(keep);
         }
 
@@ -91,16 +93,13 @@ namespace uo.Algorithm.Metaheuristic
             }
         }
 
-        /// 
-        /// Property getter for keep property 
-        /// 
-        /// :return: comma-separated list of values vo be kept
-        /// return type str
-        /// 
-        /// 
-        /// Property setter for the keep property 
-        /// 
-        public object keep
+        /// <summary>
+        /// Property getter for keep property - comma-separated list of values to be kept.
+        /// </summary>
+        /// <value>
+        /// The keep.
+        /// </value>
+        public string Keep
         {
             get
             {
@@ -113,7 +112,7 @@ namespace uo.Algorithm.Metaheuristic
                 {
                     ret += "moreLocalOptima, ";
                 }
-                ret = ret[0: -2:];
+                ret = ret[..^2];
                 return ret;
             }
             set
@@ -122,13 +121,13 @@ namespace uo.Algorithm.Metaheuristic
             }
         }
 
-        /// 
-        /// Property getter for property if all solution codes to be kept
-        /// 
-        /// :return: if all solution codes to be kept
-        /// return type bool
-        /// 
-        public object keepAllSolutionCodes
+        /// <summary>
+        /// Gets a value indicating whether [keep all solution codes].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [keep all solution codes]; otherwise, <c>false</c>.
+        /// </value>
+        public bool KeepAllSolutionCodes
         {
             get
             {
@@ -136,13 +135,13 @@ namespace uo.Algorithm.Metaheuristic
             }
         }
 
-        /// 
-        /// Property getter for decision if more local optima should be kept
-        /// 
-        /// :return: if more local optima should be kept
-        /// return type bool
-        /// 
-        public object keepMoreLocalOptima
+        /// <summary>
+        /// Gets a value indicating whether [keep more local optima].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [keep more local optima]; otherwise, <c>false</c>.
+        /// </value>
+        public bool KeepMoreLocalOptima
         {
             get
             {
@@ -150,74 +149,68 @@ namespace uo.Algorithm.Metaheuristic
             }
         }
 
-        /// 
-        /// Filling all solution code, if necessary 
-        /// 
-        /// :param representation: solution representation to be inserted into all solution code
-        /// :type representation: str
-        /// return type None
-        /// 
-        public virtual object add_to_allSolutionCodes_if_required(string representation)
+        /// <summary>
+        /// Adds to all solution codes if required.
+        /// </summary>
+        /// <param name="representation">The solution representation to be inserted into all 
+        /// solution code.</param>
+        public virtual void AddToAllSolutionCodesIfRequired(string representation)
         {
-            if (this.keepAllSolutionCodes)
+            if (this.KeepAllSolutionCodes)
             {
-                AdditionalStatisticsControl.allSolutionCodes.add(representation);
+                AllSolutionCodes!.Add(representation);
             }
         }
 
-        /// 
-        /// Add solution to the local optima structure 
-        /// 
-        /// :param str solution_to_add_rep: string representation of the solution to be added to local optima structure
-        /// :param float solution_to_add_fitness: fitness value of the solution to be added to local optima structure
-        /// :param str bestSolution_rep: string representation of the best solution so far
-        /// :return:  if adding is successful e.g. currentSolution is new element in the structure
-        /// return type bool
-        /// 
-        public virtual bool add_to_moreLocalOptima_if_required(string solution_to_add_rep, object solution_to_add_fitness, string bestSolution_rep)
+        /// <summary>
+        /// Add solution to the local optima structure.
+        /// </summary>
+        /// <param name="solutionToAddRep">String representation of the solution to be added to 
+        /// local optima structure.</param>
+        /// <param name="solutionToAddFitness">The fitness value of the solution to be added to 
+        /// local optima structure.</param>
+        /// <param name="bestSolutionRep">The string representation of the best solution so far.
+        /// </param>
+        /// <returns>If adding is successful e.g. currentSolution is new element in the structure 
+        /// </returns>
+        public virtual bool AddToMoreLocalOptimaIfRequired(string solutionToAddRep, float solutionToAddFitness, string bestSolutionRep)
         {
-            if (!this.keepMoreLocalOptima)
+            if (!this.KeepMoreLocalOptima)
             {
                 return false;
             }
-            if (AdditionalStatisticsControl.moreLocalOptima.Contains(solution_to_add_rep))
+            if (MoreLocalOptima!.ContainsKey(solutionToAddRep))
             {
                 return false;
             }
-            if (AdditionalStatisticsControl.moreLocalOptima.Count >= _maxLocalOptima)
+            if (MoreLocalOptima.Count >= _maxLocalOptima)
             {
                 /// removing random, just taking care not to remove the best ones
                 while (true)
                 {
-                    var code = random.choice(AdditionalStatisticsControl.moreLocalOptima.keys());
-                    if (code != bestSolution_rep)
+                    var code = MoreLocalOptima.Keys.
+                                ToArray()[_random.Next(MoreLocalOptima.Keys.Count)];
+                    if (code != bestSolutionRep)
                     {
-                        AdditionalStatisticsControl.moreLocalOptima.Remove(code);
+                        MoreLocalOptima.Remove(code);
                         break;
                     }
                 }
             }
-            AdditionalStatisticsControl.moreLocalOptima[solution_to_add_rep] = solution_to_add_fitness;
+            MoreLocalOptima[solutionToAddRep] = solutionToAddFitness;
             return true;
         }
 
-        /// 
-        /// String representation of the target solution instance
-        /// 
-        /// :param delimiter: delimiter between fields
-        /// :type delimiter: str
-        /// :param indentation: level of indentation
-        /// :type indentation: int, optional, default value 0
-        /// :param indentationSymbol: indentation symbol
-        /// :type indentationSymbol: str, optional, default value ''
-        /// :param groupStart: group start string 
-        /// :type groupStart: str, optional, default value '{'
-        /// :param groupEnd: group end string 
-        /// :type groupEnd: str, optional, default value '}'
-        /// :return: string representation of instance that controls output
-        /// return type str
-        /// 
-        public virtual string StringRep(
+        /// <summary>
+        /// String representation of the additional statistic control instance.
+        /// </summary>
+        /// <param name="delimiter">The delimiter.</param>
+        /// <param name="indentation">The indentation.</param>
+        /// <param name="indentationSymbol">The indentation symbol.</param>
+        /// <param name="groupStart">The group start.</param>
+        /// <param name="groupEnd">The group end.</param>
+        /// <returns>The string representation.</returns>
+        public new string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",
@@ -234,23 +227,18 @@ namespace uo.Algorithm.Metaheuristic
             {
                 s += indentationSymbol;
             }
-            s += "keep=" + this.keep.ToString() + delimiter;
+            s += "keep=" + this.Keep.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "use_cache_forDistance_calculation=" + this.use_cache_forDistance_calculation.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
-            {
-                s += indentationSymbol;
-            }
-            if (this.keepAllSolutionCodes)
+            if (this.KeepAllSolutionCodes)
             {
                 foreach (var i in Enumerable.Range(0, indentation - 0))
                 {
                     s += indentationSymbol;
                 }
-                s += "all solution codes=" + AdditionalStatisticsControl.allSolutionCodes.Count.ToString() + delimiter;
+                s += "all solution codes=" + AllSolutionCodes?.Count.ToString() + delimiter;
             }
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
@@ -260,39 +248,16 @@ namespace uo.Algorithm.Metaheuristic
             return s;
         }
 
-        /// 
-        /// String representation of the cache control and statistics structure
-        /// 
-        /// :return: string representation of the cache control and statistics structure
-        /// return type str
-        /// 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             return this.StringRep("|");
         }
 
-        /// 
-        /// Representation of the cache control and statistics structure
-        /// 
-        /// :return: string representation of cache control and statistics structure
-        /// return type str
-        /// 
-        public virtual string _repr__()
-        {
-            return this.StringRep("\n");
-        }
-
-        /// 
-        /// Formatted the cache control and statistics structure
-        /// 
-        /// :param str spec: format specification
-        /// :return: formatted cache control and statistics structure
-        /// return type str
-        /// 
-        public virtual string _format__(string spec)
-        {
-            return this.StringRep("|");
-        }
     }
-}
 }

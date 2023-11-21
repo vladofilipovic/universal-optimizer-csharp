@@ -1,5 +1,5 @@
 ///  
-/// The :mod:`opt.single_objective.teaching.function_one_variable_problem_solver` contains programming code that optimize :ref:`Max Function 1 Variable Problem` with various optimization techniques.
+/// The :mod:`opt.single_objective.teaching.FunctionOneVariableProblem_solver` contains programming code that optimize :ref:`Max Function 1 Variable Problem` with various optimization techniques.
 /// 
 namespace UniversalOptimizer.opt.single_objective.teaching
 {
@@ -50,18 +50,18 @@ namespace UniversalOptimizer.opt.single_objective.teaching
 
     using ProblemSolutionVnsSupport = uo.Algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
 
-    using FunctionOneVariableProblem = teaching.function_one_variable_problem.function_one_variable_problem.FunctionOneVariableProblem;
+    using FunctionOneVariableProblem = teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
-    using FunctionOneVariableProblemBinaryIntSolution = teaching.function_one_variable_problem.function_one_variable_problem_binary_int_solution.FunctionOneVariableProblemBinaryIntSolution;
+    using FunctionOneVariableProblemBinaryIntSolution = teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
 
-    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = teaching.function_one_variable_problem.function_one_variable_problem_binary_int_solution_vns_support.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
+    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution_vns_support.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
 
-    public static class function_one_variable_problem_solver
+    public static class FunctionOneVariableProblem_solver
     {
 
         public static object directory = Path(_file__).resolve();
 
-        static function_one_variable_problem_solver()
+        static FunctionOneVariableProblem_solver()
         {
             sys.path.append(directory);
             sys.path.append(directory.parent);

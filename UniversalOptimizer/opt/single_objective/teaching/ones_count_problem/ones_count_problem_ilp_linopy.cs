@@ -70,7 +70,7 @@ namespace single_objective.teaching.ones_count_problem {
                 _sol = sol;
             }
             
-            public virtual string StringRepresentation() {
+            public new string StringRepresentation() {
                 return _sol.ToString();
             }
         }
@@ -182,7 +182,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// :return: string representation of instance that controls output
             /// return type str
             /// 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",

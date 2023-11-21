@@ -21,9 +21,9 @@ namespace UniversalOptimizer.opt.single_objective.teaching
 
     using ProblemSolutionVnsSupport = uo.Algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
 
-    using FunctionOneVariableProblem = teaching.function_one_variable_problem.function_one_variable_problem.FunctionOneVariableProblem;
+    using FunctionOneVariableProblem = teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
-    using FunctionOneVariableProblemBinaryIntSolution = teaching.function_one_variable_problem.function_one_variable_problem_binary_int_solution.FunctionOneVariableProblemBinaryIntSolution;
+    using FunctionOneVariableProblemBinaryIntSolution = teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
 
     using System.Collections.Generic;
 
@@ -31,12 +31,12 @@ namespace UniversalOptimizer.opt.single_objective.teaching
 
     using System.Linq;
 
-    public static class function_one_variable_problem_binary_int_solution_vns_support
+    public static class FunctionOneVariableProblemBinaryIntSolution_vns_support
     {
 
         public static object directory = Path(_file__).resolve();
 
-        static function_one_variable_problem_binary_int_solution_vns_support()
+        static FunctionOneVariableProblemBinaryIntSolution_vns_support()
         {
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent);
@@ -67,7 +67,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
 
             public virtual bool shaking(int k, object problem, object solution, object optimizer)
             {
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
                 {
                     return false;
                 }
@@ -100,7 +100,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                 if (tries < limit)
                 {
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
                     {
                         return solution;
                     }
@@ -118,7 +118,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
             public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer)
             {
                 var representation_length = 32;
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
                 {
                     return solution;
                 }
@@ -143,7 +143,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
                     {
                         return solution;
                     }
@@ -173,7 +173,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
             public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer)
             {
                 var representation_length = 32;
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
                 {
                     return solution;
                 }
@@ -197,7 +197,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max)
+                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
                     {
                         return solution;
                     }
@@ -218,7 +218,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                 return solution;
             }
 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",

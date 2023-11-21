@@ -41,9 +41,9 @@ namespace single_objective.teaching.ones_count_problem {
     
     using OnesCountProblem = opt.single_objective.teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     
-    using OnesCountProblemBinaryIntSolution = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution.OnesCountProblemBinaryIntSolution;
+    using OnesCountProblemBinaryIntSolution = opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
     
-    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport;
+    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport;
     
     using OnesCountProblemBinaryBitArraySolution = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
     
@@ -187,7 +187,7 @@ Which solver will be executed depends of command-line parameter algorithm.
                 var max_numberEvaluations = parameters["finishEvaluationsMax"];
                 var max_numberIterations = parameters["finishIterationsMax"];
                 var max_time_for_execution_in_seconds = parameters["finishSecondsMax"];
-                var finish_control = FinishControl(criteria: finish_criteria, evaluations_max: max_numberEvaluations, iterations_max: max_numberIterations, seconds_max: max_time_for_execution_in_seconds);
+                var finish_control = FinishControl(criteria: finish_criteria, evaluationsMax: max_numberEvaluations, iterationsMax: max_numberIterations, secondsMax: max_time_for_execution_in_seconds);
                 /// solution evaluations and calculations cache setup
                 var evaluationCacheIsUsed = parameters["solutionEvaluationCacheIsUsed"];
                 var evaluationCacheMaxSize = parameters["solutionEvaluationCacheMaxSize"];

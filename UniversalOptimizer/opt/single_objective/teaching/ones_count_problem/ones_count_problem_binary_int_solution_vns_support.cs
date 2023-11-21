@@ -1,8 +1,8 @@
 ///  
 /// .. _py_ones_count_problem_int_solution_vns_support:
 /// 
-/// The :mod:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution_vns_support` contains 
-/// class :class:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport`, 
+/// The :mod:`~opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support` contains 
+/// class :class:`~opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport`, 
 /// that represents solution of the :ref:`Problem_Max_Ones`, where `int` representation of the problem has been used.
 /// 
 namespace single_objective.teaching.ones_count_problem {
@@ -29,7 +29,7 @@ namespace single_objective.teaching.ones_count_problem {
     
     using OnesCountProblem = opt.single_objective.teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     
-    using OnesCountProblemBinaryIntSolution = opt.single_objective.teaching.ones_count_problem.ones_count_problem_binary_int_solution.OnesCountProblemBinaryIntSolution;
+    using OnesCountProblemBinaryIntSolution = opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
     
     using System.Collections.Generic;
     
@@ -37,11 +37,11 @@ namespace single_objective.teaching.ones_count_problem {
     
     using System.Linq;
     
-    public static class ones_count_problem_binary_int_solution_vns_support {
+    public static class ones_count_problemBinaryIntSolution_vns_support {
         
         public static object directory = Path(_file__).resolve();
         
-        static ones_count_problem_binary_int_solution_vns_support() {
+        static ones_count_problemBinaryIntSolution_vns_support() {
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent);
             sys.path.append(directory.parent.parent.parent);
@@ -89,7 +89,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// return type bool
             /// 
             public virtual bool shaking(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                     return false;
                 }
                 var tries = 0;
@@ -114,7 +114,7 @@ namespace single_objective.teaching.ones_count_problem {
                 }
                 if (tries < limit) {
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -137,7 +137,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// return type OnesCountProblemBinaryIntSolution
             /// 
             public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
@@ -158,7 +158,7 @@ namespace single_objective.teaching.ones_count_problem {
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -193,7 +193,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// return type OnesCountProblemBinaryIntSolution
             /// 
             public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
@@ -213,7 +213,7 @@ namespace single_objective.teaching.ones_count_problem {
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluations_max > 0 && optimizer.evaluation > optimizer.finish_control.evaluations_max) {
+                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -248,7 +248,7 @@ namespace single_objective.teaching.ones_count_problem {
             /// :return: string representation of vns support instance
             /// return type str
             /// 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",

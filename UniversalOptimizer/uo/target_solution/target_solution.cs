@@ -232,7 +232,7 @@ namespace uo.TargetSolution
         /// </summary>
         /// <returns></returns>
         /// 
-        public virtual string StringRepresentation()
+        public new string StringRepresentation()
         {
             return Argument(Representation).ToString();
         }
@@ -368,7 +368,7 @@ namespace uo.TargetSolution
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns></returns>
-        public virtual string StringRep(
+        public new string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

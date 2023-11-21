@@ -131,7 +131,7 @@ namespace uo.Algorithm.Metaheuristic {
             /// Main loop of the metaheuristic algorithm
             /// 
             public virtual object main_loop() {
-                while (!this.finish_control.is_finished(this.evaluation, this.iteration, this.elapsed_seconds())) {
+                while (!this.finish_control.IsFinished(this.evaluation, this.iteration, this.elapsed_seconds())) {
                     this.WriteOutputValuesIfNeeded("beforeIteration", "b_i");
                     this.main_loop_iteration();
                     this.WriteOutputValuesIfNeeded("afterIteration", "a_i");
@@ -168,7 +168,7 @@ namespace uo.Algorithm.Metaheuristic {
             /// :return: string representation of instance that controls output
             /// return type str
             /// 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter,
                 int indentation = 0,
                 string indentationSymbol = "",

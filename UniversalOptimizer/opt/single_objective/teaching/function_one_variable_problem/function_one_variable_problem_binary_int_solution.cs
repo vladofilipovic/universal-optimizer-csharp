@@ -1,27 +1,11 @@
-namespace UniversalOptimizer.opt.single_objective.teaching
+namespace opt.single_objective.teaching
 {
+    using uo.TargetProblem;
 
-    using sys;
+    using uo.TargetSolution;
 
-    using Path = pathlib.Path;
 
-    using deepcopy = copy.deepcopy;
-
-    using choice = random.choice;
-
-    using random = random.random;
-
-    using randint = random.randint;
-
-    using TargetProblem = uo.TargetProblem.TargetProblem.TargetProblem;
-
-    using QualityOfSolution = uo.TargetSolution.TargetSolution.QualityOfSolution;
-
-    using TargetSolution = uo.TargetSolution.TargetSolution.TargetSolution;
-
-    using logger = uo.utils.logger.logger;
-
-    using FunctionOneVariableProblem = teaching.function_one_variable_problem.function_one_variable_problem.FunctionOneVariableProblem;
+    using FunctionOneVariableProblem = teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
     using System.Collections.Generic;
 
@@ -29,12 +13,12 @@ namespace UniversalOptimizer.opt.single_objective.teaching
 
     using System.Linq;
 
-    public static class function_one_variable_problem_binary_int_solution
+    public static class FunctionOneVariableProblemBinaryIntSolution
     {
 
         public static object directory = Path(_file__).resolve();
 
-        static function_one_variable_problem_binary_int_solution()
+        static FunctionOneVariableProblemBinaryIntSolution()
         {
             sys.path.append(directory);
             sys.path.append(directory.parent);
@@ -51,14 +35,14 @@ namespace UniversalOptimizer.opt.single_objective.teaching
 
             private object _domain_to;
 
-            private object _number_of_intervals;
+            private object _numberOfIntervals;
 
             public object representation;
 
             public FunctionOneVariableProblemBinaryIntSolution(
                 double domain_from,
                 double domain_to,
-                int number_of_intervals,
+                int numberOfIntervals,
                 int randomSeed = null,
                 bool evaluationCacheIsUsed = false,
                 int evaluationCacheMaxSize = 0,
@@ -68,7 +52,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
             {
                 _domain_from = domain_from;
                 _domain_to = domain_to;
-                _number_of_intervals = number_of_intervals;
+                _numberOfIntervals = numberOfIntervals;
             }
 
             public virtual void _copy__()
@@ -76,7 +60,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                 var sol = base._copy__();
                 sol.domain_from = domain_from;
                 sol.domain_to = domain_to;
-                sol.number_of_intervals = number_of_intervals;
+                sol.numberOfIntervals = numberOfIntervals;
                 return sol;
             }
 
@@ -114,34 +98,34 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                 }
             }
 
-            public object number_of_intervals
+            public object numberOfIntervals
             {
                 get
                 {
-                    return _number_of_intervals;
+                    return _numberOfIntervals;
                 }
                 set
                 {
-                    _number_of_intervals = value;
+                    _numberOfIntervals = value;
                 }
             }
 
             public virtual void _make_to_beFeasible_helper__(object problem)
             {
-                if (representation > number_of_intervals)
+                if (representation > numberOfIntervals)
                 {
-                    representation = number_of_intervals;
+                    representation = numberOfIntervals;
                 }
             }
 
             public virtual double argument(int representation)
             {
-                return domain_from + representation * (domain_to - domain_from) / number_of_intervals;
+                return domain_from + representation * (domain_to - domain_from) / numberOfIntervals;
             }
 
             public virtual object InitRandom(object problem)
             {
-                representation = randint(0, number_of_intervals);
+                representation = randint(0, numberOfIntervals);
                 _make_to_beFeasible_helper__(problem);
             }
 
@@ -153,10 +137,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
             public virtual object CalculateQualityDirectly(int representation, object problem)
             {
                 var arg = argument(representation);
-                var res = eval(problem.expression, new Dictionary<object, object> {
-                    {
-                        "x",
-                        arg}});
+                var res = this.ReflectionGetPropertyValue(problem.Expression);
                 return QualityOfSolution(res, res, true);
             }
 
@@ -174,7 +155,7 @@ namespace UniversalOptimizer.opt.single_objective.teaching
                 return result;
             }
 
-            public virtual string StringRep(
+            public new string StringRep(
                 string delimiter = "\n",
                 int indentation = 0,
                 string indentationSymbol = "   ",
