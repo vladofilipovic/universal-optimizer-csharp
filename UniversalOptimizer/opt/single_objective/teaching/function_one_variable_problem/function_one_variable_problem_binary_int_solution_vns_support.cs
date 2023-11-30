@@ -1,4 +1,4 @@
-namespace UniversalOptimizer.opt.single_objective.teaching
+namespace UniversalOptimizer.opt.SingleObjective.Teaching
 {
 
     using sys;

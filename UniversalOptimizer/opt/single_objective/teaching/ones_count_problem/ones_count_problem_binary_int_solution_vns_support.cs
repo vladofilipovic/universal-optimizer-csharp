@@ -1,11 +1,11 @@
 ///  
 /// .. _py_ones_count_problem_int_solution_vns_support:
 /// 
-/// The :mod:`~opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support` contains 
-/// class :class:`~opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport`, 
+/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support` contains 
+/// class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport`, 
 /// that represents solution of the :ref:`Problem_Max_Ones`, where `int` representation of the problem has been used.
 /// 
-namespace single_objective.teaching.ones_count_problem {
+namespace SingleObjective.Teaching.ones_count_problem {
     
     using sys;
     
@@ -27,9 +27,9 @@ namespace single_objective.teaching.ones_count_problem {
     
     using ProblemSolutionVnsSupport = uo.Algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
     
-    using OnesCountProblem = opt.single_objective.teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
+    using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     
-    using OnesCountProblemBinaryIntSolution = opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
+    using OnesCountProblemBinaryIntSolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
     
     using System.Collections.Generic;
     

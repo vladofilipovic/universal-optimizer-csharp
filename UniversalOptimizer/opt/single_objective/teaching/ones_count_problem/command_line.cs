@@ -1,7 +1,7 @@
 ///  
-/// The :mod:`~opt.single_objective.teaching.ones_count_problem.command_line` module is used for obtaining execution parameters for execution of the optimizers for max ones problem.
+/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.command_line` module is used for obtaining execution parameters for execution of the optimizers for max ones problem.
 /// 
-namespace single_objective.teaching.ones_count_problem {
+namespace SingleObjective.Teaching.ones_count_problem {
     
     using sys;
     

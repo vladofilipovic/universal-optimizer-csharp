@@ -1,4 +1,4 @@
-namespace opt.single_objective.teaching
+namespace opt.SingleObjective.Teaching
 {
     using uo.TargetProblem;
     using System;

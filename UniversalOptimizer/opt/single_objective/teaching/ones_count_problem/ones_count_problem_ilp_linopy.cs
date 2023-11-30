@@ -1,4 +1,4 @@
-namespace single_objective.teaching.ones_count_problem {
+namespace SingleObjective.Teaching.ones_count_problem {
     
     using sys;
     
@@ -28,7 +28,7 @@ namespace single_objective.teaching.ones_count_problem {
     
     using OutputControl = uo.Algorithm.OutputControl.OutputControl;
     
-    using OnesCountProblem = opt.single_objective.teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
+    using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     
     using System.Collections.Generic;
     

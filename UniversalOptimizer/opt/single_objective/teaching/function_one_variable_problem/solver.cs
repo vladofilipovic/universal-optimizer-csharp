@@ -1,7 +1,7 @@
 ///  
-/// The :mod:`opt.single_objective.teaching.ones_count_problem.solver` contains programming code that optimize :ref:`Max Ones<Problem_Max_Ones>` Problem with various optimization techniques.
+/// The :mod:`opt.SingleObjective.Teaching.ones_count_problem.solver` contains programming code that optimize :ref:`Max Ones<Problem_Max_Ones>` Problem with various optimization techniques.
 /// 
-namespace UniversalOptimizer.opt.single_objective.teaching
+namespace UniversalOptimizer.opt.SingleObjective.Teaching
 {
 
     using sys;

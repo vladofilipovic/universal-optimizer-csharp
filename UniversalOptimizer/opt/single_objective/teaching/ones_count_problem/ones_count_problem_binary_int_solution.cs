@@ -1,9 +1,9 @@
 ///  
 /// .. _py_ones_count_problem_int_solution:
 /// 
-/// The :mod:`~opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution` contains class :class:`~opt.single_objective.teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution`, that represents solution of the :ref:`Problem_Max_Ones`, where `int` representation of the problem has been used.
+/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution` contains class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution`, that represents solution of the :ref:`Problem_Max_Ones`, where `int` representation of the problem has been used.
 /// 
-namespace single_objective.teaching.ones_count_problem {
+namespace SingleObjective.Teaching.ones_count_problem {
     
     using sys;
     

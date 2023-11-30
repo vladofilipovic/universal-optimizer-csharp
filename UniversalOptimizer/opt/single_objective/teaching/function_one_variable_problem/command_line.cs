@@ -1,19 +1,9 @@
-///  
-/// The :mod:`~opt.single_objective.teaching.FunctionOneVariableProblem.command_line` module is used for obtaining execution parameters for execution of the optimizers for max ones problem.
-/// 
-namespace single_objective.teaching.FunctionOneVariableProblem {
+/// <summary>
+/// This module is used for obtaining execution parameters for execution of the optimizers for 
+/// max ones problem.
+/// </summary>
+namespace SingleObjective.Teaching.FunctionOneVariableProblem {
     
-    using sys;
-    
-    using Path = pathlib.Path;
-    
-    using os;
-    
-    using logging;
-    
-    using dt = datetime;
-    
-    using ArgumentParser = argparse.ArgumentParser;
     
     using System.Collections.Generic;
     

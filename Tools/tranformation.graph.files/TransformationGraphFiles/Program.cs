@@ -11,8 +11,6 @@ namespace GraphFileTransformations
 {
     class Program
     {
-        enum Transformations { from_graphm, hex };
-
         [Verb("fromGraphmlToPlain", HelpText = "Generate file with plain representation of the graph, where graphml representation is given.")]
         class FromGraphmlToPlainOptions
         {

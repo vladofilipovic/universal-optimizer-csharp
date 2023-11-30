@@ -1,7 +1,7 @@
 ///  
-/// The :mod:`opt.single_objective.teaching.FunctionOneVariableProblem_solver` contains programming code that optimize :ref:`Max Function 1 Variable Problem` with various optimization techniques.
+/// The :mod:`opt.SingleObjective.Teaching.FunctionOneVariableProblem_solver` contains programming code that optimize :ref:`Max Function 1 Variable Problem` with various optimization techniques.
 /// 
-namespace UniversalOptimizer.opt.single_objective.teaching
+namespace UniversalOptimizer.opt.SingleObjective.Teaching
 {
 
     using sys;

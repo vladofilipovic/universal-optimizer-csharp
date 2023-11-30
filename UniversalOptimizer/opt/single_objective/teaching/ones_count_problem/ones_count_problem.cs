@@ -1,9 +1,9 @@
 ///  
 /// ..  _py_ones_count_problem:
 /// 
-/// The :mod:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem` contains class :class:`~opt.single_objective.teaching.ones_count_problem.ones_count_problem.OnesCountProblem`, that represents :ref:`Problem_Max_Ones`.
+/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem` contains class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem`, that represents :ref:`Problem_Max_Ones`.
 /// 
-namespace single_objective.teaching.ones_count_problem {
+namespace SingleObjective.Teaching.ones_count_problem {
     
     using sys;
     
