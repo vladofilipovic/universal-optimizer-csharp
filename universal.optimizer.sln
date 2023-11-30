@@ -7,9 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversalOptimizer", "Unive
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{BCBD56A8-471A-4D2A-AA73-C91240382D47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransformationGraphFiles", "Tools\tranformation.graph.files\TransformationGraphFiles\TransformationGraphFiles.csproj", "{CEC6E848-97AD-4417-9D9F-ECF154CF9173}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransformationGraphFiles", "Tools\tranformation.graph.files\TransformationGraphFiles\TransformationGraphFiles.csproj", "{CEC6E848-97AD-4417-9D9F-ECF154CF9173}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransformationProblemInstances", "Tools\transformation.problem.instance\TransformationProblemInstances\TransformationProblemInstances.csproj", "{00E73DEF-C27E-43F1-AB33-656F754D5218}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransformationProblemInstances", "Tools\transformation.problem.instance\TransformationProblemInstances\TransformationProblemInstances.csproj", "{00E73DEF-C27E-43F1-AB33-656F754D5218}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionOneVariableProblemSolver", "Optimizers\FunctionOneVariableProblemSolver\FunctionOneVariableProblemSolver.csproj", "{47C05198-4335-477C-8915-2921877D7FC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solvers", "Solvers", "{5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnesCountProblemSolver", "Optimizers\OnesCountProblemSolver\OnesCountProblemSolver.csproj", "{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +35,14 @@ Global
 		{00E73DEF-C27E-43F1-AB33-656F754D5218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00E73DEF-C27E-43F1-AB33-656F754D5218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00E73DEF-C27E-43F1-AB33-656F754D5218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47C05198-4335-477C-8915-2921877D7FC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47C05198-4335-477C-8915-2921877D7FC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47C05198-4335-477C-8915-2921877D7FC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47C05198-4335-477C-8915-2921877D7FC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +50,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CEC6E848-97AD-4417-9D9F-ECF154CF9173} = {BCBD56A8-471A-4D2A-AA73-C91240382D47}
 		{00E73DEF-C27E-43F1-AB33-656F754D5218} = {BCBD56A8-471A-4D2A-AA73-C91240382D47}
+		{47C05198-4335-477C-8915-2921877D7FC3} = {5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}
+		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65} = {5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E9C1655-9598-4E24-962A-C12A47F4906D}
