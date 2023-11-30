@@ -3,113 +3,45 @@
 /// max ones problem.
 /// </summary>
 namespace SingleObjective.Teaching.FunctionOneVariableProblem {
-    
-    
+
+    using CommandLine;
     using System.Collections.Generic;
-    
-    public static class command_line {
-        
-        public static object directory = Path(_file__).resolve();
-        
-        static command_line() {
-            sys.path.append(directory.parent);
-            sys.path.append(directory.parent.parent);
-            sys.path.append(directory.parent.parent.parent);
-            sys.path.append(directory.parent.parent.parent.parent);
-            sys.path.append(directory.parent.parent.parent.parent.parent);
+    using System.ComponentModel;
+
+    public class CommandLineHelper {
+
+        [Verb("variable_neighborhood_search", HelpText = "Execute VNS metaheuristic for 'function_one_variable_problem'.")]
+        public class VariableNeighborhoodSearchOptions
+        {
+            [Option("OptimizationType", Required = true, Default = "minimization", HelpText = "Decide if minimization or maximization will be executed. Possible values: minimization, maximization")]
+            public required string OptimizationType { get; set; }
+
+            [Option("--writeToOutputFile", Required = true, Default = true, HelpText = "Should results of metaheuristic execution be written to output file.")]
+            public bool WriteToOutputFile { get; set; }
+
+            [Option("--outputFilePath", Required = true, Default = "output/out.txt", HelpText = "File path of the output file. File path '' means that it is within 'outputs' folder.")]
+            public required string OutputFilePath { get; set; }
+
+            [Option("--outputFileNameAppendTimeStamp", Required = true, Default = false, HelpText = "Should timestamp be automatically added to the name of the output file.")]
+            public bool OutputFileNameAppendTimeStamp { get; set; }
+
+            [Option("--outputFields", Required = true, Default = "iteration, evaluation, self.bestSolution.argument()", HelpText = "Comma-separated list of fields whose values will be outputted during algorithm execution. Fields 'iteration, evaluation' means that current iterations and current evaluation will be outputted.")]
+            public required string OutputFields { get; set; }
+
+            [Option("--outputMoments", Required = true, Default = "afterAlgorithm, afterIteration", HelpText = "Comma-separated list of moments when values will be outputted during algorithm execution. List contains of following elements: 'beforeAlgorithm', 'afterAlgorithm', 'beforeIteration', 'afterIteration', 'beforeEvaluation', 'afterEvaluation', 'beforeStepInIteration', 'afterStepInIteration'. Moments 'afterAlgorithm' means that result will be outputted after algorithm.")]
+            public required string OutputMoments { get; set; }
+
+            [Option("--inputFilePath", Required = true, Default = "inputs/function_one_variable_problem/dim_25.txt", HelpText = "Input file path for the instance of the problem.")]
+            public required string InputFilePath { get; set; }
         }
-        
-        public static Dictionary<string, object> default_parameters_cl = new Dictionary<object, object> {
-            {
-                "algorithm",
-                "variable_neighborhood_search"},
-            {
-                "optimization_type",
-                "maximization"},
-            {
-                "writeToOutputFile",
-                true},
-            {
-                "outputFilePath",
-                "opt/single_objective/teaching/ones_count_problem/outputs/dimension_77.csv"},
-            {
-                "outputFileNameAppendTimeStamp",
-                false},
-            {
-                "outputFields",
-                "iteration, evaluation, bestSolution.fitnessValue, bestSolution.argument()"},
-            {
-                "outputMoments",
-                "afterAlgorithm, afterEvaluation"},
-            {
-                "inputFilePath",
-                "opt/single_objective/teaching/ones_count_problem/inputs/dimension_77.txt"},
-            {
-                "inputFormat",
-                "txt"},
-            {
-                "finishCriteria",
-                "evaluations & seconds"},
-            {
-                "finishEvaluationsMax",
-                300},
-            {
-                "finishIterationsMax",
-                0},
-            {
-                "finishSecondsMax",
-                0},
-            {
-                "randomSeed",
-                0},
-            {
-                "solutionEvaluationCacheIsUsed",
-                false},
-            {
-                "solutionEvaluationCacheMaxSize",
-                0},
-            {
-                "solutionDistanceCalculationCacheIsUsed",
-                false},
-            {
-                "solutionDistanceCalculationCacheMaxSize",
-                0},
-            {
-                "additionalStatisticsKeep",
-                "None"},
-            {
-                "additionalStatisticsMaxLocalOptima",
-                7},
-            {
-                "kMin",
-                1},
-            {
-                "kMax",
-                3},
-            {
-                "localSearchType",
-                "local_search_best_improvement"},
-            {
-                "solutionType",
-                ""},
-            {
-                "solutionNumberOfIntervals",
-                1000}};
-        
-        ///  The `parse_arguments` function parses execution parameters for execution of the optimizers for max 
-        ///         ones problem.
-        /// 
-        public static void parse_arguments() {
-            var parser = ArgumentParser();
-            var subparsers = parser.add_subparsers(dest: "algorithm");
-            var parser_vns = subparsers.add_parser("variable_neighborhood_search", help: "Execute VNS metaheuristic for ones_count_problem.");
-            parser_vns.add_argument("optimization_type", help: "Decide if minimization or maximization will be executed.", nargs: "?", choices: ("minimization", "maximization"));
-            parser_vns.add_argument("--writeToOutputFile", type: @bool, @default: true, help: "Should results of metaheuristic execution be written to output file.");
-            parser_vns.add_argument("--outputFilePath", type: str, @default: "output/out.txt", help: "File path of the output file. File path '' means that it is within 'outputs' folder.");
-            parser_vns.add_argument("--outputFileNameAppendTimeStamp", type: @bool, @default: false, help: "Should timestamp be automatically added to the name of the output file.");
-            parser_vns.add_argument("--outputFields", type: str, @default: "iteration, evaluation, self.bestSolution.argument()", help: "Comma-separated list of fields whose values will be outputted during algorithm execution. Fields 'iteration, evaluation' means that current iterations and current evaluation will be outputted.");
-            parser_vns.add_argument("--outputMoments", type: str, @default: "afterAlgorithm, afterIteration", help: "Comma-separated list of moments when values will be outputted during algorithm execution. List contains of following elements: 'beforeAlgorithm', 'afterAlgorithm', 'beforeIteration', 'afterIteration', 'beforeEvaluation', 'afterEvaluation', 'beforeStepInIteration', 'afterStepInIteration'Moments 'afterAlgorithm' means that result will be outputted after algorithm.");
-            parser_vns.add_argument("--inputFilePath", type: str, @default: "inputs/ones_count_problem/dim_25.txt", help: "Input file path for the instance of the problem. ");
+
+        [Verb("idle", HelpText = "Execute idle algorithm for the 'function_one_variable_problem'.")]
+        public class IdleOptions
+        {
+        }
+
+            public static void parse_arguments() {
+            parser_vns.add_argument("", type: str, @default: "", help: " ");
             parser_vns.add_argument("--inputFormat", type: str, choices: new List<string> {
                 "txt",
                 "idle"
@@ -136,7 +68,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem {
             }, @default: "int", help: "VNS parameter that determines solution (representation) type.");
             parser_vns.add_argument("--solutionNumberOfIntervals", type: @int, @default: 1000, help: "Numbers of intervals within domain used for solution representation.");
             parser_vns.add_argument("--log", @default: "warning", help: "Provide logging level. Example --log debug', default='warning'");
-            var parser_idle = subparsers.add_parser("idle", help: "Execute idle algorithm for ones_count_problem.");
+            var parser_idle = subparsers.add_parser("idle", help: );
             return parser.parse_args();
         }
     }

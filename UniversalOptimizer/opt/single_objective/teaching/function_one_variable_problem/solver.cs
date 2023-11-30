@@ -1,7 +1,7 @@
-///  
-/// The :mod:`opt.SingleObjective.Teaching.ones_count_problem.solver` contains programming code that optimize :ref:`Max Ones<Problem_Max_Ones>` Problem with various optimization techniques.
+/// <summary>
 /// 
-namespace UniversalOptimizer.opt.SingleObjective.Teaching
+/// </summary>
+namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 {
 
     using sys;
@@ -22,9 +22,9 @@ namespace UniversalOptimizer.opt.SingleObjective.Teaching
 
     using OutputControl = uo.Algorithm.OutputControl.OutputControl;
 
-    using FinishControl = uo.Algorithm.metaheuristic.finish_control.FinishControl;
+    using FinishControl = uo.Algorithm.metaheuristic.finishControl.FinishControl;
 
-    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additional_statistics_control.AdditionalStatisticsControl;
+    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
 
     using TeOptimizerConstructionParameters = uo.Algorithm.exact.total_enumeration.te_optimizer.TeOptimizerConstructionParameters;
 
@@ -34,40 +34,24 @@ namespace UniversalOptimizer.opt.SingleObjective.Teaching
 
     using logger = uo.utils.logger.logger;
 
-    using default_parameters_cl = teaching.FunctionOneVariableProblem.command_line.default_parameters_cl;
+    using default_parameters_cl = Teaching.FunctionOneVariableProblem.command_line.default_parameters_cl;
 
-    using parse_arguments = teaching.FunctionOneVariableProblem.command_line.parse_arguments;
+    using parse_arguments = Teaching.FunctionOneVariableProblem.command_line.parse_arguments;
 
-    using FunctionOneVariableProblem = teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
+    using FunctionOneVariableProblem = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
-    using FunctionOneVariableProblemBinaryIntSolution = teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
+    using FunctionOneVariableProblemBinaryIntSolution = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
 
-    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution_vns_support.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
+    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution_vns_support.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
 
-    using FunctionOneVariableProblemSolver = teaching.FunctionOneVariableProblem.FunctionOneVariableProblem_solver.FunctionOneVariableProblemSolver;
+    using FunctionOneVariableProblemSolver = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem_solver.FunctionOneVariableProblemSolver;
 
     using System.Collections.Generic;
 
     using System;
 
-    public static class solver
+    public static class Solver
     {
-
-        public static object directory = Path(_file__).resolve();
-
-        static solver()
-        {
-            sys.path.append(directory);
-            sys.path.append(directory.parent);
-            sys.path.append(directory.parent.parent);
-            sys.path.append(directory.parent.parent.parent);
-            @" 
-Solver.
-
-Which solver will be executed depends of command-line parameter algorithm.
-";
-            main();
-        }
 
         ///  
         ///     This function executes solver.
@@ -213,16 +197,16 @@ Which solver will be executed depends of command-line parameter algorithm.
                 var max_numberEvaluations = parameters["finishEvaluationsMax"];
                 var max_numberIterations = parameters["finishIterationsMax"];
                 var max_time_for_execution_in_seconds = parameters["finishSecondsMax"];
-                var finish_control = FinishControl(criteria: finish_criteria, evaluationsMax: max_numberEvaluations, iterationsMax: max_numberIterations, secondsMax: max_time_for_execution_in_seconds);
+                var finishControl = FinishControl(criteria: finish_criteria, evaluationsMax: max_numberEvaluations, iterationsMax: max_numberIterations, secondsMax: max_time_for_execution_in_seconds);
                 /// solution evaluations and calculations cache setup
                 var evaluationCacheIsUsed = parameters["solutionEvaluationCacheIsUsed"];
                 var evaluationCacheMaxSize = parameters["solutionEvaluationCacheMaxSize"];
                 var calculation_solutionDistanceCacheIsUsed = parameters["solutionDistanceCalculationCacheIsUsed"];
                 var calculation_solutionDistanceCacheMaxSize = parameters["solutionDistanceCalculationCacheMaxSize"];
                 /// additional statistic control setup
-                var additional_statistics_keep = parameters["additionalStatisticsKeep"];
+                var additionalStatistics_keep = parameters["additionalStatisticsKeep"];
                 var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
-                var additional_statistics_control = AdditionalStatisticsControl(keep: additional_statistics_keep, maxLocalOptima: maxLocalOptima);
+                var additionalStatisticsControl = AdditionalStatisticsControl(keep: additionalStatistics_keep, maxLocalOptima: maxLocalOptima);
                 /// problem to be solved
                 var problem = FunctionOneVariableProblem.from_input_file(input_file_path: input_file_path, input_format: input_format);
                 var start_time = datetime.now();
@@ -257,9 +241,9 @@ Which solver will be executed depends of command-line parameter algorithm.
                     vns_construction_params.TargetProblem = problem;
                     vns_construction_params.initial_solution = solution;
                     vns_construction_params.problem_solution_vns_support = vns_support;
-                    vns_construction_params.finish_control = finish_control;
+                    vns_construction_params.finishControl = finishControl;
                     vns_construction_params.randomSeed = rSeed;
-                    vns_construction_params.additional_statistics_control = additional_statistics_control;
+                    vns_construction_params.additionalStatisticsControl = additionalStatisticsControl;
                     vns_construction_params.k_min = k_min;
                     vns_construction_params.k_max = k_max;
                     vns_construction_params.maxLocalOptima = maxLocalOptima;
@@ -270,12 +254,12 @@ Which solver will be executed depends of command-line parameter algorithm.
                 {
                     throw new ValueError("Invalid optimization algorithm is chosen.");
                 }
-                solver.opt.optimize();
+                solver.Opt.optimize();
                 logger.debug("Method -{}- search finished.".format(parameters["algorithm"]));
-                logger.info("Best solution code: {}".format(solver.opt.bestSolution.stringRepresentation()));
-                logger.info("Best solution objective: {}, fitness: {}".format(solver.opt.bestSolution.objectiveValue, solver.opt.bestSolution.fitnessValue));
-                logger.info("Number of iterations: {}, evaluations: {}".format(solver.opt.iteration, solver.opt.evaluation));
-                logger.info("Execution: {} - {}".format(solver.opt.executionStarted, solver.opt.executionEnded));
+                logger.info("Best solution code: {}".format(solver.Opt.bestSolution.stringRepresentation()));
+                logger.info("Best solution objective: {}, fitness: {}".format(solver.Opt.bestSolution.objectiveValue, solver.Opt.bestSolution.fitnessValue));
+                logger.info("Number of iterations: {}, evaluations: {}".format(solver.Opt.iteration, solver.Opt.evaluation));
+                logger.info("Execution: {} - {}".format(solver.Opt.executionStarted, solver.Opt.executionEnded));
                 logger.debug("Solver ended.");
                 return;
             }

@@ -33,9 +33,9 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using Optimizer = uo.Algorithm.optimizer.Optimizer;
     
-    using FinishControl = uo.Algorithm.metaheuristic.finish_control.FinishControl;
+    using FinishControl = uo.Algorithm.metaheuristic.finishControl.FinishControl;
     
-    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additional_statistics_control.AdditionalStatisticsControl;
+    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
     
     using TeOptimizerConstructionParameters = uo.Algorithm.exact.total_enumeration.te_optimizer.TeOptimizerConstructionParameters;
     
@@ -81,7 +81,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
         ///     
         public class MaxOneProblemSolverConstructionParameters {
             
-            public object finish_control;
+            public object finishControl;
             
             public object initial_solution;
             
@@ -93,7 +93,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             
             public object te_problem_solution_support;
             
-            public object vns_additional_statistics_control;
+            public object vns_additionalStatisticsControl;
             
             public object vns_k_max;
             
@@ -107,7 +107,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             
             public object method = null;
             
-            public object finish_control = null;
+            public object finishControl = null;
             
             public object OutputControl = null;
             
@@ -119,7 +119,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             
             public object vnsRandomSeed = null;
             
-            public object vns_additional_statistics_control = null;
+            public object vns_additionalStatisticsControl = null;
             
             public object vns_k_min = null;
             
@@ -139,20 +139,20 @@ namespace SingleObjective.Teaching.ones_count_problem {
             
             public OnesCountProblemSolver(
                 string method = null,
-                object finish_control = null,
+                object finishControl = null,
                 object OutputControl = null,
                 object TargetProblem = null,
                 object initial_solution = null,
                 object vns_problem_solution_support = null,
                 int vnsRandomSeed = null,
-                object vns_additional_statistics_control = null,
+                object vns_additionalStatisticsControl = null,
                 int vns_k_min = null,
                 int vns_k_max = null,
                 string vns_local_search_type = null,
                 object te_problem_solution_support = null) {
                 _optimizer = null;
                 if (method == "variable_neighborhood_search") {
-                    _optimizer = VnsOptimizer(finish_control: finish_control, OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution, problem_solution_vns_support: vns_problem_solution_support, randomSeed: vnsRandomSeed, additional_statistics_control: vns_additional_statistics_control, k_min: vns_k_min, k_max: vns_k_max, local_search_type: vns_local_search_type);
+                    _optimizer = VnsOptimizer(finishControl: finishControl, OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution, problem_solution_vns_support: vns_problem_solution_support, randomSeed: vnsRandomSeed, additionalStatisticsControl: vns_additionalStatisticsControl, k_min: vns_k_min, k_max: vns_k_max, local_search_type: vns_local_search_type);
                 } else if (method == "total_enumeration") {
                     _optimizer = TeOptimizer(OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution, problem_solution_te_support: te_problem_solution_support);
                 } else if (method == "integer_linear_programming") {
@@ -169,7 +169,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// 
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_params = null) {
-                return cls(method: construction_params.method, finish_control: construction_params.finish_control, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initial_solution: construction_params.initial_solution, vns_problem_solution_support: construction_params.vns_problem_solution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additional_statistics_control: construction_params.vns_additional_statistics_control, vns_k_min: construction_params.vns_k_min, vns_k_max: construction_params.vns_k_max, vns_local_search_type: construction_params.vns_local_search_type, te_problem_solution_support: construction_params.te_problem_solution_support);
+                return cls(method: construction_params.method, finishControl: construction_params.finishControl, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initial_solution: construction_params.initial_solution, vns_problem_solution_support: construction_params.vns_problem_solution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additionalStatisticsControl: construction_params.vns_additionalStatisticsControl, vns_k_min: construction_params.vns_k_min, vns_k_max: construction_params.vns_k_max, vns_local_search_type: construction_params.vns_local_search_type, te_problem_solution_support: construction_params.te_problem_solution_support);
             }
             
             /// 
@@ -181,13 +181,13 @@ namespace SingleObjective.Teaching.ones_count_problem {
             public static void from_variable_neighborhood_search(object cls, object vns_construction_params = null) {
                 var @params = new MaxOneProblemSolverConstructionParameters();
                 @params.method = "variable_neighborhood_search";
-                @params.finish_control = vns_construction_params.finish_control;
+                @params.finishControl = vns_construction_params.finishControl;
                 @params.OutputControl = vns_construction_params.OutputControl;
                 @params.TargetProblem = vns_construction_params.TargetProblem;
                 @params.initial_solution = vns_construction_params.initial_solution;
                 @params.vns_problem_solution_support = vns_construction_params.problem_solution_vns_support;
                 @params.vnsRandomSeed = vns_construction_params.randomSeed;
-                @params.vns_additional_statistics_control = vns_construction_params.additional_statistics_control;
+                @params.vns_additionalStatisticsControl = vns_construction_params.additionalStatisticsControl;
                 @params.vns_k_min = vns_construction_params.k_min;
                 @params.vns_k_max = vns_construction_params.k_max;
                 @params.vns_local_search_type = vns_construction_params.local_search_type;

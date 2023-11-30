@@ -21,9 +21,9 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using OutputControl = uo.Algorithm.OutputControl.OutputControl;
     
-    using FinishControl = uo.Algorithm.metaheuristic.finish_control.FinishControl;
+    using FinishControl = uo.Algorithm.metaheuristic.finishControl.FinishControl;
     
-    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additional_statistics_control.AdditionalStatisticsControl;
+    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
     
     using TeOptimizerConstructionParameters = uo.Algorithm.exact.total_enumeration.te_optimizer.TeOptimizerConstructionParameters;
     
@@ -187,16 +187,16 @@ Which solver will be executed depends of command-line parameter algorithm.
                 var max_numberEvaluations = parameters["finishEvaluationsMax"];
                 var max_numberIterations = parameters["finishIterationsMax"];
                 var max_time_for_execution_in_seconds = parameters["finishSecondsMax"];
-                var finish_control = FinishControl(criteria: finish_criteria, evaluationsMax: max_numberEvaluations, iterationsMax: max_numberIterations, secondsMax: max_time_for_execution_in_seconds);
+                var finishControl = FinishControl(criteria: finish_criteria, evaluationsMax: max_numberEvaluations, iterationsMax: max_numberIterations, secondsMax: max_time_for_execution_in_seconds);
                 /// solution evaluations and calculations cache setup
                 var evaluationCacheIsUsed = parameters["solutionEvaluationCacheIsUsed"];
                 var evaluationCacheMaxSize = parameters["solutionEvaluationCacheMaxSize"];
                 var calculation_solutionDistanceCacheIsUsed = parameters["solutionDistanceCalculationCacheIsUsed"];
                 var calculation_solutionDistanceCacheMaxSize = parameters["solutionDistanceCalculationCacheMaxSize"];
                 /// additional statistic control setup
-                var additional_statistics_keep = parameters["additionalStatisticsKeep"];
+                var additionalStatistics_keep = parameters["additionalStatisticsKeep"];
                 var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
-                var additional_statistics_control = AdditionalStatisticsControl(keep: additional_statistics_keep, maxLocalOptima: maxLocalOptima);
+                var additionalStatisticsControl = AdditionalStatisticsControl(keep: additionalStatistics_keep, maxLocalOptima: maxLocalOptima);
                 /// problem to be solved
                 var problem = OnesCountProblem.from_input_file(input_file_path: input_file_path, input_format: input_format);
                 var start_time = datetime.now();
@@ -228,9 +228,9 @@ Which solver will be executed depends of command-line parameter algorithm.
                     vns_construction_params.TargetProblem = problem;
                     vns_construction_params.initial_solution = solution;
                     vns_construction_params.problem_solution_vns_support = vns_support;
-                    vns_construction_params.finish_control = finish_control;
+                    vns_construction_params.finishControl = finishControl;
                     vns_construction_params.randomSeed = rSeed;
-                    vns_construction_params.additional_statistics_control = additional_statistics_control;
+                    vns_construction_params.additionalStatisticsControl = additionalStatisticsControl;
                     vns_construction_params.k_min = k_min;
                     vns_construction_params.k_max = k_max;
                     vns_construction_params.maxLocalOptima = maxLocalOptima;
@@ -263,12 +263,12 @@ Which solver will be executed depends of command-line parameter algorithm.
                 } else {
                     throw new ValueError("Invalid optimization algorithm is chosen.");
                 }
-                solver.opt.optimize();
+                solver.Opt.optimize();
                 logger.debug("Method -{}- search finished.".format(parameters["algorithm"]));
-                logger.info("Best solution code: {}".format(solver.opt.bestSolution.stringRepresentation()));
-                logger.info("Best solution objective: {}, fitness: {}".format(solver.opt.bestSolution.objectiveValue, solver.opt.bestSolution.fitnessValue));
-                logger.info("Number of iterations: {}, evaluations: {}".format(solver.opt.iteration, solver.opt.evaluation));
-                logger.info("Execution: {} - {}".format(solver.opt.executionStarted, solver.opt.executionEnded));
+                logger.info("Best solution code: {}".format(solver.Opt.bestSolution.stringRepresentation()));
+                logger.info("Best solution objective: {}, fitness: {}".format(solver.Opt.bestSolution.objectiveValue, solver.Opt.bestSolution.fitnessValue));
+                logger.info("Number of iterations: {}, evaluations: {}".format(solver.Opt.iteration, solver.Opt.evaluation));
+                logger.info("Execution: {} - {}".format(solver.Opt.executionStarted, solver.Opt.executionEnded));
                 logger.debug("Solver ended.");
                 return;
             } catch (Exception) {

@@ -5,7 +5,7 @@ namespace opt.SingleObjective.Teaching
     using uo.TargetSolution;
 
 
-    using FunctionOneVariableProblem = teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
+    using FunctionOneVariableProblem = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
     using System.Collections.Generic;
 

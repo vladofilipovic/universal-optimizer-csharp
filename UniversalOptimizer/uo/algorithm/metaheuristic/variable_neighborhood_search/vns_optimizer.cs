@@ -41,9 +41,9 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
     
     using OutputControl = uo.Algorithm.OutputControl.OutputControl;
     
-    using FinishControl = uo.Algorithm.metaheuristic.finish_control.FinishControl;
+    using FinishControl = uo.Algorithm.metaheuristic.finishControl.FinishControl;
     
-    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additional_statistics_control.AdditionalStatisticsControl;
+    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
     
     using SingleSolutionMetaheuristic = uo.Algorithm.metaheuristic.SingleSolutionMetaheuristic.SingleSolutionMetaheuristic;
     
@@ -71,9 +71,9 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
         /// 
         public class VnsOptimizerConstructionParameters {
             
-            public object additional_statistics_control;
+            public object additionalStatisticsControl;
             
-            public object finish_control;
+            public object finishControl;
             
             public object initial_solution;
             
@@ -91,7 +91,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             
             public object TargetProblem;
             
-            public object finish_control = null;
+            public object finishControl = null;
             
             public object OutputControl = null;
             
@@ -103,7 +103,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             
             public object randomSeed = null;
             
-            public object additional_statistics_control = null;
+            public object additionalStatisticsControl = null;
             
             public object k_min = null;
             
@@ -140,9 +140,9 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             public int iteration;
             
             public VnsOptimizer(
-                object finish_control,
+                object finishControl,
                 int randomSeed,
-                object additional_statistics_control,
+                object additionalStatisticsControl,
                 object OutputControl,
                 object TargetProblem,
                 object initial_solution,
@@ -150,7 +150,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
                 int k_min,
                 int k_max,
                 string local_search_type)
-                : base(finish_control: finish_control, randomSeed: randomSeed, additional_statistics_control: additional_statistics_control, OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution) {
+                : base(finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution) {
                 _local_search_type = local_search_type;
                 if (problem_solution_vns_support is not null) {
                     if (problem_solution_vns_support is ProblemSolutionVnsSupport) {
@@ -192,7 +192,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             /// 
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_tuple) {
-                return cls(construction_tuple.finish_control, construction_tuple.randomSeed, construction_tuple.additional_statistics_control, construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initial_solution, construction_tuple.problem_solution_vns_support, construction_tuple.k_min, construction_tuple.k_max, construction_tuple.local_search_type);
+                return cls(construction_tuple.finishControl, construction_tuple.randomSeed, construction_tuple.additionalStatisticsControl, construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initial_solution, construction_tuple.problem_solution_vns_support, construction_tuple.k_min, construction_tuple.k_max, construction_tuple.local_search_type);
             }
             
             /// 
@@ -253,7 +253,7 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
             /// 
             /// One iteration within main loop of the VNS algorithm
             /// 
-            public virtual object main_loop_iteration() {
+            public virtual object MainLoopIteration() {
                 this.WriteOutputValuesIfNeeded("beforeStepInIteration", "shaking");
                 if (!_shaking_method(_k_current, this.TargetProblem, this.currentSolution, this)) {
                     this.WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
@@ -266,15 +266,15 @@ namespace uo.Algorithm.Metaheuristic.variable_neighborhood_search {
                     this.currentSolution = _ls_method(_k_current, this.TargetProblem, this.currentSolution, this);
                     this.WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
                     /// update auxiliary structure that keeps all solution codes
-                    this.additional_statistics_control.AddToAllSolutionCodesIfRequired(this.currentSolution.stringRepresentation());
-                    this.additional_statistics_control.AddToMoreLocalOptimaIfRequired(this.currentSolution.stringRepresentation(), this.currentSolution.fitnessValue, this.bestSolution.stringRepresentation());
+                    this.additionalStatisticsControl.AddToAllSolutionCodesIfRequired(this.currentSolution.stringRepresentation());
+                    this.additionalStatisticsControl.AddToMoreLocalOptimaIfRequired(this.currentSolution.stringRepresentation(), this.currentSolution.fitnessValue, this.bestSolution.stringRepresentation());
                     var new_is_better = this.IsFirstSolutionBetter(this.currentSolution, this.bestSolution);
                     var make_move = new_is_better;
                     if (new_is_better is null) {
                         if (this.currentSolution.stringRepresentation() == this.bestSolution.stringRepresentation()) {
                             make_move = false;
                         } else {
-                            logger.debug("VnsOptimizer::main_loop_iteration: Same solution quality, generating random true with probability 0.5");
+                            logger.debug("VnsOptimizer::MainLoopIteration: Same solution quality, generating random true with probability 0.5");
                             make_move = random() < 0.5;
                         }
                     }

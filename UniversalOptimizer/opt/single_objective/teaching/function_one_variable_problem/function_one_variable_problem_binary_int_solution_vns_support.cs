@@ -1,4 +1,4 @@
-namespace UniversalOptimizer.opt.SingleObjective.Teaching
+namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 {
 
     using sys;
@@ -21,9 +21,9 @@ namespace UniversalOptimizer.opt.SingleObjective.Teaching
 
     using ProblemSolutionVnsSupport = uo.Algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
 
-    using FunctionOneVariableProblem = teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
+    using FunctionOneVariableProblem = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
-    using FunctionOneVariableProblemBinaryIntSolution = teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
+    using FunctionOneVariableProblemBinaryIntSolution = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
 
     using System.Collections.Generic;
 
@@ -67,7 +67,7 @@ namespace UniversalOptimizer.opt.SingleObjective.Teaching
 
             public virtual bool shaking(int k, object problem, object solution, object optimizer)
             {
-                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
+                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax)
                 {
                     return false;
                 }
@@ -100,7 +100,7 @@ namespace UniversalOptimizer.opt.SingleObjective.Teaching
                 if (tries < limit)
                 {
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
+                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax)
                     {
                         return solution;
                     }
@@ -118,7 +118,7 @@ namespace UniversalOptimizer.opt.SingleObjective.Teaching
             public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer)
             {
                 var representation_length = 32;
-                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
+                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax)
                 {
                     return solution;
                 }
@@ -143,7 +143,7 @@ namespace UniversalOptimizer.opt.SingleObjective.Teaching
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
+                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax)
                     {
                         return solution;
                     }
@@ -173,7 +173,7 @@ namespace UniversalOptimizer.opt.SingleObjective.Teaching
             public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer)
             {
                 var representation_length = 32;
-                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
+                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax)
                 {
                     return solution;
                 }
@@ -197,7 +197,7 @@ namespace UniversalOptimizer.opt.SingleObjective.Teaching
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax)
+                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax)
                     {
                         return solution;
                     }

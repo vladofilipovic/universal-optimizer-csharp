@@ -34,9 +34,9 @@ namespace uo.Algorithm.Metaheuristic {
     
     using OutputControl = uo.Algorithm.OutputControl.OutputControl;
     
-    using FinishControl = uo.Algorithm.metaheuristic.finish_control.FinishControl;
+    using FinishControl = uo.Algorithm.metaheuristic.finishControl.FinishControl;
     
-    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additional_statistics_control.AdditionalStatisticsControl;
+    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
     
     using Metaheuristic = uo.Algorithm.metaheuristic.metaheuristic.Metaheuristic;
     
@@ -66,13 +66,13 @@ namespace uo.Algorithm.Metaheuristic {
             [abstractmethod]
             public PopulationBasedMetaheuristic(
                 string name,
-                object finish_control,
+                object finishControl,
                 int randomSeed,
-                object additional_statistics_control,
+                object additionalStatisticsControl,
                 object OutputControl,
                 object TargetProblem,
                 object initial_solutions)
-                : base(finish_control: finish_control, randomSeed: randomSeed, additional_statistics_control: additional_statistics_control, OutputControl: OutputControl, TargetProblem: TargetProblem) {
+                : base(finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, OutputControl: OutputControl, TargetProblem: TargetProblem) {
                 if (initial_solutions is not null) {
                     if (initial_solution is list[TargetSolution]) {
                         _currentSolutions = initial_solution.copy();

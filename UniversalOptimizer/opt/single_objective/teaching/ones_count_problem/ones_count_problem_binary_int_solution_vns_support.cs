@@ -89,7 +89,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// return type bool
             /// 
             public virtual bool shaking(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
+                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
                     return false;
                 }
                 var tries = 0;
@@ -114,7 +114,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
                 }
                 if (tries < limit) {
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
+                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -137,7 +137,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// return type OnesCountProblemBinaryIntSolution
             /// 
             public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
+                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
@@ -158,7 +158,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
+                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -193,7 +193,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// return type OnesCountProblemBinaryIntSolution
             /// 
             public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
+                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
@@ -213,7 +213,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
                     }
                     solution.representation ^= mask;
                     optimizer.evaluation += 1;
-                    if (optimizer.finish_control.evaluationsMax > 0 && optimizer.evaluation > optimizer.finish_control.evaluationsMax) {
+                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
