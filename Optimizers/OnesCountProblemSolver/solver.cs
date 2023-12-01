@@ -27,7 +27,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using TeOptimizerConstructionParameters = uo.Algorithm.Exact.TotalEnumeration.te_optimizer.TeOptimizerConstructionParameters;
     
-    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizerConstructionParameters;
+    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizerConstructionParameters;
     
     using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
     

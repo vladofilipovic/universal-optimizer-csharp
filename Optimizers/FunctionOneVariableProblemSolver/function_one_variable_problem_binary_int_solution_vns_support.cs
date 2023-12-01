@@ -19,7 +19,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
     using Algorithm = uo.Algorithm.algorithm.Algorithm;
 
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problem_solution_vns_support.ProblemSolutionVnsSupport;
 
     using FunctionOneVariableProblem = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
@@ -115,7 +115,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                 }
             }
 
-            public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer)
+            public virtual object LocalSearchBestImprovement(int k, object problem, object solution, object optimizer)
             {
                 var representation_length = 32;
                 if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax)
@@ -170,7 +170,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                 return solution;
             }
 
-            public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer)
+            public virtual object LocalSearchFirstImprovement(int k, object problem, object solution, object optimizer)
             {
                 var representation_length = 32;
                 if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax)

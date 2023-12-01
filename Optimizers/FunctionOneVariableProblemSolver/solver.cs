@@ -28,7 +28,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
     using TeOptimizerConstructionParameters = uo.Algorithm.Exact.TotalEnumeration.te_optimizer.TeOptimizerConstructionParameters;
 
-    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizerConstructionParameters;
+    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizerConstructionParameters;
 
     using ensure_dir = uo.utils.files.ensure_dir;
 

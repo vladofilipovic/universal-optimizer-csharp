@@ -25,7 +25,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using Algorithm = uo.Algorithm.algorithm.Algorithm;
     
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problem_solution_vns_support.ProblemSolutionVnsSupport;
     
     using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     
@@ -136,7 +136,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// :return: result of the local search procedure 
             /// return type OnesCountProblemBinaryIntSolution
             /// 
-            public virtual object local_search_best_improvement(int k, object problem, object solution, object optimizer) {
+            public virtual object LocalSearchBestImprovement(int k, object problem, object solution, object optimizer) {
                 if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
                     return solution;
                 }
@@ -192,7 +192,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// :return: result of the local search procedure 
             /// return type OnesCountProblemBinaryIntSolution
             /// 
-            public virtual object local_search_first_improvement(int k, object problem, object solution, object optimizer) {
+            public virtual object LocalSearchFirstImprovement(int k, object problem, object solution, object optimizer) {
                 if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
                     return solution;
                 }

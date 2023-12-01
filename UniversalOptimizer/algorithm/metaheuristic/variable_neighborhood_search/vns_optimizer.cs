@@ -3,9 +3,9 @@ using UniversalOptimizer.Algorithm;
 ///  
 /// ..  _py_vns_optimizer:
 /// 
-/// The :mod:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search` contains class :class:`~.algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`, that represents implements algorithm :ref:`VNS<Algorithm_Variable_Neighborhood_Search>`.
+/// The :mod:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch` contains class :class:`~.algorithm.metaheuristic.variable_neighborhood_search.VnsOptimizer`, that represents implements algorithm :ref:`VNS<Algorithm_Variable_Neighborhood_Search>`.
 /// 
-namespace UniversalOptimizer.Algorithm.Metaheuristic.variable_neighborhood_search
+namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 {
 
     using Path = pathlib.Path;
@@ -50,7 +50,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.variable_neighborhood_searc
 
     using SingleSolutionMetaheuristic = uo.Algorithm.Metaheuristic.SingleSolutionMetaheuristic.SingleSolutionMetaheuristic;
 
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problem_solution_vns_support.ProblemSolutionVnsSupport;
 
     using System.Collections.Generic;
 
@@ -71,7 +71,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.variable_neighborhood_searc
         }
 
         /// 
-        /// Instance of the class :class:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search_constructor_parameters.
+        /// Instance of the class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch_constructor_parameters.
         /// VnsOptimizerConstructionParameters` represents constructor parameters for VNS algorithm.
         /// 
         public class VnsOptimizerConstructionParameters
@@ -119,7 +119,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.variable_neighborhood_searc
         }
 
         /// 
-        ///     Instance of the class :class:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search.VnsOptimizer` encapsulate 
+        ///     Instance of the class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer` encapsulate 
         ///     :ref:`Algorithm_Variable_Neighborhood_Search` optimization algorithm.
         ///     
         public class VnsOptimizer
@@ -167,11 +167,11 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.variable_neighborhood_searc
                         _problem_solution_vns_support = problem_solution_vns_support;
                         _implemented_local_searches = new Dictionary<object, object> {
                             {
-                                "local_search_best_improvement",
-                                _problem_solution_vns_support.local_search_best_improvement},
+                                "LocalSearchBestImprovement",
+                                _problem_solution_vns_support.LocalSearchBestImprovement},
                             {
-                                "local_search_first_improvement",
-                                _problem_solution_vns_support.local_search_first_improvement}};
+                                "LocalSearchFirstImprovement",
+                                _problem_solution_vns_support.LocalSearchFirstImprovement}};
                         if (!_implemented_local_searches.Contains(_local_search_type))
                         {
                             throw new ValueError("Value \'{}\' for VNS local_search_type is not supported".format(_local_search_type));
@@ -201,7 +201,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.variable_neighborhood_searc
             }
 
             /// 
-            /// Additional constructor, that creates new instance of class :class:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search.VnsOptimizer`. 
+            /// Additional constructor, that creates new instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`. 
             /// 
             /// :param `VnsOptimizerConstructionParameters` construction_tuple: tuple with all constructor parameters
             /// 
@@ -212,10 +212,10 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.variable_neighborhood_searc
             }
 
             /// 
-            /// Internal copy of the current instance of class :class:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search.VnsOptimizer`
+            /// Internal copy of the current instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`
             /// 
-            /// :return: new instance of class :class:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search.VnsOptimizer` with the same properties
-            /// return type :class:`uo.Algorithm.Metaheuristic.variable_neighborhood_search.VnsOptimizer`        
+            /// :return: new instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer` with the same properties
+            /// return type :class:`uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`        
             /// 
             public virtual void _copy__()
             {
@@ -224,10 +224,10 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.variable_neighborhood_searc
             }
 
             /// 
-            /// Copy the current instance of class :class:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search.VnsOptimizer`
+            /// Copy the current instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`
             /// 
-            /// :return: new instance of class :class:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search.VnsOptimizer` with the same properties
-            /// return type :class:`uo.Algorithm.Metaheuristic.variable_neighborhood_search.VnsOptimizer`        
+            /// :return: new instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer` with the same properties
+            /// return type :class:`uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`        
             /// 
             public virtual void copy()
             {

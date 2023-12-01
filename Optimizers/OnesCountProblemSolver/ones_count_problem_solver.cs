@@ -43,11 +43,11 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problem_solution_te_support.ProblemSolutionTeSupport;
     
-    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizerConstructionParameters;
+    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizerConstructionParameters;
     
-    using VnsOptimizer = uo.Algorithm.Metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizer;
+    using VnsOptimizer = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizer;
     
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problem_solution_vns_support.ProblemSolutionVnsSupport;
     
     using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
     

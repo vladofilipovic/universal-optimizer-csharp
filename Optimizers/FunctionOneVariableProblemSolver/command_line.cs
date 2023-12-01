@@ -60,9 +60,9 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem {
             parser_vns.add_argument("--kMin", type: @int, @default: 1, help: "VNS parameter k min.");
             parser_vns.add_argument("--kMax", type: @int, @default: 3, help: "VNS parameter k max.");
             parser_vns.add_argument("--localSearchType", type: str, choices: new List<string> {
-                "local_search_best_improvement",
-                "local_search_first_improvement"
-            }, @default: "local_search_best_improvement", help: "VNS parameter that determines local search type.");
+                "LocalSearchBestImprovement",
+                "LocalSearchFirstImprovement"
+            }, @default: "LocalSearchBestImprovement", help: "VNS parameter that determines local search type.");
             parser_vns.add_argument("--solutionType", type: str, choices: new List<string> {
                 "int"
             }, @default: "int", help: "VNS parameter that determines solution (representation) type.");

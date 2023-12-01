@@ -44,11 +44,11 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
     using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problem_solution_te_support.ProblemSolutionTeSupport;
 
-    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizerConstructionParameters;
+    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizerConstructionParameters;
 
-    using VnsOptimizer = uo.Algorithm.Metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizer;
+    using VnsOptimizer = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizer;
 
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problem_solution_vns_support.ProblemSolutionVnsSupport;
 
     using FunctionOneVariableProblem = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
