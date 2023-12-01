@@ -36,7 +36,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using Algorithm = uo.Algorithm.algorithm.Algorithm;
     
-    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problem_solution_te_support.ProblemSolutionTeSupport;
+    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problemSolution_te_support.ProblemSolutionTeSupport;
     
     using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     

@@ -55,7 +55,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem {
             parser_vns.add_argument("--solutionEvaluationCacheMaxSize", type: @int, @default: 0, help: "Maximum cache size for cache used in solutions evaluation. Value 0 means that there is no limit on cache size.");
             parser_vns.add_argument("--solutionDistanceCalculationCacheIsUsed", type: @bool, @default: false, help: "Should caching be used during distance calculations for solution individual.");
             parser_vns.add_argument("--solutionDistanceCalculationCacheMaxSize", type: @int, @default: 0, help: "Maximum cache size for cache used in distance calculations between two solutions. Value 0 means that there is no limit on cache size.");
-            parser_vns.add_argument("--additionalStatisticsKeep", type: str, @default: "None", help: "Comma-separated list of statistical data will be calculated and keep during solving. Currently, data within list can be: 'all_solution_code', 'distance_among_solutions'.");
+            parser_vns.add_argument("--additionalStatisticsKeep", type: str, @default: "None", help: "Comma-separated list of statistical data will be calculated and keep during solving. Currently, data within list can be: 'allSolution_code', 'distance_among_solutions'.");
             parser_vns.add_argument("--additionalStatisticsMaxLocalOptima", type: @int, @default: 3, help: "Parameter maximum number of local optima kept during execution.");
             parser_vns.add_argument("--kMin", type: @int, @default: 1, help: "VNS parameter k min.");
             parser_vns.add_argument("--kMax", type: @int, @default: 3, help: "VNS parameter k max.");

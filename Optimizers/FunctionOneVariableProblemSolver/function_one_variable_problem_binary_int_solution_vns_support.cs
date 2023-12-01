@@ -19,7 +19,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
     using Algorithm = uo.Algorithm.algorithm.Algorithm;
 
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problemSolutionVnsSupport.ProblemSolutionVnsSupport;
 
     using FunctionOneVariableProblem = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
@@ -31,12 +31,12 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
     using System.Linq;
 
-    public static class FunctionOneVariableProblemBinaryIntSolution_vns_support
+    public static class FunctionOneVariableProblemBinaryIntSolutionVnsSupport
     {
 
         public static object directory = Path(_file__).resolve();
 
-        static FunctionOneVariableProblemBinaryIntSolution_vns_support()
+        static FunctionOneVariableProblemBinaryIntSolutionVnsSupport()
         {
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent);

@@ -30,7 +30,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         public AdditionalStatisticsControl(string keep = "", int maxLocalOptima = 10)
         {
             _canBeKept = new List<string> {
-                    "all_solution_code",
+                    "allSolution_code",
                     "moreLocalOptima"
                 };
             _maxLocalOptima = maxLocalOptima;
@@ -42,8 +42,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// Helper function that determines which criteria should be checked during.
         /// </summary>
         /// <param name="keep">The keep - comma-separated list of values that should be kept
-        /// (currently keep contains strings `all_solution_code`, `moreLocalOptima`).</param>
-        /// <exception cref="ValueError">Invalid value for keep '{}'. Should be one of:{}.".format(k, "all_solution_code, moreLocalOptima")</exception> 
+        /// (currently keep contains strings `allSolution_code`, `moreLocalOptima`).</param>
+        /// <exception cref="ValueError">Invalid value for keep '{}'. Should be one of:{}.".format(k, "allSolution_code, moreLocalOptima")</exception> 
         private void DetermineKeepHelper(string keep)
         {
             _keepAllSolutionCodes = false;
@@ -56,7 +56,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 {
                     continue;
                 }
-                if (k == "all_solution_code")
+                if (k == "allSolution_code")
                 {
                     _keepAllSolutionCodes = true;
                 }
@@ -66,7 +66,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 }
                 else
                 {
-                    throw new Exception("Invalid value for keep '" + k + "'. Should be one of: all_solution_code, moreLocalOptima");
+                    throw new Exception("Invalid value for keep '" + k + "'. Should be one of: allSolution_code, moreLocalOptima");
                 }
             }
             if (_keepAllSolutionCodes)
@@ -106,7 +106,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 var ret = "";
                 if (_keepAllSolutionCodes)
                 {
-                    ret += "all_solution_code, ";
+                    ret += "allSolution_code, ";
                 }
                 if (_keepMoreLocalOptima)
                 {

@@ -49,11 +49,11 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 
         private object _k_min;
 
-        private object _local_search_type;
+        private object _localSearchType;
 
         private object _ls_method;
 
-        private object _problem_solution_vns_support;
+        private object _problemSolutionVnsSupport;
 
         private object _shaking_method;
 
@@ -61,42 +61,42 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 
         public int iteration;
 
-        public VnsOptimizer<R_co,A_co>(
-            object finishControl,
+        public VnsOptimizer(
+            FinishControl finishControl,
             int randomSeed,
-            object additionalStatisticsControl,
-            object outputControl,
-            object targetProblem,
-            object initial_solution,
-            object problem_solution_vns_support,
+            AdditionalStatisticsControl additionalStatisticsControl,
+            OutputControl outputControl,
+            TargetProblem targetProblem,
+            TargetSolution<R_co, A_co> initialSolution,
+            IProblemSolutionVnsSupport<R_co, A_co> problemSolutionVnsSupport,
             int k_min,
             int k_max,
-            string local_search_type)
-            : base("VnsOptimizer", finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, initial_solution: initial_solution)
+            string localSearchType)
+            : base("VnsOptimizer", finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, initialSolution: initialSolution)
         {
-            _local_search_type = local_search_type;
-            if (problem_solution_vns_support is not null)
+            _localSearchType = localSearchType;
+            if (problemSolutionVnsSupport is not null)
             {
-                if (problem_solution_vns_support is ProblemSolutionVnsSupport)
+                if (problemSolutionVnsSupport is ProblemSolutionVnsSupport)
                 {
-                    _problem_solution_vns_support = problem_solution_vns_support;
+                    _problemSolutionVnsSupport = problemSolutionVnsSupport;
                     _implemented_local_searches = new Dictionary<object, object> {
                             {
                                 "LocalSearchBestImprovement",
-                                _problem_solution_vns_support.LocalSearchBestImprovement},
+                                _problemSolutionVnsSupport.LocalSearchBestImprovement},
                             {
                                 "LocalSearchFirstImprovement",
-                                _problem_solution_vns_support.LocalSearchFirstImprovement}};
-                    if (!_implemented_local_searches.Contains(_local_search_type))
+                                _problemSolutionVnsSupport.LocalSearchFirstImprovement}};
+                    if (!_implemented_local_searches.Contains(_localSearchType))
                     {
-                        throw new ValueError("Value \'{}\' for VNS local_search_type is not supported".format(_local_search_type));
+                        throw new ValueError("Value \'{}\' for VNS localSearchType is not supported".format(_localSearchType));
                     }
-                    _ls_method = _implemented_local_searches[_local_search_type];
-                    _shaking_method = _problem_solution_vns_support.shaking;
+                    _ls_method = _implemented_local_searches[_localSearchType];
+                    _shaking_method = _problemSolutionVnsSupport.shaking;
                 }
                 else
                 {
-                    _problem_solution_vns_support = problem_solution_vns_support;
+                    _problemSolutionVnsSupport = problemSolutionVnsSupport;
                     _implemented_local_searches = null;
                     _ls_method = null;
                     _shaking_method = null;
@@ -104,7 +104,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             }
             else
             {
-                _problem_solution_vns_support = null;
+                _problemSolutionVnsSupport = null;
                 _implemented_local_searches = null;
                 _ls_method = null;
                 _shaking_method = null;
@@ -123,7 +123,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         [classmethod]
         public static void from_construction_tuple(object cls, object construction_tuple)
         {
-            return cls(construction_tuple.finishControl, construction_tuple.randomSeed, construction_tuple.additionalStatisticsControl, construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initial_solution, construction_tuple.problem_solution_vns_support, construction_tuple.k_min, construction_tuple.k_max, construction_tuple.local_search_type);
+            return cls(construction_tuple.finishControl, construction_tuple.randomSeed, construction_tuple.additionalStatisticsControl, construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initialSolution, construction_tuple.problemSolutionVnsSupport, construction_tuple.k_min, construction_tuple.k_max, construction_tuple.localSearchType);
         }
 
         /// 
@@ -278,7 +278,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             }
             s += "k_max=" + k_max.ToString() + delimiter;
             s += delimiter;
-            s += "_problem_solution_vns_support=" + _problem_solution_vns_support.stringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
+            s += "_problemSolutionVnsSupport=" + _problemSolutionVnsSupport.stringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
@@ -288,7 +288,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             {
                 s += indentationSymbol;
             }
-            s += "_local_search_type=" + _local_search_type.ToString() + delimiter;
+            s += "_localSearchType=" + _localSearchType.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;

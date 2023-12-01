@@ -42,7 +42,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
     using FunctionOneVariableProblemBinaryIntSolution = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
 
-    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution_vns_support.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
+    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolutionVnsSupport.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
 
     using FunctionOneVariableProblemSolver = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem_solver.FunctionOneVariableProblemSolver;
 
@@ -221,7 +221,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                     /// parameters for VNS process setup
                     var k_min = parameters["kMin"];
                     var k_max = parameters["kMax"];
-                    var local_search_type = parameters["localSearchType"];
+                    var localSearchType = parameters["localSearchType"];
                     /// initial solution and vns support
                     var solution_type = parameters["solutionType"];
                     object vns_support = null;
@@ -239,15 +239,15 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                     var vns_construction_params = VnsOptimizerConstructionParameters();
                     vns_construction_params.OutputControl = OutputControl;
                     vns_construction_params.TargetProblem = problem;
-                    vns_construction_params.initial_solution = solution;
-                    vns_construction_params.problem_solution_vns_support = vns_support;
+                    vns_construction_params.initialSolution = solution;
+                    vns_construction_params.problemSolutionVnsSupport = vns_support;
                     vns_construction_params.finishControl = finishControl;
                     vns_construction_params.randomSeed = rSeed;
                     vns_construction_params.additionalStatisticsControl = additionalStatisticsControl;
                     vns_construction_params.k_min = k_min;
                     vns_construction_params.k_max = k_max;
                     vns_construction_params.maxLocalOptima = maxLocalOptima;
-                    vns_construction_params.local_search_type = local_search_type;
+                    vns_construction_params.localSearchType = localSearchType;
                     var solver = FunctionOneVariableProblemSolver.from_variable_neighborhood_search(vns_construction_params);
                 }
                 else

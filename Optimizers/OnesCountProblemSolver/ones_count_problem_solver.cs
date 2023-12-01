@@ -41,13 +41,13 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using TeOptimizer = uo.Algorithm.Exact.TotalEnumeration.te_optimizer.TeOptimizer;
     
-    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problem_solution_te_support.ProblemSolutionTeSupport;
+    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problemSolution_te_support.ProblemSolutionTeSupport;
     
     using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizerConstructionParameters;
     
     using VnsOptimizer = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizer;
     
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problemSolutionVnsSupport.ProblemSolutionVnsSupport;
     
     using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
     
@@ -57,11 +57,11 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using OnesCountProblemBinaryIntSolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
     
-    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport;
+    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolutionVnsSupport.OnesCountProblemBinaryIntSolutionVnsSupport;
     
     using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
     
-    using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_vns_support.OnesCountProblemBinaryBitArraySolutionVnsSupport;
+    using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionVnsSupport.OnesCountProblemBinaryBitArraySolutionVnsSupport;
     
     using OnesCountProblemBinaryBitArraySolutionTeSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_te_support.OnesCountProblemBinaryBitArraySolutionTeSupport;
     
@@ -83,7 +83,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             
             public object finishControl;
             
-            public object initial_solution;
+            public object initialSolution;
             
             public object method;
             
@@ -91,7 +91,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             
             public object TargetProblem;
             
-            public object te_problem_solution_support;
+            public object te_problemSolution_support;
             
             public object vns_additionalStatisticsControl;
             
@@ -99,9 +99,9 @@ namespace SingleObjective.Teaching.ones_count_problem {
             
             public object vns_k_min;
             
-            public object vns_local_search_type;
+            public object vns_localSearchType;
             
-            public object vns_problem_solution_support;
+            public object vns_problemSolution_support;
             
             public object vnsRandomSeed;
             
@@ -113,9 +113,9 @@ namespace SingleObjective.Teaching.ones_count_problem {
             
             public object TargetProblem = null;
             
-            public object initial_solution = null;
+            public object initialSolution = null;
             
-            public object vns_problem_solution_support = null;
+            public object vns_problemSolution_support = null;
             
             public object vnsRandomSeed = null;
             
@@ -125,9 +125,9 @@ namespace SingleObjective.Teaching.ones_count_problem {
             
             public object vns_k_max = null;
             
-            public object vns_local_search_type = null;
+            public object vns_localSearchType = null;
             
-            public object te_problem_solution_support = null;
+            public object te_problemSolution_support = null;
         }
         
         /// 
@@ -142,19 +142,19 @@ namespace SingleObjective.Teaching.ones_count_problem {
                 object finishControl = null,
                 object OutputControl = null,
                 object TargetProblem = null,
-                object initial_solution = null,
-                object vns_problem_solution_support = null,
+                object initialSolution = null,
+                object vns_problemSolution_support = null,
                 int vnsRandomSeed = null,
                 object vns_additionalStatisticsControl = null,
                 int vns_k_min = null,
                 int vns_k_max = null,
-                string vns_local_search_type = null,
-                object te_problem_solution_support = null) {
+                string vns_localSearchType = null,
+                object te_problemSolution_support = null) {
                 _optimizer = null;
                 if (method == "variable_neighborhood_search") {
-                    _optimizer = VnsOptimizer(finishControl: finishControl, OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution, problem_solution_vns_support: vns_problem_solution_support, randomSeed: vnsRandomSeed, additionalStatisticsControl: vns_additionalStatisticsControl, k_min: vns_k_min, k_max: vns_k_max, local_search_type: vns_local_search_type);
+                    _optimizer = VnsOptimizer(finishControl: finishControl, OutputControl: OutputControl, TargetProblem: TargetProblem, initialSolution: initialSolution, problemSolutionVnsSupport: vns_problemSolution_support, randomSeed: vnsRandomSeed, additionalStatisticsControl: vns_additionalStatisticsControl, k_min: vns_k_min, k_max: vns_k_max, localSearchType: vns_localSearchType);
                 } else if (method == "total_enumeration") {
-                    _optimizer = TeOptimizer(OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution, problem_solution_te_support: te_problem_solution_support);
+                    _optimizer = TeOptimizer(OutputControl: OutputControl, TargetProblem: TargetProblem, initialSolution: initialSolution, problemSolution_te_support: te_problemSolution_support);
                 } else if (method == "integer_linear_programming") {
                     _optimizer = OnesCountProblemIntegerLinearProgrammingSolver(OutputControl: OutputControl, problem: TargetProblem);
                 } else {
@@ -169,7 +169,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// 
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_params = null) {
-                return cls(method: construction_params.method, finishControl: construction_params.finishControl, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initial_solution: construction_params.initial_solution, vns_problem_solution_support: construction_params.vns_problem_solution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additionalStatisticsControl: construction_params.vns_additionalStatisticsControl, vns_k_min: construction_params.vns_k_min, vns_k_max: construction_params.vns_k_max, vns_local_search_type: construction_params.vns_local_search_type, te_problem_solution_support: construction_params.te_problem_solution_support);
+                return cls(method: construction_params.method, finishControl: construction_params.finishControl, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initialSolution: construction_params.initialSolution, vns_problemSolution_support: construction_params.vns_problemSolution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additionalStatisticsControl: construction_params.vns_additionalStatisticsControl, vns_k_min: construction_params.vns_k_min, vns_k_max: construction_params.vns_k_max, vns_localSearchType: construction_params.vns_localSearchType, te_problemSolution_support: construction_params.te_problemSolution_support);
             }
             
             /// 
@@ -184,13 +184,13 @@ namespace SingleObjective.Teaching.ones_count_problem {
                 @params.finishControl = vns_construction_params.finishControl;
                 @params.OutputControl = vns_construction_params.OutputControl;
                 @params.TargetProblem = vns_construction_params.TargetProblem;
-                @params.initial_solution = vns_construction_params.initial_solution;
-                @params.vns_problem_solution_support = vns_construction_params.problem_solution_vns_support;
+                @params.initialSolution = vns_construction_params.initialSolution;
+                @params.vns_problemSolution_support = vns_construction_params.problemSolutionVnsSupport;
                 @params.vnsRandomSeed = vns_construction_params.randomSeed;
                 @params.vns_additionalStatisticsControl = vns_construction_params.additionalStatisticsControl;
                 @params.vns_k_min = vns_construction_params.k_min;
                 @params.vns_k_max = vns_construction_params.k_max;
-                @params.vns_local_search_type = vns_construction_params.local_search_type;
+                @params.vns_localSearchType = vns_construction_params.localSearchType;
                 return cls.from_construction_tuple(@params);
             }
             
@@ -205,8 +205,8 @@ namespace SingleObjective.Teaching.ones_count_problem {
                 @params.method = "total_enumeration";
                 @params.OutputControl = te_construction_params.OutputControl;
                 @params.TargetProblem = te_construction_params.TargetProblem;
-                @params.initial_solution = te_construction_params.initial_solution;
-                @params.te_problem_solution_support = te_construction_params.problem_solution_te_support;
+                @params.initialSolution = te_construction_params.initialSolution;
+                @params.te_problemSolution_support = te_construction_params.problemSolution_te_support;
                 return cls.from_construction_tuple(@params);
             }
             

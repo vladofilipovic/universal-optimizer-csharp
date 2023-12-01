@@ -43,11 +43,11 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using OnesCountProblemBinaryIntSolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
     
-    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport;
+    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolutionVnsSupport.OnesCountProblemBinaryIntSolutionVnsSupport;
     
     using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
     
-    using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_vns_support.OnesCountProblemBinaryBitArraySolutionVnsSupport;
+    using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionVnsSupport.OnesCountProblemBinaryBitArraySolutionVnsSupport;
     
     using OnesCountProblemBinaryBitArraySolutionTeSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_te_support.OnesCountProblemBinaryBitArraySolutionTeSupport;
     
@@ -209,7 +209,7 @@ Which solver will be executed depends of command-line parameter algorithm.
                     /// parameters for VNS process setup
                     var k_min = parameters["kMin"];
                     var k_max = parameters["kMax"];
-                    var local_search_type = parameters["localSearchType"];
+                    var localSearchType = parameters["localSearchType"];
                     /// initial solution and vns support
                     solution_type = parameters["solutionType"];
                     object vns_support = null;
@@ -226,15 +226,15 @@ Which solver will be executed depends of command-line parameter algorithm.
                     var vns_construction_params = VnsOptimizerConstructionParameters();
                     vns_construction_params.OutputControl = OutputControl;
                     vns_construction_params.TargetProblem = problem;
-                    vns_construction_params.initial_solution = solution;
-                    vns_construction_params.problem_solution_vns_support = vns_support;
+                    vns_construction_params.initialSolution = solution;
+                    vns_construction_params.problemSolutionVnsSupport = vns_support;
                     vns_construction_params.finishControl = finishControl;
                     vns_construction_params.randomSeed = rSeed;
                     vns_construction_params.additionalStatisticsControl = additionalStatisticsControl;
                     vns_construction_params.k_min = k_min;
                     vns_construction_params.k_max = k_max;
                     vns_construction_params.maxLocalOptima = maxLocalOptima;
-                    vns_construction_params.local_search_type = local_search_type;
+                    vns_construction_params.localSearchType = localSearchType;
                     var solver = OnesCountProblemSolver.from_variable_neighborhood_search(vns_construction_params);
                 } else if (parameters["algorithm"] == "total_enumeration") {
                     /// initial solution and te support
@@ -251,8 +251,8 @@ Which solver will be executed depends of command-line parameter algorithm.
                     var te_construction_params = TeOptimizerConstructionParameters();
                     te_construction_params.OutputControl = OutputControl;
                     te_construction_params.TargetProblem = problem;
-                    te_construction_params.initial_solution = solution;
-                    te_construction_params.problem_solution_te_support = te_support;
+                    te_construction_params.initialSolution = solution;
+                    te_construction_params.problemSolution_te_support = te_support;
                     solver = OnesCountProblemSolver.from_total_enumeration(te_construction_params);
                 } else if (parameters["algorithm"] == "integer_linear_programming") {
                     /// solver construction parameters

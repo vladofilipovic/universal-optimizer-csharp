@@ -33,7 +33,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
         /// <param name="targetProblem">The target problem.</param>
-        /// <param name="initial_solution">The initial solution.</param>
+        /// <param name="initialSolution">The initial solution.</param>
         public SingleSolutionMetaheuristic(
                 string name,
                 FinishControl finishControl,
@@ -41,12 +41,12 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 AdditionalStatisticsControl additionalStatisticsControl,
                 OutputControl outputControl,
                 TargetProblem targetProblem,
-                TargetSolution<R_co, A_co> initial_solution)
+                TargetSolution<R_co, A_co> initialSolution)
                 : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem)
         {
-            if (initial_solution is not null)
+            if (initialSolution is not null)
             {
-                _currentSolution = (TargetSolution<R_co, A_co>)initial_solution.Clone();
+                _currentSolution = (TargetSolution<R_co, A_co>)initialSolution.Clone();
             }
         }
 

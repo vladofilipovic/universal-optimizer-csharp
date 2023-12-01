@@ -1,8 +1,8 @@
 ///  
-/// .. _py_ones_count_problem_int_solution_vns_support:
+/// .. _py_ones_count_problem_int_solutionVnsSupport:
 /// 
-/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support` contains 
-/// class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution_vns_support.OnesCountProblemBinaryIntSolutionVnsSupport`, 
+/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolutionVnsSupport` contains 
+/// class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolutionVnsSupport.OnesCountProblemBinaryIntSolutionVnsSupport`, 
 /// that represents solution of the :ref:`Problem_Max_Ones`, where `int` representation of the problem has been used.
 /// 
 namespace SingleObjective.Teaching.ones_count_problem {
@@ -25,7 +25,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using Algorithm = uo.Algorithm.algorithm.Algorithm;
     
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problemSolutionVnsSupport.ProblemSolutionVnsSupport;
     
     using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     
@@ -37,11 +37,11 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using System.Linq;
     
-    public static class ones_count_problemBinaryIntSolution_vns_support {
+    public static class ones_count_problemBinaryIntSolutionVnsSupport {
         
         public static object directory = Path(_file__).resolve();
         
-        static ones_count_problemBinaryIntSolution_vns_support() {
+        static ones_count_problemBinaryIntSolutionVnsSupport() {
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent);
             sys.path.append(directory.parent.parent.parent);

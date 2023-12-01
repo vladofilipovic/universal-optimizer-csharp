@@ -42,7 +42,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 
     using Algorithm = uo.Algorithm.algorithm.Algorithm;
 
-    using ProblemSolutionTeSupport = problem_solution_te_support.ProblemSolutionTeSupport;
+    using ProblemSolutionTeSupport = problemSolution_te_support.ProblemSolutionTeSupport;
 
     using System;
 
@@ -65,11 +65,11 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         public class TeOptimizerConstructionParameters
         {
 
-            public object initial_solution;
+            public object initialSolution;
 
             public object OutputControl;
 
-            public object problem_solution_te_support;
+            public object problemSolution_te_support;
 
             public object TargetProblem;
 
@@ -77,9 +77,9 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 
             public object TargetProblem = null;
 
-            public object initial_solution = null;
+            public object initialSolution = null;
 
-            public object problem_solution_te_support = null;
+            public object problemSolution_te_support = null;
         }
 
         /// 
@@ -95,7 +95,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 
             private object _iteration;
 
-            private object _problem_solution_te_support;
+            private object _problemSolution_te_support;
 
             private object _progress_method;
 
@@ -109,36 +109,36 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 
             public int iteration;
 
-            public TeOptimizer(object OutputControl, object TargetProblem, object initial_solution, object problem_solution_te_support)
+            public TeOptimizer(object OutputControl, object TargetProblem, object initialSolution, object problemSolution_te_support)
                 : base(OutputControl: OutputControl, TargetProblem: TargetProblem)
             {
                 /// total enumeration support
-                if (problem_solution_te_support is not null)
+                if (problemSolution_te_support is not null)
                 {
-                    if (problem_solution_te_support is ProblemSolutionTeSupport)
+                    if (problemSolution_te_support is ProblemSolutionTeSupport)
                     {
-                        _problem_solution_te_support = problem_solution_te_support.copy();
-                        _reset_method = _problem_solution_te_support.reset;
-                        _progress_method = _problem_solution_te_support.progress;
-                        _can_progress_method = _problem_solution_te_support.can_progress;
+                        _problemSolution_te_support = problemSolution_te_support.copy();
+                        _reset_method = _problemSolution_te_support.reset;
+                        _progress_method = _problemSolution_te_support.progress;
+                        _can_progress_method = _problemSolution_te_support.can_progress;
                     }
                     else
                     {
-                        _problem_solution_te_support = problem_solution_te_support;
-                        _reset_method = problem_solution_te_support.reset;
-                        _progress_method = problem_solution_te_support.progress;
-                        _can_progress_method = problem_solution_te_support.can_progress;
+                        _problemSolution_te_support = problemSolution_te_support;
+                        _reset_method = problemSolution_te_support.reset;
+                        _progress_method = problemSolution_te_support.progress;
+                        _can_progress_method = problemSolution_te_support.can_progress;
                     }
                 }
                 else
                 {
-                    _problem_solution_te_support = null;
+                    _problemSolution_te_support = null;
                     _reset_method = null;
                     _progress_method = null;
                     _can_progress_method = null;
                 }
                 /// current solution
-                _currentSolution = initial_solution;
+                _currentSolution = initialSolution;
                 _iteration = null;
             }
 
@@ -150,7 +150,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_tuple)
             {
-                return cls(construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initial_solution, construction_tuple.problem_solution_te_support);
+                return cls(construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initialSolution, construction_tuple.problemSolution_te_support);
             }
 
             /// 
@@ -242,7 +242,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             {
                 executionStarted = datetime.now();
                 init();
-                logger.debug("Overall number of evaluations: {}".format(_problem_solution_te_support.OverallNumberOfEvaluations(this.TargetProblem, currentSolution, this)));
+                logger.debug("Overall number of evaluations: {}".format(_problemSolution_te_support.OverallNumberOfEvaluations(this.TargetProblem, currentSolution, this)));
                 this.writeOutputHeadersIfNeeded();
                 this.WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
                 while (true)

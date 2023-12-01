@@ -42,19 +42,19 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
     using TeOptimizer = uo.Algorithm.Exact.TotalEnumeration.te_optimizer.TeOptimizer;
 
-    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problem_solution_te_support.ProblemSolutionTeSupport;
+    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problemSolution_te_support.ProblemSolutionTeSupport;
 
     using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizerConstructionParameters;
 
     using VnsOptimizer = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizer;
 
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problemSolutionVnsSupport.ProblemSolutionVnsSupport;
 
     using FunctionOneVariableProblem = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
 
     using FunctionOneVariableProblemBinaryIntSolution = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
 
-    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution_vns_support.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
+    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolutionVnsSupport.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
 
     public static class FunctionOneVariableProblem_solver
     {
@@ -77,7 +77,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
             public object finishControl;
 
-            public object initial_solution;
+            public object initialSolution;
 
             public object method;
 
@@ -91,9 +91,9 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
             public object vns_k_min;
 
-            public object vns_local_search_type;
+            public object vns_localSearchType;
 
-            public object vns_problem_solution_support;
+            public object vns_problemSolution_support;
 
             public object vnsRandomSeed;
 
@@ -105,9 +105,9 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
             public object TargetProblem = null;
 
-            public object initial_solution = null;
+            public object initialSolution = null;
 
-            public object vns_problem_solution_support = null;
+            public object vns_problemSolution_support = null;
 
             public object vnsRandomSeed = null;
 
@@ -117,7 +117,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 
             public object vns_k_max = null;
 
-            public object vns_local_search_type = null;
+            public object vns_localSearchType = null;
         }
 
         /// 
@@ -133,18 +133,18 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                 object finishControl = null,
                 object OutputControl = null,
                 object TargetProblem = null,
-                object initial_solution = null,
-                object vns_problem_solution_support = null,
+                object initialSolution = null,
+                object vns_problemSolution_support = null,
                 int vnsRandomSeed = null,
                 object vns_additionalStatisticsControl = null,
                 int vns_k_min = null,
                 int vns_k_max = null,
-                string vns_local_search_type = null)
+                string vns_localSearchType = null)
             {
                 _optimizer = null;
                 if (method == "variable_neighborhood_search")
                 {
-                    _optimizer = VnsOptimizer(finishControl: finishControl, OutputControl: OutputControl, TargetProblem: TargetProblem, initial_solution: initial_solution, problem_solution_vns_support: vns_problem_solution_support, randomSeed: vnsRandomSeed, additionalStatisticsControl: vns_additionalStatisticsControl, k_min: vns_k_min, k_max: vns_k_max, local_search_type: vns_local_search_type);
+                    _optimizer = VnsOptimizer(finishControl: finishControl, OutputControl: OutputControl, TargetProblem: TargetProblem, initialSolution: initialSolution, problemSolutionVnsSupport: vns_problemSolution_support, randomSeed: vnsRandomSeed, additionalStatisticsControl: vns_additionalStatisticsControl, k_min: vns_k_min, k_max: vns_k_max, localSearchType: vns_localSearchType);
                 }
                 else
                 {
@@ -160,7 +160,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
             [classmethod]
             public static void from_construction_tuple(object cls, object construction_params = null)
             {
-                return cls(method: construction_params.method, finishControl: construction_params.finishControl, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initial_solution: construction_params.initial_solution, vns_problem_solution_support: construction_params.vns_problem_solution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additionalStatisticsControl: construction_params.vns_additionalStatisticsControl, vns_k_min: construction_params.vns_k_min, vns_k_max: construction_params.vns_k_max, vns_local_search_type: construction_params.vns_local_search_type);
+                return cls(method: construction_params.method, finishControl: construction_params.finishControl, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initialSolution: construction_params.initialSolution, vns_problemSolution_support: construction_params.vns_problemSolution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additionalStatisticsControl: construction_params.vns_additionalStatisticsControl, vns_k_min: construction_params.vns_k_min, vns_k_max: construction_params.vns_k_max, vns_localSearchType: construction_params.vns_localSearchType);
             }
 
             /// 
@@ -176,13 +176,13 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                 @params.finishControl = vns_construction_params.finishControl;
                 @params.OutputControl = vns_construction_params.OutputControl;
                 @params.TargetProblem = vns_construction_params.TargetProblem;
-                @params.initial_solution = vns_construction_params.initial_solution;
-                @params.vns_problem_solution_support = vns_construction_params.problem_solution_vns_support;
+                @params.initialSolution = vns_construction_params.initialSolution;
+                @params.vns_problemSolution_support = vns_construction_params.problemSolutionVnsSupport;
                 @params.vnsRandomSeed = vns_construction_params.randomSeed;
                 @params.vns_additionalStatisticsControl = vns_construction_params.additionalStatisticsControl;
                 @params.vns_k_min = vns_construction_params.k_min;
                 @params.vns_k_max = vns_construction_params.k_max;
-                @params.vns_local_search_type = vns_construction_params.local_search_type;
+                @params.vns_localSearchType = vns_construction_params.localSearchType;
                 return cls.from_construction_tuple(@params);
             }
 

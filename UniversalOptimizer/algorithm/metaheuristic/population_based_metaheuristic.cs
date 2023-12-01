@@ -35,7 +35,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
         /// <param name="targetProblem">The target problem.</param>
-        /// <param name="initial_solutions">The initial solutions.</param>
+        /// <param name="initialSolutions">The initial solutions.</param>
         public PopulationBasedMetaheuristic(
             string name,
             FinishControl finishControl,
@@ -43,12 +43,12 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             AdditionalStatisticsControl additionalStatisticsControl,
             OutputControl outputControl,
             TargetProblem targetProblem,
-            IEnumerable<TargetSolution<R_co, A_co>> initial_solutions)
+            IEnumerable<TargetSolution<R_co, A_co>> initialSolutions)
             : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem)
         {
-            if (initial_solutions is not null && initial_solutions.Count() > 0)
+            if (initialSolutions is not null && initialSolutions.Count() > 0)
             {
-                _currentSolutions = initial_solutions;
+                _currentSolutions = initialSolutions;
             }
         }
 

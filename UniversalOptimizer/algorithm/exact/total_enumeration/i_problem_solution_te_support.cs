@@ -1,5 +1,5 @@
 ///  
-/// The :mod:`~uo.Algorithm.Exact.TotalEnumeration.problem_solution_te_support` module describes the class :class:`~uo.Algorithm.Exact.TotalEnumeration.problem_solution_te_support.ProblemSolutionTeSupport`.
+/// The :mod:`~uo.Algorithm.Exact.TotalEnumeration.problemSolution_te_support` module describes the class :class:`~uo.Algorithm.Exact.TotalEnumeration.problemSolution_te_support.ProblemSolutionTeSupport`.
 /// 
 namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 {
