@@ -62,19 +62,14 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             throw new NotImplementedException();
         }
 
-        /// 
-        /// Property getter for the current solution used during single solution metaheuristic execution
-        /// 
-        /// :return: instance of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solution of the problem 
-        /// return type :class:`TargetSolution`        
-        /// 
-        /// 
-        /// Property setter for the current solution used during single solution metaheuristic execution
-        /// 
-        /// :param value: the current solution
-        /// :type value: :class:`TargetSolution`
-        /// 
-        public object currentSolution
+        /// <summary>
+        /// Property getter and setter for the current solution used during single solution 
+        /// metaheuristic execution.
+        /// </summary>
+        /// <value>
+        /// The current solution.
+        /// </value>
+        public TargetSolution<R_co,A_co> CurrentSolution
         {
             get
             {
@@ -86,22 +81,15 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             }
         }
 
-        /// 
-        /// String representation of the SingleSolutionMetaheuristic instance
-        /// 
-        /// :param delimiter: delimiter between fields
-        /// :type delimiter: str
-        /// :param indentation: level of indentation
-        /// :type indentation: int, optional, default value 0
-        /// :param indentationSymbol: indentation symbol
-        /// :type indentationSymbol: str, optional, default value ''
-        /// :param groupStart: group start string 
-        /// :type groupStart: str, optional, default value '{'
-        /// :param groupEnd: group end string 
-        /// :type groupEnd: str, optional, default value '}'
-        /// :return: string representation of instance that controls output
-        /// return type str
-        /// 
+        /// <summary>
+        /// String representation of the metaheuristic instance.
+        /// </summary>
+        /// <param name="delimiter">The delimiter between fields.</param>
+        /// <param name="indentation">The indentation level.</param>
+        /// <param name="indentationSymbol">The indentation symbol.</param>
+        /// <param name="groupStart">The group start.</param>
+        /// <param name="groupEnd">The group end.</param>
+        /// <returns></returns>
         public new string StringRep(
             string delimiter,
             int indentation = 0,
@@ -115,13 +103,13 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 s += indentationSymbol;
             }
             s += groupStart;
-            s = base.stringRep(delimiter, indentation, indentationSymbol, "", "");
+            s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "currentSolution=" + currentSolution.ToString() + delimiter;
+            s += "currentSolution=" + CurrentSolution.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
@@ -130,44 +118,18 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             return s;
         }
 
-        /// 
-        /// String representation of the `SingleSolutionMetaheuristic` instance
-        /// 
-        /// :return: string representation of the `SingleSolutionMetaheuristic` instance
-        /// return type str
-        /// 
-        [abstractmethod]
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
-            var s = this.stringRep("|");
+            var s = this.StringRep("|");
             return s;
         }
 
-        /// 
-        /// String representation of the `SingleSolutionMetaheuristic` instance
-        /// 
-        /// :return: string representation of the `SingleSolutionMetaheuristic` instance
-        /// return type str
-        /// 
-        [abstractmethod]
-        public virtual string _repr__()
-        {
-            var s = this.stringRep("\n");
-            return s;
-        }
-
-        /// 
-        /// Formatted the `SingleSolutionMetaheuristic` instance
-        /// 
-        /// :param str spec: format specification
-        /// :return: formatted `Metaheuristic` instance
-        /// return type str
-        /// 
-        [abstractmethod]
-        public virtual string _format__(string spec)
-        {
-            return StringRep("|");
-        }
     }
 }
-}
+
