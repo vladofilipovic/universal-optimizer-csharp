@@ -265,7 +265,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <param name="representation">The native representation of the solution for which objective value, fitness and feasibility are calculated.</param>
         /// <param name="problem">The problem that is solved.</param>
         /// <returns></returns>
-        public abstract QualityOfSolution CalculateQualityDirectly(object representation, object problem);
+        public abstract QualityOfSolution CalculateQualityDirectly(object representation, TargetProblem problem);
 
         /// <summary>
         /// Calculate fitness, objective and feasibility of the solution, with optional cache consultation.

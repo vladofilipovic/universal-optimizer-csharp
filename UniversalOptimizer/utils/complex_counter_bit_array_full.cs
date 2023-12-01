@@ -68,15 +68,24 @@ namespace UniversalOptimizer.utils
             {
                 return false;
             }
-            var ind_not_max = _counters.find("0b0")[0];
+            int ind_not_max = 0;
+            while (_counters[ind_not_max])
+                ind_not_max++;
             _counters[ind_not_max] = true;
-            _counters.set(false, Enumerable.Range(0, ind_not_max - 0));
+            foreach(int i in Enumerable.Range(0, ind_not_max))
+                _counters[i] = false;
             return true;
         }
 
-        public virtual bool can_progress()
+        /// <summary>
+        /// Determines whether this instance can progress.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance can progress; otherwise, <c>false</c>.
+        /// </returns>
+        public virtual bool CanProgress()
         {
-            return !_counters.all(true);
+            return !_counters.HasAllSet();
         }
 
     }

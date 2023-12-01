@@ -36,7 +36,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using Algorithm = uo.Algorithm.algorithm.Algorithm;
     
-    using ProblemSolutionTeSupport = uo.Algorithm.exact.total_enumeration.problem_solution_te_support.ProblemSolutionTeSupport;
+    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problem_solution_te_support.ProblemSolutionTeSupport;
     
     using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     
@@ -141,7 +141,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// :return: overall number of evaluations required for finishing total enumeration process
             /// return type int
             /// 
-            public virtual int overall_number_of_evaluations(object problem, object solution, object optimizer) {
+            public virtual int OverallNumberOfEvaluations(object problem, object solution, object optimizer) {
                 return pow(2, problem.dimension);
             }
             

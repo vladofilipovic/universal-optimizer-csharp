@@ -9,6 +9,12 @@ namespace UniversalOptimizer.utils
 {
     public static class Reflection
     {
+        /// <summary>
+        /// Reflections the get property value.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public static object ReflectionGetPropertyValue(this object obj, string name)
         {
             foreach (string part in name.Split('.'))

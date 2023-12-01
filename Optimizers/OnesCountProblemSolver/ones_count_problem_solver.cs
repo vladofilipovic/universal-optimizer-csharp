@@ -33,21 +33,21 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using Optimizer = uo.Algorithm.optimizer.Optimizer;
     
-    using FinishControl = uo.Algorithm.metaheuristic.finishControl.FinishControl;
+    using FinishControl = uo.Algorithm.Metaheuristic.finishControl.FinishControl;
     
-    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
+    using AdditionalStatisticsControl = uo.Algorithm.Metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
     
-    using TeOptimizerConstructionParameters = uo.Algorithm.exact.total_enumeration.te_optimizer.TeOptimizerConstructionParameters;
+    using TeOptimizerConstructionParameters = uo.Algorithm.Exact.TotalEnumeration.te_optimizer.TeOptimizerConstructionParameters;
     
-    using TeOptimizer = uo.Algorithm.exact.total_enumeration.te_optimizer.TeOptimizer;
+    using TeOptimizer = uo.Algorithm.Exact.TotalEnumeration.te_optimizer.TeOptimizer;
     
-    using ProblemSolutionTeSupport = uo.Algorithm.exact.total_enumeration.problem_solution_te_support.ProblemSolutionTeSupport;
+    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problem_solution_te_support.ProblemSolutionTeSupport;
     
-    using VnsOptimizerConstructionParameters = uo.Algorithm.metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizerConstructionParameters;
+    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizerConstructionParameters;
     
-    using VnsOptimizer = uo.Algorithm.metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizer;
+    using VnsOptimizer = uo.Algorithm.Metaheuristic.variable_neighborhood_search.vns_optimizer.VnsOptimizer;
     
-    using ProblemSolutionVnsSupport = uo.Algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
+    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport;
     
     using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
     

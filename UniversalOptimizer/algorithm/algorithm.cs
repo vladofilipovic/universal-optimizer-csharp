@@ -1,7 +1,7 @@
-namespace UniversalOptimizer.algorithm
+namespace UniversalOptimizer.Algorithm
 {
-    using uo.TargetProblem;
-    using uo.TargetSolution;
+    using TargetProblem;
+    using TargetSolution;
 
 
     using System;
@@ -66,6 +66,24 @@ namespace UniversalOptimizer.algorithm
         }
 
         /// <summary>
+        /// Property getter for the iteration number when the best solution is found.
+        /// </summary>
+        /// <value>
+        /// The iteration.
+        /// </value>
+        public int IterationBestFound
+        {
+            get
+            {
+                return _iterationBestFound;
+            }
+            set
+            {
+                _iterationBestFound = value;
+            }
+        }
+
+        /// <summary>
         /// Copies function argument to become the best solution within optimizer instance and update
         /// info about time and iteration when the best solution is updated.
         /// </summary>
@@ -74,7 +92,7 @@ namespace UniversalOptimizer.algorithm
         public override void CopyToBestSolution(TargetSolution<R_co, A_co> solution)
         {
             base.CopyToBestSolution(solution);
-            _iterationBestFound = _iteration;
+            this.IterationBestFound = _iteration;
         }
 
         /// <summary>

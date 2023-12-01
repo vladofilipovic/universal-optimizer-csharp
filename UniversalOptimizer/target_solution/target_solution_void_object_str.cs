@@ -1,58 +1,47 @@
-using UniversalOptimizer.TargetSolution;
-
 namespace UniversalOptimizer.TargetSolution
 {
-  
-    public class TargetSolutionVoidObjectStr : TargetSolution<object, string>
+
+    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.TargetSolution;
+
+    public class TargetSolutionVoidObjectStr : TargetSolution<object, string>, ICloneable
     {
 
-        public object representation;
+        private object _representation;
 
         public TargetSolutionVoidObjectStr(string name)
             : base(name, randomSeed: null, fitnessValue: 0, fitnessValues: new List<double>(), objectiveValue: 0, objectiveValues: new List<double>(), isFeasible: true, evaluationCacheIsUsed: false, evaluationCacheMaxSize: 0, distanceCalculationCacheIsUsed: false, distanceCalculationCacheMaxSize: 0)
         {
         }
 
-        public virtual void _copy__()
-        {
-            var pr = deepcopy(this);
-            return pr;
-        }
-
-        public virtual object copy()
-        {
-            return _copy__();
-        }
-
-        public virtual object copy_to(object destination)
-        {
-            destination = copy(this);
-        }
-
-        public virtual string argument(object representation)
+        public override string Argument(object representation)
         {
             return representation.ToString();
         }
 
-        public virtual object InitRandom(object problem)
+        public override void InitRandom(TargetProblem problem)
         {
-            representation = null;
-            return;
+            _representation = null;
         }
 
-        public virtual object InitFrom(object representation, object problem)
+        public override void InitFrom(object representation, TargetProblem problem)
         {
-            this.representation = representation;
+            this._representation = representation;
         }
 
-        public virtual object NativeRepresentation(string representationStr)
+        public override object NativeRepresentation(string representationStr)
         {
             return representationStr;
         }
 
-        public virtual object CalculateQualityDirectly(object representation, object problem)
+        public override QualityOfSolution CalculateQualityDirectly(object representation, TargetProblem problem)
         {
-            return QualityOfSolution(0, 0, true);
+            return new QualityOfSolution()
+            {
+                FitnessValue = 0.0,
+                ObjectiveValue = 0.0,
+                IsFeasible = true
+            };
         }
 
         public static double RepresentationDistanceDirectly(object solution_code_1, string solution_code_2)
@@ -65,50 +54,12 @@ namespace UniversalOptimizer.TargetSolution
             return ToString();
         }
 
-        public override string ToString()
-        {
-            return ToString();
-        }
-
-        public virtual string _repr__()
-        {
-            return _repr__();
-        }
-
-        public virtual string _format__(string spec)
-        {
-            return _format__();
-        }
-
-        public override string Argument(object representation)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void InitRandom(TargetProblem problem)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override object NativeRepresentation(string representationStr)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void InitFrom(object representation, TargetProblem problem)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override QualityOfSolution CalculateQualityDirectly(object representation, object problem)
-        {
-            throw new NotImplementedException();
-        }
 
         public override double RepresentationDistanceDirectly(object representation_1, object representation_2)
         {
             throw new NotImplementedException();
         }
+
     }
 
 }

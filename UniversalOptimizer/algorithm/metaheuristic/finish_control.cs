@@ -1,4 +1,4 @@
-namespace UniversalOptimizer.algorithm.metaheuristic
+namespace UniversalOptimizer.Algorithm.Metaheuristic
 {
     /// <summary>
     /// This class determine finishing criteria and status during execution of the metaheuristics

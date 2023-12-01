@@ -1,9 +1,9 @@
-using UniversalOptimizer.algorithm;
+using UniversalOptimizer.Algorithm;
 
 ///  
-/// The :mod:`~uo.Algorithm.metaheuristic.SingleSolutionMetaheuristic` module describes the class :class:`~uo.Algorithm.metaheuristic.SingleSolutionMetaheuristic.SingleSolutionMetaheuristic`.
+/// The :mod:`~uo.Algorithm.Metaheuristic.SingleSolutionMetaheuristic` module describes the class :class:`~uo.Algorithm.Metaheuristic.SingleSolutionMetaheuristic.SingleSolutionMetaheuristic`.
 /// 
-namespace UniversalOptimizer.algorithm.metaheuristic
+namespace UniversalOptimizer.Algorithm.Metaheuristic
 {
 
     using Path = pathlib.Path;
@@ -40,11 +40,11 @@ namespace UniversalOptimizer.algorithm.metaheuristic
 
     using OutputControl = OutputControl.OutputControl;
 
-    using FinishControl = uo.Algorithm.metaheuristic.finishControl.FinishControl;
+    using FinishControl = uo.Algorithm.Metaheuristic.finishControl.FinishControl;
 
-    using AdditionalStatisticsControl = uo.Algorithm.metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
+    using AdditionalStatisticsControl = uo.Algorithm.Metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
 
-    using Metaheuristic = uo.Algorithm.metaheuristic.metaheuristic.Metaheuristic;
+    using Metaheuristic = uo.Algorithm.Metaheuristic.metaheuristic.Metaheuristic;
 
     using System;
 

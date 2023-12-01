@@ -1,9 +1,9 @@
-using UniversalOptimizer.algorithm;
+using UniversalOptimizer.Algorithm;
 
 ///  
-/// The :mod:`~uo.Algorithm.exact.total_enumeration` module describes the class :class:`~uo.Algorithm.exact.total_enumeration.TotalEnumeration`.
+/// The :mod:`~uo.Algorithm.Exact.TotalEnumeration` module describes the class :class:`~uo.Algorithm.Exact.TotalEnumeration.TotalEnumeration`.
 /// 
-namespace UniversalOptimizer.algorithm.exact.total_enumeration
+namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 {
 
     using Path = pathlib.Path;
@@ -60,7 +60,7 @@ namespace UniversalOptimizer.algorithm.exact.total_enumeration
         }
 
         /// 
-        ///     Instance of the class :class:`~uo.Algorithm.exact.total_enumerations.TotalEnumerationConstructorParameters` represents constructor parameters for total enumeration algorithm.
+        ///     Instance of the class :class:`~uo.Algorithm.Exact.TotalEnumerations.TotalEnumerationConstructorParameters` represents constructor parameters for total enumeration algorithm.
         ///     
         public class TeOptimizerConstructionParameters
         {
@@ -242,7 +242,7 @@ namespace UniversalOptimizer.algorithm.exact.total_enumeration
             {
                 executionStarted = datetime.now();
                 init();
-                logger.debug("Overall number of evaluations: {}".format(_problem_solution_te_support.overall_number_of_evaluations(this.TargetProblem, currentSolution, this)));
+                logger.debug("Overall number of evaluations: {}".format(_problem_solution_te_support.OverallNumberOfEvaluations(this.TargetProblem, currentSolution, this)));
                 this.writeOutputHeadersIfNeeded();
                 this.WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
                 while (true)

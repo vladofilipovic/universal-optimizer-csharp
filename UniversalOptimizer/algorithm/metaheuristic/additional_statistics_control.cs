@@ -1,4 +1,4 @@
-namespace UniversalOptimizer.algorithm.metaheuristic
+namespace UniversalOptimizer.Algorithm.Metaheuristic
 {
 
     using System.Collections.Generic;

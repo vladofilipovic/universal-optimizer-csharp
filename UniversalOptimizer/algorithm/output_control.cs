@@ -1,4 +1,4 @@
-namespace UniversalOptimizer.algorithm
+namespace UniversalOptimizer.Algorithm
 {
 
     using System.Collections.Generic;

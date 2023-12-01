@@ -1,9 +1,9 @@
-namespace UniversalOptimizer.algorithm
+namespace UniversalOptimizer.Algorithm
 {
 
-    using uo.TargetProblem;
+    using TargetProblem;
 
-    using uo.TargetSolution;
+    using TargetSolution;
 
     using System;
 
@@ -243,7 +243,7 @@ namespace UniversalOptimizer.algorithm
         /// <returns></returns>
         public virtual void CopyToBestSolution(TargetSolution<R_co, A_co> solution)
         {
-            _bestSolution = solution.Clone();
+            _bestSolution = solution.Clone() as TargetSolution<R_co,A_co>;
             TimeSpan duration = DateTime.Now - ExecutionStarted;
             _timeWhenBestObtained = duration.TotalNanoseconds;
         }

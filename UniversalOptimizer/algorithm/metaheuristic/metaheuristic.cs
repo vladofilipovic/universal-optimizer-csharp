@@ -2,19 +2,16 @@
 /// This module describes the class Metaheuristic
 /// </summary>
 /// 
-namespace UniversalOptimizer.algorithm.metaheuristic
+namespace UniversalOptimizer.Algorithm.Metaheuristic
 {
-
-
-    using uo.TargetProblem;
-
-    using uo.TargetSolution;
+    using UniversalOptimizer.Algorithm;
+    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.TargetSolution;
 
     using System;
-
     using System.Linq;
-    using UniversalOptimizer.algorithm;
 
+    using Serilog;
 
 
     /// <summary>
@@ -104,40 +101,33 @@ namespace UniversalOptimizer.algorithm.metaheuristic
                 WriteOutputValuesIfNeeded("beforeIteration", "b_i");
                 MainLoopIteration();
                 WriteOutputValuesIfNeeded("afterIteration", "a_i");
-                logger.debug("Iteration: " + this.iteration.ToString() + ", Evaluations: " + this.evaluation.ToString() + ", Best solution objective: " + this.bestSolution.objectiveValue.ToString() + ", Best solution fitness: " + this.bestSolution.fitnessValue.ToString() + ", Best solution: " + this.bestSolution.stringRepresentation().ToString());
+                Log.Debug("Iteration: " + this.Iteration.ToString() + ", Evaluations: " + this.Evaluation.ToString() + ", Best solution objective: " + this.BestSolution.ObjectiveValue.ToString() + ", Best solution fitness: " + this.BestSolution.FitnessValue.ToString() + ", Best solution: " + this.BestSolution.StringRepresentation());
             }
         }
 
-        /// 
-        /// Executing optimization by the metaheuristic algorithm
-        /// 
-        public virtual object optimize()
+        /// <summary>
+        /// Executing optimization by the metaheuristic algorithm.
+        /// </summary>
+        public virtual void Optimize()
         {
-            this.executionStarted = datetime.now();
-            this.init();
-            this.writeOutputHeadersIfNeeded();
+            this.ExecutionStarted = DateTime.Now;
+            this.Init();
+            this.WriteOutputHeadersIfNeeded();
             WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
             MainLoop();
-            this.executionEnded = datetime.now();
+            this.ExecutionEnded = DateTime.Now;
             WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
         }
 
-        /// 
-        /// String representation of the Metaheuristic instance
-        /// 
-        /// :param delimiter: delimiter between fields
-        /// :type delimiter: str
-        /// :param indentation: level of indentation
-        /// :type indentation: int, optional, default value 0
-        /// :param indentationSymbol: indentation symbol
-        /// :type indentationSymbol: str, optional, default value ''
-        /// :param groupStart: group start string 
-        /// :type groupStart: str, optional, default value '{'
-        /// :param groupEnd: group end string 
-        /// :type groupEnd: str, optional, default value '}'
-        /// :return: string representation of instance that controls output
-        /// return type str
-        /// 
+        /// <summary>
+        /// String representation of the metaheuristic instance.
+        /// </summary>
+        /// <param name="delimiter">The delimiter between fields.</param>
+        /// <param name="indentation">The indentation level.</param>
+        /// <param name="indentationSymbol">The indentation symbol.</param>
+        /// <param name="groupStart">The group start.</param>
+        /// <param name="groupEnd">The group end.</param>
+        /// <returns></returns>
         public new string StringRep(
             string delimiter,
             int indentation = 0,
@@ -151,33 +141,33 @@ namespace UniversalOptimizer.algorithm.metaheuristic
                 s += indentationSymbol;
             }
             s += groupStart;
-            s = base.stringRep(delimiter, indentation, indentationSymbol, "", "");
+            s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "randomSeed=" + this.randomSeed.ToString() + delimiter;
+            s += "randomSeed=" + this.RandomSeed.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "finishControl=" + this.finishControl.ToString() + delimiter;
+            s += "finishControl=" + this.FinishControl.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "additionalStatisticsControl=" + this.additionalStatisticsControl.ToString() + delimiter;
+            s += "additionalStatisticsControl=" + this.AdditionalStatisticsControl.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "_iteration=" + _iteration.ToString() + delimiter;
+            s += "_iteration=" + this.Iteration.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "_iterationBestFound=" + _iterationBestFound.ToString() + delimiter;
+            s += "_iterationBestFound=" + IterationBestFound.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
@@ -190,43 +180,16 @@ namespace UniversalOptimizer.algorithm.metaheuristic
             return s;
         }
 
-        /// 
-        /// String representation of the `Metaheuristic` instance
-        /// 
-        /// :return: string representation of the `Metaheuristic` instance
-        /// return type str
-        /// 
-        [abstractmethod]
+        /// <summary>
+        /// String representation of the metaheuristic instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
-            var s = this.stringRep("|");
+            var s = this.StringRep("|");
             return s;
-        }
-
-        /// 
-        /// String representation of the `Metaheuristic` instance
-        /// 
-        /// :return: string representation of the `Metaheuristic` instance
-        /// return type str
-        /// 
-        [abstractmethod]
-        public virtual string _repr__()
-        {
-            var s = this.stringRep("\n");
-            return s;
-        }
-
-        /// 
-        /// Formatted the `Metaheuristic` instance
-        /// 
-        /// :param str spec: format specification
-        /// :return: formatted `Metaheuristic` instance
-        /// return type str
-        /// 
-        [abstractmethod]
-        public virtual string _format__(string spec)
-        {
-            return StringRep("|");
         }
 
     }

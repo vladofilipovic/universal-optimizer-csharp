@@ -1,7 +1,7 @@
 ///  
-/// The :mod:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support` module describes the class :class:`~uo.Algorithm.metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport`.
+/// The :mod:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search.problem_solution_vns_support` module describes the class :class:`~uo.Algorithm.Metaheuristic.variable_neighborhood_search.problem_solution_vns_support.ProblemSolutionVnsSupport`.
 /// 
-namespace UniversalOptimizer.algorithm.metaheuristic.variable_neighborhood_search
+namespace UniversalOptimizer.Algorithm.Metaheuristic.variable_neighborhood_search
 {
 
     using Path = pathlib.Path;
