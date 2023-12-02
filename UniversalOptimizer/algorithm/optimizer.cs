@@ -10,7 +10,7 @@ namespace UniversalOptimizer.Algorithm
     using System.Linq;
     using UniversalOptimizer.utils;
 
-    public abstract class Optimizer<R_co, A_co>
+    public abstract class Optimizer<R_co, A_co>: ICloneable
     {
         private TargetSolution<R_co, A_co>? _bestSolution;
         private DateTime _executionEnded;
@@ -20,12 +20,30 @@ namespace UniversalOptimizer.Algorithm
         private TargetProblem _targetProblem;
         private double _timeWhenBestObtained;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Optimizer{R_co, A_co}"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="outputControl">The output control.</param>
+        /// <param name="targetProblem">The target problem.</param>
         public Optimizer(string name, OutputControl outputControl, TargetProblem targetProblem)
         {
             _name = name;
             _outputControl = outputControl;
             _targetProblem = targetProblem;
             _timeWhenBestObtained = 0.0;
+        }
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public object Clone()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -251,7 +269,7 @@ namespace UniversalOptimizer.Algorithm
         /// 
         /// Method for optimization   
         /// 
-        public virtual object Optimize()
+        public virtual void Optimize()
         {
             throw new NotImplementedException();
         }

@@ -96,7 +96,7 @@ namespace opt.SingleObjective.Teaching
         public override TargetProblem Clone()
         {
             FunctionOneVariableProblem cl = new FunctionOneVariableProblem(
-                this.IsMinimization, this.Expression, this.DomainLow, this.DomainHigh);
+                IsMinimization, Expression, DomainLow, DomainHigh);
             return cl;
         }
 

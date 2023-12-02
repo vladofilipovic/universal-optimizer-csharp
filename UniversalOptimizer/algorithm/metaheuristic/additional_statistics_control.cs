@@ -19,7 +19,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         public bool _keepMoreLocalOptima;
         private int _maxLocalOptima;
         public static HashSet<string>? AllSolutionCodes;
-        public static Dictionary<string, float>? MoreLocalOptima;
+        public static Dictionary<string, double>? MoreLocalOptima;
         private Random _random;
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             }
             if (_keepMoreLocalOptima)
             {
-                MoreLocalOptima = new Dictionary<string, float>();
+                MoreLocalOptima = new Dictionary<string, double>();
             }
         }
 
@@ -173,7 +173,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// </param>
         /// <returns>If adding is successful e.g. currentSolution is new element in the structure 
         /// </returns>
-        public virtual bool AddToMoreLocalOptimaIfRequired(string solutionToAddRep, float solutionToAddFitness, string bestSolutionRep)
+        public virtual bool AddToMoreLocalOptimaIfRequired(string solutionToAddRep, double solutionToAddFitness, string bestSolutionRep)
         {
             if (!KeepMoreLocalOptima)
             {

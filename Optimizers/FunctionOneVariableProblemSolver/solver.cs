@@ -219,8 +219,8 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                 if (parameters["algorithm"] == "variable_neighborhood_search")
                 {
                     /// parameters for VNS process setup
-                    var k_min = parameters["kMin"];
-                    var k_max = parameters["kMax"];
+                    var kMin = parameters["kMin"];
+                    var kMax = parameters["kMax"];
                     var localSearchType = parameters["localSearchType"];
                     /// initial solution and vns support
                     var solution_type = parameters["solutionType"];
@@ -244,8 +244,8 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                     vns_construction_params.finishControl = finishControl;
                     vns_construction_params.randomSeed = rSeed;
                     vns_construction_params.additionalStatisticsControl = additionalStatisticsControl;
-                    vns_construction_params.k_min = k_min;
-                    vns_construction_params.k_max = k_max;
+                    vns_construction_params.kMin = kMin;
+                    vns_construction_params.kMax = kMax;
                     vns_construction_params.maxLocalOptima = maxLocalOptima;
                     vns_construction_params.localSearchType = localSearchType;
                     var solver = FunctionOneVariableProblemSolver.from_variable_neighborhood_search(vns_construction_params);

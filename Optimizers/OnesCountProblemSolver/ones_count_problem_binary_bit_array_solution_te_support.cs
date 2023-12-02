@@ -1,8 +1,8 @@
 ///  
-/// ..  _py_ones_count_problem_bit_array_solution_te_support:
+/// ..  _py_ones_count_problem_bit_array_solutionTeSupport:
 /// 
-/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_te_support` 
-/// contains class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_te_support.OnesCountProblemBinaryBitArraySolutionTeSupport`, 
+/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionTeSupport` 
+/// contains class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionTeSupport.OnesCountProblemBinaryBitArraySolutionTeSupport`, 
 /// that represents supporting parts of the `Total enumeration` algorithm, where solution of the :ref:`Problem_Max_Ones` have `BitArray` 
 /// representation.
 /// 
@@ -36,17 +36,17 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using Algorithm = uo.Algorithm.algorithm.Algorithm;
     
-    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problemSolution_te_support.ProblemSolutionTeSupport;
+    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problemSolutionTeSupport.ProblemSolutionTeSupport;
     
     using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
     
     using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
     
-    public static class ones_count_problem_binary_bit_array_solution_te_support {
+    public static class ones_count_problem_binary_bit_array_solutionTeSupport {
         
         public static object directory = Path(_file__).resolve();
         
-        static ones_count_problem_binary_bit_array_solution_te_support() {
+        static ones_count_problem_binary_bit_array_solutionTeSupport() {
             sys.path.append(directory);
             sys.path.append(directory.parent);
             sys.path.append(directory.parent.parent.parent);

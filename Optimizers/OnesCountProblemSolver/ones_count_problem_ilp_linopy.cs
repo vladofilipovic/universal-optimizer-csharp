@@ -101,8 +101,8 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` construction_params: parameters for construction 
             /// 
             [classmethod]
-            public static void from_construction_tuple(object cls, object construction_params = null) {
-                return cls(construction_tuple.OutputControl, construction_tuple.TargetProblem);
+            public static void FromConstructionTuple(object cls, object construction_params = null) {
+                return cls(constructionTuple.OutputControl, constructionTuple.TargetProblem);
             }
             
             /// 

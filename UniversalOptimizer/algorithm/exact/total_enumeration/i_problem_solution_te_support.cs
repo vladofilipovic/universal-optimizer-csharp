@@ -1,5 +1,5 @@
 ///  
-/// The :mod:`~uo.Algorithm.Exact.TotalEnumeration.problemSolution_te_support` module describes the class :class:`~uo.Algorithm.Exact.TotalEnumeration.problemSolution_te_support.ProblemSolutionTeSupport`.
+/// The :mod:`~uo.Algorithm.Exact.TotalEnumeration.problemSolutionTeSupport` module describes the class :class:`~uo.Algorithm.Exact.TotalEnumeration.problemSolutionTeSupport.ProblemSolutionTeSupport`.
 /// 
 namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 {
@@ -11,6 +11,12 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
     using UniversalOptimizer.Algorithm;
 
     using System;
+
+    public delegate void ProblemSolutionTeSupportResetMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
+    public delegate void ProblemSolutionTeSupportProgressMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
+    public delegate bool ProblemSolutionTeSupportCanProgressMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
+    public delegate int ProblemSolutionTeSupportOverallNumberOfEvaluationsMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
+
     public interface IProblemSolutionTeSupport<R_co, A_co>
     {
 

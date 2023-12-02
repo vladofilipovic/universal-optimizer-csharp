@@ -49,7 +49,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionVnsSupport.OnesCountProblemBinaryBitArraySolutionVnsSupport;
     
-    using OnesCountProblemBinaryBitArraySolutionTeSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution_te_support.OnesCountProblemBinaryBitArraySolutionTeSupport;
+    using OnesCountProblemBinaryBitArraySolutionTeSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionTeSupport.OnesCountProblemBinaryBitArraySolutionTeSupport;
     
     using OnesCountProblemSolver = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_solver.OnesCountProblemSolver;
     
@@ -207,8 +207,8 @@ Which solver will be executed depends of command-line parameter algorithm.
                 /// select among algorithm types
                 if (parameters["algorithm"] == "variable_neighborhood_search") {
                     /// parameters for VNS process setup
-                    var k_min = parameters["kMin"];
-                    var k_max = parameters["kMax"];
+                    var kMin = parameters["kMin"];
+                    var kMax = parameters["kMax"];
                     var localSearchType = parameters["localSearchType"];
                     /// initial solution and vns support
                     solution_type = parameters["solutionType"];
@@ -231,8 +231,8 @@ Which solver will be executed depends of command-line parameter algorithm.
                     vns_construction_params.finishControl = finishControl;
                     vns_construction_params.randomSeed = rSeed;
                     vns_construction_params.additionalStatisticsControl = additionalStatisticsControl;
-                    vns_construction_params.k_min = k_min;
-                    vns_construction_params.k_max = k_max;
+                    vns_construction_params.kMin = kMin;
+                    vns_construction_params.kMax = kMax;
                     vns_construction_params.maxLocalOptima = maxLocalOptima;
                     vns_construction_params.localSearchType = localSearchType;
                     var solver = OnesCountProblemSolver.from_variable_neighborhood_search(vns_construction_params);
@@ -252,7 +252,7 @@ Which solver will be executed depends of command-line parameter algorithm.
                     te_construction_params.OutputControl = OutputControl;
                     te_construction_params.TargetProblem = problem;
                     te_construction_params.initialSolution = solution;
-                    te_construction_params.problemSolution_te_support = te_support;
+                    te_construction_params.problemSolutionTeSupport = te_support;
                     solver = OnesCountProblemSolver.from_total_enumeration(te_construction_params);
                 } else if (parameters["algorithm"] == "integer_linear_programming") {
                     /// solver construction parameters

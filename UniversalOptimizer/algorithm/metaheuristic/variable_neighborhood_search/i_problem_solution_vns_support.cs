@@ -11,6 +11,16 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 
     using System;
 
+    public delegate bool ProblemSolutionVnsSupportShakingMethod<R_co, A_co>(int k,
+            TargetProblem problem,
+            TargetSolution<R_co, A_co> solution,
+            Algorithm<R_co, A_co> optimizer,
+            IEnumerable<R_co> solutionRepresentations);
+    public delegate TargetSolution<R_co, A_co> ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>(int k,
+        TargetProblem problem,
+        TargetSolution<R_co, A_co> solution,
+        Algorithm<R_co, A_co> optimizer);
+
     public interface IProblemSolutionVnsSupport<R_co, A_co>
     {
 

@@ -16,6 +16,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 
     using System.Linq;
 
+    using Serilog;
+
 
     /// <summary>
     /// Instance of this class represents constructor parameters for VNS algorithm.
@@ -29,10 +31,10 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         public int KMin { get; set; }
         public required string LocalSearchType { get; set; }
         public required OutputControl OutputControl { get; set; }
-        public required IProblemSolutionVnsSupport<R_co,A_co> ProblemSolutionVnsSupport { get; set; }
+        public required IProblemSolutionVnsSupport<R_co, A_co> ProblemSolutionVnsSupport { get; set; }
         public int RandomSeed { get; set; }
-        public required TargetProblem TargetProblem { get; set; }   
-      }
+        public required TargetProblem TargetProblem { get; set; }
+    }
 
     /// <summary>
     /// Instance of this class encapsulate Variable Neighborhood Search optimization algorithm.
@@ -40,27 +42,34 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
     /// <seealso cref="UniversalOptimizer.Algorithm.Metaheuristic.SingleSolutionMetaheuristic" />
     public class VnsOptimizer<R_co, A_co> : SingleSolutionMetaheuristic<R_co, A_co>
     {
+        private Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>> _implementedLocalSearches;
 
-        private object _implemented_local_searches; // dict(string, delegate)
+        private ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co> _lsMethod;
 
-        private int _k_current;
+        private ProblemSolutionVnsSupportShakingMethod<R_co, A_co> _shakingMethod;
 
-        private object _k_max;
+        private int _kCurrent;
+        private int _kMax;
+        private int _kMin;
 
-        private object _k_min;
+        private string _localSearchType;
 
-        private object _localSearchType;
+        public TargetSolution<R_co, A_co> currentSolution;
 
-        private object _ls_method;
-
-        private object _problemSolutionVnsSupport;
-
-        private object _shaking_method;
-
-        public object currentSolution;
-
-        public int iteration;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VnsOptimizer{R_co, A_co}"/> class.
+        /// </summary>
+        /// <param name="finishControl">The finish control.</param>
+        /// <param name="randomSeed">The random seed.</param>
+        /// <param name="additionalStatisticsControl">The additional statistics control.</param>
+        /// <param name="outputControl">The output control.</param>
+        /// <param name="targetProblem">The target problem.</param>
+        /// <param name="initialSolution">The initial solution.</param>
+        /// <param name="problemSolutionVnsSupport">The problem solution VNS support.</param>
+        /// <param name="kMin">The k minimum.</param>
+        /// <param name="kMax">The k maximum.</param>
+        /// <param name="localSearchType">Type of the local search.</param>
+        /// <exception cref="Exception">String.Format("Value '{0}' for VNS localSearchType is not supported", _localSearchType)</exception>
         public VnsOptimizer(
             FinishControl finishControl,
             int randomSeed,
@@ -69,111 +78,75 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             TargetProblem targetProblem,
             TargetSolution<R_co, A_co> initialSolution,
             IProblemSolutionVnsSupport<R_co, A_co> problemSolutionVnsSupport,
-            int k_min,
-            int k_max,
+            int kMin,
+            int kMax,
             string localSearchType)
             : base("VnsOptimizer", finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, initialSolution: initialSolution)
         {
             _localSearchType = localSearchType;
             if (problemSolutionVnsSupport is not null)
             {
-                if (problemSolutionVnsSupport is ProblemSolutionVnsSupport)
+                _implementedLocalSearches = new Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>>();
+                _implementedLocalSearches.Add("LocalSearchBestImprovement", problemSolutionVnsSupport.LocalSearchBestImprovement);
+                _implementedLocalSearches.Add("LocalSearchFirstImprovement", problemSolutionVnsSupport.LocalSearchFirstImprovement);
+                if (!_implementedLocalSearches.ContainsKey(_localSearchType))
                 {
-                    _problemSolutionVnsSupport = problemSolutionVnsSupport;
-                    _implemented_local_searches = new Dictionary<object, object> {
-                            {
-                                "LocalSearchBestImprovement",
-                                _problemSolutionVnsSupport.LocalSearchBestImprovement},
-                            {
-                                "LocalSearchFirstImprovement",
-                                _problemSolutionVnsSupport.LocalSearchFirstImprovement}};
-                    if (!_implemented_local_searches.Contains(_localSearchType))
-                    {
-                        throw new ValueError("Value \'{}\' for VNS localSearchType is not supported".format(_localSearchType));
-                    }
-                    _ls_method = _implemented_local_searches[_localSearchType];
-                    _shaking_method = _problemSolutionVnsSupport.shaking;
+                    throw new Exception(String.Format("Value '{0}' for VNS localSearchType is not supported", _localSearchType));
                 }
-                else
-                {
-                    _problemSolutionVnsSupport = problemSolutionVnsSupport;
-                    _implemented_local_searches = null;
-                    _ls_method = null;
-                    _shaking_method = null;
-                }
+                _lsMethod = _implementedLocalSearches[_localSearchType];
+                _shakingMethod = problemSolutionVnsSupport.Shaking;
             }
-            else
-            {
-                _problemSolutionVnsSupport = null;
-                _implemented_local_searches = null;
-                _ls_method = null;
-                _shaking_method = null;
-            }
-            _k_min = k_min;
-            _k_max = k_max;
-            /// current value of the vns parameter k
-            _k_current = null;
+            _kMin = kMin;
+            _kMax = kMax;
         }
 
-        /// 
-        /// Additional constructor, that creates new instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`. 
-        /// 
-        /// :param `VnsOptimizerConstructionParameters` construction_tuple: tuple with all constructor parameters
-        /// 
-        [classmethod]
-        public static void from_construction_tuple(object cls, object construction_tuple)
+        /// <summary>
+        /// Forms optimizer from the construction tuple.
+        /// </summary>
+        /// <param name="constructionTuple">The construction tuple.</param>
+        /// <returns></returns>
+        public static VnsOptimizer<R_co, A_co> FromConstructionTuple(VnsOptimizerConstructionParameters<R_co, A_co> constructionTuple)
         {
-            return cls(construction_tuple.finishControl, construction_tuple.randomSeed, construction_tuple.additionalStatisticsControl, construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initialSolution, construction_tuple.problemSolutionVnsSupport, construction_tuple.k_min, construction_tuple.k_max, construction_tuple.localSearchType);
+            return new(constructionTuple.FinishControl, constructionTuple.RandomSeed, constructionTuple.AdditionalStatisticsControl, constructionTuple.OutputControl, constructionTuple.TargetProblem, constructionTuple.InitialSolution, constructionTuple.ProblemSolutionVnsSupport, constructionTuple.KMin, constructionTuple.KMax, constructionTuple.LocalSearchType);
         }
 
-        /// 
-        /// Internal copy of the current instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`
-        /// 
-        /// :return: new instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer` with the same properties
-        /// return type :class:`uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`        
-        /// 
-        public virtual void _copy__()
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public object Clone()
         {
-            var vns_opt = deepcopy(this);
-            return vns_opt;
+            throw new NotImplementedException();
         }
 
-        /// 
-        /// Copy the current instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`
-        /// 
-        /// :return: new instance of class :class:`~uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer` with the same properties
-        /// return type :class:`uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.VnsOptimizer`        
-        /// 
-        public virtual void copy()
-        {
-            return _copy__();
-        }
-
-        /// 
-        /// Property getter for the `k_min` parameter for VNS
-        /// 
-        /// :return: `k_min` parameter for VNS 
-        /// return type int
-        /// 
-        public object k_min
+        /// <summary>
+        /// Gets the k minimum.
+        /// </summary>
+        /// <value>
+        /// The k minimum.
+        /// </value>
+        public int KMin
         {
             get
             {
-                return _k_min;
+                return _kMin;
             }
         }
 
-        /// 
-        /// Property getter for the `k_max` parameter for VNS
-        /// 
-        /// :return: k_max parameter for VNS 
-        /// return type int
-        /// 
-        public object k_max
+        /// <summary>
+        /// Gets the k maximum.
+        /// </summary>
+        /// <value>
+        /// The k maximum.
+        /// </value>
+        public int KMax
         {
             get
             {
-                return _k_max;
+                return _kMax;
             }
         }
 
@@ -182,75 +155,69 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// 
         public override void Init()
         {
-            _k_current = k_min;
-            currentSolution.InitRandom(this.TargetProblem);
-            currentSolution.evaluate(this.TargetProblem);
-            this.CopyToBestSolution(currentSolution);
+            _kCurrent = KMin;
+            CurrentSolution.InitRandom(TargetProblem);
+            CurrentSolution.Evaluate(TargetProblem);
+            CopyToBestSolution(CurrentSolution);
         }
 
         /// 
         /// One iteration within main loop of the VNS algorithm
         /// 
-        public virtual object MainLoopIteration()
+        public override void MainLoopIteration()
         {
-            this.WriteOutputValuesIfNeeded("beforeStepInIteration", "shaking");
-            if (!_shaking_method(_k_current, this.TargetProblem, currentSolution, this))
+            WriteOutputValuesIfNeeded("beforeStepInIteration", "shaking");
+            var solutionReps = new List<R_co>();
+            if (!_shakingMethod(_kCurrent, TargetProblem, currentSolution, this, solutionReps))
             {
-                this.WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
-                return false;
+                WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
+                return;
             }
-            this.WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
-            iteration += 1;
-            while (_k_current <= _k_max)
+            WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
+            Iteration += 1;
+            while (_kCurrent <= KMax)
             {
-                this.WriteOutputValuesIfNeeded("beforeStepInIteration", "ls");
-                currentSolution = _ls_method(_k_current, this.TargetProblem, currentSolution, this);
-                this.WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
+                WriteOutputValuesIfNeeded("beforeStepInIteration", "ls");
+                currentSolution = _lsMethod(_kCurrent, this.TargetProblem, currentSolution, this);
+                WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
                 /// update auxiliary structure that keeps all solution codes
-                this.additionalStatisticsControl.AddToAllSolutionCodesIfRequired(currentSolution.stringRepresentation());
-                this.additionalStatisticsControl.AddToMoreLocalOptimaIfRequired(currentSolution.stringRepresentation(), currentSolution.fitnessValue, this.bestSolution.stringRepresentation());
-                var new_is_better = this.IsFirstSolutionBetter(currentSolution, this.bestSolution);
+                AdditionalStatisticsControl.AddToAllSolutionCodesIfRequired(currentSolution.StringRepresentation());
+                AdditionalStatisticsControl.AddToMoreLocalOptimaIfRequired(currentSolution.StringRepresentation(), currentSolution.FitnessValue, BestSolution.StringRepresentation());
+                var new_is_better = this.IsFirstSolutionBetter(currentSolution, BestSolution);
                 var make_move = new_is_better;
                 if (new_is_better is null)
                 {
-                    if (currentSolution.stringRepresentation() == this.bestSolution.stringRepresentation())
+                    if (currentSolution.StringRepresentation() == BestSolution.StringRepresentation())
                     {
                         make_move = false;
                     }
                     else
                     {
-                        logger.debug("VnsOptimizer::MainLoopIteration: Same solution quality, generating random true with probability 0.5");
-                        make_move = random() < 0.5;
+                        Log.Debug("VnsOptimizer::MainLoopIteration: Same solution quality, generating random true with probability 0.5");
+                        make_move = (new Random()).NextDouble() < 0.5;
                     }
                 }
-                if (make_move)
+                if ((bool)make_move)
                 {
-                    this.CopyToBestSolution(currentSolution);
-                    _k_current = k_min;
+                    CopyToBestSolution(currentSolution);
+                    _kCurrent = KMin;
                 }
                 else
                 {
-                    _k_current += 1;
+                    _kCurrent += 1;
                 }
             }
         }
 
-        /// 
-        /// String representation of the `VnsOptimizer` instance
-        /// 
-        /// :param delimiter: delimiter between fields
-        /// :type delimiter: str
-        /// :param indentation: level of indentation
-        /// :type indentation: int, optional, default value 0
-        /// :param indentationSymbol: indentation symbol
-        /// :type indentationSymbol: str, optional, default value ''
-        /// :param groupStart: group start string 
-        /// :type groupStart: str, optional, default value '{'
-        /// :param groupEnd: group end string 
-        /// :type groupEnd: str, optional, default value '}'
-        /// :return: string representation of instance that controls output
-        /// return type str
-        /// 
+        /// <summary>
+        /// String representation of the VNS Optimizer instance.
+        /// </summary>
+        /// <param name="delimiter">The delimiter.</param>
+        /// <param name="indentation">The indentation.</param>
+        /// <param name="indentationSymbol">The indentation symbol.</param>
+        /// <param name="groupStart">The group start.</param>
+        /// <param name="groupEnd">The group end.</param>
+        /// <returns></returns>
         public new string StringRep(
             string delimiter,
             int indentation = 0,
@@ -264,26 +231,20 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
                 s += indentationSymbol;
             }
             s += groupStart;
-            s = base.stringRep(delimiter, indentation, indentationSymbol, "", "");
+            s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
-            s += "currentSolution=" + currentSolution.stringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
+            s += "currentSolution=" + currentSolution.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "k_min=" + k_min.ToString() + delimiter;
+            s += "kMin=" + KMin.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
             }
-            s += "k_max=" + k_max.ToString() + delimiter;
+            s += "kMax=" + KMax.ToString() + delimiter;
             s += delimiter;
-            s += "_problemSolutionVnsSupport=" + _problemSolutionVnsSupport.stringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
-            {
-                s += indentationSymbol;
-            }
-            s += "_maxLocalOptima=" + _maxLocalOptima.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
@@ -297,41 +258,6 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             return s;
         }
 
-        /// 
-        /// String representation of the `VnsOptimizer` instance
-        /// 
-        /// :return: string representation of the `VnsOptimizer` instance
-        /// return type str
-        /// 
-        public override string ToString()
-        {
-            var s = this.stringRep("|");
-            return s;
-        }
-
-        /// 
-        /// String representation of the `VnsOptimizer` instance
-        /// 
-        /// :return: string representation of the `VnsOptimizer` instance
-        /// return type str
-        /// 
-        public virtual string _repr__()
-        {
-            var s = this.stringRep("\n");
-            return s;
-        }
-
-        /// 
-        /// Formatted the VnsOptimizer instance
-        /// 
-        /// :param spec: str -- format specification 
-        /// :return: formatted `VnsOptimizer` instance
-        /// return type str
-        /// 
-        public virtual string _format__(string spec)
-        {
-            return StringRep("\n", 0, "   ", "{", "}");
-        }
     }
 }
 

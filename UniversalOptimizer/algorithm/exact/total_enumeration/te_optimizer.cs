@@ -1,343 +1,188 @@
-using UniversalOptimizer.Algorithm;
 
-///  
-/// The :mod:`~uo.Algorithm.Exact.TotalEnumeration` module describes the class :class:`~uo.Algorithm.Exact.TotalEnumeration.TotalEnumeration`.
-/// 
+
 namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 {
 
-    using Path = pathlib.Path;
+    using UniversalOptimizer.Algorithm;
 
-    using sys;
+    using UniversalOptimizer.TargetProblem;
 
-    using random = random.random;
-
-    using randrange = random.randrange;
-
-    using deepcopy = copy.deepcopy;
-
-    using datetime = datetime.datetime;
-
-    using TextIOWrapper = io.TextIOWrapper;
-
-    using BitArray = bitstring.BitArray;
-
-    using TypeVar = typing.TypeVar;
-
-    using Generic = typing.Generic;
-
-    using Generic = typing.Generic;
-
-    using NamedTuple = typing.NamedTuple;
-
-    using dataclass = dataclasses.dataclass;
-
-    using logger = uo.utils.logger.logger;
-
-    using TargetProblem = uo.TargetProblem.TargetProblem.TargetProblem;
-
-    using TargetSolution = uo.TargetSolution.TargetSolution.TargetSolution;
-
-    using OutputControl = OutputControl.OutputControl;
-
-    using Algorithm = uo.Algorithm.algorithm.Algorithm;
-
-    using ProblemSolutionTeSupport = problemSolution_te_support.ProblemSolutionTeSupport;
+    using UniversalOptimizer.TargetSolution;
 
     using System;
 
     using System.Linq;
 
-    public static class te_optimizer
+    using Serilog;
+
+
+    /// <summary>
+    /// Instance of this  class represents constructor parameters for total enumeration algorithm.
+    /// </summary>
+    public class TeOptimizerConstructionParameters<R_co, A_co>
+    {
+        public required TargetSolution<R_co, A_co> InitialSolution { get; set; }
+        public required OutputControl OutputControl { get; set; }
+        public required TargetProblem TargetProblem { get; set; }
+        public required IProblemSolutionTeSupport<R_co, A_co> ProblemSolutionTeSupport { get; set; }
+    }
+
+    /// 
+    ///     This class represent total enumeration algorithm
+    ///     
+    public class TeOptimizer<R_co, A_co> : Algorithm<R_co, A_co>
     {
 
-        public static object directory = Path(_file__).resolve();
+        private TargetSolution<R_co, A_co> _currentSolution;
+        private ProblemSolutionTeSupportCanProgressMethod<R_co, A_co> _canProgressMethod;
+        private ProblemSolutionTeSupportProgressMethod<R_co, A_co> _progressMethod;
+        private ProblemSolutionTeSupportResetMethod<R_co, A_co> _resetMethod;
+        private ProblemSolutionTeSupportOverallNumberOfEvaluationsMethod<R_co, A_co> _overallNumberOfEvaluationsMethod;
 
-        static te_optimizer()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TeOptimizer{R_co, A_co}"/> class.
+        /// </summary>
+        /// <param name="outputControl">The output control.</param>
+        /// <param name="targetProblem">The target problem.</param>
+        /// <param name="initialSolution">The initial solution.</param>
+        /// <param name="problemSolutionTeSupport">The problem solution TE support.</param>
+        public TeOptimizer(OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co> initialSolution, IProblemSolutionTeSupport<R_co, A_co> problemSolutionTeSupport)
+            : base("TotalEnumeration", outputControl: outputControl, targetProblem: targetProblem)
         {
-            sys.path.append(directory.parent);
-            sys.path.append(directory.parent.parent);
+            /// total enumeration support
+            if (problemSolutionTeSupport is not null)
+            {
+                _resetMethod = problemSolutionTeSupport.Reset;
+                _progressMethod = problemSolutionTeSupport.Progress;
+                _canProgressMethod = problemSolutionTeSupport.CanProgress;
+                _overallNumberOfEvaluationsMethod = problemSolutionTeSupport.OverallNumberOfEvaluations;
+            }
+            /// current solution
+            _currentSolution = initialSolution;
+            CopyToBestSolution(initialSolution);
+        }
+
+        /// <summary>
+        /// From the optimizer, based on construction tuple.
+        /// </summary>
+        /// <typeparam name="R_co">The type of the co.</typeparam>
+        /// <typeparam name="A_co">The type of the co.</typeparam>
+        /// <param name="constructionTuple">The construction tuple.</param>
+        /// <returns></returns>
+        public static TeOptimizer<R_co, A_co> FromConstructionTuple<R_co, A_co>(TeOptimizerConstructionParameters<R_co, A_co> constructionTuple)
+        {
+            return new TeOptimizer<R_co, A_co>(constructionTuple.OutputControl, constructionTuple.TargetProblem, constructionTuple.InitialSolution, constructionTuple.ProblemSolutionTeSupport);
+        }
+
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public object Clone()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets or sets the current solution used during TE execution.
+        /// </summary>
+        /// <value>
+        /// The current solution.
+        /// </value>
+        public TargetSolution<R_co, A_co> CurrentSolution
+        {
+            get
+            {
+                return _currentSolution;
+            }
+            set
+            {
+                _currentSolution = value;
+            }
         }
 
         /// 
-        ///     Instance of the class :class:`~uo.Algorithm.Exact.TotalEnumerations.TotalEnumerationConstructorParameters` represents constructor parameters for total enumeration algorithm.
-        ///     
-        public class TeOptimizerConstructionParameters
-        {
-
-            public object initialSolution;
-
-            public object OutputControl;
-
-            public object problemSolution_te_support;
-
-            public object TargetProblem;
-
-            public object OutputControl = null;
-
-            public object TargetProblem = null;
-
-            public object initialSolution = null;
-
-            public object problemSolution_te_support = null;
-        }
-
+        /// Initialization of the total enumeration algorithm
         /// 
-        ///     This class represent total enumeration algorithm
-        ///     
-        public class TeOptimizer
-            : Algorithm
+        public override void Init()
         {
-
-            private object _can_progress_method;
-
-            private object _currentSolution;
-
-            private object _iteration;
-
-            private object _problemSolution_te_support;
-
-            private object _progress_method;
-
-            private object _reset_method;
-
-            public int evaluation;
-
-            public datetime executionEnded;
-
-            public datetime executionStarted;
-
-            public int iteration;
-
-            public TeOptimizer(object OutputControl, object TargetProblem, object initialSolution, object problemSolution_te_support)
-                : base(OutputControl: OutputControl, TargetProblem: TargetProblem)
-            {
-                /// total enumeration support
-                if (problemSolution_te_support is not null)
-                {
-                    if (problemSolution_te_support is ProblemSolutionTeSupport)
-                    {
-                        _problemSolution_te_support = problemSolution_te_support.copy();
-                        _reset_method = _problemSolution_te_support.reset;
-                        _progress_method = _problemSolution_te_support.progress;
-                        _can_progress_method = _problemSolution_te_support.can_progress;
-                    }
-                    else
-                    {
-                        _problemSolution_te_support = problemSolution_te_support;
-                        _reset_method = problemSolution_te_support.reset;
-                        _progress_method = problemSolution_te_support.progress;
-                        _can_progress_method = problemSolution_te_support.can_progress;
-                    }
-                }
-                else
-                {
-                    _problemSolution_te_support = null;
-                    _reset_method = null;
-                    _progress_method = null;
-                    _can_progress_method = null;
-                }
-                /// current solution
-                _currentSolution = initialSolution;
-                _iteration = null;
-            }
-
-            /// 
-            /// Additional constructor, that creates new instance of class :class:`~uo.Algorithm.exact.te_optimizer.TeOptimizer`. 
-            /// 
-            /// :param `TeOptimizerConstructionParameters` construction_tuple: tuple with all constructor parameters
-            /// 
-            [classmethod]
-            public static void from_construction_tuple(object cls, object construction_tuple)
-            {
-                return cls(construction_tuple.OutputControl, construction_tuple.TargetProblem, construction_tuple.initialSolution, construction_tuple.problemSolution_te_support);
-            }
-
-            /// 
-            /// Internal copy of the current total enumeration algorithm
-            /// 
-            /// :return: new `TotalEnumeration` instance with the same properties
-            /// return type `TotalEnumeration`
-            /// 
-            public virtual void _copy__()
-            {
-                var tot = deepcopy(this);
-                return tot;
-            }
-
-            /// 
-            /// Copy the current total enumeration algorithm
-            /// 
-            /// :return: new `TotalEnumeration` instance with the same properties
-            /// return type `TotalEnumeration`
-            /// 
-            public virtual void copy()
-            {
-                return _copy__();
-            }
-
-            /// 
-            /// Property getter for the current solution used during VNS execution
-            /// 
-            /// :return: instance of the :class:`uo.TargetSolution.TargetSolution` class subtype -- current solution of the problem 
-            /// return type :class:`TargetSolution`        
-            /// 
-            /// 
-            /// Property setter for the current solution used during VNS execution
-            /// 
-            /// :param value: the current solution
-            /// :type value: :class:`TargetSolution`
-            /// 
-            public object currentSolution
-            {
-                get
-                {
-                    return _currentSolution;
-                }
-                set
-                {
-                    _currentSolution = value;
-                }
-            }
-
-            /// 
-            /// Property getter for the current iteration during TE execution
-            /// 
-            /// :return: current iteration number 
-            /// return type int       
-            /// 
-            /// 
-            /// Property setter for the current iteration during TE execution
-            /// 
-            /// :param value: the current iteration
-            /// :type value: int
-            /// 
-            public object iteration
-            {
-                get
-                {
-                    return _iteration;
-                }
-                set
-                {
-                    _iteration = value;
-                }
-            }
-
-            /// 
-            /// Initialization of the total enumeration algorithm
-            /// 
-            public virtual void init()
-            {
-                _reset_method(this.TargetProblem, currentSolution, this);
-                this.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                evaluation += 1;
-                currentSolution.evaluate(this.TargetProblem);
-                this.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                this.CopyToBestSolution(currentSolution);
-                this.iteration = 1;
-            }
-
-            public virtual object optimize()
-            {
-                executionStarted = datetime.now();
-                init();
-                logger.debug("Overall number of evaluations: {}".format(_problemSolution_te_support.OverallNumberOfEvaluations(this.TargetProblem, currentSolution, this)));
-                this.writeOutputHeadersIfNeeded();
-                this.WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
-                while (true)
-                {
-                    this.WriteOutputValuesIfNeeded("beforeIteration", "b_i");
-                    this.iteration += 1;
-                    _progress_method(this.TargetProblem, currentSolution, this);
-                    var new_is_better = this.IsFirstSolutionBetter(currentSolution, this.bestSolution);
-                    if (new_is_better)
-                    {
-                        this.CopyToBestSolution(currentSolution);
-                    }
-                    this.WriteOutputValuesIfNeeded("afterIteration", "a_i");
-                    if (!_can_progress_method(this.TargetProblem, currentSolution, this))
-                    {
-                        break;
-                    }
-                }
-                executionEnded = datetime.now();
-                this.WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
-            }
-
-            /// 
-            /// String representation of the 'TotalEnumeration' instance
-            /// 
-            /// :param delimiter: delimiter between fields
-            /// :type delimiter: str
-            /// :param indentation: level of indentation
-            /// :type indentation: int, optional, default value 0
-            /// :param indentationSymbol: indentation symbol
-            /// :type indentationSymbol: str, optional, default value ''
-            /// :param groupStart: group start string 
-            /// :type groupStart: str, optional, default value '{'
-            /// :param groupEnd: group end string 
-            /// :type groupEnd: str, optional, default value '}'
-            /// :return: string representation of instance that controls output
-            /// return type str
-            /// 
-            public new string StringRep(
-                string delimiter,
-                int indentation = 0,
-                string indentationSymbol = "",
-                string groupStart = "{",
-                string groupEnd = "}")
-            {
-                var s = delimiter;
-                foreach (var i in Enumerable.Range(0, indentation - 0))
-                {
-                    s += indentationSymbol;
-                }
-                s += groupStart;
-                s = base.stringRep(delimiter, indentation, indentationSymbol, "", "");
-                s += delimiter;
-                s += "currentSolution=" + currentSolution.stringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
-                foreach (var i in Enumerable.Range(0, indentation - 0))
-                {
-                    s += indentationSymbol;
-                }
-                s += groupEnd;
-                return s;
-            }
-
-            /// 
-            /// String representation of the 'TotalEnumeration' instance
-            /// 
-            /// :return: string representation of the 'TotalEnumeration' instance
-            /// return type str
-            /// 
-            public override string ToString()
-            {
-                return StringRep("|");
-            }
-
-            /// 
-            /// Representation of the 'TotalEnumeration' instance
-            /// 
-            /// :return: string representation of the 'TotalEnumeration' instance
-            /// return type str
-            /// 
-            public virtual string _repr__()
-            {
-                return StringRep("\n");
-            }
-
-            /// 
-            /// Formatted 'TotalEnumeration' instance
-            /// 
-            /// :param str spec: format specification
-            /// :return: formatted 'TotalEnumeration' instance
-            /// return type str
-            /// 
-            public virtual string _format__(string spec)
-            {
-                return StringRep("|");
-            }
+            _resetMethod(TargetProblem, CurrentSolution, this);
+            WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
+            Evaluation += 1;
+            CurrentSolution.Evaluate(TargetProblem);
+            WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
+            CopyToBestSolution(CurrentSolution);
+            Iteration = 1;
         }
+
+        /// <summary>
+        /// Method for optimization with Total Enumeration.
+        /// </summary>
+        /// <returns></returns>
+        public override void Optimize()
+        {
+            ExecutionStarted = DateTime.Now;
+            Init();
+            Log.Debug("Overall number of evaluations: " + _overallNumberOfEvaluationsMethod(TargetProblem, CurrentSolution, this));
+            WriteOutputHeadersIfNeeded();
+            WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
+            while (true)
+            {
+                WriteOutputValuesIfNeeded("beforeIteration", "b_i");
+                Iteration += 1;
+                _progressMethod(this.TargetProblem, CurrentSolution, this);
+                bool? new_is_better = IsFirstSolutionBetter(CurrentSolution, BestSolution);
+                if ((bool)new_is_better)
+                {
+                    CopyToBestSolution(CurrentSolution);
+                }
+                WriteOutputValuesIfNeeded("afterIteration", "a_i");
+                if (!_canProgressMethod(TargetProblem, CurrentSolution, this))
+                {
+                    break;
+                }
+            }
+            ExecutionEnded = DateTime.Now;
+            this.WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
+        }
+
+        /// <summary>
+        /// String representation of the Total Enumeration optimizer instance.
+        /// </summary>
+        /// <param name="delimiter">The delimiter.</param>
+        /// <param name="indentation">The indentation.</param>
+        /// <param name="indentationSymbol">The indentation symbol.</param>
+        /// <param name="groupStart">The group start.</param>
+        /// <param name="groupEnd">The group end.</param>
+        /// <returns></returns>
+        public new string StringRep(
+            string delimiter,
+            int indentation = 0,
+            string indentationSymbol = "",
+            string groupStart = "{",
+            string groupEnd = "}")
+        {
+            var s = delimiter;
+            foreach (var i in Enumerable.Range(0, indentation - 0))
+            {
+                s += indentationSymbol;
+            }
+            s += groupStart;
+            s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
+            s += delimiter;
+            s += "currentSolution=" + CurrentSolution.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
+            foreach (var i in Enumerable.Range(0, indentation - 0))
+            {
+                s += indentationSymbol;
+            }
+            s += groupEnd;
+            return s;
+        }
+
     }
 }
+
