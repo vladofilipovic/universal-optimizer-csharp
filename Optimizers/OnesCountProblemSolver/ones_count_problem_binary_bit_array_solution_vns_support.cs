@@ -1,12 +1,12 @@
 ///  
 /// ..  _py_ones_count_problem_bit_array_solutionVnsSupport:
 /// 
-/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionVnsSupport` 
-/// contains class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionVnsSupport.OnesCountProblemBinaryBitArraySolutionVnsSupport`, 
+/// The :mod:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solutionVnsSupport` 
+/// contains class :class:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solutionVnsSupport.OnesCountProblemBinaryBitArraySolutionVnsSupport`, 
 /// that represents supporting parts of the `VNS` algorithm, where solution of the :ref:`Problem_Max_Ones` have `BitArray` 
 /// representation.
 /// 
-namespace SingleObjective.Teaching.ones_count_problem {
+namespace SingleObjective.Teaching.OnesCountProblem {
     
     using sys;
     
@@ -36,9 +36,9 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problemSolutionVnsSupport.ProblemSolutionVnsSupport;
     
-    using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
+    using OnesCountProblem = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem.OnesCountProblem;
     
-    using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
+    using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
     
     using System.Collections.Generic;
     

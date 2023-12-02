@@ -1,7 +1,7 @@
 ///  
-/// The :mod:`opt.SingleObjective.Teaching.ones_count_problem.solver` contains programming code that optimize :ref:`Max Ones<Problem_Max_Ones>` Problem with various optimization techniques.
+/// The :mod:`opt.SingleObjective.Teaching.OnesCountProblem.solver` contains programming code that optimize :ref:`Max Ones<Problem_Max_Ones>` Problem with various optimization techniques.
 /// 
-namespace SingleObjective.Teaching.ones_count_problem {
+namespace SingleObjective.Teaching.OnesCountProblem {
     
     using sys;
     
@@ -29,29 +29,29 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizerConstructionParameters;
     
-    using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
+    using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
     
     using ensure_dir = uo.utils.files.ensure_dir;
     
     using logger = uo.utils.logger.logger;
     
-    using default_parameters_cl = opt.SingleObjective.Teaching.ones_count_problem.command_line.default_parameters_cl;
+    using default_parameters_cl = opt.SingleObjective.Teaching.OnesCountProblem.command_line.default_parameters_cl;
     
-    using parse_arguments = opt.SingleObjective.Teaching.ones_count_problem.command_line.parse_arguments;
+    using parse_arguments = opt.SingleObjective.Teaching.OnesCountProblem.command_line.parse_arguments;
     
-    using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
+    using OnesCountProblem = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem.OnesCountProblem;
     
-    using OnesCountProblemBinaryIntSolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
+    using OnesCountProblemBinaryIntSolution = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
     
-    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolutionVnsSupport.OnesCountProblemBinaryIntSolutionVnsSupport;
+    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problemBinaryIntSolutionVnsSupport.OnesCountProblemBinaryIntSolutionVnsSupport;
     
-    using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
+    using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
     
-    using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionVnsSupport.OnesCountProblemBinaryBitArraySolutionVnsSupport;
+    using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solutionVnsSupport.OnesCountProblemBinaryBitArraySolutionVnsSupport;
     
-    using OnesCountProblemBinaryBitArraySolutionTeSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionTeSupport.OnesCountProblemBinaryBitArraySolutionTeSupport;
+    using OnesCountProblemBinaryBitArraySolutionTeSupport = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solutionTeSupport.OnesCountProblemBinaryBitArraySolutionTeSupport;
     
-    using OnesCountProblemSolver = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_solver.OnesCountProblemSolver;
+    using OnesCountProblemSolver = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_solver.OnesCountProblemSolver;
     
     using System.Collections.Generic;
     
@@ -84,12 +84,12 @@ Which solver will be executed depends of command-line parameter algorithm.
             object solution_type;
             object rSeed;
             object OutputControl;
-            object outputFile_name;
-            object outputFile_ext;
-            object outputFile_path_parts;
-            object should_add_timestamp_to_file_name;
+            object outputFileName;
+            object outputFileExt;
+            object outputFilePathParts;
+            object shouldAddTimestampToFileName;
             object writeToOutputFile;
-            object is_minimization;
+            object isMinimization;
             try {
                 logger.debug("Solver started.");
                 var parameters = default_parameters_cl;
@@ -105,9 +105,9 @@ Which solver will be executed depends of command-line parameter algorithm.
                 logger.debug("Execution parameters: " + parameters.ToString());
                 /// set optimization type (minimization or maximization)
                 if (parameters["optimization_type"] == "minimization") {
-                    is_minimization = true;
+                    isMinimization = true;
                 } else if (parameters["optimization_type"] == "maximization") {
-                    is_minimization = false;
+                    isMinimization = false;
                 } else {
                     throw new ValueError("Either minimization or maximization should be selected.");
                 }
@@ -120,40 +120,40 @@ Which solver will be executed depends of command-line parameter algorithm.
                 /// output file setup
                 if (writeToOutputFile) {
                     if (parameters["outputFileNameAppendTimeStamp"] is null) {
-                        should_add_timestamp_to_file_name = false;
+                        shouldAddTimestampToFileName = false;
                     } else {
-                        should_add_timestamp_to_file_name = @bool(parameters["outputFileNameAppendTimeStamp"]);
+                        shouldAddTimestampToFileName = @bool(parameters["outputFileNameAppendTimeStamp"]);
                     }
                     if (parameters["outputFilePath"] is not null && parameters["outputFilePath"] != "") {
-                        outputFile_path_parts = parameters["outputFilePath"].split("/");
+                        outputFilePathParts = parameters["outputFilePath"].split("/");
                     } else {
-                        outputFile_path_parts = new List<string> {
+                        outputFilePathParts = new List<string> {
                             "outputs",
                             "out"
                         };
                     }
-                    var outputFile_name_ext = outputFile_path_parts[^1];
-                    var outputFile_name_parts = outputFile_name_ext.split(".");
-                    if (outputFile_name_parts.Count > 1) {
-                        outputFile_ext = outputFile_name_parts[^1];
-                        outputFile_name_parts.pop();
-                        outputFile_name = ".".join(outputFile_name_parts);
+                    var outputFileNameExt = outputFilePathParts[^1];
+                    var outputFileName_parts = outputFileNameExt.split(".");
+                    if (outputFileName_parts.Count > 1) {
+                        outputFileExt = outputFileName_parts[^1];
+                        outputFileName_parts.pop();
+                        outputFileName = ".".join(outputFileName_parts);
                     } else {
-                        outputFile_ext = "txt";
-                        outputFile_name = outputFile_name_parts[0];
+                        outputFileExt = "txt";
+                        outputFileName = outputFileName_parts[0];
                     }
                     var dt = datetime.now();
-                    outputFile_path_parts.pop();
-                    var outputFile_dir = "/".join(outputFile_path_parts);
-                    if (should_add_timestamp_to_file_name) {
-                        outputFile_path_parts.append(outputFile_name + "-maxones-" + parameters["algorithm"] + "-" + parameters["solutionType"] + "-" + parameters["optimization_type"][0:3:] + "-" + dt.strftime("%Y-%m-%d-%H-%M-%S.%f") + "." + outputFile_ext);
+                    outputFilePathParts.pop();
+                    var outputFile_dir = "/".join(outputFilePathParts);
+                    if (shouldAddTimestampToFileName) {
+                        outputFilePathParts.append(outputFileName + "-maxones-" + parameters["algorithm"] + "-" + parameters["solutionType"] + "-" + parameters["optimization_type"][0:3:] + "-" + dt.strftime("%Y-%m-%d-%H-%M-%S.%f") + "." + outputFileExt);
                     } else {
-                        outputFile_path_parts.append(outputFile_name + "-maxones-" + parameters["algorithm"] + "-" + parameters["solutionType"] + "-" + parameters["optimization_type"][0:3:] + "." + outputFile_ext);
+                        outputFilePathParts.append(outputFileName + "-maxones-" + parameters["algorithm"] + "-" + parameters["solutionType"] + "-" + parameters["optimization_type"][0:3:] + "." + outputFileExt);
                     }
-                    var outputFile_path = "/".join(outputFile_path_parts);
-                    logger.debug("Output file path: " + outputFile_path.ToString());
+                    var outputFilePath = "/".join(outputFilePathParts);
+                    logger.debug("Output file path: " + outputFilePath.ToString());
                     ensure_dir(outputFile_dir);
-                    var outputFile = open(outputFile_path, "w", encoding: "utf-8");
+                    var outputFile = open(outputFilePath, "w", encoding: "utf-8");
                 }
                 /// output control setup
                 if (writeToOutputFile) {
@@ -164,7 +164,7 @@ Which solver will be executed depends of command-line parameter algorithm.
                     OutputControl = OutputControl(writeToOutput: false);
                 }
                 /// input file setup
-                var input_file_path = parameters["inputFilePath"];
+                var input_filePath = parameters["inputFilePath"];
                 var input_format = parameters["inputFormat"];
                 /// random seed setup
                 if (Convert.ToInt32(parameters["randomSeed"]) > 0) {
@@ -198,7 +198,7 @@ Which solver will be executed depends of command-line parameter algorithm.
                 var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
                 var additionalStatisticsControl = AdditionalStatisticsControl(keep: additionalStatistics_keep, maxLocalOptima: maxLocalOptima);
                 /// problem to be solved
-                var problem = OnesCountProblem.from_input_file(input_file_path: input_file_path, input_format: input_format);
+                var problem = OnesCountProblem.from_input_file(input_filePath: input_filePath, input_format: input_format);
                 var start_time = datetime.now();
                 if (writeToOutputFile) {
                     outputFile.write("# {} started at: {}\n".format(parameters["algorithm"], start_time.ToString()));

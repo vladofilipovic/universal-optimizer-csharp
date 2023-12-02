@@ -33,43 +33,62 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem {
 
             [Option("--inputFilePath", Required = true, Default = "inputs/function_one_variable_problem/dim_25.txt", HelpText = "Input file path for the instance of the problem.")]
             public required string InputFilePath { get; set; }
+
+            [Option("--inputFormat", Required = true, Default = "txt", HelpText = "Input file format. Choices: 'txt', 'idle'.")]
+            public required string InputFormat { get; set; }
+
+            [Option("--finishCriteria", Required = true, Default = "evaluations & seconds", HelpText = "Finish criteria - list of fields separated by '&'. Currently, fields can be: 'evaluations', 'iterations', 'seconds'.")]
+            public required string FinishCriteria { get; set; }
+
+            [Option("--finishEvaluationsMax", Required = true, Default = 0, HelpText = "Maximum numbers of evaluations during VNS execution. Value 0 means that there is no limit on number of evaluations.")]
+            public int FinishEvaluationsMax { get; set; }
+
+            [Option("--finishIterationsMax", Required = true, Default = 0, HelpText = "Maximum numbers of iterations during VNS execution. Value 0 means that there is no limit on number of iterations.")]
+            public int FinishIterationsMax { get; set; }
+
+            [Option("--finishSecondsMax", Required = true, Default = 0, HelpText = "Maximum time for execution (in seconds).\n Value 0 means that there is no limit on execution time.")]
+            public int FinishSecondsMax { get; set; }
+
+            [Option("--randomSeed", Required = true, Default = 0, HelpText = "Random seed for the VNS execution. Value 0 means that random seed will be obtained from system timer.")]
+            public int RandomSeed { get; set; }
+
+            [Option("--solutionEvaluationCacheIsUsed", Required = true, Default = false, HelpText = "Should caching be used during evaluation.")]
+            public bool SolutionEvaluationCacheIsUsed { get; set; }
+
+            [Option("--solutionEvaluationCacheMaxSize", Required = true, Default = 0, HelpText = "Maximum cache size for cache used in solutions evaluation. Value 0 means that there is no limit on cache size.")]
+            public int SolutionEvaluationCacheMaxSize { get; set; }
+
+            [Option("--solutionDistanceCalculationCacheIsUsed", Required = true, Default = false, HelpText = "Should caching be used during distance calculations for solution individual.")]
+            public bool SolutionDistanceCalculationCacheIsUsed { get; set; }
+
+            [Option("--solutionDistanceCalculationCacheMaxSize", Required = true, Default = 0, HelpText = "Maximum cache size for cache used in distance calculations between two solutions. Value 0 means that there is no limit on cache size.")]
+            public int SolutionDistanceCalculationCacheMaxSize { get; set; }
+
+            [Option("--additionalStatisticsKeep", Required = true, Default = "None", HelpText = "Comma-separated list of statistical data will be calculated and keep during solving. Currently, data within list can be: 'allSolution_code', 'distance_among_solutions'.")]
+            public required string AdditionalStatisticsKeep { get; set; }
+
+            [Option("--additionalStatisticsMaxLocalOptima", Required = true, Default = 0, HelpText = "Parameter maximum number of local optima kept during execution.")]
+            public int AdditionalStatisticsMaxLocalOptima { get; set; }
+
+            [Option("--kMin", Required = true, Default = 1, HelpText = "VNS parameter k min.")]
+            public int KMin { get; set; }
+
+            [Option("--kMax", Required = true, Default = 3, HelpText = "VNS parameter k max.")]
+            public int KMax { get; set; }
+
+            [Option("--localSearchType", Required = true, Default = "LocalSearchBestImprovement", HelpText = "VNS parameter that determines local search type. It can have one of values: 'LocalSearchBestImprovement', 'LocalSearchFirstImprovement'.")]
+            public required string LocalSearchType { get; set; }
+
+            [Option("--solutionType", Required = true, Default = "int", HelpText = "VNS parameter that determines solution (representation) type.")]
+            public required string SolutionType { get; set; }
+
+            [Option("--solutionNumberOfIntervals", Required = true, Default = 10000, HelpText = "Numbers of intervals within domain used for solution representation.")]
+            public int SolutionNumberOfIntervals { get; set; }
         }
 
         [Verb("idle", HelpText = "Execute idle algorithm for the 'function_one_variable_problem'.")]
         public class IdleOptions
         {
-        }
-
-            public static void parse_arguments() {
-            parser_vns.add_argument("", type: str, @default: "", help: " ");
-            parser_vns.add_argument("--inputFormat", type: str, choices: new List<string> {
-                "txt",
-                "idle"
-            }, @default: "txt", help: "Input file format. ");
-            parser_vns.add_argument("--finishCriteria", type: str, @default: "evaluations & seconds", help: "Finish criteria - list of fields separated by '&'. Currently, fields can be: 'evaluations', 'iterations', 'seconds'.");
-            parser_vns.add_argument("--finishEvaluationsMax", type: @int, @default: 0, help: "Maximum numbers of evaluations during VNS execution. Value 0 means that there is no limit on number of evaluations.");
-            parser_vns.add_argument("--finishIterationsMax", type: @int, @default: 0, help: "Maximum numbers of iterations during VNS execution. Value 0 means that there is no limit on number of iterations.");
-            parser_vns.add_argument("--finishSecondsMax", type: @int, @default: 0, help: "Maximum time for execution (in seconds).\n Value 0 means that there is no limit on execution time.");
-            parser_vns.add_argument("--randomSeed", type: @int, @default: 0, help: "Random seed for the VNS execution. Value 0 means that random seed will be obtained from system timer.");
-            parser_vns.add_argument("--solutionEvaluationCacheIsUsed", type: @bool, @default: false, help: "Should caching be used during evaluation.");
-            parser_vns.add_argument("--solutionEvaluationCacheMaxSize", type: @int, @default: 0, help: "Maximum cache size for cache used in solutions evaluation. Value 0 means that there is no limit on cache size.");
-            parser_vns.add_argument("--solutionDistanceCalculationCacheIsUsed", type: @bool, @default: false, help: "Should caching be used during distance calculations for solution individual.");
-            parser_vns.add_argument("--solutionDistanceCalculationCacheMaxSize", type: @int, @default: 0, help: "Maximum cache size for cache used in distance calculations between two solutions. Value 0 means that there is no limit on cache size.");
-            parser_vns.add_argument("--additionalStatisticsKeep", type: str, @default: "None", help: "Comma-separated list of statistical data will be calculated and keep during solving. Currently, data within list can be: 'allSolution_code', 'distance_among_solutions'.");
-            parser_vns.add_argument("--additionalStatisticsMaxLocalOptima", type: @int, @default: 3, help: "Parameter maximum number of local optima kept during execution.");
-            parser_vns.add_argument("--kMin", type: @int, @default: 1, help: "VNS parameter k min.");
-            parser_vns.add_argument("--kMax", type: @int, @default: 3, help: "VNS parameter k max.");
-            parser_vns.add_argument("--localSearchType", type: str, choices: new List<string> {
-                "LocalSearchBestImprovement",
-                "LocalSearchFirstImprovement"
-            }, @default: "LocalSearchBestImprovement", help: "VNS parameter that determines local search type.");
-            parser_vns.add_argument("--solutionType", type: str, choices: new List<string> {
-                "int"
-            }, @default: "int", help: "VNS parameter that determines solution (representation) type.");
-            parser_vns.add_argument("--solutionNumberOfIntervals", type: @int, @default: 1000, help: "Numbers of intervals within domain used for solution representation.");
-            parser_vns.add_argument("--log", @default: "warning", help: "Provide logging level. Example --log debug', default='warning'");
-            var parser_idle = subparsers.add_parser("idle", help: );
-            return parser.parse_args();
         }
     }
 }

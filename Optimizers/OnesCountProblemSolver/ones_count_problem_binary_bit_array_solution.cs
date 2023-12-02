@@ -1,9 +1,9 @@
 ///  
 /// ..  _py_ones_count_problem_bit_array_solution:
 /// 
-/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution` contains class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution`, that represents solution of the :ref:`Problem_Max_Ones`, where `BitArray` representation of the problem has been used.
+/// The :mod:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solution` contains class :class:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution`, that represents solution of the :ref:`Problem_Max_Ones`, where `BitArray` representation of the problem has been used.
 /// 
-namespace SingleObjective.Teaching.ones_count_problem {
+namespace SingleObjective.Teaching.OnesCountProblem {
     
     using sys;
     

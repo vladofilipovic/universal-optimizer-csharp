@@ -1,9 +1,9 @@
 ///  
 /// ..  _py_ones_count_problem:
 /// 
-/// The :mod:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem` contains class :class:`~opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem`, that represents :ref:`Problem_Max_Ones`.
+/// The :mod:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem` contains class :class:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem.OnesCountProblem`, that represents :ref:`Problem_Max_Ones`.
 /// 
-namespace SingleObjective.Teaching.ones_count_problem {
+namespace SingleObjective.Teaching.OnesCountProblem {
     
     using sys;
     
@@ -37,7 +37,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
             private object _dimension;
             
             public OnesCountProblem(int dim = null)
-                : base(is_minimization: false) {
+                : base(isMinimization: false) {
                 _dimension = dim;
             }
             
@@ -54,17 +54,17 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// 
             /// Static function that read problem data from file
             /// 
-            /// :param str file_path: path of the file with problem data
+            /// :param str filePath: path of the file with problem data
             /// :param str data_format: data format of the file
             /// 
             /// :return: all data that describe problem
             /// return type int
             /// 
             [classmethod]
-            public static int LoadFromFileHelper(object cls, string file_path, string data_format) {
-                logger.debug("Load parameters: file path=" + file_path.ToString() + ", data format representation=" + data_format);
+            public static int LoadFromFileHelper(object cls, string filePath, string data_format) {
+                logger.debug("Load parameters: file path=" + filePath.ToString() + ", data format representation=" + data_format);
                 if (data_format == "txt") {
-                    var input_file = open(file_path, "r");
+                    var input_file = open(filePath, "r");
                     var textLine = input_file.readline().strip();
                     /// skip comments
                     while (textLine.startswith("///") || textLine.startswith(";")) {
@@ -80,12 +80,12 @@ namespace SingleObjective.Teaching.ones_count_problem {
             /// 
             /// Additional constructor. Create new `OnesCountProblem` instance when input file and input format are specified
             /// 
-            /// :param str input_file_path: path of the input file with problem data
+            /// :param str input_filePath: path of the input file with problem data
             /// :param str input_format: format of the input
             /// 
             [classmethod]
-            public static void from_input_file(object cls, string input_file_path, string input_format) {
-                var dimension = OnesCountProblem.LoadFromFileHelper(input_file_path, input_format);
+            public static void from_input_file(object cls, string input_filePath, string input_format) {
+                var dimension = OnesCountProblem.LoadFromFileHelper(input_filePath, input_format);
                 return cls(dim: dimension);
             }
             

@@ -1,7 +1,7 @@
 ///  
-/// The :mod:`opt.SingleObjective.Teaching.ones_count_problem.solver` contains programming code that optimize :ref:`Max Ones Problem` with various optimization techniques.
+/// The :mod:`opt.SingleObjective.Teaching.OnesCountProblem.solver` contains programming code that optimize :ref:`Max Ones Problem` with various optimization techniques.
 /// 
-namespace SingleObjective.Teaching.ones_count_problem {
+namespace SingleObjective.Teaching.OnesCountProblem {
     
     using sys;
     
@@ -49,21 +49,21 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problemSolutionVnsSupport.ProblemSolutionVnsSupport;
     
-    using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
+    using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
     
-    using OnesCountProblemIntegerLinearProgrammingSolver = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolver;
+    using OnesCountProblemIntegerLinearProgrammingSolver = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolver;
     
-    using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
+    using OnesCountProblem = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem.OnesCountProblem;
     
-    using OnesCountProblemBinaryIntSolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
+    using OnesCountProblemBinaryIntSolution = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problemBinaryIntSolution.OnesCountProblemBinaryIntSolution;
     
-    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problemBinaryIntSolutionVnsSupport.OnesCountProblemBinaryIntSolutionVnsSupport;
+    using OnesCountProblemBinaryIntSolutionVnsSupport = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problemBinaryIntSolutionVnsSupport.OnesCountProblemBinaryIntSolutionVnsSupport;
     
-    using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
+    using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
     
-    using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionVnsSupport.OnesCountProblemBinaryBitArraySolutionVnsSupport;
+    using OnesCountProblemBinaryBitArraySolutionVnsSupport = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solutionVnsSupport.OnesCountProblemBinaryBitArraySolutionVnsSupport;
     
-    using OnesCountProblemBinaryBitArraySolutionTeSupport = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem_binary_bit_array_solutionTeSupport.OnesCountProblemBinaryBitArraySolutionTeSupport;
+    using OnesCountProblemBinaryBitArraySolutionTeSupport = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solutionTeSupport.OnesCountProblemBinaryBitArraySolutionTeSupport;
     
     public static class ones_count_problem_solver {
         

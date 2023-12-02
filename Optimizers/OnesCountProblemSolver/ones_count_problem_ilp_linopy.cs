@@ -1,4 +1,4 @@
-namespace SingleObjective.Teaching.ones_count_problem {
+namespace SingleObjective.Teaching.OnesCountProblem {
     
     using sys;
     
@@ -28,7 +28,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
     
     using OutputControl = uo.Algorithm.OutputControl.OutputControl;
     
-    using OnesCountProblem = opt.SingleObjective.Teaching.ones_count_problem.ones_count_problem.OnesCountProblem;
+    using OnesCountProblem = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem.OnesCountProblem;
     
     using System.Collections.Generic;
     
@@ -154,7 +154,7 @@ namespace SingleObjective.Teaching.ones_count_problem {
                     coords
                 }, name: "x");
                 ///logger.debug(self.model.variables)
-                if (this.TargetProblem.is_minimization) {
+                if (this.TargetProblem.isMinimization) {
                     this.model.add_objective(x.sum(), sense: "min");
                 } else {
                     this.model.add_objective(x.sum(), sense: "max");

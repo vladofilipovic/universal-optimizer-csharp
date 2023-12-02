@@ -3,54 +3,17 @@
 /// </summary>
 namespace UniversalOptimizer.Opt.SingleObjective.Teaching
 {
-
-    using sys;
-
-    using Path = pathlib.Path;
-
-    using randrange = random.randrange;
-
-    using seed = random.seed;
-
-    using datetime = datetime.datetime;
-
-    using BitArray = bitstring.BitArray;
-
-    using xr = xarray;
-
-    using Model = linopy.Model;
-
-    using OutputControl = uo.Algorithm.OutputControl.OutputControl;
-
-    using FinishControl = uo.Algorithm.Metaheuristic.finishControl.FinishControl;
-
-    using AdditionalStatisticsControl = uo.Algorithm.Metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
-
-    using TeOptimizerConstructionParameters = uo.Algorithm.Exact.TotalEnumeration.te_optimizer.TeOptimizerConstructionParameters;
-
-    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizerConstructionParameters;
-
-    using ensure_dir = uo.utils.files.ensure_dir;
-
-    using logger = uo.utils.logger.logger;
-
-    using default_parameters_cl = Teaching.FunctionOneVariableProblem.command_line.default_parameters_cl;
-
-    using parse_arguments = Teaching.FunctionOneVariableProblem.command_line.parse_arguments;
-
-    using FunctionOneVariableProblem = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
-
-    using FunctionOneVariableProblemBinaryIntSolution = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
-
-    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolutionVnsSupport.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
-
-    using FunctionOneVariableProblemSolver = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem_solver.FunctionOneVariableProblemSolver;
+    using UniversalOptimizer.Algorithm;
 
     using System.Collections.Generic;
 
     using System;
 
-    public static class Solver
+    using Serilog;
+    using Serilog.Formatting.Json;
+    using Serilog.Events;
+
+    public class Solver
     {
 
         ///  
@@ -58,19 +21,34 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
         /// 
         ///     Which solver will be executed depends of command-line parameter algorithm.
         ///     
-        public static object main()
+        static void Main(string[] args)
         {
-            object rSeed;
-            object OutputControl;
-            object outputFile_name;
-            object outputFile_ext;
-            object outputFile_path_parts;
-            object should_add_timestamp_to_file_name;
+            Log.Logger = new LoggerConfiguration()
+                            // add console as logging target
+                            .WriteTo.Console()
+                            // add a logging target for warnings and higher severity  logs
+                            // structured in JSON format
+                            .WriteTo.File(new JsonFormatter(),
+                                          "important.json",
+                                          restrictedToMinimumLevel: LogEventLevel.Warning)
+                            // add a rolling file for all logs
+                            .WriteTo.File("all-.logs",
+                                          rollingInterval: RollingInterval.Day)
+                            // set default minimum level
+                            .MinimumLevel.Debug()
+                            .CreateLogger();
+
+            int rSeed;
+            OutputControl outputControl;
+            object outputFileName;
+            object outputFileExt;
+            object outputFilePathParts;
+            object shouldAddTimestampToFileName;
             object writeToOutputFile;
-            object is_minimization;
+            object isMinimization;
             try
             {
-                logger.debug("Solver started.");
+                Log.Debug("Solver started.");
                 var parameters = default_parameters_cl;
                 var read_parameters_cl = parse_arguments();
                 foreach (var param_keyValue in read_parameters_cl._get_kwargs())
@@ -87,11 +65,11 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                 /// set optimization type (minimization or maximization)
                 if (parameters["optimization_type"] == "minimization")
                 {
-                    is_minimization = true;
+                    isMinimization = true;
                 }
                 else if (parameters["optimization_type"] == "maximization")
                 {
-                    is_minimization = false;
+                    isMinimization = false;
                 }
                 else
                 {
@@ -111,51 +89,51 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                 {
                     if (parameters["outputFileNameAppendTimeStamp"] is null)
                     {
-                        should_add_timestamp_to_file_name = false;
+                        shouldAddTimestampToFileName = false;
                     }
                     else
                     {
-                        should_add_timestamp_to_file_name = @bool(parameters["outputFileNameAppendTimeStamp"]);
+                        shouldAddTimestampToFileName = @bool(parameters["outputFileNameAppendTimeStamp"]);
                     }
                     if (parameters["outputFilePath"] is not null && parameters["outputFilePath"] != "")
                     {
-                        outputFile_path_parts = parameters["outputFilePath"].split("/");
+                        outputFilePathParts = parameters["outputFilePath"].split("/");
                     }
                     else
                     {
-                        outputFile_path_parts = new List<string> {
+                        outputFilePathParts = new List<string> {
                             "outputs",
                             "out"
                         };
                     }
-                    var outputFile_name_ext = outputFile_path_parts[^1];
-                    var outputFile_name_parts = outputFile_name_ext.split(".");
-                    if (outputFile_name_parts.Count > 1)
+                    var outputFileNameExt = outputFilePathParts[^1];
+                    var outputFileName_parts = outputFileNameExt.split(".");
+                    if (outputFileName_parts.Count > 1)
                     {
-                        outputFile_ext = outputFile_name_parts[^1];
-                        outputFile_name_parts.pop();
-                        outputFile_name = ".".join(outputFile_name_parts);
+                        outputFileExt = outputFileName_parts[^1];
+                        outputFileName_parts.pop();
+                        outputFileName = ".".join(outputFileName_parts);
                     }
                     else
                     {
-                        outputFile_ext = "txt";
-                        outputFile_name = outputFile_name_parts[0];
+                        outputFileExt = "txt";
+                        outputFileName = outputFileName_parts[0];
                     }
                     var dt = datetime.now();
-                    outputFile_path_parts.pop();
-                    var outputFile_dir = "/".join(outputFile_path_parts);
-                    if (should_add_timestamp_to_file_name)
+                    outputFilePathParts.pop();
+                    var outputFile_dir = "/".join(outputFilePathParts);
+                    if (shouldAddTimestampToFileName)
                     {
-                        outputFile_path_parts.append(outputFile_name + "-maxones-" + parameters["algorithm"] + "-" + parameters["solutionType"] + "-" + parameters["optimization_type"][0:3:] + "-" + dt.strftime("%Y-%m-%d-%H-%M-%S.%f") + "." + outputFile_ext);
+                        outputFilePathParts.append(outputFileName + "-maxones-" + parameters["algorithm"] + "-" + parameters["solutionType"] + "-" + parameters["optimization_type"][0:3:] + "-" + dt.strftime("%Y-%m-%d-%H-%M-%S.%f") + "." + outputFileExt);
                     }
                     else
                     {
-                        outputFile_path_parts.append(outputFile_name + "-maxones-" + parameters["algorithm"] + "-" + parameters["solutionType"] + "-" + parameters["optimization_type"][0:3:] + "." + outputFile_ext);
+                        outputFilePathParts.append(outputFileName + "-maxones-" + parameters["algorithm"] + "-" + parameters["solutionType"] + "-" + parameters["optimization_type"][0:3:] + "." + outputFileExt);
                     }
-                    var outputFile_path = "/".join(outputFile_path_parts);
-                    logger.debug("Output file path: " + outputFile_path.ToString());
+                    var outputFilePath = "/".join(outputFilePathParts);
+                    logger.debug("Output file path: " + outputFilePath.ToString());
                     ensure_dir(outputFile_dir);
-                    var outputFile = open(outputFile_path, "w", encoding: "utf-8");
+                    var outputFile = open(outputFilePath, "w", encoding: "utf-8");
                 }
                 /// output control setup
                 if (writeToOutputFile)
@@ -169,7 +147,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                     OutputControl = OutputControl(writeToOutput: false);
                 }
                 /// input file setup
-                var input_file_path = parameters["inputFilePath"];
+                var input_filePath = parameters["inputFilePath"];
                 var input_format = parameters["inputFormat"];
                 /// random seed setup
                 if (Convert.ToInt32(parameters["randomSeed"]) > 0)
@@ -208,7 +186,7 @@ namespace UniversalOptimizer.Opt.SingleObjective.Teaching
                 var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
                 var additionalStatisticsControl = AdditionalStatisticsControl(keep: additionalStatistics_keep, maxLocalOptima: maxLocalOptima);
                 /// problem to be solved
-                var problem = FunctionOneVariableProblem.from_input_file(input_file_path: input_file_path, input_format: input_format);
+                var problem = FunctionOneVariableProblem.from_input_file(input_filePath: input_filePath, input_format: input_format);
                 var start_time = datetime.now();
                 if (writeToOutputFile)
                 {
