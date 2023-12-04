@@ -39,16 +39,16 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         public Metaheuristic(
             string name,
             FinishControl finishControl,
-            int randomSeed,
+            int? randomSeed,
             AdditionalStatisticsControl additionalStatisticsControl,
             OutputControl outputControl,
             TargetProblem targetProblem)
             : base(name, outputControl: outputControl, targetProblem: targetProblem)
         {
             FinishControl = finishControl;
-            if (randomSeed != 0)
+            if (randomSeed is not null && randomSeed != 0)
             {
-                RandomSeed = randomSeed;
+                RandomSeed = (int)randomSeed;
             }
             else
             {
@@ -68,7 +68,6 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         {
             throw new NotImplementedException();
         }
-
 
         /// <summary>
         /// One iteration within main loop of the metaheuristic algorithm.

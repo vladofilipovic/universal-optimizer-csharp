@@ -31,7 +31,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
     
     using OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_ilp_linopy.OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters;
     
-    using ensure_dir = uo.utils.files.ensure_dir;
+    using ensureDir = uo.utils.files.ensureDir;
     
     using logger = uo.utils.logger.logger;
     
@@ -133,18 +133,18 @@ Which solver will be executed depends of command-line parameter algorithm.
                         };
                     }
                     var outputFileNameExt = outputFilePathParts[^1];
-                    var outputFileName_parts = outputFileNameExt.split(".");
-                    if (outputFileName_parts.Count > 1) {
-                        outputFileExt = outputFileName_parts[^1];
-                        outputFileName_parts.pop();
-                        outputFileName = ".".join(outputFileName_parts);
+                    var outputFileNameParts = outputFileNameExt.split(".");
+                    if (outputFileNameParts.Count > 1) {
+                        outputFileExt = outputFileNameParts[^1];
+                        outputFileNameParts.pop();
+                        outputFileName = ".".join(outputFileNameParts);
                     } else {
                         outputFileExt = "txt";
-                        outputFileName = outputFileName_parts[0];
+                        outputFileName = outputFileNameParts[0];
                     }
                     var dt = datetime.now();
                     outputFilePathParts.pop();
-                    var outputFile_dir = "/".join(outputFilePathParts);
+                    var outputFileDir = "/".join(outputFilePathParts);
                     if (shouldAddTimestampToFileName) {
                         outputFilePathParts.append(outputFileName + "-maxones-" + parameters["algorithm"] + "-" + parameters["solutionType"] + "-" + parameters["optimization_type"][0:3:] + "-" + dt.strftime("%Y-%m-%d-%H-%M-%S.%f") + "." + outputFileExt);
                     } else {
@@ -152,7 +152,7 @@ Which solver will be executed depends of command-line parameter algorithm.
                     }
                     var outputFilePath = "/".join(outputFilePathParts);
                     logger.debug("Output file path: " + outputFilePath.ToString());
-                    ensure_dir(outputFile_dir);
+                    ensureDir(outputFileDir);
                     var outputFile = open(outputFilePath, "w", encoding: "utf-8");
                 }
                 /// output control setup
@@ -223,19 +223,19 @@ Which solver will be executed depends of command-line parameter algorithm.
                         throw new ValueError("Invalid solution/representation type is chosen.");
                     }
                     /// solver construction parameters
-                    var vns_construction_params = VnsOptimizerConstructionParameters();
-                    vns_construction_params.OutputControl = OutputControl;
-                    vns_construction_params.TargetProblem = problem;
-                    vns_construction_params.initialSolution = solution;
-                    vns_construction_params.problemSolutionVnsSupport = vns_support;
-                    vns_construction_params.finishControl = finishControl;
-                    vns_construction_params.randomSeed = rSeed;
-                    vns_construction_params.additionalStatisticsControl = additionalStatisticsControl;
-                    vns_construction_params.kMin = kMin;
-                    vns_construction_params.kMax = kMax;
-                    vns_construction_params.maxLocalOptima = maxLocalOptima;
-                    vns_construction_params.localSearchType = localSearchType;
-                    var solver = OnesCountProblemSolver.from_variable_neighborhood_search(vns_construction_params);
+                    var vnsConstructionParams = VnsOptimizerConstructionParameters();
+                    vnsConstructionParams.OutputControl = OutputControl;
+                    vnsConstructionParams.TargetProblem = problem;
+                    vnsConstructionParams.initialSolution = solution;
+                    vnsConstructionParams.problemSolutionVnsSupport = vns_support;
+                    vnsConstructionParams.finishControl = finishControl;
+                    vnsConstructionParams.randomSeed = rSeed;
+                    vnsConstructionParams.additionalStatisticsControl = additionalStatisticsControl;
+                    vnsConstructionParams.kMin = kMin;
+                    vnsConstructionParams.kMax = kMax;
+                    vnsConstructionParams.maxLocalOptima = maxLocalOptima;
+                    vnsConstructionParams.localSearchType = localSearchType;
+                    var solver = OnesCountProblemSolver.FromVariableNeighborhoodSearch(vnsConstructionParams);
                 } else if (parameters["algorithm"] == "total_enumeration") {
                     /// initial solution and te support
                     solution_type = parameters["solutionType"];
@@ -248,18 +248,18 @@ Which solver will be executed depends of command-line parameter algorithm.
                         throw new ValueError("Invalid solution/representation type is chosen.");
                     }
                     /// solver construction parameters
-                    var te_construction_params = TeOptimizerConstructionParameters();
-                    te_construction_params.OutputControl = OutputControl;
-                    te_construction_params.TargetProblem = problem;
-                    te_construction_params.initialSolution = solution;
-                    te_construction_params.problemSolutionTeSupport = te_support;
-                    solver = OnesCountProblemSolver.from_total_enumeration(te_construction_params);
+                    var te_constructionParams = TeOptimizerConstructionParameters();
+                    te_constructionParams.OutputControl = OutputControl;
+                    te_constructionParams.TargetProblem = problem;
+                    te_constructionParams.initialSolution = solution;
+                    te_constructionParams.problemSolutionTeSupport = te_support;
+                    solver = OnesCountProblemSolver.from_total_enumeration(te_constructionParams);
                 } else if (parameters["algorithm"] == "integer_linear_programming") {
                     /// solver construction parameters
-                    var ilp_construction_params = OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters();
-                    ilp_construction_params.OutputControl = OutputControl;
-                    ilp_construction_params.TargetProblem = problem;
-                    solver = OnesCountProblemSolver.from_integer_linear_programming(ilp_construction_params);
+                    var ilp_constructionParams = OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters();
+                    ilp_constructionParams.OutputControl = OutputControl;
+                    ilp_constructionParams.TargetProblem = problem;
+                    solver = OnesCountProblemSolver.from_integer_linear_programming(ilp_constructionParams);
                 } else {
                     throw new ValueError("Invalid optimization algorithm is chosen.");
                 }

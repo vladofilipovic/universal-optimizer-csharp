@@ -173,8 +173,12 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// </param>
         /// <returns>If adding is successful e.g. currentSolution is new element in the structure 
         /// </returns>
-        public virtual bool AddToMoreLocalOptimaIfRequired(string solutionToAddRep, double solutionToAddFitness, string bestSolutionRep)
+        public virtual bool AddToMoreLocalOptimaIfRequired(string solutionToAddRep, double? solutionToAddFitness, string bestSolutionRep)
         {
+            if (!solutionToAddFitness.HasValue)
+            {
+                return false;
+            }
             if (!KeepMoreLocalOptima)
             {
                 return false;
@@ -197,7 +201,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                     }
                 }
             }
-            MoreLocalOptima[solutionToAddRep] = solutionToAddFitness;
+            MoreLocalOptima[solutionToAddRep] = (double)solutionToAddFitness;
             return true;
         }
 

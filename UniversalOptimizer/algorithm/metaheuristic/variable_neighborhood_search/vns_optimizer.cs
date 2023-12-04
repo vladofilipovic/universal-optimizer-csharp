@@ -48,11 +48,11 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 
         private ProblemSolutionVnsSupportShakingMethod<R_co, A_co> _shakingMethod;
 
-        private int _kCurrent;
-        private int _kMax;
-        private int _kMin;
+        private int? _kCurrent;
+        private int? _kMax;
+        private int? _kMin;
 
-        private string _localSearchType;
+        private string? _localSearchType;
 
         public TargetSolution<R_co, A_co> currentSolution;
 
@@ -72,15 +72,15 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// <exception cref="Exception">String.Format("Value '{0}' for VNS localSearchType is not supported", _localSearchType)</exception>
         public VnsOptimizer(
             FinishControl finishControl,
-            int randomSeed,
+            int? randomSeed,
             AdditionalStatisticsControl additionalStatisticsControl,
             OutputControl outputControl,
             TargetProblem targetProblem,
             TargetSolution<R_co, A_co> initialSolution,
             IProblemSolutionVnsSupport<R_co, A_co> problemSolutionVnsSupport,
-            int kMin,
-            int kMax,
-            string localSearchType)
+            int? kMin,
+            int? kMax,
+            string? localSearchType)
             : base("VnsOptimizer", finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, initialSolution: initialSolution)
         {
             _localSearchType = localSearchType;
@@ -132,7 +132,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         {
             get
             {
-                return _kMin;
+                return (int)_kMin;
             }
         }
 
@@ -146,7 +146,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         {
             get
             {
-                return _kMax;
+                return (int)_kMax;
             }
         }
 
@@ -168,7 +168,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         {
             WriteOutputValuesIfNeeded("beforeStepInIteration", "shaking");
             var solutionReps = new List<R_co>();
-            if (!_shakingMethod(_kCurrent, TargetProblem, currentSolution, this, solutionReps))
+            if (!_shakingMethod((int)_kCurrent, TargetProblem, currentSolution, this, solutionReps))
             {
                 WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
                 return;
@@ -178,12 +178,12 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             while (_kCurrent <= KMax)
             {
                 WriteOutputValuesIfNeeded("beforeStepInIteration", "ls");
-                currentSolution = _lsMethod(_kCurrent, this.TargetProblem, currentSolution, this);
+                currentSolution = _lsMethod((int)_kCurrent, TargetProblem, currentSolution, this);
                 WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
                 /// update auxiliary structure that keeps all solution codes
                 AdditionalStatisticsControl.AddToAllSolutionCodesIfRequired(currentSolution.StringRepresentation());
                 AdditionalStatisticsControl.AddToMoreLocalOptimaIfRequired(currentSolution.StringRepresentation(), currentSolution.FitnessValue, BestSolution.StringRepresentation());
-                var new_is_better = this.IsFirstSolutionBetter(currentSolution, BestSolution);
+                var new_is_better = IsFirstSolutionBetter(currentSolution, BestSolution);
                 var make_move = new_is_better;
                 if (new_is_better is null)
                 {

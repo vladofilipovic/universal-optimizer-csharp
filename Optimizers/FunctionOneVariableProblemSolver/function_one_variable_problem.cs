@@ -1,4 +1,4 @@
-namespace opt.SingleObjective.Teaching
+namespace SingleObjective.Teaching.FunctionOneVariableProblem
 {
     using System;
     using System.Collections.Generic;
@@ -39,7 +39,7 @@ namespace opt.SingleObjective.Teaching
         /// Initializes a new instance of the <see cref="FunctionOneVariableProblem"/> class.
         /// </summary>
         /// <param name="isMinimization">if set to <c>true</c> [is minimization].</param>
-        /// <param name="fovpe">The fovpe.</param>
+        /// <param name="fovpe">The elements of the Function One Variable Problem.</param>
         public FunctionOneVariableProblem(bool? isMinimization, FunctionOneVariableProblemElements fovpe) : this(isMinimization, fovpe.Expression, fovpe.DomainLow, fovpe.DomainHigh)
         {
         }

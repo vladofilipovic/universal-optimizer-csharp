@@ -97,7 +97,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 _bit_array_counter.reset();
                 solution.InitFrom(_bit_array_counter.current_state(), problem);
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                optimizer.evaluation += 1;
+                optimizer.Evaluation += 1;
                 solution.evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
             }
@@ -114,7 +114,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 _bit_array_counter.progress();
                 solution.InitFrom(_bit_array_counter.current_state(), problem);
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                optimizer.evaluation += 1;
+                optimizer.Evaluation += 1;
                 solution.evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
             }

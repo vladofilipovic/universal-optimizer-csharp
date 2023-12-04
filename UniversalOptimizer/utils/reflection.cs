@@ -15,7 +15,7 @@ namespace UniversalOptimizer.utils
         /// <param name="obj">The object.</param>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public static object ReflectionGetPropertyValue(this object obj, string name)
+        public static object? ReflectionGetPropertyValue(this object obj, string name)
         {
             foreach (string part in name.Split('.'))
             {
@@ -32,6 +32,11 @@ namespace UniversalOptimizer.utils
                 obj = info.GetValue(obj, null);
             }
             return obj;
+        }
+
+        public static object? ReflectionEvaluateExpression(this string expression)
+        {
+            return expression;
         }
 
     }

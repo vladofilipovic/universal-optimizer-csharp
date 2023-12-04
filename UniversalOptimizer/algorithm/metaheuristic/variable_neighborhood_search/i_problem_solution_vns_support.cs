@@ -14,12 +14,12 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
     public delegate bool ProblemSolutionVnsSupportShakingMethod<R_co, A_co>(int k,
             TargetProblem problem,
             TargetSolution<R_co, A_co> solution,
-            Algorithm<R_co, A_co> optimizer,
+            Metaheuristic<R_co, A_co> optimizer,
             IEnumerable<R_co> solutionRepresentations);
     public delegate TargetSolution<R_co, A_co> ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>(int k,
         TargetProblem problem,
         TargetSolution<R_co, A_co> solution,
-        Algorithm<R_co, A_co> optimizer);
+        Metaheuristic<R_co, A_co> optimizer);
 
     public interface IProblemSolutionVnsSupport<R_co, A_co>
     {
@@ -38,7 +38,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             int k,
             TargetProblem problem,
             TargetSolution<R_co, A_co> solution,
-            Algorithm<R_co, A_co> optimizer,
+            Metaheuristic<R_co, A_co> optimizer,
             IEnumerable<R_co> solutionRepresentations);
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// <returns>Solution - result of the local search procedure.</returns>
         public TargetSolution<R_co, A_co> LocalSearchBestImprovement(int k, TargetProblem problem,
             TargetSolution<R_co, A_co> solution,
-            Algorithm<R_co, A_co> optimizer);
+            Metaheuristic<R_co, A_co> optimizer);
 
         /// <summary>
         /// Executes "first improvement" variant of the local search procedure.
@@ -63,7 +63,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// <returns>Solution - result of the local search procedure.</returns>
         public TargetSolution<R_co, A_co> LocalSearchFirstImprovement(int k, TargetProblem problem,
             TargetSolution<R_co, A_co> solution,
-            Algorithm<R_co, A_co> optimizer);
+            Metaheuristic<R_co, A_co> optimizer);
     }
 }
 

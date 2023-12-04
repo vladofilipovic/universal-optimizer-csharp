@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "FunctionOneVariableProblemSolver-1": {
+      "commandName": "Project",
+      "commandLineArgs": "variable_neighborhood_search --optimizationType maximization --writeToOutputFile True --outputFilePath outputs/7-x^2f-3t3.csv --outputFileNameAppendTimeStamp True --outputFields bestSolution --outputMoments afterIteration, afterAlgorithm --inputFilePath inputs/7-x^2f-3t3.txt --inputFormat txt --finishCriteria evaluations --finishEvaluationsMax 500 --finishIterationsMax 0 --finishSecondsMax 0 --randomSeed 0 --solutionEvaluationCacheIsUsed False --solutionEvaluationCacheMaxSize 1000 --solutionDistanceCalculationCacheIsUsed False --solutionDistanceCalculationCacheMaxSize 1000 --additionalStatisticsKeep None  --additionalStatisticsMaxLocalOptima 5 --kMin 1 --kMax 3 --localSearchType local_search_best_improvement --solutionType int --solutionNumberOfIntervals 2000"
+    },
+    "FunctionOneVariableProblemSolver-12": {
+      "commandName": "Project",
+      "commandLineArgs": "idle"
+    }
+  }
+}

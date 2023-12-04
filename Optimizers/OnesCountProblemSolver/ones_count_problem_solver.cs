@@ -21,7 +21,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
     
     using Model = linopy.Model;
     
-    using ensure_dir = uo.utils.files.ensure_dir;
+    using ensureDir = uo.utils.files.ensureDir;
     
     using logger = uo.utils.logger.logger;
     
@@ -165,62 +165,62 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// 
             /// Additional constructor. Create new `OnesCountProblemSolver` instance from construction parameters
             /// 
-            /// :param `MaxOneProblemSolverConstructionParameters` construction_params: parameters for construction 
+            /// :param `MaxOneProblemSolverConstructionParameters` constructionParams: parameters for construction 
             /// 
             [classmethod]
-            public static void FromConstructionTuple(object cls, object construction_params = null) {
-                return cls(method: construction_params.method, finishControl: construction_params.finishControl, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initialSolution: construction_params.initialSolution, vns_problemSolution_support: construction_params.vns_problemSolution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additionalStatisticsControl: construction_params.vns_additionalStatisticsControl, vns_kMin: construction_params.vns_kMin, vns_kMax: construction_params.vns_kMax, vns_localSearchType: construction_params.vns_localSearchType, te_problemSolution_support: construction_params.te_problemSolution_support);
+            public static void FromConstructionTuple(object cls, object constructionParams = null) {
+                return cls(method: constructionParams.method, finishControl: constructionParams.finishControl, OutputControl: constructionParams.OutputControl, TargetProblem: constructionParams.TargetProblem, initialSolution: constructionParams.initialSolution, vns_problemSolution_support: constructionParams.vns_problemSolution_support, vnsRandomSeed: constructionParams.vnsRandomSeed, vns_additionalStatisticsControl: constructionParams.vns_additionalStatisticsControl, vns_kMin: constructionParams.vns_kMin, vns_kMax: constructionParams.vns_kMax, vns_localSearchType: constructionParams.vns_localSearchType, te_problemSolution_support: constructionParams.te_problemSolution_support);
             }
             
             /// 
             /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Variable Neighborhood Search`
             /// 
-            /// :param VnsOptimizerConstructionParameters vns_construction_params: construction parameters 
+            /// :param VnsOptimizerConstructionParameters vnsConstructionParams: construction parameters 
             /// 
             [classmethod]
-            public static void from_variable_neighborhood_search(object cls, object vns_construction_params = null) {
+            public static void FromVariableNeighborhoodSearch(object cls, object vnsConstructionParams = null) {
                 var @params = new MaxOneProblemSolverConstructionParameters();
                 @params.method = "variable_neighborhood_search";
-                @params.finishControl = vns_construction_params.finishControl;
-                @params.OutputControl = vns_construction_params.OutputControl;
-                @params.TargetProblem = vns_construction_params.TargetProblem;
-                @params.initialSolution = vns_construction_params.initialSolution;
-                @params.vns_problemSolution_support = vns_construction_params.problemSolutionVnsSupport;
-                @params.vnsRandomSeed = vns_construction_params.randomSeed;
-                @params.vns_additionalStatisticsControl = vns_construction_params.additionalStatisticsControl;
-                @params.vns_kMin = vns_construction_params.kMin;
-                @params.vns_kMax = vns_construction_params.kMax;
-                @params.vns_localSearchType = vns_construction_params.localSearchType;
+                @params.finishControl = vnsConstructionParams.finishControl;
+                @params.OutputControl = vnsConstructionParams.OutputControl;
+                @params.TargetProblem = vnsConstructionParams.TargetProblem;
+                @params.initialSolution = vnsConstructionParams.initialSolution;
+                @params.vns_problemSolution_support = vnsConstructionParams.problemSolutionVnsSupport;
+                @params.vnsRandomSeed = vnsConstructionParams.randomSeed;
+                @params.vns_additionalStatisticsControl = vnsConstructionParams.additionalStatisticsControl;
+                @params.vns_kMin = vnsConstructionParams.kMin;
+                @params.vns_kMax = vnsConstructionParams.kMax;
+                @params.vns_localSearchType = vnsConstructionParams.localSearchType;
                 return cls.FromConstructionTuple(@params);
             }
             
             /// 
             /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Total Enumeration`
             /// 
-            /// :param TeOptimizerConstructionParameters te_construction_params: construction parameters 
+            /// :param TeOptimizerConstructionParameters te_constructionParams: construction parameters 
             /// 
             [classmethod]
-            public static void from_total_enumeration(object cls, object te_construction_params = null) {
+            public static void from_total_enumeration(object cls, object te_constructionParams = null) {
                 var @params = new MaxOneProblemSolverConstructionParameters();
                 @params.method = "total_enumeration";
-                @params.OutputControl = te_construction_params.OutputControl;
-                @params.TargetProblem = te_construction_params.TargetProblem;
-                @params.initialSolution = te_construction_params.initialSolution;
-                @params.te_problemSolution_support = te_construction_params.problemSolutionTeSupport;
+                @params.OutputControl = te_constructionParams.OutputControl;
+                @params.TargetProblem = te_constructionParams.TargetProblem;
+                @params.initialSolution = te_constructionParams.initialSolution;
+                @params.te_problemSolution_support = te_constructionParams.problemSolutionTeSupport;
                 return cls.FromConstructionTuple(@params);
             }
             
             /// 
             /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Integer Linear Programming`
             /// 
-            /// :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` ilp_construction_params: construction parameters 
+            /// :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` ilp_constructionParams: construction parameters 
             /// 
             [classmethod]
-            public static void from_integer_linear_programming(object cls, object ilp_construction_params = null) {
+            public static void from_integer_linear_programming(object cls, object ilp_constructionParams = null) {
                 var @params = new MaxOneProblemSolverConstructionParameters();
                 @params.method = "integer_linear_programming";
-                @params.OutputControl = ilp_construction_params.OutputControl;
-                @params.TargetProblem = ilp_construction_params.TargetProblem;
+                @params.OutputControl = ilp_constructionParams.OutputControl;
+                @params.TargetProblem = ilp_constructionParams.TargetProblem;
                 return cls.FromConstructionTuple(@params);
             }
             

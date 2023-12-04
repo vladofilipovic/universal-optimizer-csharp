@@ -1,204 +1,133 @@
 ///  
 /// The :mod:`opt.SingleObjective.Teaching.FunctionOneVariableProblem_solver` contains programming code that optimize :ref:`Max Function 1 Variable Problem` with various optimization techniques.
 /// 
-namespace UniversalOptimizer.Opt.SingleObjective.Teaching
+namespace SingleObjective.Teaching.FunctionOneVariableProblem
 {
 
-    using sys;
+    using UniversalOptimizer.TargetProblem;
 
-    using Path = pathlib.Path;
+    using UniversalOptimizer.TargetSolution;
 
-    using dataclass = dataclasses.dataclass;
+    using UniversalOptimizer.Algorithm;
 
-    using randrange = random.randrange;
+    using UniversalOptimizer.Algorithm.Metaheuristic;
 
-    using seed = random.seed;
+    using UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch;
+    using System.Runtime.CompilerServices;
 
-    using datetime = datetime.datetime;
 
-    using BitArray = bitstring.BitArray;
-
-    using xr = xarray;
-
-    using Model = linopy.Model;
-
-    using ensure_dir = uo.utils.files.ensure_dir;
-
-    using logger = uo.utils.logger.logger;
-
-    using TargetProblem = uo.TargetProblem.TargetProblem.TargetProblem;
-
-    using TargetSolution = uo.TargetSolution.TargetSolution.TargetSolution;
-
-    using OutputControl = uo.Algorithm.OutputControl.OutputControl;
-
-    using Optimizer = uo.Algorithm.optimizer.Optimizer;
-
-    using FinishControl = uo.Algorithm.Metaheuristic.finishControl.FinishControl;
-
-    using AdditionalStatisticsControl = uo.Algorithm.Metaheuristic.additionalStatisticsControl.AdditionalStatisticsControl;
-
-    using TeOptimizerConstructionParameters = uo.Algorithm.Exact.TotalEnumeration.te_optimizer.TeOptimizerConstructionParameters;
-
-    using TeOptimizer = uo.Algorithm.Exact.TotalEnumeration.te_optimizer.TeOptimizer;
-
-    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problemSolutionTeSupport.ProblemSolutionTeSupport;
-
-    using VnsOptimizerConstructionParameters = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizerConstructionParameters;
-
-    using VnsOptimizer = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.vns_optimizer.VnsOptimizer;
-
-    using ProblemSolutionVnsSupport = uo.Algorithm.Metaheuristic.VariableNeighborhoodSearch.problemSolutionVnsSupport.ProblemSolutionVnsSupport;
-
-    using FunctionOneVariableProblem = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblem.FunctionOneVariableProblem;
-
-    using FunctionOneVariableProblemBinaryIntSolution = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolution.FunctionOneVariableProblemBinaryIntSolution;
-
-    using FunctionOneVariableProblemBinaryIntSolutionVnsSupport = Teaching.FunctionOneVariableProblem.FunctionOneVariableProblemBinaryIntSolutionVnsSupport.FunctionOneVariableProblemBinaryIntSolutionVnsSupport;
-
-    public static class FunctionOneVariableProblem_solver
+    /// 
+    ///     Instance of the class :class:`FunctionOneVariableProblemSolverConstructionParameters` represents constructor parameters for max ones problem solver.
+    ///     
+    public class FunctionOneVariableProblemSolverConstructionParameters<R_co, A_co>
     {
 
-        public static object directory = Path(_file__).resolve();
+        public FinishControl FinishControl { get; set; }
 
-        static FunctionOneVariableProblem_solver()
+        public TargetSolution<R_co, A_co> InitialSolution { get; set; }
+
+        public string? Method { get; set; }
+
+        public OutputControl OutputControl { get; set; }
+
+        public TargetProblem TargetProblem { get; set; }
+
+        public AdditionalStatisticsControl VnsAdditionalStatisticsControl { get; set; }
+
+        public int? VnsKMax { get; set; }
+
+        public int? VnsKMin { get; set; }
+
+        public string? VnsLocalSearchType { get; set; }
+
+        public IProblemSolutionVnsSupport<R_co, A_co> VnsProblemSolutionSupport { get; set; }
+
+        public int? VnsRandomSeed { get; set; }
+
+    }
+
+    /// <summary>
+    /// Instance of this class encapsulate any of the developed solvers Function One Variable Problem.
+    /// </summary>
+    public class FunctionOneVariableProblemSolver
+    {
+
+        private Optimizer<object,object> _optimizer;
+
+        private FunctionOneVariableProblemSolver(
+            string? method = null,
+            FinishControl finishControl = null,
+            OutputControl outputControl = null,
+            TargetProblem targetProblem = null,
+            TargetSolution<object, object> initialSolution = null,
+            IProblemSolutionVnsSupport<object, object> vnsProblemSolutionSupport = null,
+            int? vnsRandomSeed = null,
+            AdditionalStatisticsControl vnsAdditionalStatisticsControl = null,
+            int? vnsKMin = null,
+            int? vnsKMax = null,
+            string? vnsLocalSearchType = null)
         {
-            sys.path.append(directory);
-            sys.path.append(directory.parent);
-            sys.path.append(directory.parent.parent);
-            sys.path.append(directory.parent.parent.parent);
+            _optimizer = null;
+            if (method == "variable_neighborhood_search")
+            {
+                _optimizer = new VnsOptimizer<object,object>(finishControl: finishControl, outputControl: outputControl, targetProblem: targetProblem, initialSolution: initialSolution, problemSolutionVnsSupport: vnsProblemSolutionSupport, randomSeed: vnsRandomSeed, additionalStatisticsControl: vnsAdditionalStatisticsControl, kMin: vnsKMin, kMax: vnsKMax, localSearchType: vnsLocalSearchType);
+            }
+            else
+            {
+                throw new Exception(String.Format("Invalid optimization method {0} - should be: '{1}'.", method, "variable_neighborhood_search"));
+            }
+        }
+
+        /// <summary>
+        /// Create new `FunctionOneVariableProblemSolver` instance from construction parameters tuple.
+        /// </summary>
+        /// <param name="constructionParams">The construction parameters.</param>
+        /// <returns></returns>
+        public static FunctionOneVariableProblemSolver FromConstructionTuple(FunctionOneVariableProblemSolverConstructionParameters<object, object> constructionParams)
+        {
+            return new FunctionOneVariableProblemSolver(method: constructionParams.Method, finishControl: constructionParams.FinishControl, outputControl: constructionParams.OutputControl, targetProblem: constructionParams.TargetProblem, initialSolution: constructionParams.InitialSolution, vnsProblemSolutionSupport: constructionParams.VnsProblemSolutionSupport, vnsRandomSeed: constructionParams.VnsRandomSeed, vnsAdditionalStatisticsControl: constructionParams.VnsAdditionalStatisticsControl, vnsKMin: constructionParams.VnsKMin, vnsKMax: constructionParams.VnsKMax, vnsLocalSearchType: constructionParams.VnsLocalSearchType);
         }
 
         /// 
-        ///     Instance of the class :class:`FunctionOneVariableProblemSolverConstructionParameters` represents constructor parameters for max ones problem solver.
-        ///     
-        public class FunctionOneVariableProblemSolverConstructionParameters
+        /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Variable Neighborhood Search`
+        /// 
+        /// :param VnsOptimizerConstructionParameters vnsConstructionParams: construction parameters 
+        /// 
+        public static FunctionOneVariableProblemSolver FromVariableNeighborhoodSearch(VnsOptimizerConstructionParameters<object, object> vnsConstructionParams)
         {
-
-            public object finishControl;
-
-            public object initialSolution;
-
-            public object method;
-
-            public object OutputControl;
-
-            public object TargetProblem;
-
-            public object vns_additionalStatisticsControl;
-
-            public object vns_kMax;
-
-            public object vns_kMin;
-
-            public object vns_localSearchType;
-
-            public object vns_problemSolution_support;
-
-            public object vnsRandomSeed;
-
-            public object method = null;
-
-            public object finishControl = null;
-
-            public object OutputControl = null;
-
-            public object TargetProblem = null;
-
-            public object initialSolution = null;
-
-            public object vns_problemSolution_support = null;
-
-            public object vnsRandomSeed = null;
-
-            public object vns_additionalStatisticsControl = null;
-
-            public object vns_kMin = null;
-
-            public object vns_kMax = null;
-
-            public object vns_localSearchType = null;
+            var @params = new FunctionOneVariableProblemSolverConstructionParameters<object,object>();
+            @params.Method = "variable_neighborhood_search";
+            @params.FinishControl = vnsConstructionParams.FinishControl;
+            @params.OutputControl = vnsConstructionParams.OutputControl;
+            @params.TargetProblem = vnsConstructionParams.TargetProblem;
+            @params.InitialSolution = vnsConstructionParams.InitialSolution;
+            @params.VnsProblemSolutionSupport = vnsConstructionParams.ProblemSolutionVnsSupport;
+            @params.VnsRandomSeed = vnsConstructionParams.RandomSeed;
+            @params.VnsAdditionalStatisticsControl = vnsConstructionParams.AdditionalStatisticsControl;
+            @params.VnsKMin = vnsConstructionParams.KMin;
+            @params.VnsKMax = vnsConstructionParams.KMax;
+            @params.VnsLocalSearchType = vnsConstructionParams.LocalSearchType;
+            return FromConstructionTuple(@params);
         }
 
         /// 
-        ///     Instance of the class :class:`FunctionOneVariableProblemSolver` any of the developed solvers max ones problem.
-        ///     
-        public class FunctionOneVariableProblemSolver
+        /// Property getter for the optimizer used for solving
+        /// 
+        /// :return: optimizer
+        /// return type `Optimizer`
+        /// 
+        public Optimizer<object,object> Opt
         {
-
-            private object _optimizer;
-
-            public FunctionOneVariableProblemSolver(
-                string method = null,
-                object finishControl = null,
-                object OutputControl = null,
-                object TargetProblem = null,
-                object initialSolution = null,
-                object vns_problemSolution_support = null,
-                int vnsRandomSeed = null,
-                object vns_additionalStatisticsControl = null,
-                int vns_kMin = null,
-                int vns_kMax = null,
-                string vns_localSearchType = null)
+            get
             {
-                _optimizer = null;
-                if (method == "variable_neighborhood_search")
-                {
-                    _optimizer = VnsOptimizer(finishControl: finishControl, OutputControl: OutputControl, TargetProblem: TargetProblem, initialSolution: initialSolution, problemSolutionVnsSupport: vns_problemSolution_support, randomSeed: vnsRandomSeed, additionalStatisticsControl: vns_additionalStatisticsControl, kMin: vns_kMin, kMax: vns_kMax, localSearchType: vns_localSearchType);
-                }
-                else
-                {
-                    throw new ValueError("Invalid optimization method {} - should be: '{}'.".format(method, "variable_neighborhood_search"));
-                }
-            }
-
-            /// 
-            /// Additional constructor. Create new `FunctionOneVariableProblemSolver` instance from construction parameters
-            /// 
-            /// :param `FunctionOneVariableProblemSolverConstructionParameters` construction_params: parameters for construction 
-            /// 
-            [classmethod]
-            public static void FromConstructionTuple(object cls, object construction_params = null)
-            {
-                return cls(method: construction_params.method, finishControl: construction_params.finishControl, OutputControl: construction_params.OutputControl, TargetProblem: construction_params.TargetProblem, initialSolution: construction_params.initialSolution, vns_problemSolution_support: construction_params.vns_problemSolution_support, vnsRandomSeed: construction_params.vnsRandomSeed, vns_additionalStatisticsControl: construction_params.vns_additionalStatisticsControl, vns_kMin: construction_params.vns_kMin, vns_kMax: construction_params.vns_kMax, vns_localSearchType: construction_params.vns_localSearchType);
-            }
-
-            /// 
-            /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Variable Neighborhood Search`
-            /// 
-            /// :param VnsOptimizerConstructionParameters vns_construction_params: construction parameters 
-            /// 
-            [classmethod]
-            public static void from_variable_neighborhood_search(object cls, object vns_construction_params = null)
-            {
-                var @params = new FunctionOneVariableProblemSolverConstructionParameters();
-                @params.method = "variable_neighborhood_search";
-                @params.finishControl = vns_construction_params.finishControl;
-                @params.OutputControl = vns_construction_params.OutputControl;
-                @params.TargetProblem = vns_construction_params.TargetProblem;
-                @params.initialSolution = vns_construction_params.initialSolution;
-                @params.vns_problemSolution_support = vns_construction_params.problemSolutionVnsSupport;
-                @params.vnsRandomSeed = vns_construction_params.randomSeed;
-                @params.vns_additionalStatisticsControl = vns_construction_params.additionalStatisticsControl;
-                @params.vns_kMin = vns_construction_params.kMin;
-                @params.vns_kMax = vns_construction_params.kMax;
-                @params.vns_localSearchType = vns_construction_params.localSearchType;
-                return cls.FromConstructionTuple(@params);
-            }
-
-            /// 
-            /// Property getter for the optimizer used for solving
-            /// 
-            /// :return: optimizer
-            /// return type `Optimizer`
-            /// 
-            public object opt
-            {
-                get
-                {
-                    return _optimizer;
-                }
+                return _optimizer;
             }
         }
     }
+
+    public class FunctionOneVariableProblemSolverCreator
+    {
+ 
+    }
 }
+

@@ -12,11 +12,11 @@ namespace UniversalOptimizer.TargetSolution
     /// </summary>
     public struct QualityOfSolution
     {
-        public double ObjectiveValue { get; set; }
+        public double? ObjectiveValue { get; set; }
         public IEnumerable<double> ObjectiveValues { get; set; }
-        public double FitnessValue { get; set; }
+        public double? FitnessValue { get; set; }
         public IEnumerable<double> FitnessValues { get; set; }
-        public bool IsFeasible { get; set; }
+        public bool? IsFeasible { get; set; }
     };
 
     /// <summary>
@@ -29,11 +29,11 @@ namespace UniversalOptimizer.TargetSolution
         private bool _evaluationCacheIsUsed;
         private int _evaluationCacheMaxSize;
         private readonly string _name;
-        private double _fitnessValue;
+        private double? _fitnessValue;
         private IEnumerable<double> _fitnessValues;
-        private bool _isFeasible;
-        private double _objectiveValue;
+        private double? _objectiveValue;
         private IEnumerable<double> _objectiveValues;
+        private bool? _isFeasible;
         private readonly int _randomSeed;
         private readonly Random _randomGenerator;
         private R_co? _representation;
@@ -108,7 +108,7 @@ namespace UniversalOptimizer.TargetSolution
         /// The fitness value.
         /// </value>
         /// 
-        public double FitnessValue
+        public double? FitnessValue
         {
             get
             {
@@ -146,7 +146,7 @@ namespace UniversalOptimizer.TargetSolution
         /// The objective value.
         /// </value>
         /// 
-        public double ObjectiveValue
+        public double? ObjectiveValue
         {
             get
             {
@@ -184,7 +184,7 @@ namespace UniversalOptimizer.TargetSolution
         ///   <c>true</c> if this instance is feasible; otherwise, <c>false</c>.
         /// </value>
         /// 
-        public bool IsFeasible
+        public bool? IsFeasible
         {
             get
             {
@@ -265,7 +265,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <param name="representation">The native representation of the solution for which objective value, fitness and feasibility are calculated.</param>
         /// <param name="problem">The problem that is solved.</param>
         /// <returns></returns>
-        public abstract QualityOfSolution CalculateQualityDirectly(object representation, TargetProblem problem);
+        public abstract QualityOfSolution CalculateQualityDirectly(R_co representation, TargetProblem problem);
 
         /// <summary>
         /// Calculate fitness, objective and feasibility of the solution, with optional cache consultation.

@@ -89,7 +89,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// return type bool
             /// 
             public virtual bool shaking(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                     return false;
                 }
                 var tries = 0;
@@ -103,9 +103,9 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     foreach (var p in positions) {
                         mask |= 1 << p;
                     }
-                    solution.representation ^= mask;
+                    solution.Representation ^= mask;
                     var all_ok = true;
-                    if (solution.representation.bit_count() > problem.dimension) {
+                    if (solution.Representation.bit_count() > problem.dimension) {
                         all_ok = false;
                     }
                     if (all_ok) {
@@ -113,8 +113,8 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     }
                 }
                 if (tries < limit) {
-                    optimizer.evaluation += 1;
-                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                    optimizer.Evaluation += 1;
+                    if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -137,14 +137,14 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// return type OnesCountProblemBinaryIntSolution
             /// 
             public virtual object LocalSearchBestImprovement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
                     return solution;
                 }
-                object best_rep = null;
-                var best_triplet = QualityOfSolution(solution.objectiveValue, solution.fitnessValue, solution.isFeasible);
+                object bestRep = null;
+                var bestTuple = QualityOfSolution(solution.ObjectiveValue, solution.FitnessValue, solution.IsFeasible);
                 /// initialize indexes
                 var indexes = ComplexCounterUniformAscending(k, problem.dimension);
                 var in_loop = indexes.reset();
@@ -156,27 +156,27 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     foreach (var i in positions) {
                         mask |= 1 << i;
                     }
-                    solution.representation ^= mask;
-                    optimizer.evaluation += 1;
-                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                    solution.Representation ^= mask;
+                    optimizer.Evaluation += 1;
+                    if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                    var new_triplet = solution.CalculateQuality(problem);
+                    var newTuple = solution.CalculateQuality(problem);
                     optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                    if (new_triplet.fitnessValue > best_triplet.fitnessValue) {
-                        best_triplet = new_triplet;
-                        best_rep = solution.representation;
+                    if (newTuple.FitnessValue > bestTuple.fitnessValue) {
+                        bestTuple = newTuple;
+                        bestRep = solution.Representation;
                     }
-                    solution.representation ^= mask;
+                    solution.Representation ^= mask;
                     /// increment indexes and set in_loop accordingly
                     in_loop = indexes.progress();
                 }
-                if (best_rep is not null) {
-                    solution.representation = best_rep;
-                    solution.objectiveValue = best_triplet.objectiveValue;
-                    solution.fitnessValue = best_triplet.fitnessValue;
-                    solution.isFeasible = best_triplet.isFeasible;
+                if (bestRep is not null) {
+                    solution.Representation = bestRep;
+                    solution.ObjectiveValue = bestTuple.objectiveValue;
+                    solution.FitnessValue = bestTuple.fitnessValue;
+                    solution.IsFeasible = bestTuple.isFeasible;
                     return solution;
                 }
                 return solution;
@@ -193,13 +193,13 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// return type OnesCountProblemBinaryIntSolution
             /// 
             public virtual object LocalSearchFirstImprovement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
                     return solution;
                 }
-                var best_fv = solution.fitnessValue;
+                var best_fv = solution.FitnessValue;
                 /// initialize indexes
                 var indexes = ComplexCounterUniformAscending(k, problem.dimension);
                 var in_loop = indexes.reset();
@@ -211,21 +211,21 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     foreach (var i in positions) {
                         mask |= 1 << i;
                     }
-                    solution.representation ^= mask;
-                    optimizer.evaluation += 1;
-                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                    solution.Representation ^= mask;
+                    optimizer.Evaluation += 1;
+                    if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                    var new_triplet = solution.CalculateQuality(problem);
+                    var newTuple = solution.CalculateQuality(problem);
                     optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                    if (new_triplet.fitnessValue > best_fv) {
-                        solution.fitnessValue = new_triplet.fitnessValue;
-                        solution.objectiveValue = new_triplet.objectiveValue;
-                        solution.isFeasible = new_triplet.isFeasible;
+                    if (newTuple.FitnessValue > best_fv) {
+                        solution.FitnessValue = newTuple.FitnessValue;
+                        solution.ObjectiveValue = newTuple.ObjectiveValue;
+                        solution.IsFeasible = newTuple.IsFeasible;
                         return solution;
                     }
-                    solution.representation ^= mask;
+                    solution.Representation ^= mask;
                     /// increment indexes and set in_loop accordingly
                     in_loop = indexes.progress();
                 }

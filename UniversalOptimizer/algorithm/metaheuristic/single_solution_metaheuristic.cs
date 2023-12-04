@@ -37,7 +37,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         public SingleSolutionMetaheuristic(
                 string name,
                 FinishControl finishControl,
-                int randomSeed,
+                int? randomSeed,
                 AdditionalStatisticsControl additionalStatisticsControl,
                 OutputControl outputControl,
                 TargetProblem targetProblem,

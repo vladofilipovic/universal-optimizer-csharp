@@ -98,7 +98,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// return type bool
             /// 
             public virtual bool shaking(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                     return false;
                 }
                 var tries = 0;
@@ -108,13 +108,13 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     foreach (var i in Enumerable.Range(0, k - 0)) {
                         positions.append(choice(Enumerable.Range(0, problem.dimension)));
                     }
-                    var repr = BitArray(solution.representation.tobytes());
+                    var repr = BitArray(solution.Representation.tobytes());
                     foreach (var pos in positions) {
                         repr[pos] = !repr[pos];
                     }
-                    solution.representation = repr;
+                    solution.Representation = repr;
                     var all_ok = true;
-                    if (solution.representation.count(value: 1) > problem.dimension) {
+                    if (solution.Representation.count(value: 1) > problem.dimension) {
                         all_ok = false;
                     }
                     if (all_ok) {
@@ -122,8 +122,8 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     }
                 }
                 if (tries < limit) {
-                    optimizer.evaluation += 1;
-                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                    optimizer.Evaluation += 1;
+                    if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                         return false;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
@@ -147,14 +147,14 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// return type OnesCountProblemBinaryBitArraySolution
             /// 
             public virtual object LocalSearchBestImprovement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
                     return solution;
                 }
-                object best_rep = null;
-                var best_triplet = QualityOfSolution(solution.objectiveValue, solution.fitnessValue, solution.isFeasible);
+                object bestRep = null;
+                var bestTuple = QualityOfSolution(solution.ObjectiveValue, solution.FitnessValue, solution.IsFeasible);
                 /// initialize indexes
                 var indexes = ComplexCounterUniformAscending(k, problem.dimension);
                 var in_loop = indexes.reset();
@@ -162,27 +162,27 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     /// collect positions for inversion from indexes
                     var positions = indexes.current_state();
                     /// invert and compare, switch of new is better
-                    solution.representation.invert(positions);
-                    optimizer.evaluation += 1;
-                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                    solution.Representation.invert(positions);
+                    optimizer.Evaluation += 1;
+                    if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                    var new_triplet = solution.CalculateQuality(problem);
+                    var newTuple = solution.CalculateQuality(problem);
                     optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                    if (new_triplet.fitnessValue > best_triplet.fitnessValue) {
-                        best_triplet = new_triplet;
-                        best_rep = BitArray(bin: solution.representation.bin);
+                    if (newTuple.FitnessValue > bestTuple.fitnessValue) {
+                        bestTuple = newTuple;
+                        bestRep = BitArray(bin: solution.Representation.bin);
                     }
-                    solution.representation.invert(positions);
+                    solution.Representation.invert(positions);
                     /// increment indexes and set in_loop according to the state
                     in_loop = indexes.progress();
                 }
-                if (best_rep is not null) {
-                    solution.representation = best_rep;
-                    solution.objectiveValue = best_triplet.objectiveValue;
-                    solution.fitnessValue = best_triplet.fitnessValue;
-                    solution.isFeasible = best_triplet.isFeasible;
+                if (bestRep is not null) {
+                    solution.Representation = bestRep;
+                    solution.ObjectiveValue = bestTuple.objectiveValue;
+                    solution.FitnessValue = bestTuple.fitnessValue;
+                    solution.IsFeasible = bestTuple.isFeasible;
                     return solution;
                 }
                 return solution;
@@ -199,13 +199,13 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// return type OnesCountProblemBinaryBitArraySolution
             /// 
             public virtual object LocalSearchFirstImprovement(int k, object problem, object solution, object optimizer) {
-                if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                     return solution;
                 }
                 if (k < 1 || k > problem.dimension) {
                     return solution;
                 }
-                var best_fv = solution.fitnessValue;
+                var best_fv = solution.FitnessValue;
                 /// initialize indexes
                 var indexes = ComplexCounterUniformAscending(k, problem.dimension);
                 var in_loop = indexes.reset();
@@ -213,21 +213,21 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     /// collect positions for inversion from indexes
                     var positions = indexes.current_state();
                     /// invert and compare, switch and exit if new is better
-                    solution.representation.invert(positions);
-                    optimizer.evaluation += 1;
-                    if (optimizer.finishControl.evaluationsMax > 0 && optimizer.evaluation > optimizer.finishControl.evaluationsMax) {
+                    solution.Representation.invert(positions);
+                    optimizer.Evaluation += 1;
+                    if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax) {
                         return solution;
                     }
                     optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                    var new_triplet = solution.CalculateQuality(problem);
+                    var newTuple = solution.CalculateQuality(problem);
                     optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                    if (new_triplet.fitnessValue > best_fv) {
-                        solution.objectiveValue = new_triplet.objectiveValue;
-                        solution.fitnessValue = new_triplet.fitnessValue;
-                        solution.isFeasible = new_triplet.isFeasible;
+                    if (newTuple.FitnessValue > best_fv) {
+                        solution.ObjectiveValue = newTuple.ObjectiveValue;
+                        solution.FitnessValue = newTuple.FitnessValue;
+                        solution.IsFeasible = newTuple.IsFeasible;
                         return solution;
                     }
-                    solution.representation.invert(positions);
+                    solution.Representation.invert(positions);
                     /// increment indexes and set in_loop accordingly
                     in_loop = indexes.progress();
                 }

@@ -88,7 +88,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// 
             /// :param `TargetProblem` problem: problem which is solved by solution
             /// 
-            public virtual void _make_to_beFeasible_helper__(object problem) {
+            public virtual void MakeToBeFeasibleHelper(object problem) {
                 var mask = ~0;
                 mask <<= 32 - problem.dimension;
                 mask = mask % 0x100000000 >> 32 - problem.dimension;
@@ -123,7 +123,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     throw new ValueError("Problem dimension should be less than 32!");
                 }
                 this.representation = randint(0, 2 ^ problem.dimension - 1);
-                _make_to_beFeasible_helper__(problem);
+                MakeToBeFeasibleHelper(problem);
             }
             
             /// 

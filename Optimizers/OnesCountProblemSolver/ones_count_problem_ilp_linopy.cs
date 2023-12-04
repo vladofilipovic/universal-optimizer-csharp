@@ -98,10 +98,10 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// 
             /// Additional constructor. Create new `OnesCountProblemIntegerLinearProgrammingSolver` instance from construction parameters
             /// 
-            /// :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` construction_params: parameters for construction 
+            /// :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` constructionParams: parameters for construction 
             /// 
             [classmethod]
-            public static void FromConstructionTuple(object cls, object construction_params = null) {
+            public static void FromConstructionTuple(object cls, object constructionParams = null) {
                 return cls(constructionTuple.OutputControl, constructionTuple.TargetProblem);
             }
             
