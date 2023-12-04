@@ -42,7 +42,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                             .MinimumLevel.Debug()
                             .CreateLogger();
 
-           try
+            try
             {
                 Log.Debug("Solver started.");
                 Parser.Default.ParseArguments<VariableNeighborhoodSearchOptions, IdleOptions>(args)
@@ -189,54 +189,55 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 {
                     outputControl = new OutputControl(writeToOutput: false);
                 }
-                //        /// random seed setup
-                //        if (Convert.ToInt32(parameters["randomSeed"]) > 0)
-                //        {
-                //            rSeed = Convert.ToInt32(parameters["randomSeed"]);
-                //            logger.info(string.Format("RandomSeed is predefined. Predefined seed value:  %d", rSeed));
-                //            if (writeToOutputFile)
-                //            {
-                //                outputFile.write(string.Format("# RandomSeed is predefined. Predefined seed value:  %d\n", rSeed));
-                //            }
-                //            random.seed(rSeed);
-                //        }
-                //        else
-                //        {
-                //            rSeed = randrange(sys.maxsize);
-                //            logger.info(string.Format("RandomSeed is not predefined. Generated seed value:  %d", rSeed));
-                //            if (writeToOutputFile)
-                //            {
-                //                outputFile.write(string.Format("# RandomSeed is not predefined. Generated seed value:  %d\n", rSeed));
-                //            }
-                //            seed(rSeed);
-                //        }
-                //        /// finishing criteria setup
-                //        var finish_criteria = parameters["finishCriteria"];
-                //        var max_numberEvaluations = parameters["finishEvaluationsMax"];
-                //        var max_numberIterations = parameters["finishIterationsMax"];
-                //        var max_time_for_execution_in_seconds = parameters["finishSecondsMax"];
-                //        var finishControl = FinishControl(criteria: finish_criteria, evaluationsMax: max_numberEvaluations, iterationsMax: max_numberIterations, secondsMax: max_time_for_execution_in_seconds);
-                //        /// solution evaluations and calculations cache setup
-                //        var evaluationCacheIsUsed = parameters["solutionEvaluationCacheIsUsed"];
-                //        var evaluationCacheMaxSize = parameters["solutionEvaluationCacheMaxSize"];
-                //        var calculation_solutionDistanceCacheIsUsed = parameters["solutionDistanceCalculationCacheIsUsed"];
-                //        var calculation_solutionDistanceCacheMaxSize = parameters["solutionDistanceCalculationCacheMaxSize"];
-                //        /// additional statistic control setup
-                //        var additionalStatistics_keep = parameters["additionalStatisticsKeep"];
-                //        var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
-                //        var additionalStatisticsControl = AdditionalStatisticsControl(keep: additionalStatistics_keep, maxLocalOptima: maxLocalOptima);
-                //        /// problem to be solved
-                //        var problem = FunctionOneVariableProblem.from_input_file(input_filePath: input_filePath, input_format: input_format);
-                //        var start_time = datetime.now();
-                //        if (writeToOutputFile)
-                //        {
-                //            outputFile.write("# {} started at: {}\n".format(parameters["algorithm"], start_time.ToString()));
-                //            outputFile.write("# Execution parameters: {}\n".format(parameters));
-                //        }
-                //        /// select among algorithm types
-                Log.Debug("VNS ended.");
-                return 0;
             }
+            //        /// random seed setup
+            //        if (Convert.ToInt32(parameters["randomSeed"]) > 0)
+            //        {
+            //            rSeed = Convert.ToInt32(parameters["randomSeed"]);
+            //            logger.info(string.Format("RandomSeed is predefined. Predefined seed value:  %d", rSeed));
+            //            if (writeToOutputFile)
+            //            {
+            //                outputFile.write(string.Format("# RandomSeed is predefined. Predefined seed value:  %d\n", rSeed));
+            //            }
+            //            random.seed(rSeed);
+            //        }
+            //        else
+            //        {
+            //            rSeed = randrange(sys.maxsize);
+            //            logger.info(string.Format("RandomSeed is not predefined. Generated seed value:  %d", rSeed));
+            //            if (writeToOutputFile)
+            //            {
+            //                outputFile.write(string.Format("# RandomSeed is not predefined. Generated seed value:  %d\n", rSeed));
+            //            }
+            //            seed(rSeed);
+            //        }
+            //        /// finishing criteria setup
+            //        var finish_criteria = parameters["finishCriteria"];
+            //        var max_numberEvaluations = parameters["finishEvaluationsMax"];
+            //        var max_numberIterations = parameters["finishIterationsMax"];
+            //        var max_time_for_execution_in_seconds = parameters["finishSecondsMax"];
+            //        var finishControl = FinishControl(criteria: finish_criteria, evaluationsMax: max_numberEvaluations, iterationsMax: max_numberIterations, secondsMax: max_time_for_execution_in_seconds);
+            //        /// solution evaluations and calculations cache setup
+            //        var evaluationCacheIsUsed = parameters["solutionEvaluationCacheIsUsed"];
+            //        var evaluationCacheMaxSize = parameters["solutionEvaluationCacheMaxSize"];
+            //        var calculation_solutionDistanceCacheIsUsed = parameters["solutionDistanceCalculationCacheIsUsed"];
+            //        var calculation_solutionDistanceCacheMaxSize = parameters["solutionDistanceCalculationCacheMaxSize"];
+            //        /// additional statistic control setup
+            //        var additionalStatistics_keep = parameters["additionalStatisticsKeep"];
+            //        var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
+            //        var additionalStatisticsControl = AdditionalStatisticsControl(keep: additionalStatistics_keep, maxLocalOptima: maxLocalOptima);
+            //        /// problem to be solved
+            //        var problem = FunctionOneVariableProblem.from_input_file(input_filePath: input_filePath, input_format: input_format);
+            //        var start_time = datetime.now();
+            //        if (writeToOutputFile)
+            //        {
+            //            outputFile.write("# {} started at: {}\n".format(parameters["algorithm"], start_time.ToString()));
+            //            outputFile.write("# Execution parameters: {}\n".format(parameters));
+            //        }
+            //        /// select among algorithm types
+            Log.Debug("VNS ended.");
+            return 0;
         }
     }
 }
+
