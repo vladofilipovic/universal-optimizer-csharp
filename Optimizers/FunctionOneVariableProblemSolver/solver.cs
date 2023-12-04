@@ -4,18 +4,21 @@
 namespace SingleObjective.Teaching.FunctionOneVariableProblem
 {
     using UniversalOptimizer.Algorithm;
+    using UniversalOptimizer.Algorithm.Metaheuristic;
+    using UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch;
+    using static SingleObjective.Teaching.FunctionOneVariableProblem.CommandLineHelper;
 
     using System.Collections.Generic;
-
     using System;
 
     using Serilog;
     using Serilog.Formatting.Json;
     using Serilog.Events;
     using CommandLine;
-    using static SingleObjective.Teaching.FunctionOneVariableProblem.CommandLineHelper;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.TargetProblem;
 
     public class Solver
     {
@@ -51,52 +54,6 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                           (IdleOptions opts) => ExecuteIdle(opts),
                           errs => 1);
 
-                //        if (parameters["algorithm"] == "variable_neighborhood_search")
-                //        {
-                //            /// parameters for VNS process setup
-                //            var kMin = parameters["kMin"];
-                //            var kMax = parameters["kMax"];
-                //            var localSearchType = parameters["localSearchType"];
-                //            /// initial solution and vns support
-                //            var solution_type = parameters["solutionType"];
-                //            object vns_support = null;
-                //            if (solution_type == "int")
-                //            {
-                //                var numberOfIntervals = parameters["solutionNumberOfIntervals"];
-                //                var solution = FunctionOneVariableProblemBinaryIntSolution(domainFrom: problem.domainLow, domainTo: problem.domainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
-                //                vns_support = FunctionOneVariableProblemBinaryIntSolutionVnsSupport();
-                //            }
-                //            else
-                //            {
-                //                throw new ValueError("Invalid solution/representation type is chosen.");
-                //            }
-                //            /// solver construction parameters
-                //            var vnsConstructionParams = VnsOptimizerConstructionParameters();
-                //            vnsConstructionParams.OutputControl = OutputControl;
-                //            vnsConstructionParams.TargetProblem = problem;
-                //            vnsConstructionParams.initialSolution = solution;
-                //            vnsConstructionParams.problemSolutionVnsSupport = vns_support;
-                //            vnsConstructionParams.finishControl = finishControl;
-                //            vnsConstructionParams.randomSeed = rSeed;
-                //            vnsConstructionParams.additionalStatisticsControl = additionalStatisticsControl;
-                //            vnsConstructionParams.kMin = kMin;
-                //            vnsConstructionParams.kMax = kMax;
-                //            vnsConstructionParams.maxLocalOptima = maxLocalOptima;
-                //            vnsConstructionParams.localSearchType = localSearchType;
-                //            var solver = FunctionOneVariableProblemSolver.FromVariableNeighborhoodSearch(vnsConstructionParams);
-                //        }
-                //        else
-                //        {
-                //            throw new ValueError("Invalid optimization algorithm is chosen.");
-                //        }
-                //    }
-                //solver.Opt.optimize();
-                //Log.Debug("Method -{}- search finished.".format(parameters["algorithm"]));
-                //logger.info("Best solution code: {}".format(solver.Opt.bestSolution.stringRepresentation()));
-                //logger.info("Best solution objective: {}, fitness: {}".format(solver.Opt.bestSolution.objectiveValue, solver.Opt.bestSolution.fitnessValue));
-                //logger.info("Number of iterations: {}, evaluations: {}".format(solver.Opt.iteration, solver.Opt.evaluation));
-                //logger.info("Execution: {} - {}".format(solver.Opt.executionStarted, solver.Opt.executionEnded));
-                //Log.Debug("Solver ended.");
                 //return;
                 // });
             }
@@ -132,6 +89,8 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 throw new Exception("Either minimization or maximization should be selected.");
             }
             /// output file setup
+            StreamWriter outputFile = new StreamWriter("tmp.tmp");
+            OutputControl outputControl = default;
             if (opts.WriteToOutputFile)
             {
                 bool shouldAddTimestampToFileName = opts.OutputFileNameAppendTimeStamp;
@@ -178,9 +137,8 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 bool dirExists = System.IO.Directory.Exists(outputFileDir);
                 if (!dirExists)
                     System.IO.Directory.CreateDirectory(outputFileDir);
-                StreamWriter outputFile = new StreamWriter(outputFilePath, append: true, Encoding.UTF8);
+                outputFile = new StreamWriter(outputFilePath, append: true, Encoding.UTF8);
                 // output control setup
-                OutputControl outputControl;
                 if (opts.WriteToOutputFile)
                 {
                     outputControl = new OutputControl(writeToOutput: true, outputFile: outputFile, fields: opts.OutputFields, moments: opts.OutputMoments);
@@ -190,51 +148,84 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     outputControl = new OutputControl(writeToOutput: false);
                 }
             }
-            //        /// random seed setup
-            //        if (Convert.ToInt32(parameters["randomSeed"]) > 0)
-            //        {
-            //            rSeed = Convert.ToInt32(parameters["randomSeed"]);
-            //            logger.info(string.Format("RandomSeed is predefined. Predefined seed value:  %d", rSeed));
-            //            if (writeToOutputFile)
-            //            {
-            //                outputFile.write(string.Format("# RandomSeed is predefined. Predefined seed value:  %d\n", rSeed));
-            //            }
-            //            random.seed(rSeed);
-            //        }
-            //        else
-            //        {
-            //            rSeed = randrange(sys.maxsize);
-            //            logger.info(string.Format("RandomSeed is not predefined. Generated seed value:  %d", rSeed));
-            //            if (writeToOutputFile)
-            //            {
-            //                outputFile.write(string.Format("# RandomSeed is not predefined. Generated seed value:  %d\n", rSeed));
-            //            }
-            //            seed(rSeed);
-            //        }
-            //        /// finishing criteria setup
-            //        var finish_criteria = parameters["finishCriteria"];
-            //        var max_numberEvaluations = parameters["finishEvaluationsMax"];
-            //        var max_numberIterations = parameters["finishIterationsMax"];
-            //        var max_time_for_execution_in_seconds = parameters["finishSecondsMax"];
-            //        var finishControl = FinishControl(criteria: finish_criteria, evaluationsMax: max_numberEvaluations, iterationsMax: max_numberIterations, secondsMax: max_time_for_execution_in_seconds);
-            //        /// solution evaluations and calculations cache setup
-            //        var evaluationCacheIsUsed = parameters["solutionEvaluationCacheIsUsed"];
-            //        var evaluationCacheMaxSize = parameters["solutionEvaluationCacheMaxSize"];
-            //        var calculation_solutionDistanceCacheIsUsed = parameters["solutionDistanceCalculationCacheIsUsed"];
-            //        var calculation_solutionDistanceCacheMaxSize = parameters["solutionDistanceCalculationCacheMaxSize"];
-            //        /// additional statistic control setup
-            //        var additionalStatistics_keep = parameters["additionalStatisticsKeep"];
-            //        var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
-            //        var additionalStatisticsControl = AdditionalStatisticsControl(keep: additionalStatistics_keep, maxLocalOptima: maxLocalOptima);
-            //        /// problem to be solved
-            //        var problem = FunctionOneVariableProblem.from_input_file(input_filePath: input_filePath, input_format: input_format);
-            //        var start_time = datetime.now();
-            //        if (writeToOutputFile)
-            //        {
-            //            outputFile.write("# {} started at: {}\n".format(parameters["algorithm"], start_time.ToString()));
-            //            outputFile.write("# Execution parameters: {}\n".format(parameters));
-            //        }
-            //        /// select among algorithm types
+            /// random seed setup
+            int rSeed;
+            if (opts.RandomSeed > 0)
+            {
+                rSeed = opts.RandomSeed;
+                Log.Information(string.Format("RandomSeed is predefined. Predefined seed value: %d", rSeed));
+                if (opts.WriteToOutputFile)
+                {
+                    outputFile.Write(string.Format("# RandomSeed is predefined. Predefined seed value:  %d\n", rSeed));
+                }
+            }
+            else
+            {
+                rSeed = (new Random()).Next();
+                Log.Information(string.Format("RandomSeed is not predefined. Generated seed value:  %d", rSeed));
+                if (opts.WriteToOutputFile)
+                {
+                    outputFile.Write(string.Format("# RandomSeed is not predefined. Generated seed value:  %d\n", rSeed));
+                }
+            }
+            Random randomGenerator = new Random(rSeed);
+            /// finishing criteria setup
+            var finishControl = new FinishControl(criteria: opts.FinishCriteria, evaluationsMax: opts.FinishEvaluationsMax, iterationsMax: opts.FinishIterationsMax, secondsMax: opts.FinishSecondsMax);
+            /// solution evaluations and calculations cache setup
+            /// additional statistic control setup
+            var additionalStatisticsControl = new AdditionalStatisticsControl(keep: opts.AdditionalStatisticsKeep, maxLocalOptima: opts.AdditionalStatisticsMaxLocalOptima);
+            /// problem to be solved
+            var problem = new FunctionOneVariableProblem(isMinimization: isMinimization, inputFilePath: opts.InputFilePath, inputFormat: opts.InputFormat);
+            var startTime = DateTime.Now;
+            if (opts.WriteToOutputFile)
+            {
+                outputFile.Write(string.Format("# {} started at: {}\n", "vns", startTime));
+                outputFile.Write(string.Format("# execution parameters: {}\n", opts));
+            }
+            if (opts.SolutionType == "int")
+            {
+                /// initial solution and vns support
+                TargetSolution<int, double> solution = default;
+                IProblemSolutionVnsSupport<int, double> vns_support = default;
+                var numberOfIntervals = opts.SolutionNumberOfIntervals;
+                solution = new FunctionOneVariableProblemBinaryIntSolution(domainFrom: problem.DomainLow, domainTo: problem.DomainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
+                vns_support = new FunctionOneVariableProblemBinaryIntSolutionVnsSupport();
+                /// solver construction parameters
+                var vnsConstructionParams = new VnsOptimizerConstructionParameters<int, double>()
+                {
+                    OutputControl = outputControl,
+                    TargetProblem = problem,
+                    InitialSolution = solution,
+                    ProblemSolutionVnsSupport = vns_support,
+                    FinishControl = finishControl,
+                    RandomSeed = rSeed,
+                    AdditionalStatisticsControl = additionalStatisticsControl,
+                    KMin = opts.KMin,
+                    KMax = opts.KMax,
+                    LocalSearchType = opts.LocalSearchType
+                };
+                var solver = new FunctionOneVariableProblemSolver("vns", finishControl: finishControl,
+                    outputControl: outputControl,
+                    targetProblem: problem,
+                    initialSolution: solution,
+                    vnsProblemSolutionSupport: vns_support,
+                    vnsRandomSeed: rSeed,
+                    vnsAdditionalStatisticsControl: additionalStatisticsControl,
+                    vnsKMin: opts.KMin,
+                    vnsKMax: opts.KMax,
+                    vnsLocalSearchType: opts.LocalSearchType);
+                solver.Opt.Optimize();
+                Log.Debug("Method VNS finished.");
+                Log.Information(string.Format( "Best solution code: {}", solver.Opt.BestSolution.StringRepresentation()));
+                Log.Information(string.Format( "Best solution objective: {}, fitness: {}", solver.Opt.BestSolution.ObjectiveValue, solver.Opt.BestSolution.FitnessValue));
+                Log.Information(string.Format( "Number of iterations: {}, evaluations: {}", solver.Opt.Iteration, solver.Opt.Evaluation));
+                Log.Information("Execution: {} - {}", solver.Opt.ExecutionStarted, solver.Opt.ExecutionEnded);
+                Log.Debug("Solver ended.");
+            }
+            else
+            {
+                throw new Exception("Invalid solution/representation type is chosen.");
+            }
             Log.Debug("VNS ended.");
             return 0;
         }

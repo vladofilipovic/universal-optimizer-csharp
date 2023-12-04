@@ -52,15 +52,15 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     public class FunctionOneVariableProblemSolver
     {
 
-        private Optimizer<object,object> _optimizer;
+        private Metaheuristic<int,double> _optimizer;
 
-        private FunctionOneVariableProblemSolver(
+        public FunctionOneVariableProblemSolver(
             string? method = null,
             FinishControl finishControl = null,
             OutputControl outputControl = null,
             TargetProblem targetProblem = null,
-            TargetSolution<object, object> initialSolution = null,
-            IProblemSolutionVnsSupport<object, object> vnsProblemSolutionSupport = null,
+            TargetSolution<int, double> initialSolution = null,
+            IProblemSolutionVnsSupport<int, double> vnsProblemSolutionSupport = null,
             int? vnsRandomSeed = null,
             AdditionalStatisticsControl vnsAdditionalStatisticsControl = null,
             int? vnsKMin = null,
@@ -70,7 +70,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             _optimizer = null;
             if (method == "variable_neighborhood_search")
             {
-                _optimizer = new VnsOptimizer<object,object>(finishControl: finishControl, outputControl: outputControl, targetProblem: targetProblem, initialSolution: initialSolution, problemSolutionVnsSupport: vnsProblemSolutionSupport, randomSeed: vnsRandomSeed, additionalStatisticsControl: vnsAdditionalStatisticsControl, kMin: vnsKMin, kMax: vnsKMax, localSearchType: vnsLocalSearchType);
+                _optimizer = new VnsOptimizer<int,double>(finishControl: finishControl, outputControl: outputControl, targetProblem: targetProblem, initialSolution: initialSolution, problemSolutionVnsSupport: vnsProblemSolutionSupport, randomSeed: vnsRandomSeed, additionalStatisticsControl: vnsAdditionalStatisticsControl, kMin: vnsKMin, kMax: vnsKMax, localSearchType: vnsLocalSearchType);
             }
             else
             {
@@ -83,31 +83,9 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </summary>
         /// <param name="constructionParams">The construction parameters.</param>
         /// <returns></returns>
-        public static FunctionOneVariableProblemSolver FromConstructionTuple(FunctionOneVariableProblemSolverConstructionParameters<object, object> constructionParams)
+        public static FunctionOneVariableProblemSolver FromConstructionTuple(FunctionOneVariableProblemSolverConstructionParameters<int, double> constructionParams)
         {
             return new FunctionOneVariableProblemSolver(method: constructionParams.Method, finishControl: constructionParams.FinishControl, outputControl: constructionParams.OutputControl, targetProblem: constructionParams.TargetProblem, initialSolution: constructionParams.InitialSolution, vnsProblemSolutionSupport: constructionParams.VnsProblemSolutionSupport, vnsRandomSeed: constructionParams.VnsRandomSeed, vnsAdditionalStatisticsControl: constructionParams.VnsAdditionalStatisticsControl, vnsKMin: constructionParams.VnsKMin, vnsKMax: constructionParams.VnsKMax, vnsLocalSearchType: constructionParams.VnsLocalSearchType);
-        }
-
-        /// 
-        /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Variable Neighborhood Search`
-        /// 
-        /// :param VnsOptimizerConstructionParameters vnsConstructionParams: construction parameters 
-        /// 
-        public static FunctionOneVariableProblemSolver FromVariableNeighborhoodSearch(VnsOptimizerConstructionParameters<object, object> vnsConstructionParams)
-        {
-            var @params = new FunctionOneVariableProblemSolverConstructionParameters<object,object>();
-            @params.Method = "variable_neighborhood_search";
-            @params.FinishControl = vnsConstructionParams.FinishControl;
-            @params.OutputControl = vnsConstructionParams.OutputControl;
-            @params.TargetProblem = vnsConstructionParams.TargetProblem;
-            @params.InitialSolution = vnsConstructionParams.InitialSolution;
-            @params.VnsProblemSolutionSupport = vnsConstructionParams.ProblemSolutionVnsSupport;
-            @params.VnsRandomSeed = vnsConstructionParams.RandomSeed;
-            @params.VnsAdditionalStatisticsControl = vnsConstructionParams.AdditionalStatisticsControl;
-            @params.VnsKMin = vnsConstructionParams.KMin;
-            @params.VnsKMax = vnsConstructionParams.KMax;
-            @params.VnsLocalSearchType = vnsConstructionParams.LocalSearchType;
-            return FromConstructionTuple(@params);
         }
 
         /// 
@@ -116,7 +94,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// :return: optimizer
         /// return type `Optimizer`
         /// 
-        public Optimizer<object,object> Opt
+        public Metaheuristic<int,double> Opt
         {
             get
             {
@@ -125,9 +103,5 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         }
     }
 
-    public class FunctionOneVariableProblemSolverCreator
-    {
- 
-    }
 }
 
