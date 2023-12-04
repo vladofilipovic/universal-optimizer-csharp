@@ -15,6 +15,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using CommandLine;
     using static SingleObjective.Teaching.FunctionOneVariableProblem.CommandLineHelper;
     using System.Runtime.CompilerServices;
+    using System.Text;
 
     public class Solver
     {
@@ -177,22 +178,17 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 bool dirExists = System.IO.Directory.Exists(outputFileDir);
                 if (!dirExists)
                     System.IO.Directory.CreateDirectory(outputFileDir);
-                //var outputFile = open(outputFilePath, "w", encoding: "utf-8");
-                //        }
-                //        /// output control setup
-                //        if (writeToOutputFile)
-                //        {
-                //            var output_fields = parameters["outputFields"];
-                //            var output_moments = parameters["outputMoments"];
-                //            OutputControl = OutputControl(writeToOutput: true, outputFile: outputFile, fields: output_fields, moments: output_moments);
-                //        }
-                //        else
-                //        {
-                //            OutputControl = OutputControl(writeToOutput: false);
-                //        }
-                //        /// input file setup
-                //        var input_filePath = parameters["inputFilePath"];
-                //        var input_format = parameters["inputFormat"];
+                StreamWriter outputFile = new StreamWriter(outputFilePath, append: true, Encoding.UTF8);
+                // output control setup
+                OutputControl outputControl;
+                if (opts.WriteToOutputFile)
+                {
+                    outputControl = new OutputControl(writeToOutput: true, outputFile: outputFile, fields: opts.OutputFields, moments: opts.OutputMoments);
+                }
+                else
+                {
+                    outputControl = new OutputControl(writeToOutput: false);
+                }
                 //        /// random seed setup
                 //        if (Convert.ToInt32(parameters["randomSeed"]) > 0)
                 //        {
