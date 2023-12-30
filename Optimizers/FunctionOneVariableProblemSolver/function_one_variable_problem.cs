@@ -5,6 +5,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using System.Linq;
     using System.IO;
     using UniversalOptimizer.TargetProblem;
+    using System.Text;
 
     public class FunctionOneVariableProblemElements
     {
@@ -160,33 +161,33 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder sb = new StringBuilder(delimiter);
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
-                s += indentationSymbol;
+                sb.Append(indentationSymbol);
             }
-            s += groupStart;
-            s += base.StringRep(delimiter, indentation, indentationSymbol, "", "");
-            s += delimiter;
+            sb.Append(groupStart);
+            sb.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
+            sb.Append(delimiter);
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
-                s += indentationSymbol;
+                sb.Append(indentationSymbol);
             }
-            s += "expression=" + Expression;
-            s += delimiter;
+            sb.Append("expression=" + Expression);
+            sb.Append(delimiter);
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
-                s += indentationSymbol;
+                sb.Append(indentationSymbol);
             }
-            s += "domainLow=" + DomainLow.ToString();
-            s += delimiter;
+            sb.Append("domainLow=" + DomainLow.ToString());
+            sb.Append(delimiter);
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
-                s += indentationSymbol;
+                sb.Append(indentationSymbol);
             }
-            s += "domainHigh=" + DomainHigh.ToString();
-            s += groupEnd;
-            return s;
+            sb.Append("domainHigh=" + DomainHigh.ToString());
+            sb.Append(groupEnd);
+            return sb.ToString();
         }
 
         /// <summary>
