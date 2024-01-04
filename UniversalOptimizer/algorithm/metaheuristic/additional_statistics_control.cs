@@ -18,8 +18,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         public bool _keepAllSolutionCodes;
         public bool _keepMoreLocalOptima;
         private int _maxLocalOptima;
-        public static HashSet<string>? AllSolutionCodes;
-        public static Dictionary<string, double>? MoreLocalOptima;
+        private HashSet<string> _allSolutionCodes;
+        private Dictionary<string, double> _moreLocalOptima;
         private Random _random;
 
         /// <summary>
@@ -69,14 +69,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                     throw new Exception("Invalid value for keep '" + k + "'. Should be one of: allSolution_code, moreLocalOptima");
                 }
             }
-            if (_keepAllSolutionCodes)
-            {
-                AllSolutionCodes = new HashSet<string>();
-            }
-            if (_keepMoreLocalOptima)
-            {
-                MoreLocalOptima = new Dictionary<string, double>();
-            }
+            _allSolutionCodes = new HashSet<string>();
+            _moreLocalOptima = new Dictionary<string, double>();
         }
 
         /// <summary>
@@ -149,6 +143,22 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             }
         }
 
+        public HashSet<string> AllSolutionCodes
+        {
+            get
+            {
+                return _allSolutionCodes;
+            }
+        }
+
+        public Dictionary<string, double> MoreLocalOptima
+        {
+            get
+            {
+                return _moreLocalOptima;
+            }
+        }
+
         /// <summary>
         /// Adds to all solution codes if required.
         /// </summary>
@@ -158,7 +168,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         {
             if (KeepAllSolutionCodes)
             {
-                AllSolutionCodes!.Add(representation);
+                _allSolutionCodes!.Add(representation);
             }
         }
 
@@ -183,25 +193,25 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             {
                 return false;
             }
-            if (MoreLocalOptima!.ContainsKey(solutionToAddRep))
+            if (_moreLocalOptima.ContainsKey(solutionToAddRep))
             {
                 return false;
             }
-            if (MoreLocalOptima.Count >= _maxLocalOptima)
+            if (_moreLocalOptima.Count >= _maxLocalOptima)
             {
                 /// removing random, just taking care not to remove the best ones
                 while (true)
                 {
-                    var code = MoreLocalOptima.Keys.
-                                ToArray()[_random.Next(MoreLocalOptima.Keys.Count)];
+                    var code = _moreLocalOptima.Keys.
+                                ToArray()[_random.Next(_moreLocalOptima.Keys.Count)];
                     if (code != bestSolutionRep)
                     {
-                        MoreLocalOptima.Remove(code);
+                        _moreLocalOptima.Remove(code);
                         break;
                     }
                 }
             }
-            MoreLocalOptima[solutionToAddRep] = (double)solutionToAddFitness;
+            _moreLocalOptima[solutionToAddRep] = (double)solutionToAddFitness;
             return true;
         }
 
@@ -242,7 +252,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 {
                     s += indentationSymbol;
                 }
-                s += "all solution codes=" + AllSolutionCodes?.Count.ToString() + delimiter;
+                s += "all solution codes=" + _allSolutionCodes.Count.ToString() + delimiter;
             }
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
