@@ -57,10 +57,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Property getter and setter for the current solution used during single solution 
@@ -74,10 +71,6 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             get
             {
                 return _currentSolution;
-            }
-            set
-            {
-                _currentSolution = value;
             }
         }
 

@@ -228,10 +228,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             int indentation = 0,
             string indentationSymbol = "",
             string groupStart = "{",
-            string groupEnd = "}")
-        {
-            return "FunctionOneVariableProblemBinaryIntSolutionVnsSupport";
-        }
+            string groupEnd = "}") => "FunctionOneVariableProblemBinaryIntSolutionVnsSupport";
 
         /// <summary>
         /// Converts to string.
@@ -239,10 +236,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-            return StringRep("|");
-        }
+        public override string ToString() => StringRep("|");
     }
 }
 

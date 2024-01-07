@@ -68,12 +68,12 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 }
                 else
                 {
-                    throw new Exception("Invalid line - not enough data: " + data);
+                    throw new FormatException("Invalid line - not enough data: " + data);
                 }
             }
             else
             {
-                throw new Exception("Value for data format is not supported: " + dataFormat);
+                throw new FormatException("Value for data format is not supported: " + dataFormat);
             }
         }
 
@@ -196,10 +196,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-            return StringRep("|", 0, "", "{", "}");
-        }
+        public override string ToString() => StringRep("|", 0, "", "{", "}");
 
     }
 }

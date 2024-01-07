@@ -63,26 +63,22 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 var sol = deepcopy(this);
                 return sol;
             }
-            
+
             /// 
             /// Copy the `OnesCountProblemBinaryIntSolution`
             /// 
             /// :return: new `OnesCountProblemBinaryIntSolution` instance with the same properties
             /// return type `OnesCountProblemBinaryIntSolution`
             /// 
-            public virtual void copy() {
-                return _copy__();
-            }
-            
+            public virtual void copy() => _copy__();
+
             /// 
             /// Copy the `OnesCountProblemBinaryIntSolution` to the already existing destination `OnesCountProblemBinaryIntSolution`
             /// 
             /// :param `OnesCountProblemBinaryIntSolution` destination: destination `OnesCountProblemBinaryIntSolution`
             /// 
-            public virtual object copy_to(object destination) {
-                destination = _copy__();
-            }
-            
+            public virtual object copy_to(object destination) => destination = _copy__();
+
             /// 
             /// Helper function that modifies representation to be feasible
             /// 
@@ -94,7 +90,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 mask = mask % 0x100000000 >> 32 - problem.dimension;
                 this.representation &= mask;
             }
-            
+
             /// 
             /// Argument of the target solution for specific problem
             /// 
@@ -103,10 +99,8 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// :return: solution representation as string
             /// return type str 
             /// 
-            public virtual string argument(int representation) {
-                return bin(representation);
-            }
-            
+            public virtual string argument(int representation) => bin(representation);
+
             /// 
             /// Random initialization of the solution
             /// 
@@ -125,17 +119,15 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 this.representation = randint(0, 2 ^ problem.dimension - 1);
                 MakeToBeFeasibleHelper(problem);
             }
-            
+
             /// 
             /// Initialization of the solution, by setting its native representation 
             /// 
             /// :param int representation: representation that will be ste to solution
             /// :param `TargetProblem` problem: problem which is solved by solution
             /// 
-            public virtual object InitFrom(int representation, object problem) {
-                this.representation = representation;
-            }
-            
+            public virtual object InitFrom(int representation, object problem) => this.representation = representation;
+
             /// 
             /// Fitness calculation of the max ones binary int solution
             /// 
@@ -217,27 +209,23 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 s += groupEnd;
                 return s;
             }
-            
+
             /// 
             /// String representation of the solution instance
             /// 
             /// :return: string representation of the solution instance
             /// return type str
             /// 
-            public override string ToString() {
-                return this.StringRep("\n", 0, "   ", "{", "}");
-            }
-            
+            public override string ToString() => this.StringRep("\n", 0, "   ", "{", "}");
+
             /// 
             /// Representation of the solution instance
             /// 
             /// :return: string representation of the solution instance
             /// return type str
             /// 
-            public virtual string _repr__() {
-                return this.StringRep("\n", 0, "   ", "{", "}");
-            }
-            
+            public virtual string _repr__() => this.StringRep("\n", 0, "   ", "{", "}");
+
             /// 
             /// Formatted the solution instance
             /// 
@@ -245,9 +233,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// :return: formatted solution instance
             /// return type str
             /// 
-            public virtual string _format__(string spec) {
-                return this.StringRep("\n", 0, "   ", "{", "}");
-            }
+            public virtual string _format__(string spec) => this.StringRep("\n", 0, "   ", "{", "}");
         }
     }
 }

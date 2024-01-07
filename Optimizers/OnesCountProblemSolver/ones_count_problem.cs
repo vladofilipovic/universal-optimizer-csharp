@@ -40,17 +40,15 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 : base(isMinimization: false) {
                 _dimension = dim;
             }
-            
+
             /// 
             /// Additional constructor. Create new `OnesCountProblem` instance when dimension is specified
             /// 
             /// :param int dimension: dimension of the problem
             /// 
             [classmethod]
-            public static void from_dimension(object cls, int dimension) {
-                return cls(dim: dimension);
-            }
-            
+            public static void from_dimension(object cls, int dimension) => cls(dim: dimension);
+
             /// 
             /// Static function that read problem data from file
             /// 
@@ -99,17 +97,15 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 var pr = deepcopy(this);
                 return pr;
             }
-            
+
             /// 
             /// Copy the `OnesCountProblem` problem
             /// 
             /// :return: new `OnesCountProblem` instance with the same properties
             /// return type OnesCountProblem
             /// 
-            public virtual void copy() {
-                return _copy__();
-            }
-            
+            public virtual void copy() => _copy__();
+
             /// 
             /// Property getter for dimension of the target problem
             /// 
@@ -158,33 +154,27 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 s += groupEnd;
                 return s;
             }
-            
+
             /// 
             /// String representation of the max ones problem structure
             /// 
             /// :return: string representation of the max ones problem structure
             /// return type str
             /// 
-            public override string ToString() {
-                return this.StringRep("|", 0, "", "{", "}");
-            }
-            
+            public override string ToString() => this.StringRep("|", 0, "", "{", "}");
+
             /// 
             /// Representation of the max ones problem instance
             /// :return: str -- string representation of the max ones problem instance
             /// 
-            public virtual string _repr__() {
-                return this.StringRep("\n", 0, "   ", "{", "}");
-            }
-            
+            public virtual string _repr__() => this.StringRep("\n", 0, "   ", "{", "}");
+
             /// 
             /// Formatted the max ones problem instance
             /// :param spec: str -- format specification
             /// :return: str -- formatted max ones problem instance
             /// 
-            public virtual string _format__(string spec) {
-                return this.StringRep("|");
-            }
+            public virtual string _format__(string spec) => this.StringRep("|");
         }
     }
 }

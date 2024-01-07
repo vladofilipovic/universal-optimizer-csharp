@@ -161,17 +161,15 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     throw new ValueError("Invalid optimization method {} - should be one of: '{}', '{}', '{}'.".format(method, "variable_neighborhood_search", "total_enumeration", "integer_linear_programming"));
                 }
             }
-            
+
             /// 
             /// Additional constructor. Create new `OnesCountProblemSolver` instance from construction parameters
             /// 
             /// :param `MaxOneProblemSolverConstructionParameters` constructionParams: parameters for construction 
             /// 
             [classmethod]
-            public static void FromConstructionTuple(object cls, object constructionParams = null) {
-                return cls(method: constructionParams.method, finishControl: constructionParams.finishControl, OutputControl: constructionParams.OutputControl, TargetProblem: constructionParams.TargetProblem, initialSolution: constructionParams.initialSolution, vns_problemSolution_support: constructionParams.vns_problemSolution_support, vnsRandomSeed: constructionParams.vnsRandomSeed, vns_additionalStatisticsControl: constructionParams.vns_additionalStatisticsControl, vns_kMin: constructionParams.vns_kMin, vns_kMax: constructionParams.vns_kMax, vns_localSearchType: constructionParams.vns_localSearchType, te_problemSolution_support: constructionParams.te_problemSolution_support);
-            }
-            
+            public static void FromConstructionTuple(object cls, object constructionParams = null) => cls(method: constructionParams.method, finishControl: constructionParams.finishControl, OutputControl: constructionParams.OutputControl, TargetProblem: constructionParams.TargetProblem, initialSolution: constructionParams.initialSolution, vns_problemSolution_support: constructionParams.vns_problemSolution_support, vnsRandomSeed: constructionParams.vnsRandomSeed, vns_additionalStatisticsControl: constructionParams.vns_additionalStatisticsControl, vns_kMin: constructionParams.vns_kMin, vns_kMax: constructionParams.vns_kMax, vns_localSearchType: constructionParams.vns_localSearchType, te_problemSolution_support: constructionParams.te_problemSolution_support);
+
             /// 
             /// Additional constructor. Create new `OnesCountProblemSolver` instance when solving method is `Variable Neighborhood Search`
             /// 

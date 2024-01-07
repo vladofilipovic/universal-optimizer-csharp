@@ -58,10 +58,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Gets or sets the domain from.
@@ -138,10 +135,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// arguments of the solution
         /// return type A_co
         /// </returns>
-        public override double Argument(int representation)
-        {
-            return DomainFrom + representation * (DomainTo - DomainFrom) / NumberOfIntervals;
-        }
+        public override double Argument(int representation) => DomainFrom + representation * (DomainTo - DomainFrom) / NumberOfIntervals;
 
 
         /// <summary>
@@ -159,10 +153,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </summary>
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
-        public override void InitFrom(int representation, TargetProblem problem)
-        {
-            _representation = representation;
-        }
+        public override void InitFrom(int representation, TargetProblem problem) => _representation = representation;
 
         /// <summary>
         /// Calculates the quality of solution directly.
@@ -175,7 +166,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         {
             var arg = Argument(representation);
             if (problem is not FunctionOneVariableProblem)
-                throw new Exception("Problem type is not valid.");
+                throw new ArgumentException("Problem type is not valid.");
             FunctionOneVariableProblem f1vp = (FunctionOneVariableProblem)problem;
             double res = (double)f1vp.Expression.ReflectionEvaluateExpression();
             return new QualityOfSolution()
@@ -260,10 +251,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-            return StringRep("\n", 0, "   ", "{", "}");
-        }
+        public override string ToString() => StringRep("\n", 0, "   ", "{", "}");
 
     }
 }

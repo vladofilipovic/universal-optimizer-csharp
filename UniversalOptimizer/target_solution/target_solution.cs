@@ -1,8 +1,9 @@
 
 namespace UniversalOptimizer.TargetSolution
 {
-
+    using Serilog.Debugging;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using UniversalOptimizer.TargetProblem;
@@ -28,14 +29,14 @@ namespace UniversalOptimizer.TargetSolution
     {
         private bool _evaluationCacheIsUsed;
         private int _evaluationCacheMaxSize;
-        private readonly string _name;
+        private string _name;
         private double? _fitnessValue;
         private IEnumerable<double> _fitnessValues;
         private double? _objectiveValue;
         private IEnumerable<double> _objectiveValues;
         private bool? _isFeasible;
-        private readonly int _randomSeed;
-        private readonly Random _randomGenerator;
+        private int _randomSeed;
+        private Random _randomGenerator;
         private R_co? _representation;
 
         public static EvaluationCacheControlStatistics EvaluationCacheCS = new EvaluationCacheControlStatistics(false, 42);
@@ -81,10 +82,7 @@ namespace UniversalOptimizer.TargetSolution
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Property getter for the name of the target solution
@@ -98,6 +96,10 @@ namespace UniversalOptimizer.TargetSolution
             get
             {
                 return _name;
+            }
+            set 
+            { 
+                _name = value;
             }
         }
 
@@ -215,6 +217,21 @@ namespace UniversalOptimizer.TargetSolution
             }
         }
 
+
+        public void CopyFrom(TargetSolution<R_co, A_co> original)
+        {
+            this._fitnessValue = original._fitnessValue;
+            this._fitnessValues = original._fitnessValues;
+            this._isFeasible= original._isFeasible;
+            this._name = original._name;
+            this._objectiveValue = original._objectiveValue;
+            this._objectiveValues = original._objectiveValues;
+            this._randomSeed = original._randomSeed;
+            this._randomGenerator = original._randomGenerator;
+            this._representation = original._representation;
+
+        }
+
         /// <summary>
         /// Arguments of the target solution
         /// </summary>
@@ -231,10 +248,7 @@ namespace UniversalOptimizer.TargetSolution
         /// </summary>
         /// <returns></returns>
         /// 
-        public new string StringRepresentation()
-        {
-            return Argument(Representation).ToString();
-        }
+        public string StringRepresentation() => Argument(Representation).ToString();
 
         /// <summary>
         /// Random initialization of the solution.
@@ -439,9 +453,6 @@ namespace UniversalOptimizer.TargetSolution
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-            return StringRep("|");
-        }
+        public override string ToString() => StringRep("|");
     }
 }

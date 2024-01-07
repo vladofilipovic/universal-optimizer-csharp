@@ -64,20 +64,14 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// One iteration within main loop of the metaheuristic algorithm.
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public virtual void MainLoopIteration()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual void MainLoopIteration() => throw new NotImplementedException();
 
         /// <summary>
         /// Calculate time elapsed during execution of the metaheuristic algorithm.

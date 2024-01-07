@@ -91,7 +91,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
                 _implementedLocalSearches.Add("LocalSearchFirstImprovement", problemSolutionVnsSupport.LocalSearchFirstImprovement);
                 if (!_implementedLocalSearches.ContainsKey(_localSearchType))
                 {
-                    throw new Exception(String.Format("Value '{0}' for VNS localSearchType is not supported", _localSearchType));
+                    throw new ArgumentException(String.Format("Value '{0}' for VNS localSearchType is not supported", _localSearchType));
                 }
                 _lsMethod = _implementedLocalSearches[_localSearchType];
                 _shakingMethod = problemSolutionVnsSupport.Shaking;
@@ -105,10 +105,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// </summary>
         /// <param name="constructionTuple">The construction tuple.</param>
         /// <returns></returns>
-        public static VnsOptimizer<R_co, A_co> FromConstructionTuple(VnsOptimizerConstructionParameters<R_co, A_co> constructionTuple)
-        {
-            return new(constructionTuple.FinishControl, constructionTuple.RandomSeed, constructionTuple.AdditionalStatisticsControl, constructionTuple.OutputControl, constructionTuple.TargetProblem, constructionTuple.InitialSolution, constructionTuple.ProblemSolutionVnsSupport, constructionTuple.KMin, constructionTuple.KMax, constructionTuple.LocalSearchType);
-        }
+        public static VnsOptimizer<R_co, A_co> FromConstructionTuple(VnsOptimizerConstructionParameters<R_co, A_co> constructionTuple) => new(constructionTuple.FinishControl, constructionTuple.RandomSeed, constructionTuple.AdditionalStatisticsControl, constructionTuple.OutputControl, constructionTuple.TargetProblem, constructionTuple.InitialSolution, constructionTuple.ProblemSolutionVnsSupport, constructionTuple.KMin, constructionTuple.KMax, constructionTuple.LocalSearchType);
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -117,10 +114,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the k minimum.

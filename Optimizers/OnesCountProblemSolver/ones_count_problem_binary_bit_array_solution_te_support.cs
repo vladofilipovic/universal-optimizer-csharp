@@ -73,17 +73,15 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 var sol = deepcopy(this);
                 return sol;
             }
-            
+
             /// 
             /// Copy the `OnesCountProblemBinaryBitArraySolutionTeSupport` instance
             /// 
             /// :return: new `OnesCountProblemBinaryBitArraySolutionTeSupport` instance with the same properties
             /// return type `OnesCountProblemBinaryBitArraySolutionTeSupport`
             /// 
-            public virtual void copy() {
-                return _copy__();
-            }
-            
+            public virtual void copy() => _copy__();
+
             /// 
             /// Resets internal counter of the total enumerator, so process will start over. Internal state of the solution 
             /// will be set to reflect reset operation. 
@@ -118,7 +116,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 solution.evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
             }
-            
+
             /// 
             /// Check if total enumeration process is not at end.  
             /// 
@@ -128,10 +126,8 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// :return: indicator if total enumeration process is not at end 
             /// return type bool
             /// 
-            public virtual bool can_progress(object problem, object solution, object optimizer) {
-                return _bit_array_counter.can_progress();
-            }
-            
+            public virtual bool can_progress(object problem, object solution, object optimizer) => _bit_array_counter.can_progress();
+
             /// 
             /// Returns overall number of evaluations required for finishing total enumeration process.  
             /// 
@@ -141,10 +137,8 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// :return: overall number of evaluations required for finishing total enumeration process
             /// return type int
             /// 
-            public virtual int OverallNumberOfEvaluations(object problem, object solution, object optimizer) {
-                return pow(2, problem.dimension);
-            }
-            
+            public virtual int OverallNumberOfEvaluations(object problem, object solution, object optimizer) => pow(2, problem.dimension);
+
             /// 
             /// String representation of the te support structure
             /// 
@@ -166,30 +160,24 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 int indentation = 0,
                 string indentationSymbol = "",
                 string groupStart = "{",
-                string groupEnd = "}") {
-                return "OnesCountProblemBinaryBitArraySolutionTeSupport";
-            }
-            
+                string groupEnd = "}") => "OnesCountProblemBinaryBitArraySolutionTeSupport";
+
             /// 
             /// String representation of the te support instance
             /// 
             /// :return: string representation of the te support instance
             /// return type str
             /// 
-            public override string ToString() {
-                return this.StringRep("|");
-            }
-            
+            public override string ToString() => this.StringRep("|");
+
             /// 
             /// Representation of the te support instance
             /// 
             /// :return: string representation of the te support instance
             /// return type str
             /// 
-            public virtual string _repr__() {
-                return this.StringRep("\n");
-            }
-            
+            public virtual string _repr__() => this.StringRep("\n");
+
             /// 
             /// Formatted the te support instance
             /// 
@@ -197,9 +185,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// :return: formatted te support instance
             /// return type str
             /// 
-            public virtual string _format__(string spec) {
-                return this.StringRep("|");
-            }
+            public virtual string _format__(string spec) => this.StringRep("|");
         }
     }
 }

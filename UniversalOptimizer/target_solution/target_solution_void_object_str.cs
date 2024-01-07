@@ -14,51 +14,27 @@ namespace UniversalOptimizer.TargetSolution
         {
         }
 
-        public override string Argument(object representation)
-        {
-            return representation.ToString();
-        }
+        public override string Argument(object representation) => representation.ToString();
 
-        public override void InitRandom(TargetProblem problem)
-        {
-            _representation = null;
-        }
+        public override void InitRandom(TargetProblem problem) => _representation = null;
 
-        public override void InitFrom(object representation, TargetProblem problem)
-        {
-            this._representation = representation;
-        }
+        public override void InitFrom(object representation, TargetProblem problem) => this._representation = representation;
 
-        public override object NativeRepresentation(string representationStr)
-        {
-            return representationStr;
-        }
+        public override object NativeRepresentation(string representationStr) => representationStr;
 
-        public override QualityOfSolution CalculateQualityDirectly(object representation, TargetProblem problem)
+        public override QualityOfSolution CalculateQualityDirectly(object representation, TargetProblem problem) => new QualityOfSolution()
         {
-            return new QualityOfSolution()
-            {
-                FitnessValue = 0.0,
-                ObjectiveValue = 0.0,
-                IsFeasible = true
-            };
-        }
+            FitnessValue = 0.0,
+            ObjectiveValue = 0.0,
+            IsFeasible = true
+        };
 
-        public static double RepresentationDistanceDirectly(object solution_code_1, string solution_code_2)
-        {
-            return 0;
-        }
+        public static double RepresentationDistanceDirectly(object solution_code_1, string solution_code_2) => 0;
 
-        public new string StringRepresentation()
-        {
-            return ToString();
-        }
+        public new string StringRepresentation() => ToString();
 
 
-        public override double RepresentationDistanceDirectly(object representation_1, object representation_2)
-        {
-            throw new NotImplementedException();
-        }
+        public override double RepresentationDistanceDirectly(object representation_1, object representation_2) => throw new NotImplementedException();
 
     }
 

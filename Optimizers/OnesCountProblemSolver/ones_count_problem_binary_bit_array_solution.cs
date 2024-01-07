@@ -76,26 +76,22 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 }
                 return sol;
             }
-            
+
             /// 
             /// Copy the `OnesCountProblemBinaryBitArraySolution`
             /// 
             /// :return: new `OnesCountProblemBinaryBitArraySolution` instance with the same properties
             /// return type `OnesCountProblemBinaryBitArraySolution`
             /// 
-            public virtual void copy() {
-                return _copy__();
-            }
-            
+            public virtual void copy() => _copy__();
+
             /// 
             /// Copy the `OnesCountProblemBinaryBitArraySolution` to the already existing destination `OnesCountProblemBinaryBitArraySolution`
             /// 
             /// :param `OnesCountProblemBinaryBitArraySolution` destination: destination `OnesCountProblemBinaryBitArraySolution`
             /// 
-            public virtual object copy_to(object destination) {
-                destination = _copy__();
-            }
-            
+            public virtual object copy_to(object destination) => destination = _copy__();
+
             /// 
             /// Argument of the target solution
             /// 
@@ -104,10 +100,8 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// :return: solution code
             /// return type str 
             /// 
-            public virtual string argument(object representation) {
-                return representation.bin;
-            }
-            
+            public virtual string argument(object representation) => representation.bin;
+
             /// 
             /// Random initialization of the solution
             /// 
@@ -122,17 +116,15 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                     }
                 }
             }
-            
+
             /// 
             /// Initialization of the solution, by setting its native representation 
             /// 
             /// :param BitArray representation: representation that will be ste to solution
             /// :param `TargetProblem` problem: problem which is solved by solution
             /// 
-            public virtual object InitFrom(object representation, object problem) {
-                this.representation = BitArray(bin: representation.bin);
-            }
-            
+            public virtual object InitFrom(object representation, object problem) => this.representation = BitArray(bin: representation.bin);
+
             /// 
             /// Fitness calculation of the max ones binary BitArray solution
             /// 
@@ -214,27 +206,23 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 s += groupEnd;
                 return s;
             }
-            
+
             /// 
             /// String representation of the solution instance
             /// 
             /// :return: string representation of the solution instance
             /// return type str
             /// 
-            public override string ToString() {
-                return this.StringRep("\n", 0, "   ", "{", "}");
-            }
-            
+            public override string ToString() => this.StringRep("\n", 0, "   ", "{", "}");
+
             /// 
             /// Representation of the solution instance
             /// 
             /// :return: string representation of the solution instance
             /// return type str
             /// 
-            public virtual string _repr__() {
-                return this.StringRep("\n", 0, "   ", "{", "}");
-            }
-            
+            public virtual string _repr__() => this.StringRep("\n", 0, "   ", "{", "}");
+
             /// 
             /// Formatted the solution instance
             /// 
@@ -242,9 +230,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// :return: formatted solution instance
             /// return type str
             /// 
-            public virtual string _format__(string spec) {
-                return this.StringRep("\n", 0, "   ", "{", "}");
-            }
+            public virtual string _format__(string spec) => this.StringRep("\n", 0, "   ", "{", "}");
         }
     }
 }

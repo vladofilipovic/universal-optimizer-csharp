@@ -104,10 +104,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <summary>
         /// Increments the cache hit count - number of cache hits during evaluation.
         /// </summary>
-        public virtual void IncrementCacheHitCount()
-        {
-            _cacheHitCount += 1;
-        }
+        public virtual void IncrementCacheHitCount() => _cacheHitCount += 1;
 
         /// <summary>
         /// Property getter for cache request count.
@@ -128,10 +125,7 @@ namespace UniversalOptimizer.TargetSolution
         /// Increments number of cache requests.
         /// </summary>
         /// 
-        public virtual void IncrementCacheRequestCount()
-        {
-            _cacheRequestCount += 1;
-        }
+        public virtual void IncrementCacheRequestCount() => _cacheRequestCount += 1;
 
         /// <summary>
         /// String representation of the `EvaluationCacheControlStatistics` instance.
@@ -185,10 +179,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <returns>
         /// A <see cref="string" /> that represents this `EvaluationCacheControlStatistics` instance.
         /// </returns>
-        public override string ToString()
-        {
-            return StringRep("|", 0, "", "{", "}");
-        }
+        public override string ToString() => StringRep("|", 0, "", "{", "}");
 
     }
 }

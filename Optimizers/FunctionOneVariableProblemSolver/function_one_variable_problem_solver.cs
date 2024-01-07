@@ -74,7 +74,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             }
             else
             {
-                throw new Exception(String.Format("Invalid optimization method {0} - should be: '{1}'.", method, "variable_neighborhood_search"));
+                throw new ArgumentException(String.Format("Invalid optimization method {0} - should be: '{1}'.", method, "variable_neighborhood_search"));
             }
         }
 
@@ -83,10 +83,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </summary>
         /// <param name="constructionParams">The construction parameters.</param>
         /// <returns></returns>
-        public static FunctionOneVariableProblemSolver FromConstructionTuple(FunctionOneVariableProblemSolverConstructionParameters<int, double> constructionParams)
-        {
-            return new FunctionOneVariableProblemSolver(method: constructionParams.Method, finishControl: constructionParams.FinishControl, outputControl: constructionParams.OutputControl, targetProblem: constructionParams.TargetProblem, initialSolution: constructionParams.InitialSolution, vnsProblemSolutionSupport: constructionParams.VnsProblemSolutionSupport, vnsRandomSeed: constructionParams.VnsRandomSeed, vnsAdditionalStatisticsControl: constructionParams.VnsAdditionalStatisticsControl, vnsKMin: constructionParams.VnsKMin, vnsKMax: constructionParams.VnsKMax, vnsLocalSearchType: constructionParams.VnsLocalSearchType);
-        }
+        public static FunctionOneVariableProblemSolver FromConstructionTuple(FunctionOneVariableProblemSolverConstructionParameters<int, double> constructionParams) => new FunctionOneVariableProblemSolver(method: constructionParams.Method, finishControl: constructionParams.FinishControl, outputControl: constructionParams.OutputControl, targetProblem: constructionParams.TargetProblem, initialSolution: constructionParams.InitialSolution, vnsProblemSolutionSupport: constructionParams.VnsProblemSolutionSupport, vnsRandomSeed: constructionParams.VnsRandomSeed, vnsAdditionalStatisticsControl: constructionParams.VnsAdditionalStatisticsControl, vnsKMin: constructionParams.VnsKMin, vnsKMax: constructionParams.VnsKMax, vnsLocalSearchType: constructionParams.VnsLocalSearchType);
 
         /// 
         /// Property getter for the optimizer used for solving

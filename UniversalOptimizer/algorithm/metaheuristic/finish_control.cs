@@ -68,7 +68,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 }
                 else
                 {
-                    throw new Exception("Invalid value for criteria. Should be one of: evaluations, iterations, seconds");
+                    throw new ArgumentException("Invalid value for criteria. Should be one of: evaluations, iterations, seconds");
                 }
             }
         }
@@ -198,11 +198,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <returns>
         ///   <c>true</c> if the specified evaluation is finished; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsFinished(int evaluation, int iteration, double elapsedSeconds)
-        {
-            return CheckEvaluations && evaluation >= EvaluationsMax || CheckIterations && iteration >= IterationsMax ||
+        public bool IsFinished(int evaluation, int iteration, double elapsedSeconds) => CheckEvaluations && evaluation >= EvaluationsMax || CheckIterations && iteration >= IterationsMax ||
               CheckSeconds && elapsedSeconds >= SecondsMax;
-        }
 
         /// <summary>
         /// Strings the rep.
@@ -260,10 +257,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-            return StringRep("|");
-        }
+        public override string ToString() => StringRep("|");
 
     }
 

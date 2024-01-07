@@ -69,10 +69,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// <typeparam name="A_co">The type of the co.</typeparam>
         /// <param name="constructionTuple">The construction tuple.</param>
         /// <returns></returns>
-        public static TeOptimizer<R_co, A_co> FromConstructionTuple<R_co, A_co>(TeOptimizerConstructionParameters<R_co, A_co> constructionTuple)
-        {
-            return new TeOptimizer<R_co, A_co>(constructionTuple.OutputControl, constructionTuple.TargetProblem, constructionTuple.InitialSolution, constructionTuple.ProblemSolutionTeSupport);
-        }
+        public static TeOptimizer<R_co, A_co> FromConstructionTuple<R_co, A_co>(TeOptimizerConstructionParameters<R_co, A_co> constructionTuple) => new TeOptimizer<R_co, A_co>(constructionTuple.OutputControl, constructionTuple.TargetProblem, constructionTuple.InitialSolution, constructionTuple.ProblemSolutionTeSupport);
 
 
         /// <summary>
@@ -82,10 +79,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Gets or sets the current solution used during TE execution.

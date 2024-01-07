@@ -151,7 +151,7 @@ namespace UniversalOptimizer.Algorithm
                 }
                 else
                 {
-                    throw new Exception("Invalid value for moment" + m + ". Should be one of: beforeAlgorithm, afterAlgorithm, beforeIteration, afterIteration," + "beforeEvaluation`, afterEvaluation, beforeStepInIteration, afterStepInIteration");
+                    throw new ArgumentException("Invalid value for moment" + m + ". Should be one of: beforeAlgorithm, afterAlgorithm, beforeIteration, afterIteration," + "beforeEvaluation`, afterEvaluation, beforeStepInIteration, afterStepInIteration");
                 }
             }
         }
@@ -453,10 +453,7 @@ namespace UniversalOptimizer.Algorithm
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-            return StringRep("|");
-        }
+        public override string ToString() => StringRep("|");
 
     }
 }

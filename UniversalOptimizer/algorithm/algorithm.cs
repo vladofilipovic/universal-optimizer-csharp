@@ -111,11 +111,11 @@ namespace UniversalOptimizer.Algorithm
             double? fit1;
             if (TargetProblem is null)
             {
-                throw new Exception("Target problem have to be defined within algorithm.");
+                throw new ArgumentException("Target problem have to be defined within algorithm.");
             }
             if (TargetProblem.IsMinimization is null)
             {
-                throw new Exception("Information if minimization or maximization is set within target problem have to be defined.");
+                throw new ArgumentException("Information if minimization or maximization is set within target problem have to be defined.");
             }
             bool isMinimization = TargetProblem.IsMinimization ?? false;
             if (sol1 is null)
@@ -232,10 +232,7 @@ namespace UniversalOptimizer.Algorithm
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-            return StringRep("|");
-        }
+        public override string ToString() => StringRep("|");
 
     }
 }

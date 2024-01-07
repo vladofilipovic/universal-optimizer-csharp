@@ -41,10 +41,7 @@ namespace UniversalOptimizer.Algorithm
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public object Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Property getter for the name of the optimizer.
@@ -221,7 +218,7 @@ namespace UniversalOptimizer.Algorithm
                 }
                 else
                 {
-                    throw new Exception("Supplied step name '" + stepName + "' is not valid.");
+                    throw new ArgumentException("Supplied step name '" + stepName + "' is not valid.");
                 }
                 if (should_write)
                 {
@@ -269,10 +266,7 @@ namespace UniversalOptimizer.Algorithm
         /// 
         /// Method for optimization   
         /// 
-        public virtual void Optimize()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual void Optimize() => throw new NotImplementedException();
 
         /// <summary>
         /// String representation of the optimizer instance.

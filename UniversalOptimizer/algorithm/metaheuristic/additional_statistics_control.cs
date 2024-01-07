@@ -66,7 +66,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 }
                 else
                 {
-                    throw new Exception("Invalid value for keep '" + k + "'. Should be one of: allSolution_code, moreLocalOptima");
+                    throw new ArgumentException("Invalid value for keep '" + k + "'. Should be one of: allSolution_code, moreLocalOptima");
                 }
             }
             _allSolutionCodes = new HashSet<string>();
@@ -268,10 +268,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <returns>
         /// A <see cref="string" /> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-            return StringRep("|");
-        }
+        public override string ToString() => StringRep("|");
 
     }
 }

@@ -66,17 +66,15 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 var sup = deepcopy(this);
                 return sup;
             }
-            
+
             /// 
             /// Copy the `OnesCountProblemBinaryIntSolutionVnsSupport`
             /// 
             /// :return: new `OnesCountProblemBinaryIntSolutionVnsSupport` instance with the same properties
             /// return type `OnesCountProblemBinaryIntSolutionVnsSupport`
             /// 
-            public virtual void copy() {
-                return _copy__();
-            }
-            
+            public virtual void copy() => _copy__();
+
             /// 
             /// Random VNS shaking of k parts such that new solution code does not differ more than k from all solution codes 
             /// inside shakingPoints 
@@ -231,7 +229,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 }
                 return solution;
             }
-            
+
             /// 
             /// String representation of the vns support instance
             /// 
@@ -253,30 +251,24 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 int indentation = 0,
                 string indentationSymbol = "",
                 string groupStart = "{",
-                string groupEnd = "}") {
-                return "OnesCountProblemBinaryIntSolutionVnsSupport";
-            }
-            
+                string groupEnd = "}") => "OnesCountProblemBinaryIntSolutionVnsSupport";
+
             /// 
             /// String representation of the vns support instance
             /// 
             /// :return: string representation of the vns support instance
             /// return type str
             /// 
-            public override string ToString() {
-                return this.StringRep("|");
-            }
-            
+            public override string ToString() => this.StringRep("|");
+
             /// 
             /// Representation of the vns support instance
             /// 
             /// :return: string representation of the vns support instance
             /// return type str
             /// 
-            public virtual string _repr__() {
-                return this.StringRep("\n");
-            }
-            
+            public virtual string _repr__() => this.StringRep("\n");
+
             /// 
             /// Formatted the vns support instance
             /// 
@@ -284,9 +276,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// :return: formatted vns support instance
             /// return type str
             /// 
-            public virtual string _format__(string spec) {
-                return this.StringRep("|");
-            }
+            public virtual string _format__(string spec) => this.StringRep("|");
         }
     }
 }

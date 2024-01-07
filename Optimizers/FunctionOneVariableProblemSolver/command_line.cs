@@ -1,6 +1,6 @@
 /// <summary>
 /// This module is used for obtaining execution parameters for execution of the optimizers for 
-/// max ones problem.
+/// function one variable problem.
 /// </summary>
 namespace SingleObjective.Teaching.FunctionOneVariableProblem {
 

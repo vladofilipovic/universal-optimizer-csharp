@@ -34,14 +34,11 @@ namespace GraphFileTransformations
         }
 
 
-        static void Main(string[] args)
-        {
-            Parser.Default.ParseArguments<FromGraphmlToPlainOptions, FromPlainToGraphmlOptions>(args)
+        static void Main(string[] args) => Parser.Default.ParseArguments<FromGraphmlToPlainOptions, FromPlainToGraphmlOptions>(args)
                 .MapResult(
                       (FromGraphmlToPlainOptions opts) => RuFromGraphmlToPlainAndReturnExitCode(opts),
                       (FromPlainToGraphmlOptions opts) => RunFromPlainToGraphmlAndReturnExitCode(opts),
                       errs => 1);
-        }
 
         static int RuFromGraphmlToPlainAndReturnExitCode(FromGraphmlToPlainOptions opts)
         {

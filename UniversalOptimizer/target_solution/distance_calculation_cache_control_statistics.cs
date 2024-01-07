@@ -99,10 +99,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <summary>
         /// Increments number of cache hits during calculation of the solution code distances.
         /// </summary>
-        public virtual void IncrementCacheHitCount()
-        {
-            _cacheHitCount += 1;
-        }
+        public virtual void IncrementCacheHitCount() => _cacheHitCount += 1;
 
         /// <summary>
         /// Property getter for overall number of calculation of the solution code distances.
@@ -121,10 +118,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <summary>
         /// Increments the cache request count. Increments overall number of calculation of the solution code distances.
         /// </summary>
-        public virtual void IncrementCacheRequestCount()
-        {
-            _cacheRequestCount += 1;
-        }
+        public virtual void IncrementCacheRequestCount() => _cacheRequestCount += 1;
 
         /// <summary>
         /// String representation of solution distance calculation cache control statistic.
@@ -179,10 +173,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <see cref="string" /> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return StringRep("|");
-        }
+        public override string ToString() => StringRep("|");
 
     }
 }

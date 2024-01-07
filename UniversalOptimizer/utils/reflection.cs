@@ -34,10 +34,7 @@ namespace UniversalOptimizer.utils
             return obj;
         }
 
-        public static object? ReflectionEvaluateExpression(this string expression)
-        {
-            return expression;
-        }
+        public static object? ReflectionEvaluateExpression(this string expression) => expression;
 
     }
 }

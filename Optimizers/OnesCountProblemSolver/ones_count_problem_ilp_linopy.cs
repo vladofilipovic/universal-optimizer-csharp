@@ -69,10 +69,8 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             public OnesCountProblemIntegerLinearProgrammingSolution(object sol) {
                 _sol = sol;
             }
-            
-            public new string StringRepresentation() {
-                return _sol.ToString();
-            }
+
+            public new string StringRepresentation() => _sol.ToString();
         }
         
         public class OnesCountProblemIntegerLinearProgrammingSolver
@@ -94,17 +92,15 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 : base(OutputControl: OutputControl, TargetProblem: problem) {
                 _model = Model();
             }
-            
+
             /// 
             /// Additional constructor. Create new `OnesCountProblemIntegerLinearProgrammingSolver` instance from construction parameters
             /// 
             /// :param `OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters` constructionParams: parameters for construction 
             /// 
             [classmethod]
-            public static void FromConstructionTuple(object cls, object constructionParams = null) {
-                return cls(constructionTuple.OutputControl, constructionTuple.TargetProblem);
-            }
-            
+            public static void FromConstructionTuple(object cls, object constructionParams = null) => cls(constructionTuple.OutputControl, constructionTuple.TargetProblem);
+
             /// 
             /// Internal copy of the current algorithm
             /// 
@@ -115,17 +111,15 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 var alg = deepcopy(this);
                 return alg;
             }
-            
+
             /// 
             /// Copy the current algorithm
             /// 
             /// :return:  new `OnesCountProblemIntegerLinearProgrammingSolver` instance with the same properties
             /// return type :class:``OnesCountProblemIntegerLinearProgrammingSolver``
             /// 
-            public virtual void copy() {
-                return _copy__();
-            }
-            
+            public virtual void copy() => _copy__();
+
             /// 
             /// Property getter for the ILP model
             /// 
@@ -198,27 +192,23 @@ namespace SingleObjective.Teaching.OnesCountProblem {
                 s += groupEnd;
                 return s;
             }
-            
+
             /// 
             /// String representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
             /// 
             /// :return: string representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
             /// return type str
             /// 
-            public override string ToString() {
-                return this.StringRep("|");
-            }
-            
+            public override string ToString() => this.StringRep("|");
+
             /// 
             /// Representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
             /// 
             /// :return: string representation of the 'OnesCountProblemIntegerLinearProgrammingSolver' instance
             /// return type str
             /// 
-            public virtual string _repr__() {
-                return this.StringRep("\n");
-            }
-            
+            public virtual string _repr__() => this.StringRep("\n");
+
             /// 
             /// Formatted 'OnesCountProblemIntegerLinearProgrammingSolver' instance
             /// 
@@ -226,9 +216,7 @@ namespace SingleObjective.Teaching.OnesCountProblem {
             /// :return: formatted 'OnesCountProblemIntegerLinearProgrammingSolver' instance
             /// return type str
             /// 
-            public virtual string _format__(string spec) {
-                return this.StringRep("|");
-            }
+            public virtual string _format__(string spec) => this.StringRep("|");
         }
     }
 }

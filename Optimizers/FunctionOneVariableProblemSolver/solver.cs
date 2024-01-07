@@ -8,21 +8,16 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch;
     using static SingleObjective.Teaching.FunctionOneVariableProblem.CommandLineHelper;
 
-    using System.Collections.Generic;
     using System;
-
     using Serilog;
     using Serilog.Formatting.Json;
     using Serilog.Events;
     using CommandLine;
-    using System.Runtime.CompilerServices;
     using System.Text;
     using UniversalOptimizer.TargetSolution;
-    using UniversalOptimizer.TargetProblem;
 
     public class Solver
     {
-
         ///  
         ///     This function executes solver.
         /// 
@@ -44,7 +39,6 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                             // set default minimum level
                             .MinimumLevel.Debug()
                             .CreateLogger();
-
             try
             {
                 Log.Debug("Solver started.");
@@ -53,13 +47,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                           (VariableNeighborhoodSearchOptions opts) => ExecuteVns(opts),
                           (IdleOptions opts) => ExecuteIdle(opts),
                           errs => 1);
-
-                //return;
-                // });
             }
             catch (Exception exp)
             {
-                Log.Fatal(string.Format("Exception: %s\n", exp.Message));
+                Log.Fatal(string.Format("Exception: {0}\n", exp.Message));
             }
         }
 
@@ -75,7 +66,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             Log.Debug("VNS started.");
             Log.Debug(String.Format("Execution parameters: {0}", opts));
             // set optimization type(minimization or maximization)
-            bool isMinimization = true;
+            bool isMinimization;
             if (opts.OptimizationType == "minimization")
             {
                 isMinimization = true;
@@ -86,7 +77,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             }
             else
             {
-                throw new Exception("Either minimization or maximization should be selected.");
+                throw new ArgumentException("Either minimization or maximization should be selected.");
             }
             /// output file setup
             StreamWriter outputFile = new StreamWriter("tmp.tmp");
@@ -224,7 +215,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             }
             else
             {
-                throw new Exception("Invalid solution/representation type is chosen.");
+                throw new ArgumentException("Invalid solution/representation type is chosen.");
             }
             Log.Debug("VNS ended.");
             return 0;

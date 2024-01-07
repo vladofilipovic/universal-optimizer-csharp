@@ -17,10 +17,7 @@ namespace UniversalOptimizer.TargetProblem
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
-        object ICloneable.Clone()
-        {
-            throw new NotImplementedException();
-        }
+        object ICloneable.Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Gets a value indicating whether this instance is minimization.
@@ -102,10 +99,7 @@ namespace UniversalOptimizer.TargetProblem
         /// Converts to string.
         /// </summary>
         /// <returns> string representation </returns>
-        public override string ToString()
-        {
-            return StringRep("|");
-        }
+        public override string ToString() => StringRep("|");
 
     }
 }

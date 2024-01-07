@@ -42,10 +42,7 @@ namespace UniversalOptimizer.utils
         /// Returns current state of the complex counter.
         /// </summary>
         /// <returns>The current state of the complex counter.</returns>
-        public BitArray CurrentState()
-        {
-            return _counters;
-        }
+        public BitArray CurrentState() => _counters;
 
         /// <summary>
         /// Resets the complex counter to its initial position.
@@ -83,10 +80,7 @@ namespace UniversalOptimizer.utils
         /// <returns>
         ///   <c>true</c> if this instance can progress; otherwise, <c>false</c>.
         /// </returns>
-        public virtual bool CanProgress()
-        {
-            return !_counters.HasAllSet();
-        }
+        public virtual bool CanProgress() => !_counters.HasAllSet();
 
     }
 }
