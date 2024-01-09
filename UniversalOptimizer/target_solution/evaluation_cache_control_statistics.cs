@@ -145,27 +145,27 @@ namespace UniversalOptimizer.TargetSolution
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += groupStart + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "_isCaching=" + _isCaching.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "_cacheHitCount=" + _cacheHitCount.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "_cacheRequestCount=" + _cacheRequestCount.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

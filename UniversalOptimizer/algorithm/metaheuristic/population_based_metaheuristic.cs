@@ -21,7 +21,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     public abstract class PopulationBasedMetaheuristic<R_co, A_co> : Metaheuristic<R_co, A_co> 
     {
 
-        private IEnumerable<TargetSolution<R_co,A_co>> _currentSolutions = [];
+        private IEnumerable<TargetSolution<R_co,A_co>> _currentPopulation = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PopulationBasedMetaheuristic{R_co, A_co}"/> 
@@ -33,7 +33,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
         /// <param name="targetProblem">The target problem.</param>
-        /// <param name="initialSolutions">The initial solutions.</param>
+        /// <param name="solutionTemplate">The template for the solution.</param>
         public PopulationBasedMetaheuristic(
             string name,
             FinishControl finishControl,
@@ -41,37 +41,29 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             AdditionalStatisticsControl additionalStatisticsControl,
             OutputControl outputControl,
             TargetProblem targetProblem,
-            IEnumerable<TargetSolution<R_co, A_co>> initialSolutions)
-            : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem)
+            TargetSolution<R_co, A_co>? solutionTemplate)
+            : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
         {
-            if (initialSolutions is not null && initialSolutions.Any())
-            {
-                _currentSolutions = initialSolutions;
-            }
+            _currentPopulation = [];
+            CopyToBestSolution(null);
         }
 
         /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public new object Clone() => throw new NotImplementedException();
-
-
-        /// <summary>
-        /// Property getter and setter for the current solutions used during population based metaheuristic execution.
+        /// Property getter for the current population within population based metaheuristic execution.
         /// </summary>
         /// <value>
         /// The current solutions.
         /// </value>
         /// 
-        public IEnumerable<TargetSolution<R_co, A_co>> CurrentSolutions
+        public IEnumerable<TargetSolution<R_co, A_co>> CurrentPopulation
         {
             get
             {
-                return _currentSolutions;
+                return _currentPopulation;
+            }
+            set
+            {
+                _currentPopulation = value;
             }
         }
 
@@ -92,19 +84,19 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += groupStart;
             s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
-            s += "currentSolutions=" + CurrentSolutions.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            s += "CurrentPopulation=" + CurrentPopulation.ToString() + delimiter;
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

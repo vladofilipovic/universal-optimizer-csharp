@@ -74,9 +74,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public override TargetProblem Clone()
+        public override object Clone()
         {
-            throw new NotImplementedException();
+            return new OnesCountProblem(this.Dimension, this.IsMinimization);
         }
 
         /// <summary>
@@ -112,14 +112,14 @@ namespace SingleObjective.Teaching.OnesCountProblem
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += groupStart;
             s += base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

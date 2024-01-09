@@ -18,7 +18,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     /// This class represent metaheuristic
     /// </summary>
     /// <seealso cref="uo.Algorithm" />
-    public abstract class Metaheuristic<R_co, A_co> : Algorithm<R_co, A_co>, ICloneable 
+    public abstract class Metaheuristic<R_co, A_co> : Algorithm<R_co, A_co> 
     {
 
         public AdditionalStatisticsControl AdditionalStatisticsControl { get; set; }
@@ -44,8 +44,9 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             int? randomSeed,
             AdditionalStatisticsControl additionalStatisticsControl,
             OutputControl outputControl,
-            TargetProblem targetProblem)
-            : base(name, outputControl: outputControl, targetProblem: targetProblem)
+            TargetProblem targetProblem,
+            TargetSolution<R_co, A_co>? solutionTemplate)
+            : base(name, outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
         {
             FinishControl = finishControl;
             if (randomSeed is not null && randomSeed != 0)
@@ -70,15 +71,6 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         {  
             get { return _randomGenerator; } 
         }
-
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public new object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// One iteration within main loop of the metaheuristic algorithm.
@@ -143,43 +135,43 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += groupStart;
             s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "randomSeed=" + this.RandomSeed.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "finishControl=" + this.FinishControl.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "additionalStatisticsControl=" + this.AdditionalStatisticsControl.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "_iteration=" + this.Iteration.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "_iterationBestFound=" + IterationBestFound.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

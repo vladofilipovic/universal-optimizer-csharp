@@ -115,7 +115,8 @@ namespace SingleObjective.Teaching.OnesCountProblem
             {
                 return false;
             }
-            OnesCountProblemBinaryUIntSolution startSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone(); object bestRep = null;
+            OnesCountProblemBinaryUIntSolution startSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone(); 
+            uint? bestRep = null;
             var bestTuple = new QualityOfSolution(solution.ObjectiveValue, solution.FitnessValue, solution.IsFeasible);
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
@@ -147,54 +148,59 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 }
                 solution.Representation ^= mask;
                 /// increment indexes and set in_loop accordingly
-                in_loop = indexes.progress();
+                in_loop = indexes.Progress();
             }
             if (bestRep is not null)
             {
-                solution.Representation = bestRep;
-                solution.ObjectiveValue = bestTuple.objectiveValue;
-                solution.FitnessValue = bestTuple.fitnessValue;
-                solution.IsFeasible = bestTuple.isFeasible;
+                solution.Representation = (uint) bestRep;
+                solution.ObjectiveValue = bestTuple.ObjectiveValue ?? double.NaN;
+                solution.FitnessValue = bestTuple.FitnessValue ?? double.NaN;
+                solution.IsFeasible = bestTuple.IsFeasible;
                 return true;
             }
             solution.CopyFrom(startSolution);
             return false;
         }
 
-        /// 
-        /// Executes "first improvement" variant of the local search procedure 
-        /// 
-        /// :param int k: int parameter for VNS
-        /// :param `OnesCountProblem` problem: problem that is solved
-        /// :param `OnesCountProblemBinaryUIntSolution` solution: solution used for the problem that is solved
-        /// :param `Algorithm` optimizer: optimizer that is executed
-        /// :return: result of the local search procedure 
-        /// return type OnesCountProblemBinaryUIntSolution
-        /// 
+        /// <summary>
+        /// Executes "first improvement" variant of the local search procedure.
+        /// </summary>
+        /// <param name="k">The k parameter for VNS.</param>
+        /// <param name="problem">The problem that is solved.</param>
+        /// <param name="solution">The solution used for the problem that is solved.</param>
+        /// <param name="optimizer">The optimizer that is executed.</param>
+        /// <returns>
+        /// if the local search procedure is successful.
+        /// </returns>
         public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<uint, string> solution,       Metaheuristic<uint, string> optimizer)
         {
+            if (problem == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
+            if (problem is not OnesCountProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
+            OnesCountProblem ocProblem = (OnesCountProblem)problem;
             if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
             {
                 return false;
             }
-            if (k < 1 || k > problem.dimension)
+            if (k < 1 || k > ocProblem.Dimension)
             {
                 return false;
             }
-            OnesCountProblemBinaryBitArraySolution startSolution = (OnesCountProblemBinaryBitArraySolution)solution.Clone();
-            var bestTuple = QualityOfSolution(solution.ObjectiveValue, solution.FitnessValue, solution.IsFeasible);
+            OnesCountProblemBinaryUIntSolution startSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone();
+            var bestTuple = new QualityOfSolution(solution.ObjectiveValue, solution.FitnessValue, solution.IsFeasible);
             /// initialize indexes
-            var indexes = ComplexCounterUniformAscending(k, problem.dimension);
-            var in_loop = indexes.reset();
+            var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
+            var in_loop = indexes.Reset();
             while (in_loop)
             {
                 /// collect positions for inversion from indexes
-                var positions = indexes.current_state();
+                var positions = indexes.CurrentState();
                 /// invert and compare, switch and exit if new is better
-                var mask = 0;
+                uint mask = 0;
                 foreach (var i in positions)
                 {
-                    mask |= 1 << i;
+                    mask |= (uint)(1 << i);
                 }
                 solution.Representation ^= mask;
                 optimizer.Evaluation += 1;
@@ -208,66 +214,42 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
                 if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization) == true)
                 {
-                    solution.FitnessValue = newTuple.FitnessValue;
-                    solution.ObjectiveValue = newTuple.ObjectiveValue;
+                    solution.FitnessValue = newTuple.FitnessValue ?? double.NaN;
+                    solution.ObjectiveValue = newTuple.ObjectiveValue ?? double.NaN;
                     solution.IsFeasible = newTuple.IsFeasible;
                     return true;
                 }
                 solution.Representation ^= mask;
                 /// increment indexes and set in_loop accordingly
-                in_loop = indexes.progress();
+                in_loop = indexes.Progress();
             }
             solution.CopyFrom(startSolution);
             return true;
         }
 
-        /// 
-        /// String representation of the vns support instance
-        /// 
-        /// :param delimiter: delimiter between fields
-        /// :type delimiter: str
-        /// :param indentation: level of indentation
-        /// :type indentation: int, optional, default value 0
-        /// :param indentationSymbol: indentation symbol
-        /// :type indentationSymbol: str, optional, default value ''
-        /// :param groupStart: group start string 
-        /// :type groupStart: str, optional, default value '{'
-        /// :param groupEnd: group end string 
-        /// :type groupEnd: str, optional, default value '}'
-        /// :return: string representation of vns support instance
-        /// return type str
-        /// 
-        public new string StringRep(
+        /// <summary>
+        /// Strings the rep.
+        /// </summary>
+        /// <param name="delimiter">The delimiter.</param>
+        /// <param name="indentation">The indentation.</param>
+        /// <param name="indentationSymbol">The indentation symbol.</param>
+        /// <param name="groupStart">The group start.</param>
+        /// <param name="groupEnd">The group end.</param>
+        /// <returns></returns>
+        public string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",
             string groupStart = "{",
             string groupEnd = "}") => "OnesCountProblemBinaryUIntSolutionVnsSupport";
 
-        /// 
-        /// String representation of the vns support instance
-        /// 
-        /// :return: string representation of the vns support instance
-        /// return type str
-        /// 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString() => this.StringRep("|");
-
-        /// 
-        /// Representation of the vns support instance
-        /// 
-        /// :return: string representation of the vns support instance
-        /// return type str
-        /// 
-        public virtual string _repr__() => this.StringRep("\n");
-
-        /// 
-        /// Formatted the vns support instance
-        /// 
-        /// :param str spec: format specification
-        /// :return: formatted vns support instance
-        /// return type str
-        /// 
-        public virtual string _format__(string spec) => this.StringRep("|");
 
     }
 }

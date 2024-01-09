@@ -218,32 +218,32 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += groupStart + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "criteria=" + Criteria.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "evaluationsMax=" + EvaluationsMax.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "iterationsMax=" + IterationsMax.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "secondsMax=" + SecondsMax.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

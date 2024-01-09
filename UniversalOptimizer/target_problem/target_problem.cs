@@ -46,7 +46,7 @@ namespace UniversalOptimizer.TargetProblem
         /// <returns>
         /// A new object that is a copy of this instance.
         /// </returns>
-        public abstract TargetProblem Clone();
+        public virtual object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Returns string representation of the problem.
@@ -65,22 +65,22 @@ namespace UniversalOptimizer.TargetProblem
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += groupStart + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "Name=" + Name + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "IsMinimization=" + IsMinimization.ToString();
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

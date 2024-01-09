@@ -54,8 +54,11 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
-        public new object Clone() => throw new NotImplementedException();
-
+        public override object Clone()
+        {
+            return new FunctionOneVariableProblemBinaryUIntSolution(this._domainFrom, this._domainTo,
+                this._numberOfIntervals, this.RandomSeed);
+        }
         /// <summary>
         /// Gets or sets the domain from.
         /// </summary>
@@ -221,7 +224,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
@@ -229,13 +232,13 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             s += base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "stringRepresentation()=" + this.StringRepresentation().ToString();
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

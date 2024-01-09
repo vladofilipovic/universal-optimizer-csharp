@@ -24,9 +24,9 @@ namespace UniversalOptimizer.TargetSolution
         private Random _randomGenerator;
         private R_co? _representation;
 
-        public static EvaluationCacheControlStatistics EvaluationCacheCS = new(false, 42);
+        public static EvaluationCacheControlStatistics? EvaluationCacheCS = null;
 
-        public static DistanceCalculationCacheControlStatistics<R_co> RepresentationDistanceCacheCS = new(false, 42);
+        public static DistanceCalculationCacheControlStatistics<R_co>? RepresentationDistanceCacheCS = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TargetSolution{R_co, A_co}"/> class.
@@ -68,8 +68,10 @@ namespace UniversalOptimizer.TargetSolution
             _objectiveValues = objectiveValues;
             _isFeasible = isFeasible;
             _representation = default;
-            EvaluationCacheCS = new EvaluationCacheControlStatistics(evaluationCacheIsUsed, evaluationCacheMaxSize);
-            RepresentationDistanceCacheCS = new DistanceCalculationCacheControlStatistics<R_co>(distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize);
+            if(EvaluationCacheCS is null)
+                EvaluationCacheCS = new EvaluationCacheControlStatistics(evaluationCacheIsUsed, evaluationCacheMaxSize);
+            if (RepresentationDistanceCacheCS is null)
+                RepresentationDistanceCacheCS = new DistanceCalculationCacheControlStatistics<R_co>(distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize);
         }
 
         /// <summary>
@@ -78,6 +80,21 @@ namespace UniversalOptimizer.TargetSolution
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         public virtual object Clone() => throw new NotImplementedException();
+
+        /// <summary>
+        /// Property getter for random seed of the target solution.
+        /// </summary>
+        /// <value>
+        /// The random seed.
+        /// </value>
+        /// 
+        public int RandomSeed
+        {
+            get
+            {
+                return _randomSeed;
+            }
+        }
 
         /// <summary>
         /// Property getter and setter for fitness value of the target solution.
@@ -263,7 +280,7 @@ namespace UniversalOptimizer.TargetSolution
         {
             QualityOfSolution qos;
             var eccs = EvaluationCacheCS;
-            if (eccs.IsCaching)
+            if (eccs is not null && eccs.IsCaching)
             {
                 eccs.IncrementCacheRequestCount();
                 string rep = StringRepresentation();
@@ -319,7 +336,7 @@ namespace UniversalOptimizer.TargetSolution
         {
             double ret;
             var rdcs = RepresentationDistanceCacheCS;
-            if (rdcs.IsCaching)
+            if (rdcs is not null && rdcs.IsCaching)
             {
                 rdcs.IncrementCacheRequestCount();
                 var pair = (representation_1, representation_2);
@@ -362,52 +379,58 @@ namespace UniversalOptimizer.TargetSolution
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += groupStart + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "fitnessValue=" + FitnessValue.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "fitnessValues=" + FitnessValues.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "objectiveValue=" + ObjectiveValue.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "objectiveValues=" + ObjectiveValues.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "isFeasible=" + IsFeasible.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "representation()=" + Representation!.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
-            s += "evaluationCacheCS(static)=" + EvaluationCacheCS.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}");
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            if(EvaluationCacheCS is not null)
+                s += "EvaluationCacheCS(static)=" + EvaluationCacheCS.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}");
+            else
+                s += "EvaluationCacheCS(static)=null" + delimiter;
+            for (int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
-            s += "_RepresentationDistanceCacheCS(static)=" + RepresentationDistanceCacheCS.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            if (RepresentationDistanceCacheCS is not null)
+                s += "RepresentationDistanceCacheCS(static)=" + RepresentationDistanceCacheCS.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
+            else
+                s += "RepresentationDistanceCacheCS(static)=null" + delimiter;
+            for (int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

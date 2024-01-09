@@ -10,6 +10,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
     using System;
     using System.Linq;
     using Serilog;
+    using System.Reflection.Metadata.Ecma335;
 
 
     /// 
@@ -18,7 +19,8 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
     public class TeOptimizer<R_co, A_co> : Algorithm<R_co, A_co> 
     {
 
-        private TargetSolution<R_co, A_co> _currentSolution;
+        private TargetSolution<R_co, A_co>? _currentSolution;
+        private IProblemSolutionTeSupport<R_co, A_co> _problemSolutionTeSupport;
         private readonly ProblemSolutionTeSupportCanProgressMethod<R_co, A_co> _canProgressMethod;
         private readonly ProblemSolutionTeSupportProgressMethod<R_co, A_co> _progressMethod;
         private readonly ProblemSolutionTeSupportResetMethod<R_co, A_co> _resetMethod;
@@ -29,19 +31,20 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// </summary>
         /// <param name="outputControl">The output control.</param>
         /// <param name="targetProblem">The target problem.</param>
-        /// <param name="initialSolution">The initial solution.</param>
+        /// <param name="solutionTemplate">The template for the solution.</param>
         /// <param name="problemSolutionTeSupport">The problem solution TE support.</param>
-        public TeOptimizer(OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co> initialSolution, IProblemSolutionTeSupport<R_co, A_co> problemSolutionTeSupport)
-            : base("TotalEnumeration", outputControl: outputControl, targetProblem: targetProblem)
+        public TeOptimizer(OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co>? solutionTemplate, IProblemSolutionTeSupport<R_co, A_co> problemSolutionTeSupport)
+            : base("TotalEnumeration", outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
         {
+            _problemSolutionTeSupport = problemSolutionTeSupport;
             /// total enumeration support
             _resetMethod = problemSolutionTeSupport.Reset;
             _progressMethod = problemSolutionTeSupport.Progress;
             _canProgressMethod = problemSolutionTeSupport.CanProgress;
             _overallNumberOfEvaluationsMethod = problemSolutionTeSupport.OverallNumberOfEvaluations;
-            /// current solution
-            _currentSolution = initialSolution;
-            CopyToBestSolution(initialSolution);
+            /// current and best solution
+            _currentSolution = null;
+            CopyToBestSolution(null);
         }
 
         /// <summary>
@@ -51,7 +54,9 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public new object Clone() => throw new NotImplementedException();
+        public override object Clone() { 
+            return new TeOptimizer<R_co, A_co>(this.OutputControl, this.TargetProblem, this.SolutionTemplate, this._problemSolutionTeSupport);
+        }
 
         /// <summary>
         /// Gets or sets the current solution used during TE execution.
@@ -59,7 +64,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// <value>
         /// The current solution.
         /// </value>
-        public TargetSolution<R_co, A_co> CurrentSolution
+        public TargetSolution<R_co, A_co>? CurrentSolution
         {
             get
             {
@@ -76,6 +81,9 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// 
         public override void Init()
         {
+            if (SolutionTemplate is null) 
+                throw new ArgumentNullException(nameof(SolutionTemplate));
+            CurrentSolution = (TargetSolution<R_co, A_co>) SolutionTemplate.Clone();
             _resetMethod(TargetProblem, CurrentSolution, this);
             WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
             Evaluation += 1;
@@ -90,9 +98,11 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// </summary>
         /// <returns></returns>
         public override void Optimize()
-        {
+        {            
             ExecutionStarted = DateTime.Now;
             Init();
+            if (CurrentSolution is null)
+                throw new ArgumentNullException(nameof(CurrentSolution));
             Log.Debug("Overall number of evaluations: " + _overallNumberOfEvaluationsMethod(TargetProblem, CurrentSolution, this));
             WriteOutputHeadersIfNeeded();
             WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
@@ -133,15 +143,18 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += groupStart;
             s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
-            s += "currentSolution=" + CurrentSolution.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            if( CurrentSolution is not null )
+                s += "CurrentSolution=" + CurrentSolution.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
+            else
+                s += "CurrentSolution=null" + delimiter;
+            for (int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

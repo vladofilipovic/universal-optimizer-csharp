@@ -8,6 +8,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using System.Collections;
     using System.Linq;
     using System.Security.Cryptography;
+    using UniversalOptimizer.utils;
 
     public class OnesCountProblemBinaryBitArraySolution: TargetSolution<BitArray,string>
     {
@@ -88,7 +89,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(representation)));
-            int onesCount = CountOnes(representation!);
+            int onesCount =  representation!.CountOnes();
             return new QualityOfSolution(onesCount, onesCount, true);
         }
 
@@ -122,7 +123,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         public override double RepresentationDistanceDirectly(BitArray rep_1, BitArray rep_2)
         {
             rep_1.Xor(rep_2);
-            return CountOnes(rep_1);
+            return rep_1.CountOnes();
         }
 
         /// <summary>
@@ -150,13 +151,13 @@ namespace SingleObjective.Teaching.OnesCountProblem
             s += groupStart;
             s += base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "StringRepresentation()=" + this.StringRepresentation();
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

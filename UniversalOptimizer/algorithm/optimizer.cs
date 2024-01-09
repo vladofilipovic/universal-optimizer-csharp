@@ -41,7 +41,7 @@ namespace UniversalOptimizer.Algorithm
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public object Clone() => throw new NotImplementedException();
+        public virtual object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Property getter for the name of the optimizer.
@@ -256,8 +256,13 @@ namespace UniversalOptimizer.Algorithm
         /// </summary>
         /// <param name="solution">The solution that is source for coping operation.</param>
         /// <returns></returns>
-        public virtual void CopyToBestSolution(TargetSolution<R_co, A_co> solution)
+        public virtual void CopyToBestSolution(TargetSolution<R_co, A_co>?solution)
         {
+            if (solution == null)
+            {
+                _bestSolution = null;
+                return;
+            }
             _bestSolution = solution.Clone() as TargetSolution<R_co,A_co>;
             TimeSpan duration = DateTime.Now - ExecutionStarted;
             _timeWhenBestObtained = duration.TotalNanoseconds;
@@ -285,40 +290,40 @@ namespace UniversalOptimizer.Algorithm
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s = groupStart;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "name=" + Name + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "TargetProblem=" + TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
             s += "_OutputControl=" + OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
             s += "executionStarted=" + ExecutionStarted.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "executionEnded=" + ExecutionEnded.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "_timeWhenBestObtained=" + _timeWhenBestObtained.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "execution time=" + (ExecutionEnded - ExecutionStarted).TotalSeconds.ToString() + delimiter;
             s += "bestSolution=" + BestSolution?.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

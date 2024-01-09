@@ -252,7 +252,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         //                    var vnsConstructionParams = VnsOptimizerConstructionParameters();
         //                    vnsConstructionParams.OutputControl = OutputControl;
         //                    vnsConstructionParams.TargetProblem = problem;
-        //                    vnsConstructionParams.initialSolution = solution;
+        //                    vnsConstructionParams.solutionTemplate = solution;
         //                    vnsConstructionParams.problemSolutionVnsSupport = vns_support;
         //                    vnsConstructionParams.finishControl = finishControl;
         //                    vnsConstructionParams.randomSeed = rSeed;
@@ -282,7 +282,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         //                    var te_constructionParams = TeOptimizerConstructionParameters();
         //                    te_constructionParams.OutputControl = OutputControl;
         //                    te_constructionParams.TargetProblem = problem;
-        //                    te_constructionParams.initialSolution = solution;
+        //                    te_constructionParams.solutionTemplate = solution;
         //                    te_constructionParams.problemSolutionTeSupport = te_support;
         //                    solver = OnesCountProblemSolver.from_total_enumeration(te_constructionParams);
         //                }

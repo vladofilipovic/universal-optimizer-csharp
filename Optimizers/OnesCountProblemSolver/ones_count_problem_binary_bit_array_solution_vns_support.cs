@@ -63,7 +63,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 }
                 solution.Representation = repr;
                 var all_ok = true;
-                if (OnesCountProblemBinaryBitArraySolution.CountOnes(solution.Representation) > ocProblem.Dimension)
+                if (solution.Representation!.CountOnes() > ocProblem.Dimension)
                 {
                     all_ok = false;
                 }
@@ -240,7 +240,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns></returns>
-        public new string StringRep(
+        public string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

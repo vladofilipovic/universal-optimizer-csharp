@@ -43,7 +43,7 @@ namespace UniversalOptimizer.utils
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public object Clone() => throw new NotImplementedException();
+        public virtual object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Returns current state of the complex counter.

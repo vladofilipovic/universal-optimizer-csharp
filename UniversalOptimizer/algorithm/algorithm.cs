@@ -15,22 +15,36 @@ namespace UniversalOptimizer.Algorithm
     /// <seealso cref="uo.Algorithm.Optimizer" />
     public abstract class Algorithm<R_co, A_co> : Optimizer<R_co, A_co>  
     {
-
+        private TargetSolution<R_co, A_co>? _solutionTemplate;
         private int _evaluation;
         private int _iteration;
         private int _iterationBestFound;
 
-        public Algorithm(string name, OutputControl outputControl, TargetProblem targetProblem)
+        public Algorithm(string name, OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co>? solutionTemplate)
                 : base(name, outputControl: outputControl, targetProblem: targetProblem)
         {
+            _solutionTemplate = solutionTemplate;   
             _evaluation = 0;
             _iteration = 0;
             _iterationBestFound = 0;
         }
 
+        /// <summary>
+        /// Gets the solution template.
+        /// </summary>
+        /// <value>
+        /// The solution template.
+        /// </value>
+        public TargetSolution<R_co, A_co>? SolutionTemplate
+        {
+            get
+            {
+                return _solutionTemplate;
+            }
+        }
 
         /// <summary>
-        /// Property getter for current number of evaluations during algorithm execution.
+        /// Property getter and setter for current number of evaluations during algorithm execution.
         /// </summary>
         /// <value>
         /// The current number of evaluations.
@@ -48,7 +62,7 @@ namespace UniversalOptimizer.Algorithm
         }
 
         /// <summary>
-        /// Property getter for the iteration number of algorithm execution.
+        /// Property getter and setter for the iteration number of algorithm execution.
         /// </summary>
         /// <value>
         /// The iteration.
@@ -66,7 +80,7 @@ namespace UniversalOptimizer.Algorithm
         }
 
         /// <summary>
-        /// Property getter for the iteration number when the best solution is found.
+        /// Property getter and setter for the iteration number when the best solution is found.
         /// </summary>
         /// <value>
         /// The iteration.
@@ -89,10 +103,13 @@ namespace UniversalOptimizer.Algorithm
         /// </summary>
         /// <param name="solution">The solution that is source for coping operation.</param>
         /// <returns></returns>
-        public override void CopyToBestSolution(TargetSolution<R_co, A_co> solution)
+        public override void CopyToBestSolution(TargetSolution<R_co, A_co>? solution)
         {
             base.CopyToBestSolution(solution);
-            this.IterationBestFound = _iteration;
+            if (solution is not null)
+            {
+                this.IterationBestFound = _iteration;
+            }
         }
 
         /// <summary>
@@ -183,38 +200,38 @@ namespace UniversalOptimizer.Algorithm
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s = groupStart;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "name=" + Name + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "TargetProblem=" + TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "OutputControl=" + OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
             s += "_evaluation=" + _evaluation.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "executionStarted=" + ExecutionStarted.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "executionEnded=" + ExecutionEnded.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

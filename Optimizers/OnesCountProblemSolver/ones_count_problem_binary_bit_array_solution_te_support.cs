@@ -117,7 +117,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// :return: string representation of vns support instance
         /// return type str
         /// 
-        public new string StringRep(
+        public  string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

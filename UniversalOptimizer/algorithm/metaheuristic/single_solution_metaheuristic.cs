@@ -22,7 +22,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     public abstract class SingleSolutionMetaheuristic<R_co, A_co> : Metaheuristic<R_co, A_co> 
     {
 
-        private readonly TargetSolution<R_co, A_co> _currentSolution;
+        private TargetSolution<R_co, A_co>? _currentSolution;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SingleSolutionMetaheuristic{R_co, A_co}"/> class.
@@ -33,7 +33,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
         /// <param name="targetProblem">The target problem.</param>
-        /// <param name="initialSolution">The initial solution.</param>
+        /// <param name="solutionTemplate">The template for the solution.</param>
         public SingleSolutionMetaheuristic(
                 string name,
                 FinishControl finishControl,
@@ -41,20 +41,13 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 AdditionalStatisticsControl additionalStatisticsControl,
                 OutputControl outputControl,
                 TargetProblem targetProblem,
-                TargetSolution<R_co, A_co> initialSolution)
-                : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem)
+                TargetSolution<R_co, A_co>? solutionTemplate)
+                : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
         {
-            _currentSolution = (TargetSolution<R_co, A_co>)initialSolution.Clone();
+            _currentSolution = null;
+            CopyToBestSolution(null);
         }
 
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public new object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Property getter and setter for the current solution used during single solution 
@@ -63,11 +56,15 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <value>
         /// The current solution.
         /// </value>
-        public TargetSolution<R_co,A_co> CurrentSolution
+        public TargetSolution<R_co,A_co>? CurrentSolution
         {
             get
             {
                 return _currentSolution;
+            }
+            set 
+            {
+                _currentSolution = value;
             }
         }
 
@@ -88,19 +85,22 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += groupStart;
             s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
-            s += "currentSolution=" + CurrentSolution.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            if (CurrentSolution != null) 
+                s += "currentSolution=" + CurrentSolution.ToString() + delimiter;
+            else
+                s += "currentSolution=null" + delimiter;
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

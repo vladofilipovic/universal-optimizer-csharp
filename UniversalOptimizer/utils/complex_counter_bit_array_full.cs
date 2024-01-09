@@ -30,7 +30,7 @@ namespace UniversalOptimizer.utils
         /// <returns>
         /// A new object that is a copy of this instance.
         /// </returns>
-        public object Clone()
+        public virtual object Clone()
         {
             ComplexCounterBitArrayFull cl = new(0);
             cl._number_of_counters = _number_of_counters;

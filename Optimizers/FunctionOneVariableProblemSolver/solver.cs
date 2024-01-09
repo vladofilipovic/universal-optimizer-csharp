@@ -186,7 +186,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     additionalStatisticsControl: additionalStatisticsControl,
                     outputControl: outputControl,   
                     targetProblem: problem,
-                    initialSolution: solution, 
+                    solutionTemplate: solution, 
                     problemSolutionVnsSupport: vns_support,
                     kMin: opts.KMin,
                     kMax: opts.KMax,

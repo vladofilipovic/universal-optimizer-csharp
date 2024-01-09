@@ -19,6 +19,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
     /// <seealso cref="UniversalOptimizer.Algorithm.Metaheuristic.SingleSolutionMetaheuristic" />
     public class VnsOptimizer<R_co, A_co> : SingleSolutionMetaheuristic<R_co, A_co> 
     {
+        private readonly IProblemSolutionVnsSupport<R_co, A_co> _problemSolutionVnsSupport;
         private readonly Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>> _implementedLocalSearches;
 
         private readonly ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co> _lsMethod;
@@ -41,7 +42,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
         /// <param name="targetProblem">The target problem.</param>
-        /// <param name="initialSolution">The initial solution.</param>
+        /// <param name="solutionTemplate">The initial solution.</param>
         /// <param name="problemSolutionVnsSupport">The problem solution VNS support.</param>
         /// <param name="kMin">The k minimum.</param>
         /// <param name="kMax">The k maximum.</param>
@@ -53,17 +54,18 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             AdditionalStatisticsControl additionalStatisticsControl,
             OutputControl outputControl,
             TargetProblem targetProblem,
-            TargetSolution<R_co, A_co> initialSolution,
+            TargetSolution<R_co, A_co>? solutionTemplate,
             IProblemSolutionVnsSupport<R_co, A_co> problemSolutionVnsSupport,
             int kMin,
             int kMax,
             string localSearchType)
-            : base("VnsOptimizer", finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, initialSolution: initialSolution)
+            : base("VnsOptimizer", finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
         {
             _localSearchType = localSearchType;
             _implementedLocalSearches = new Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>>();
             if(problemSolutionVnsSupport is null)
                 throw new NullReferenceException(nameof(problemSolutionVnsSupport));
+            _problemSolutionVnsSupport = problemSolutionVnsSupport;
             _implementedLocalSearches.Add("LocalSearchBestImprovement", problemSolutionVnsSupport.LocalSearchBestImprovement);
             _implementedLocalSearches.Add("LocalSearchFirstImprovement", problemSolutionVnsSupport.LocalSearchFirstImprovement);
             if (!_implementedLocalSearches.TryGetValue(_localSearchType, out ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>? value))
@@ -76,15 +78,18 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             _kMax = kMax;
         }
 
- 
+
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// <returns>
         /// A new object that is a copy of this instance.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public new object Clone() => throw new NotImplementedException();
+        /// <exception cref="NotImplementedException"></exception>
+        public override object Clone()
+        {
+            return new VnsOptimizer<R_co, A_co>(this.FinishControl, this.RandomSeed, this.AdditionalStatisticsControl, this.OutputControl, this.TargetProblem, this.SolutionTemplate, this._problemSolutionVnsSupport, this.KMin, this.KMax, this._localSearchType);
+        }
 
         /// <summary>
         /// Gets the k minimum.
@@ -119,10 +124,15 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// 
         public override void Init()
         {
+            if (SolutionTemplate is null)
+            {
+                throw new ArgumentNullException(nameof(SolutionTemplate));
+            }
             _kCurrent = KMin;
+            CurrentSolution = (TargetSolution<R_co, A_co>)SolutionTemplate!.Clone();
             CurrentSolution.InitRandom(TargetProblem);
             CurrentSolution.Evaluate(TargetProblem);
-            CopyToBestSolution(CurrentSolution);
+            CopyToBestSolution(CurrentSolution);   
         }
 
         /// 
@@ -130,8 +140,12 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// 
         public override void MainLoopIteration()
         {
+            if (CurrentSolution is null)
+            {
+                throw new ArgumentNullException(nameof(CurrentSolution));
+            }
             WriteOutputValuesIfNeeded("beforeStepInIteration", "shaking");
-            if (!_shakingMethod((int)_kCurrent, TargetProblem, CurrentSolution, this))
+            if (!_shakingMethod((int)_kCurrent, TargetProblem, CurrentSolution!, this))
             {
                 WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
                 return;
@@ -189,7 +203,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
@@ -197,23 +211,23 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
             s += "currentSolution=" + _currentSolution!.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "kMin=" + KMin.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "kMax=" + KMax.ToString() + delimiter;
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "_localSearchType=" + _localSearchType.ToString() + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

@@ -8,6 +8,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using System.Collections;
     using System.Linq;
     using System.Security.Cryptography;
+    using UniversalOptimizer.utils;
 
     /// <summary>
     /// Class for solving OnesCountProblem, with binary int representation.
@@ -101,7 +102,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns></returns>
         public override QualityOfSolution CalculateQualityDirectly(uint representation, TargetProblem problem)
         {
-            var ones_count = OnesCountProblemBinaryUIntSolution.CountOnes( representation );
+            var ones_count = representation.CountOnes();
             return new QualityOfSolution(ones_count, ones_count, true);
         }
 
@@ -128,7 +129,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// </returns>
         public override double RepresentationDistanceDirectly(uint rep_1, uint rep_2)
         {
-            return OnesCountProblemBinaryUIntSolution.CountOnes( rep_1 ^ rep_2 );
+            return ( rep_1 ^ rep_2 ).CountOnes();
         }
 
         /// <summary>
@@ -148,7 +149,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             string groupEnd = "}")
         {
             var s = delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
@@ -156,13 +157,13 @@ namespace SingleObjective.Teaching.OnesCountProblem
             s += base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "StringRepresentation()=" + this.StringRepresentation();
             s += delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 s += indentationSymbol;
             }

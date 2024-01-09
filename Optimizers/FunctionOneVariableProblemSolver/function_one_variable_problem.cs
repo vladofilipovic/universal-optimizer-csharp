@@ -95,7 +95,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// A new object that is a copy of this instance.
         /// </returns>
-        public override TargetProblem Clone()
+        public override object Clone()
         {
             FunctionOneVariableProblem cl = new(
                 IsMinimization, Expression, DomainLow, DomainHigh);
@@ -163,26 +163,26 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             string groupEnd = "}")
         {
             StringBuilder sb = new(delimiter);
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 _ = sb.Append(indentationSymbol);
             }
             _ = sb.Append(groupStart);
             _ = sb.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
             _ = sb.Append(delimiter);
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 _ = sb.Append(indentationSymbol);
             }
             _ = sb.Append("expression=" + Expression);
             _ = sb.Append(delimiter);
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 _ = sb.Append(indentationSymbol);
             }
             _ = sb.Append("domainLow=" + DomainLow.ToString());
             _ = sb.Append(delimiter);
-            foreach (var i in Enumerable.Range(0, indentation - 0))
+            for(int i=0; i<indentation; i++)
             {
                 _ = sb.Append(indentationSymbol);
             }
