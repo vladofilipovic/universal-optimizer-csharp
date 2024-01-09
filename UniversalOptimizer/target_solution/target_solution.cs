@@ -9,54 +9,50 @@ namespace UniversalOptimizer.TargetSolution
     using UniversalOptimizer.TargetProblem;
 
     /// <summary>
-    /// Quality of the solution - encompasses objective value, fitness and feasibility  
-    /// </summary>
-    public struct QualityOfSolution
-    {
-        public double? ObjectiveValue { get; set; }
-        public IEnumerable<double> ObjectiveValues { get; set; }
-        public double? FitnessValue { get; set; }
-        public IEnumerable<double> FitnessValues { get; set; }
-        public bool? IsFeasible { get; set; }
-    };
-
-    /// <summary>
     /// Class that abstracts target solution. 
     /// </summary>
     /// <typeparam name="R_co">The type for the solution representation.</typeparam>
     /// <typeparam name="A_co">The type for the solution arguments.</typeparam>
-    public abstract class TargetSolution<R_co, A_co> : ICloneable
+    public abstract class TargetSolution<R_co, A_co> : ICloneable 
     {
-        private bool _evaluationCacheIsUsed;
-        private int _evaluationCacheMaxSize;
-        private string _name;
-        private double? _fitnessValue;
+        private double _fitnessValue;
         private IEnumerable<double> _fitnessValues;
-        private double? _objectiveValue;
+        private double _objectiveValue;
         private IEnumerable<double> _objectiveValues;
         private bool? _isFeasible;
         private int _randomSeed;
         private Random _randomGenerator;
         private R_co? _representation;
 
-        public static EvaluationCacheControlStatistics EvaluationCacheCS = new EvaluationCacheControlStatistics(false, 42);
+        public static EvaluationCacheControlStatistics EvaluationCacheCS = new(false, 42);
 
-        public static DistanceCalculationCacheControlStatistics<R_co> RepresentationDistanceCacheCS = new DistanceCalculationCacheControlStatistics<R_co>(false, 42);
+        public static DistanceCalculationCacheControlStatistics<R_co> RepresentationDistanceCacheCS = new(false, 42);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TargetSolution{R_co, A_co}"/> class.
+        /// </summary>
+        /// <param name="randomSeed">The random seed.</param>
+        /// <param name="fitnessValue">The fitness value.</param>
+        /// <param name="fitnessValues">The fitness values.</param>
+        /// <param name="objectiveValue">The objective value.</param>
+        /// <param name="objectiveValues">The objective values.</param>
+        /// <param name="isFeasible">The is feasible.</param>
+        /// <param name="evaluationCacheIsUsed">if set to <c>true</c> [evaluation cache is used].</param>
+        /// <param name="evaluationCacheMaxSize">Maximum size of the evaluation cache.</param>
+        /// <param name="distanceCalculationCacheIsUsed">if set to <c>true</c> [distance calculation cache is used].</param>
+        /// <param name="distanceCalculationCacheMaxSize">Maximum size of the distance calculation cache.</param>
         public TargetSolution(
-            string name,
             int? randomSeed,
             double fitnessValue,
             List<double> fitnessValues,
             double objectiveValue,
             List<double> objectiveValues,
-            bool isFeasible,
+            bool? isFeasible,
             bool evaluationCacheIsUsed,
             int evaluationCacheMaxSize,
             bool distanceCalculationCacheIsUsed,
             int distanceCalculationCacheMaxSize)
         {
-            _name = name;
             if (randomSeed is not null && randomSeed != 0)
             {
                 _randomSeed = randomSeed.GetValueOrDefault();
@@ -71,9 +67,8 @@ namespace UniversalOptimizer.TargetSolution
             _objectiveValue = objectiveValue;
             _objectiveValues = objectiveValues;
             _isFeasible = isFeasible;
-            _evaluationCacheIsUsed = evaluationCacheIsUsed;
-            _evaluationCacheMaxSize = evaluationCacheMaxSize;
-            EvaluationCacheCS = new EvaluationCacheControlStatistics(_evaluationCacheIsUsed, _evaluationCacheMaxSize);
+            _representation = default;
+            EvaluationCacheCS = new EvaluationCacheControlStatistics(evaluationCacheIsUsed, evaluationCacheMaxSize);
             RepresentationDistanceCacheCS = new DistanceCalculationCacheControlStatistics<R_co>(distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize);
         }
 
@@ -82,26 +77,7 @@ namespace UniversalOptimizer.TargetSolution
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public object Clone() => throw new NotImplementedException();
-
-        /// <summary>
-        /// Property getter for the name of the target solution
-        /// </summary>
-        /// <returns>
-        /// name of the target solution instance 
-        /// return type string
-        /// </returns>        
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set 
-            { 
-                _name = value;
-            }
-        }
+        public virtual object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Property getter and setter for fitness value of the target solution.
@@ -110,7 +86,7 @@ namespace UniversalOptimizer.TargetSolution
         /// The fitness value.
         /// </value>
         /// 
-        public double? FitnessValue
+        public double FitnessValue
         {
             get
             {
@@ -148,7 +124,7 @@ namespace UniversalOptimizer.TargetSolution
         /// The objective value.
         /// </value>
         /// 
-        public double? ObjectiveValue
+        public double ObjectiveValue
         {
             get
             {
@@ -205,7 +181,7 @@ namespace UniversalOptimizer.TargetSolution
         /// The representation.
         /// </value>
         /// 
-        public R_co Representation
+        public R_co? Representation
         {
             get
             {
@@ -217,19 +193,16 @@ namespace UniversalOptimizer.TargetSolution
             }
         }
 
-
-        public void CopyFrom(TargetSolution<R_co, A_co> original)
+        public virtual void CopyFrom(TargetSolution<R_co, A_co> original)
         {
             this._fitnessValue = original._fitnessValue;
             this._fitnessValues = original._fitnessValues;
             this._isFeasible= original._isFeasible;
-            this._name = original._name;
             this._objectiveValue = original._objectiveValue;
             this._objectiveValues = original._objectiveValues;
             this._randomSeed = original._randomSeed;
             this._randomGenerator = original._randomGenerator;
             this._representation = original._representation;
-
         }
 
         /// <summary>
@@ -241,14 +214,14 @@ namespace UniversalOptimizer.TargetSolution
         /// <returns> arguments of the solution 
         /// return type A_co
         /// </returns>        
-        public abstract A_co Argument(R_co representation);
+        public abstract A_co Argument(R_co? representation);
 
         /// <summary>
         /// String representation of the target solution.
         /// </summary>
         /// <returns></returns>
         /// 
-        public string StringRepresentation() => Argument(Representation).ToString();
+        public string StringRepresentation() => Argument(Representation)!.ToString() ?? "Invalid representation";
 
         /// <summary>
         /// Random initialization of the solution.
@@ -279,7 +252,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <param name="representation">The native representation of the solution for which objective value, fitness and feasibility are calculated.</param>
         /// <param name="problem">The problem that is solved.</param>
         /// <returns></returns>
-        public abstract QualityOfSolution CalculateQualityDirectly(R_co representation, TargetProblem problem);
+        public abstract QualityOfSolution CalculateQualityDirectly(R_co? representation, TargetProblem problem);
 
         /// <summary>
         /// Calculate fitness, objective and feasibility of the solution, with optional cache consultation.
@@ -304,7 +277,7 @@ namespace UniversalOptimizer.TargetSolution
                 {
                     /// removing random
                     var code = eccs.Cache.ElementAt(_randomGenerator.Next(0, eccs.Cache.Count)).Key;
-                    eccs.Cache.Remove(code);
+                    _ = eccs.Cache.Remove(code);
                 }
                 eccs.Cache[rep] = qos;
                 return qos;
@@ -323,8 +296,8 @@ namespace UniversalOptimizer.TargetSolution
         public virtual void Evaluate(TargetProblem targetProblem)
         {
             QualityOfSolution qos = CalculateQuality(targetProblem);
-            ObjectiveValue = qos.ObjectiveValue;
-            FitnessValue = qos.FitnessValue;
+            ObjectiveValue = qos.ObjectiveValue?? double.NaN;
+            FitnessValue = qos.FitnessValue ?? double.NaN;
             IsFeasible = qos.IsFeasible;
         }
 
@@ -360,7 +333,7 @@ namespace UniversalOptimizer.TargetSolution
                 {
                     /// removing random
                     var code = rdcs.Cache.ElementAt(_randomGenerator.Next(0, rdcs.Cache.Count)).Key;
-                    rdcs.Cache.Remove(code);
+                    _ = rdcs.Cache.Remove(code);
                 }
                 rdcs.Cache[pair] = ret;
                 return ret;
@@ -381,7 +354,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns></returns>
-        public new string StringRep(
+        public string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",
@@ -394,11 +367,6 @@ namespace UniversalOptimizer.TargetSolution
                 s += indentationSymbol;
             }
             s += groupStart + delimiter;
-            foreach (var i in Enumerable.Range(0, indentation - 0))
-            {
-                s += indentationSymbol;
-            }
-            s += "name=" + Name + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;
@@ -428,7 +396,7 @@ namespace UniversalOptimizer.TargetSolution
             {
                 s += indentationSymbol;
             }
-            s += "representation()=" + Representation.ToString() + delimiter;
+            s += "representation()=" + Representation!.ToString() + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;

@@ -29,8 +29,10 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="maxLocalOptima">The maximum local optima.</param>
         public AdditionalStatisticsControl(string keep = "", int maxLocalOptima = 10)
         {
+            _allSolutionCodes = new HashSet<string>();
+            _moreLocalOptima = new Dictionary<string, double>();
             _canBeKept = new List<string> {
-                    "allSolution_code",
+                    "allSolutionCode",
                     "moreLocalOptima"
                 };
             _maxLocalOptima = maxLocalOptima;
@@ -42,8 +44,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// Helper function that determines which criteria should be checked during.
         /// </summary>
         /// <param name="keep">The keep - comma-separated list of values that should be kept
-        /// (currently keep contains strings `allSolution_code`, `moreLocalOptima`).</param>
-        /// <exception cref="ValueError">Invalid value for keep '{}'. Should be one of:{}.".format(k, "allSolution_code, moreLocalOptima")</exception> 
+        /// (currently keep contains strings `allSolutionCode`, `moreLocalOptima`).</param>
+        /// <exception cref="ValueError">Invalid value for keep '{}'. Should be one of:{}.".format(k, "allSolutionCode, moreLocalOptima")</exception> 
         private void DetermineKeepHelper(string keep)
         {
             _keepAllSolutionCodes = false;
@@ -56,7 +58,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 {
                     continue;
                 }
-                if (k == "allSolution_code")
+                if (k == "allSolutionCode")
                 {
                     _keepAllSolutionCodes = true;
                 }
@@ -66,7 +68,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid value for keep '" + k + "'. Should be one of: allSolution_code, moreLocalOptima");
+                    throw new ArgumentException("Invalid value for keep '" + k + "'. Should be one of: allSolutionCode, moreLocalOptima");
                 }
             }
             _allSolutionCodes = new HashSet<string>();
@@ -100,7 +102,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 var ret = "";
                 if (_keepAllSolutionCodes)
                 {
-                    ret += "allSolution_code, ";
+                    ret += "allSolutionCode, ";
                 }
                 if (_keepMoreLocalOptima)
                 {
@@ -168,7 +170,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         {
             if (KeepAllSolutionCodes)
             {
-                _allSolutionCodes!.Add(representation);
+                _ = _allSolutionCodes!.Add(representation);
             }
         }
 
@@ -206,7 +208,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                                 ToArray()[_random.Next(_moreLocalOptima.Keys.Count)];
                     if (code != bestSolutionRep)
                     {
-                        _moreLocalOptima.Remove(code);
+                        _ = _moreLocalOptima.Remove(code);
                         break;
                     }
                 }
@@ -224,7 +226,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns>The string representation.</returns>
-        public new string StringRep(
+        public string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

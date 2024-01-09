@@ -14,9 +14,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
     public delegate bool ProblemSolutionVnsSupportShakingMethod<R_co, A_co>(int k,
             TargetProblem problem,
             TargetSolution<R_co, A_co> solution,
-            Metaheuristic<R_co, A_co> optimizer,
-            IEnumerable<R_co> solutionRepresentations);
-    public delegate TargetSolution<R_co, A_co> ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>(int k,
+            Metaheuristic<R_co, A_co> optimizer);
+    public delegate bool ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>(int k,
         TargetProblem problem,
         TargetSolution<R_co, A_co> solution,
         Metaheuristic<R_co, A_co> optimizer);
@@ -38,8 +37,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             int k,
             TargetProblem problem,
             TargetSolution<R_co, A_co> solution,
-            Metaheuristic<R_co, A_co> optimizer,
-            IEnumerable<R_co> solutionRepresentations);
+            Metaheuristic<R_co, A_co> optimizer);
 
         /// <summary>
         /// Executes "best improvement" variant of the local search procedure.
@@ -48,8 +46,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// <param name="problem">The problem that is solved.</param>
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
-        /// <returns>Solution - result of the local search procedure.</returns>
-        public TargetSolution<R_co, A_co> LocalSearchBestImprovement(int k, TargetProblem problem,
+        /// <returns>if the local search procedure is successful.</returns>
+        public bool LocalSearchBestImprovement(int k, TargetProblem problem,
             TargetSolution<R_co, A_co> solution,
             Metaheuristic<R_co, A_co> optimizer);
 
@@ -60,8 +58,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// <param name="problem">The problem that is solved.</param>
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
-        /// <returns>Solution - result of the local search procedure.</returns>
-        public TargetSolution<R_co, A_co> LocalSearchFirstImprovement(int k, TargetProblem problem,
+        /// <returns>if the local search procedure is successful.</returns>
+        public bool LocalSearchFirstImprovement(int k, TargetProblem problem,
             TargetSolution<R_co, A_co> solution,
             Metaheuristic<R_co, A_co> optimizer);
     }

@@ -6,6 +6,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using System.IO;
     using UniversalOptimizer.TargetProblem;
     using System.Text;
+    using Serilog;
 
     public class FunctionOneVariableProblemElements
     {
@@ -16,7 +17,6 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
 
     public class FunctionOneVariableProblem : TargetProblem
     {
-
         private double _domainHigh;
         private double _domainLow;
         private string _expression;
@@ -28,7 +28,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="expression">The expression.</param>
         /// <param name="domainLow">The domain low.</param>
         /// <param name="domainHigh">The domain high.</param>
-        public FunctionOneVariableProblem(bool? isMinimization, string expression, double domainLow, double domainHigh)
+        public FunctionOneVariableProblem(bool isMinimization, string expression, double domainLow, double domainHigh)
             : base("FunctionOneVariableProblem", isMinimization)
         {
             _expression = expression;
@@ -41,18 +41,19 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </summary>
         /// <param name="isMinimization">if set to <c>true</c> [is minimization].</param>
         /// <param name="fovpe">The elements of the Function One Variable Problem.</param>
-        public FunctionOneVariableProblem(bool? isMinimization, FunctionOneVariableProblemElements fovpe) : this(isMinimization, fovpe.Expression, fovpe.DomainLow, fovpe.DomainHigh)
+        public FunctionOneVariableProblem(bool isMinimization, FunctionOneVariableProblemElements fovpe) : this(isMinimization, fovpe.Expression, fovpe.DomainLow, fovpe.DomainHigh)
         {
         }
 
         private static FunctionOneVariableProblemElements LoadFromFileHelper(string filePath, string dataFormat)
         {
+            Log.Debug(string.Format("Load parameters: file path= {0}, data format representation={1}.", filePath, dataFormat));
             if (dataFormat == "txt")
             {
-                StreamReader inputFile = new StreamReader(filePath);
-                var textLine = inputFile.ReadLine()?.Trim();
+                StreamReader inputFile = new(filePath);
+                string? textLine = inputFile.ReadLine()?.Trim();
                 /// skip comments
-                while (textLine.StartsWith("///") || textLine.StartsWith(";"))
+                while (textLine!.StartsWith("///") || textLine!.StartsWith(";"))
                 {
                     textLine = inputFile.ReadLine()?.Trim();
                 }
@@ -83,7 +84,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="isMinimization">if set to <c>true</c> [is minimization].</param>
         /// <param name="inputFilePath">The input file path.</param>
         /// <param name="inputFormat">The input format.</param>
-        public FunctionOneVariableProblem(bool? isMinimization, string inputFilePath, string inputFormat) :
+        public FunctionOneVariableProblem(bool isMinimization, string inputFilePath, string inputFormat) :
             this(isMinimization, LoadFromFileHelper(inputFilePath, inputFormat))
         {
         }
@@ -96,7 +97,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </returns>
         public override TargetProblem Clone()
         {
-            FunctionOneVariableProblem cl = new FunctionOneVariableProblem(
+            FunctionOneVariableProblem cl = new(
                 IsMinimization, Expression, DomainLow, DomainHigh);
             return cl;
         }
@@ -161,32 +162,32 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             string groupStart = "{",
             string groupEnd = "}")
         {
-            StringBuilder sb = new StringBuilder(delimiter);
+            StringBuilder sb = new(delimiter);
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
-                sb.Append(indentationSymbol);
+                _ = sb.Append(indentationSymbol);
             }
-            sb.Append(groupStart);
-            sb.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
-            sb.Append(delimiter);
+            _ = sb.Append(groupStart);
+            _ = sb.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
+            _ = sb.Append(delimiter);
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
-                sb.Append(indentationSymbol);
+                _ = sb.Append(indentationSymbol);
             }
-            sb.Append("expression=" + Expression);
-            sb.Append(delimiter);
+            _ = sb.Append("expression=" + Expression);
+            _ = sb.Append(delimiter);
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
-                sb.Append(indentationSymbol);
+                _ = sb.Append(indentationSymbol);
             }
-            sb.Append("domainLow=" + DomainLow.ToString());
-            sb.Append(delimiter);
+            _ = sb.Append("domainLow=" + DomainLow.ToString());
+            _ = sb.Append(delimiter);
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
-                sb.Append(indentationSymbol);
+                _ = sb.Append(indentationSymbol);
             }
-            sb.Append("domainHigh=" + DomainHigh.ToString());
-            sb.Append(groupEnd);
+            _ = sb.Append("domainHigh=" + DomainHigh.ToString());
+            _ = sb.Append(groupEnd);
             return sb.ToString();
         }
 

@@ -4,40 +4,25 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 {
 
     using UniversalOptimizer.Algorithm;
-
     using UniversalOptimizer.TargetProblem;
-
     using UniversalOptimizer.TargetSolution;
 
     using System;
-
     using System.Linq;
-
     using Serilog;
 
-
-    /// <summary>
-    /// Instance of this  class represents constructor parameters for total enumeration algorithm.
-    /// </summary>
-    public class TeOptimizerConstructionParameters<R_co, A_co>
-    {
-        public required TargetSolution<R_co, A_co> InitialSolution { get; set; }
-        public required OutputControl OutputControl { get; set; }
-        public required TargetProblem TargetProblem { get; set; }
-        public required IProblemSolutionTeSupport<R_co, A_co> ProblemSolutionTeSupport { get; set; }
-    }
 
     /// 
     ///     This class represent total enumeration algorithm
     ///     
-    public class TeOptimizer<R_co, A_co> : Algorithm<R_co, A_co>
+    public class TeOptimizer<R_co, A_co> : Algorithm<R_co, A_co> 
     {
 
         private TargetSolution<R_co, A_co> _currentSolution;
-        private ProblemSolutionTeSupportCanProgressMethod<R_co, A_co> _canProgressMethod;
-        private ProblemSolutionTeSupportProgressMethod<R_co, A_co> _progressMethod;
-        private ProblemSolutionTeSupportResetMethod<R_co, A_co> _resetMethod;
-        private ProblemSolutionTeSupportOverallNumberOfEvaluationsMethod<R_co, A_co> _overallNumberOfEvaluationsMethod;
+        private readonly ProblemSolutionTeSupportCanProgressMethod<R_co, A_co> _canProgressMethod;
+        private readonly ProblemSolutionTeSupportProgressMethod<R_co, A_co> _progressMethod;
+        private readonly ProblemSolutionTeSupportResetMethod<R_co, A_co> _resetMethod;
+        private readonly ProblemSolutionTeSupportOverallNumberOfEvaluationsMethod<R_co, A_co> _overallNumberOfEvaluationsMethod;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TeOptimizer{R_co, A_co}"/> class.
@@ -50,27 +35,14 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             : base("TotalEnumeration", outputControl: outputControl, targetProblem: targetProblem)
         {
             /// total enumeration support
-            if (problemSolutionTeSupport is not null)
-            {
-                _resetMethod = problemSolutionTeSupport.Reset;
-                _progressMethod = problemSolutionTeSupport.Progress;
-                _canProgressMethod = problemSolutionTeSupport.CanProgress;
-                _overallNumberOfEvaluationsMethod = problemSolutionTeSupport.OverallNumberOfEvaluations;
-            }
+            _resetMethod = problemSolutionTeSupport.Reset;
+            _progressMethod = problemSolutionTeSupport.Progress;
+            _canProgressMethod = problemSolutionTeSupport.CanProgress;
+            _overallNumberOfEvaluationsMethod = problemSolutionTeSupport.OverallNumberOfEvaluations;
             /// current solution
             _currentSolution = initialSolution;
             CopyToBestSolution(initialSolution);
         }
-
-        /// <summary>
-        /// From the optimizer, based on construction tuple.
-        /// </summary>
-        /// <typeparam name="R_co">The type of the co.</typeparam>
-        /// <typeparam name="A_co">The type of the co.</typeparam>
-        /// <param name="constructionTuple">The construction tuple.</param>
-        /// <returns></returns>
-        public static TeOptimizer<R_co, A_co> FromConstructionTuple<R_co, A_co>(TeOptimizerConstructionParameters<R_co, A_co> constructionTuple) => new TeOptimizer<R_co, A_co>(constructionTuple.OutputControl, constructionTuple.TargetProblem, constructionTuple.InitialSolution, constructionTuple.ProblemSolutionTeSupport);
-
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -79,7 +51,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public object Clone() => throw new NotImplementedException();
+        public new object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Gets or sets the current solution used during TE execution.
@@ -129,8 +101,8 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
                 WriteOutputValuesIfNeeded("beforeIteration", "b_i");
                 Iteration += 1;
                 _progressMethod(this.TargetProblem, CurrentSolution, this);
-                bool? new_is_better = IsFirstSolutionBetter(CurrentSolution, BestSolution);
-                if ((bool)new_is_better)
+                bool? new_is_better = IsFirstSolutionBetter(CurrentSolution, BestSolution!);
+                if(new_is_better == true)
                 {
                     CopyToBestSolution(CurrentSolution);
                 }

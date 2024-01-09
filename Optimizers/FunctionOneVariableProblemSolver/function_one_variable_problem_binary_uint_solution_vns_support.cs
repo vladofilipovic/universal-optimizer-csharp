@@ -15,12 +15,12 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using System.Linq;
     using UniversalOptimizer.utils;
 
-    public class FunctionOneVariableProblemBinaryIntSolutionVnsSupport : IProblemSolutionVnsSupport<int, double>
+    public class FunctionOneVariableProblemBinaryUIntSolutionVnsSupport : IProblemSolutionVnsSupport<int, double>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FunctionOneVariableProblemBinaryIntSolutionVnsSupport"/> class.
+        /// Initializes a new instance of the <see cref="FunctionOneVariableProblemBinaryUIntSolutionVnsSupport"/> class.
         /// </summary>
-        public FunctionOneVariableProblemBinaryIntSolutionVnsSupport()
+        public FunctionOneVariableProblemBinaryUIntSolutionVnsSupport()
         {
         }
 
@@ -36,7 +36,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// if shaking is successful
         /// </returns>
-        public bool Shaking(int k, TargetProblem problem, TargetSolution<int, double> solution, Metaheuristic<int, double> optimizer, IEnumerable<int> solutionRepresentations)
+        public bool Shaking(int k, TargetProblem problem, TargetSolution<int, double> solution, Metaheuristic<int, double> optimizer)
         {
             if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
             {
@@ -50,7 +50,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 var positions = new List<int>();
                 foreach (var i in Enumerable.Range(0, k - 0))
                 {
-                    positions.Append((new Random()).Next(representationLength));
+                    _ = positions.Append((new Random()).Next(representationLength));
                 }
                 var mask = 0;
                 foreach (var p in positions)
@@ -96,24 +96,22 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// Solution - result of the local search procedure.
         /// </returns>
-        public TargetSolution<int, double> LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<int, double> solution, Metaheuristic<int, double> optimizer)
+        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<int, double> solution, Metaheuristic<int, double> optimizer)
         {
             int representationLength = 32;
             if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
             {
-                return solution;
+                return false;
             }
             if (k < 1 || k > representationLength)
             {
-                return solution;
+                return false;
             }
+            FunctionOneVariableProblemBinaryUIntSolution startSolution = (FunctionOneVariableProblemBinaryUIntSolution)solution.Clone();
             int? bestRep = null;
-            var bestTuple = new QualityOfSolution()
-            {
-                ObjectiveValue = solution.ObjectiveValue,
-                FitnessValue = solution.FitnessValue,
-                IsFeasible = solution.IsFeasible
-            };
+            var bestTuple = new QualityOfSolution(objectiveValue: solution.ObjectiveValue,
+                    fitnessValue: solution.FitnessValue,
+                    isFeasible: solution.IsFeasible ?? false);
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, representationLength);
             var in_loop = indexes.Reset();
@@ -131,12 +129,13 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 optimizer.Evaluation += 1;
                 if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
                 {
-                    return solution;
+                    solution.CopyFrom(startSolution);
+                    return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                 var newTuple = solution.CalculateQuality(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (newTuple.FitnessValue > bestTuple.FitnessValue)
+                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization) == true)
                 {
                     bestTuple = newTuple;
                     bestRep = solution.Representation;
@@ -148,12 +147,13 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             if (bestRep is not null)
             {
                 solution.Representation = (int)bestRep;
-                solution.ObjectiveValue = bestTuple.ObjectiveValue;
-                solution.FitnessValue = bestTuple.FitnessValue;
+                solution.ObjectiveValue = bestTuple.ObjectiveValue ?? double.NaN;
+                solution.FitnessValue = bestTuple.FitnessValue ?? double.NaN;
                 solution.IsFeasible = bestTuple.IsFeasible;
-                return solution;
+                return true;
             }
-            return solution;
+            solution.CopyFrom(startSolution);
+            return false;
         }
 
         /// <summary>
@@ -166,18 +166,21 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// Solution - result of the local search procedure.
         /// </returns>
-        public TargetSolution<int, double> LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<int, double> solution, Metaheuristic<int, double> optimizer)
+        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<int, double> solution, Metaheuristic<int, double> optimizer)
         {
             var representationLength = 32;
             if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
             {
-                return solution;
+                return false;
             }
             if (k < 1 || k > representationLength)
             {
-                return solution;
+                return false;
             }
-            var best_fv = solution.FitnessValue;
+            FunctionOneVariableProblemBinaryUIntSolution startSolution = (FunctionOneVariableProblemBinaryUIntSolution)solution.Clone();
+            var bestTuple = new QualityOfSolution(objectiveValue: solution.ObjectiveValue,
+                fitnessValue: solution.FitnessValue,
+                isFeasible: solution.IsFeasible ?? false);
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, representationLength);
             var in_loop = indexes.Reset();
@@ -195,23 +198,25 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 optimizer.Evaluation += 1;
                 if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
                 {
-                    return solution;
+                    solution.CopyFrom(startSolution);
+                    return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                 var newTuple = solution.CalculateQuality(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (newTuple.FitnessValue > best_fv)
+                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization) == true)
                 {
-                    solution.FitnessValue = newTuple.FitnessValue;
-                    solution.ObjectiveValue = newTuple.ObjectiveValue;
+                    solution.FitnessValue = newTuple.FitnessValue ?? double.NaN;
+                    solution.ObjectiveValue = newTuple.ObjectiveValue ?? double.NaN;
                     solution.IsFeasible = newTuple.IsFeasible;
-                    return solution;
+                    return true;
                 }
                 solution.Representation ^= mask;
                 /// increment indexes and set in_loop accordingly
                 in_loop = indexes.Progress();
             }
-            return solution;
+            solution.CopyFrom(startSolution);
+            return false;
         }
 
         /// <summary>
@@ -223,12 +228,12 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns></returns>
-        public new string StringRep(
+        public string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",
             string groupStart = "{",
-            string groupEnd = "}") => "FunctionOneVariableProblemBinaryIntSolutionVnsSupport";
+            string groupEnd = "}") => "FunctionOneVariableProblemBinaryUIntSolutionVnsSupport";
 
         /// <summary>
         /// Converts to string.
@@ -237,6 +242,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
         public override string ToString() => StringRep("|");
+
     }
 }
 

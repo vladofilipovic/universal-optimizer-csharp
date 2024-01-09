@@ -8,14 +8,14 @@ namespace GraphFileTransformations
         public static int transform(string putanjaUlaz, string putanjaIzlaz)
         {
             string linija;
-            int brojCvorova = 0, brojGrana = 0;
-            int[] poc = null;
-            int[] kraj = null;
+            int brojCvorova, brojGrana;
+            int[] poc;
+            int[] kraj;
 
             try
             {
-                StreamReader citac = new StreamReader(putanjaUlaz);
-                linija = citac.ReadLine().Trim();
+                StreamReader citac = new(putanjaUlaz);
+                linija = citac.ReadLine()!.Trim();
                 string[] parcici = linija.Split(' ');
                 brojCvorova = Convert.ToInt32(parcici[0]);
                 brojGrana = Convert.ToInt32(parcici[1]);
@@ -23,7 +23,7 @@ namespace GraphFileTransformations
                 kraj = new int[brojGrana];
                 for (int i = 0; i < brojGrana; i++)
                 {
-                    linija = citac.ReadLine().Trim();
+                    linija = citac.ReadLine()!.Trim();
                     string[] delovi = linija.Split(' ');
                     poc[i] = Convert.ToInt32(delovi[0]);
                     kraj[i] = Convert.ToInt32(delovi[1]);
@@ -55,7 +55,7 @@ namespace GraphFileTransformations
                 "</graphml>";
             try
             {
-                StreamWriter pisac = new StreamWriter(putanjaIzlaz);
+                StreamWriter pisac = new(putanjaIzlaz);
                 pisac.WriteLine(prolog);
                 for (int i = 0; i < brojCvorova; i++)
                 {

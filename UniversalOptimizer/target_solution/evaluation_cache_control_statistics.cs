@@ -137,7 +137,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <param name="groupEnd">The group end.</param>
         /// <returns></returns>
         /// 
-        public new string StringRep(
+        public  string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

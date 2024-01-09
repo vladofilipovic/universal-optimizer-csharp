@@ -11,11 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransformationGraphFiles", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransformationProblemInstances", "Tools\transformation.problem.instance\TransformationProblemInstances\TransformationProblemInstances.csproj", "{00E73DEF-C27E-43F1-AB33-656F754D5218}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionOneVariableProblemSolver", "Optimizers\FunctionOneVariableProblemSolver\FunctionOneVariableProblemSolver.csproj", "{47C05198-4335-477C-8915-2921877D7FC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionOneVariableProblemSolver", "Optimizers\FunctionOneVariableProblemSolver\FunctionOneVariableProblemSolver.csproj", "{47C05198-4335-477C-8915-2921877D7FC3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solvers", "Solvers", "{5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnesCountProblemSolver", "Optimizers\OnesCountProblemSolver\OnesCountProblemSolver.csproj", "{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnesCountProblemSolver", "Optimizers\OnesCountProblemSolver\OnesCountProblemSolver.csproj", "{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalOptimizerTest", "UniversalOptimizerTest\UniversalOptimizerTest.csproj", "{0AB5F040-75B0-4E68-9E03-F5B5D7443647}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AB5F040-75B0-4E68-9E03-F5B5D7443647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AB5F040-75B0-4E68-9E03-F5B5D7443647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AB5F040-75B0-4E68-9E03-F5B5D7443647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AB5F040-75B0-4E68-9E03-F5B5D7443647}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

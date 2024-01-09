@@ -42,7 +42,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             try
             {
                 Log.Debug("Solver started.");
-                Parser.Default.ParseArguments<VariableNeighborhoodSearchOptions, IdleOptions>(args)
+                _ = Parser.Default.ParseArguments<VariableNeighborhoodSearchOptions, IdleOptions>(args)
                     .MapResult(
                           (VariableNeighborhoodSearchOptions opts) => ExecuteVns(opts),
                           (IdleOptions opts) => ExecuteIdle(opts),
@@ -80,8 +80,8 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 throw new ArgumentException("Either minimization or maximization should be selected.");
             }
             /// output file setup
-            StreamWriter outputFile = new StreamWriter("tmp.tmp");
-            OutputControl outputControl = default;
+            StreamWriter outputFile = new("tmp.tmp");
+            OutputControl outputControl = new OutputControl();
             if (opts.WriteToOutputFile)
             {
                 bool shouldAddTimestampToFileName = opts.OutputFileNameAppendTimeStamp;
@@ -101,10 +101,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 string[] outputFileNameParts = outputFileNameExt.Split(".");
                 string outputFileExt;
                 string outputFileName;
-                if (outputFileNameParts.Count() > 1)
+                if (outputFileNameParts.Length > 1)
                 {
                     outputFileExt = outputFileNameParts[^1];
-                    outputFileNameParts = outputFileNameParts.Take(outputFileNameParts.Count() - 1).ToArray();
+                    outputFileNameParts = outputFileNameParts.Take(outputFileNameParts.Length - 1).ToArray();
                     outputFileName = String.Join('.', outputFileNameParts);
                 }
                 else
@@ -113,21 +113,21 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     outputFileName = outputFileNameParts[0];
                 }
                 var dt = DateTime.Now;
-                outputFilePathParts = outputFilePathParts.Take(outputFilePathParts.Count() - 1).ToArray();
+                outputFilePathParts = outputFilePathParts.Take(outputFilePathParts.Length - 1).ToArray();
                 var outputFileDir = String.Join('/', outputFilePathParts);
                 if (shouldAddTimestampToFileName)
                 {
-                    outputFilePathParts.Append(outputFileName + "-fun1v-vns-" + opts.SolutionType + "-" + opts.OptimizationType.Substring(0, 3) + "-" + dt.ToString("%Y-%m-%d-%H-%M-%S.%f") + "." + outputFileExt);
+                    _ = outputFilePathParts.Append(outputFileName + "-fun1v-vns-" + opts.SolutionType + "-" + opts.OptimizationType[..3] + "-" + dt.ToString("%Y-%m-%d-%H-%M-%S.%f") + "." + outputFileExt);
                 }
                 else
                 {
-                    outputFilePathParts.Append(outputFileName + "-fun1v-vns-" + opts.SolutionType + "-" + opts.OptimizationType.Substring(0, 3) + "." + outputFileExt);
+                    _ = outputFilePathParts.Append(outputFileName + "-fun1v-vns-" + opts.SolutionType + "-" + opts.OptimizationType[..3] + "." + outputFileExt);
                 }
                 string outputFilePath = String.Join('/', outputFilePathParts);
                 Log.Debug(String.Format("Output file path: {0}", outputFilePath));
                 bool dirExists = System.IO.Directory.Exists(outputFileDir);
                 if (!dirExists)
-                    System.IO.Directory.CreateDirectory(outputFileDir);
+                    _ = System.IO.Directory.CreateDirectory(outputFileDir);
                 outputFile = new StreamWriter(outputFilePath, append: true, Encoding.UTF8);
                 // output control setup
                 if (opts.WriteToOutputFile)
@@ -159,7 +159,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     outputFile.Write(string.Format("# RandomSeed is not predefined. Generated seed value:  %d\n", rSeed));
                 }
             }
-            Random randomGenerator = new Random(rSeed);
+            Random randomGenerator = new(rSeed);
             /// finishing criteria setup
             var finishControl = new FinishControl(criteria: opts.FinishCriteria, evaluationsMax: opts.FinishEvaluationsMax, iterationsMax: opts.FinishIterationsMax, secondsMax: opts.FinishSecondsMax);
             /// solution evaluations and calculations cache setup
@@ -176,42 +176,35 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             if (opts.SolutionType == "int")
             {
                 /// initial solution and vns support
-                TargetSolution<int, double> solution = default;
-                IProblemSolutionVnsSupport<int, double> vns_support = default;
                 var numberOfIntervals = opts.SolutionNumberOfIntervals;
-                solution = new FunctionOneVariableProblemBinaryIntSolution(domainFrom: problem.DomainLow, domainTo: problem.DomainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
-                vns_support = new FunctionOneVariableProblemBinaryIntSolutionVnsSupport();
-                /// solver construction parameters
-                var vnsConstructionParams = new VnsOptimizerConstructionParameters<int, double>()
-                {
-                    OutputControl = outputControl,
-                    TargetProblem = problem,
-                    InitialSolution = solution,
-                    ProblemSolutionVnsSupport = vns_support,
-                    FinishControl = finishControl,
-                    RandomSeed = rSeed,
-                    AdditionalStatisticsControl = additionalStatisticsControl,
-                    KMin = opts.KMin,
-                    KMax = opts.KMax,
-                    LocalSearchType = opts.LocalSearchType
-                };
-                var solver = new FunctionOneVariableProblemSolver("vns", finishControl: finishControl,
-                    outputControl: outputControl,
+                TargetSolution<int, double> solution = new FunctionOneVariableProblemBinaryUIntSolution(domainFrom: problem.DomainLow, domainTo: problem.DomainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
+                IProblemSolutionVnsSupport<int, double> vns_support = new FunctionOneVariableProblemBinaryUIntSolutionVnsSupport();
+                /// solver construction 
+                var solver = new VnsOptimizer<int, double>(
+                    finishControl: finishControl,
+                    randomSeed: rSeed,
+                    additionalStatisticsControl: additionalStatisticsControl,
+                    outputControl: outputControl,   
                     targetProblem: problem,
-                    initialSolution: solution,
-                    vnsProblemSolutionSupport: vns_support,
-                    vnsRandomSeed: rSeed,
-                    vnsAdditionalStatisticsControl: additionalStatisticsControl,
-                    vnsKMin: opts.KMin,
-                    vnsKMax: opts.KMax,
-                    vnsLocalSearchType: opts.LocalSearchType);
-                solver.Opt.Optimize();
-                Log.Debug("Method VNS finished.");
-                Log.Information(string.Format( "Best solution code: {}", solver.Opt.BestSolution.StringRepresentation()));
-                Log.Information(string.Format( "Best solution objective: {}, fitness: {}", solver.Opt.BestSolution.ObjectiveValue, solver.Opt.BestSolution.FitnessValue));
-                Log.Information(string.Format( "Number of iterations: {}, evaluations: {}", solver.Opt.Iteration, solver.Opt.Evaluation));
-                Log.Information("Execution: {} - {}", solver.Opt.ExecutionStarted, solver.Opt.ExecutionEnded);
-                Log.Debug("Solver ended.");
+                    initialSolution: solution, 
+                    problemSolutionVnsSupport: vns_support,
+                    kMin: opts.KMin,
+                    kMax: opts.KMax,
+                    localSearchType: opts.LocalSearchType);
+                if (solver is not null)
+                {
+                    solver.Optimize();
+                    Log.Debug("Method VNS finished.");
+                    Log.Information(string.Format("Best solution code: {0}", solver.BestSolution!.StringRepresentation()));
+                    Log.Information(string.Format("Best solution objective: {0}, fitness: {1}", solver.BestSolution.ObjectiveValue, solver.BestSolution.FitnessValue));
+                    Log.Information(string.Format("Number of iterations: {0}, evaluations: {1}", solver.Iteration, solver.Evaluation));
+                    Log.Information("Execution: {0} - {1}", solver.ExecutionStarted, solver.ExecutionEnded);
+                    Log.Debug("Solver ended.");
+                }
+                else {
+                    ArgumentNullException argumentNullException = new ArgumentNullException("VNS solver is null.");
+                    throw argumentNullException;
+                }
             }
             else
             {

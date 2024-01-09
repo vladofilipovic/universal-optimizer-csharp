@@ -15,15 +15,15 @@ namespace Transformation
 		public static List<BitArray> FromSetCoveringToSplitingSkipWeight(List<string[]> old)
 		{
 			if (old.Count <= 0)
-				return null;
+				return [];
 			int index = 0;
 			while ((old[index].Length == 0 || old[index][0] == "") && index < old.Count)
 				index++;
 			if (old[index].Length < 2)
-				return null;
+				return [];
 			int numElements = Convert.ToInt32(old[index][0]);
 			int numSubsets = Convert.ToInt32(old[index][1]);
-			List<BitArray> ret = new List<BitArray>();
+			List<BitArray> ret = new();
 			for (int i = 0; i < numSubsets; i++)
 			{
 				ret.Add(new BitArray(numElements, false));
@@ -61,15 +61,15 @@ namespace Transformation
 		public static List<BitArray> FromSetCoveringToSplitingNoSkip(List<string[]> old)
 		{
 			if (old.Count <= 0)
-				return null;
+				return [];
 			int index = 0;
 			while ((old[index].Length == 0 || old[index][0] == "") && index < old.Count)
 				index++;
 			if (old[index].Length < 2)
-				return null;
+				return [];
 			int numElements = Convert.ToInt32(old[index][0]);
 			int numSubsets = Convert.ToInt32(old[index][1]);
-			List<BitArray> ret = new List<BitArray>();
+			List<BitArray> ret = new();
 			for (int i = 0; i < numSubsets; i++)
 			{
 				ret.Add(new BitArray(numElements, false));

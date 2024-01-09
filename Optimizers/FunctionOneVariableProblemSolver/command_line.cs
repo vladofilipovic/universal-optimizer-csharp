@@ -64,7 +64,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem {
             [Option("solutionDistanceCalculationCacheMaxSize", Required = true, Default = 0, HelpText = "Maximum cache size for cache used in distance calculations between two solutions. Value 0 means that there is no limit on cache size.")]
             public int SolutionDistanceCalculationCacheMaxSize { get; set; }
 
-            [Option("additionalStatisticsKeep", Required = true, Default = "None", HelpText = "Comma-separated list of statistical data will be calculated and keep during solving. Currently, data within list can be: 'allSolution_code', 'distance_among_solutions'.")]
+            [Option("additionalStatisticsKeep", Required = true, Default = "None", HelpText = "Comma-separated list of statistical data will be calculated and keep during solving. Currently, data within list can be: 'allSolutionCode', 'distance_among_solutions'.")]
             public required string AdditionalStatisticsKeep { get; set; }
 
             [Option("additionalStatisticsMaxLocalOptima", Required = true, Default = 0, HelpText = "Parameter maximum number of local optima kept during execution.")]

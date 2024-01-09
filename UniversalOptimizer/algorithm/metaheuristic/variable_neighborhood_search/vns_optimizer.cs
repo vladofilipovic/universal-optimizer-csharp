@@ -3,58 +3,35 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 {
 
     using UniversalOptimizer.Algorithm;
-
     using UniversalOptimizer.TargetProblem;
-
     using UniversalOptimizer.TargetSolution;
-
     using UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch;
 
     using System.Collections.Generic;
-
     using System;
-
     using System.Linq;
-
     using Serilog;
 
-
-    /// <summary>
-    /// Instance of this class represents constructor parameters for VNS algorithm.
-    /// </summary>
-    public class VnsOptimizerConstructionParameters<R_co, A_co>
-    {
-        public required AdditionalStatisticsControl AdditionalStatisticsControl { get; set; }
-        public required FinishControl FinishControl { get; set; }
-        public required TargetSolution<R_co, A_co> InitialSolution { get; set; }
-        public int KMax { get; set; }
-        public int KMin { get; set; }
-        public required string LocalSearchType { get; set; }
-        public required OutputControl OutputControl { get; set; }
-        public required IProblemSolutionVnsSupport<R_co, A_co> ProblemSolutionVnsSupport { get; set; }
-        public int RandomSeed { get; set; }
-        public required TargetProblem TargetProblem { get; set; }
-    }
 
     /// <summary>
     /// Instance of this class encapsulate Variable Neighborhood Search optimization algorithm.
     /// </summary>
     /// <seealso cref="UniversalOptimizer.Algorithm.Metaheuristic.SingleSolutionMetaheuristic" />
-    public class VnsOptimizer<R_co, A_co> : SingleSolutionMetaheuristic<R_co, A_co>
+    public class VnsOptimizer<R_co, A_co> : SingleSolutionMetaheuristic<R_co, A_co> 
     {
-        private Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>> _implementedLocalSearches;
+        private readonly Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>> _implementedLocalSearches;
 
-        private ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co> _lsMethod;
+        private readonly ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co> _lsMethod;
 
-        private ProblemSolutionVnsSupportShakingMethod<R_co, A_co> _shakingMethod;
+        private readonly ProblemSolutionVnsSupportShakingMethod<R_co, A_co> _shakingMethod;
 
-        private int? _kCurrent;
-        private int? _kMax;
-        private int? _kMin;
+        private int _kCurrent;
+        private readonly int _kMax;
+        private readonly int _kMin;
 
-        private string? _localSearchType;
+        private readonly string _localSearchType;
 
-        public TargetSolution<R_co, A_co> currentSolution;
+        public TargetSolution<R_co, A_co>? _currentSolution;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VnsOptimizer{R_co, A_co}"/> class.
@@ -78,35 +55,28 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             TargetProblem targetProblem,
             TargetSolution<R_co, A_co> initialSolution,
             IProblemSolutionVnsSupport<R_co, A_co> problemSolutionVnsSupport,
-            int? kMin,
-            int? kMax,
-            string? localSearchType)
+            int kMin,
+            int kMax,
+            string localSearchType)
             : base("VnsOptimizer", finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, initialSolution: initialSolution)
         {
             _localSearchType = localSearchType;
-            if (problemSolutionVnsSupport is not null)
+            _implementedLocalSearches = new Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>>();
+            if(problemSolutionVnsSupport is null)
+                throw new NullReferenceException(nameof(problemSolutionVnsSupport));
+            _implementedLocalSearches.Add("LocalSearchBestImprovement", problemSolutionVnsSupport.LocalSearchBestImprovement);
+            _implementedLocalSearches.Add("LocalSearchFirstImprovement", problemSolutionVnsSupport.LocalSearchFirstImprovement);
+            if (!_implementedLocalSearches.TryGetValue(_localSearchType, out ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>? value))
             {
-                _implementedLocalSearches = new Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>>();
-                _implementedLocalSearches.Add("LocalSearchBestImprovement", problemSolutionVnsSupport.LocalSearchBestImprovement);
-                _implementedLocalSearches.Add("LocalSearchFirstImprovement", problemSolutionVnsSupport.LocalSearchFirstImprovement);
-                if (!_implementedLocalSearches.ContainsKey(_localSearchType))
-                {
-                    throw new ArgumentException(String.Format("Value '{0}' for VNS localSearchType is not supported", _localSearchType));
-                }
-                _lsMethod = _implementedLocalSearches[_localSearchType];
-                _shakingMethod = problemSolutionVnsSupport.Shaking;
+                throw new ArgumentException(String.Format("Value '{0}' for VNS localSearchType is not supported", _localSearchType));
             }
+            _lsMethod = value;
+            _shakingMethod = problemSolutionVnsSupport.Shaking;
             _kMin = kMin;
             _kMax = kMax;
         }
 
-        /// <summary>
-        /// Forms optimizer from the construction tuple.
-        /// </summary>
-        /// <param name="constructionTuple">The construction tuple.</param>
-        /// <returns></returns>
-        public static VnsOptimizer<R_co, A_co> FromConstructionTuple(VnsOptimizerConstructionParameters<R_co, A_co> constructionTuple) => new(constructionTuple.FinishControl, constructionTuple.RandomSeed, constructionTuple.AdditionalStatisticsControl, constructionTuple.OutputControl, constructionTuple.TargetProblem, constructionTuple.InitialSolution, constructionTuple.ProblemSolutionVnsSupport, constructionTuple.KMin, constructionTuple.KMax, constructionTuple.LocalSearchType);
-
+ 
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
@@ -114,7 +84,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public object Clone() => throw new NotImplementedException();
+        public new object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Gets the k minimum.
@@ -161,8 +131,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         public override void MainLoopIteration()
         {
             WriteOutputValuesIfNeeded("beforeStepInIteration", "shaking");
-            var solutionReps = new List<R_co>();
-            if (!_shakingMethod((int)_kCurrent, TargetProblem, currentSolution, this, solutionReps))
+            if (!_shakingMethod((int)_kCurrent, TargetProblem, CurrentSolution, this))
             {
                 WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
                 return;
@@ -172,16 +141,16 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             while (_kCurrent <= KMax)
             {
                 WriteOutputValuesIfNeeded("beforeStepInIteration", "ls");
-                currentSolution = _lsMethod((int)_kCurrent, TargetProblem, currentSolution, this);
+                _lsMethod((int)_kCurrent, TargetProblem, CurrentSolution, this);
                 WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
                 /// update auxiliary structure that keeps all solution codes
-                AdditionalStatisticsControl.AddToAllSolutionCodesIfRequired(currentSolution.StringRepresentation());
-                AdditionalStatisticsControl.AddToMoreLocalOptimaIfRequired(currentSolution.StringRepresentation(), currentSolution.FitnessValue, BestSolution.StringRepresentation());
-                var new_is_better = IsFirstSolutionBetter(currentSolution, BestSolution);
+                AdditionalStatisticsControl.AddToAllSolutionCodesIfRequired(CurrentSolution.StringRepresentation());
+                _ = AdditionalStatisticsControl.AddToMoreLocalOptimaIfRequired(CurrentSolution.StringRepresentation(), CurrentSolution.FitnessValue, BestSolution!.StringRepresentation());
+                var new_is_better = IsFirstSolutionBetter(CurrentSolution, BestSolution);
                 var make_move = new_is_better;
                 if (new_is_better is null)
                 {
-                    if (currentSolution.StringRepresentation() == BestSolution.StringRepresentation())
+                    if (CurrentSolution.StringRepresentation() == BestSolution.StringRepresentation())
                     {
                         make_move = false;
                     }
@@ -191,9 +160,9 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
                         make_move = (new Random()).NextDouble() < 0.5;
                     }
                 }
-                if ((bool)make_move)
+                if (make_move == true)
                 {
-                    CopyToBestSolution(currentSolution);
+                    CopyToBestSolution(CurrentSolution);
                     _kCurrent = KMin;
                 }
                 else
@@ -227,7 +196,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             s += groupStart;
             s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
             s += delimiter;
-            s += "currentSolution=" + currentSolution.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
+            s += "currentSolution=" + _currentSolution!.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
             foreach (var i in Enumerable.Range(0, indentation - 0))
             {
                 s += indentationSymbol;

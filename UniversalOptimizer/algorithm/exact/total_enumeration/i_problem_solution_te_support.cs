@@ -12,12 +12,12 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 
     using System;
 
-    public delegate void ProblemSolutionTeSupportResetMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
-    public delegate void ProblemSolutionTeSupportProgressMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
-    public delegate bool ProblemSolutionTeSupportCanProgressMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
-    public delegate int ProblemSolutionTeSupportOverallNumberOfEvaluationsMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
+    public delegate void ProblemSolutionTeSupportResetMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer) ;
+    public delegate void ProblemSolutionTeSupportProgressMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer) ;
+    public delegate bool ProblemSolutionTeSupportCanProgressMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer) ;
+    public delegate long ProblemSolutionTeSupportOverallNumberOfEvaluationsMethod<R_co, A_co>(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer) ;
 
-    public interface IProblemSolutionTeSupport<R_co, A_co>
+    public interface IProblemSolutionTeSupport<R_co, A_co> 
     {
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
         /// <returns></returns>
-        public int OverallNumberOfEvaluations(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
+        public long OverallNumberOfEvaluations(TargetProblem problem, TargetSolution<R_co, A_co> solution, Algorithm<R_co, A_co> optimizer);
     }
 }
 

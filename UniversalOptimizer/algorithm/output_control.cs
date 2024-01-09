@@ -68,7 +68,7 @@ namespace UniversalOptimizer.Algorithm
                 {
                     if (!FieldsHeadings.Contains(f_h))
                     {
-                        FieldsHeadings.Append(f_h);
+                        _ = FieldsHeadings.Append(f_h);
                     }
                 }
             }
@@ -84,7 +84,7 @@ namespace UniversalOptimizer.Algorithm
                     }
                     if (!FieldsDefinitions.Contains(s))
                     {
-                        FieldsDefinitions.Append(s);
+                        _ = FieldsDefinitions.Append(s);
                     }
                 }
             }
@@ -271,7 +271,7 @@ namespace UniversalOptimizer.Algorithm
                 {
                     ret += "afterStepInIteration, ";
                 }
-                ret = ret.Substring(0, ret.Length - 2);
+                ret = ret[..^2];
                 return ret;
             }
             set
@@ -401,7 +401,7 @@ namespace UniversalOptimizer.Algorithm
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns></returns>
-        public new string StringRep(
+        public string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

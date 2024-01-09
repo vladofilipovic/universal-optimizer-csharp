@@ -17,8 +17,10 @@ namespace GraphFileTransformations
             this.oznaka = oznaka;
         }
 
-        public int CompareTo(CvorGrafa other)
+        public int CompareTo(CvorGrafa? other)
         {
+            if (other == null)
+                return -1;
             if (id - other.id != 0)
                 return (id - other.id);
             return oznaka.CompareTo(other.oznaka);

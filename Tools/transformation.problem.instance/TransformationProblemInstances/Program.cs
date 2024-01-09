@@ -10,21 +10,21 @@ namespace Transformation
 	{
 		static void Main(string[] args)
 		{
-			if (args.Count() == 0)
+			if (args.Length == 0)
 			{
 				Console.WriteLine("Usage: Transform <type> <input> <output>");
 				return;
 			}
 			string type = args[0];
 			string inputPath = "";
-			if (args.Count() < 2)
+			if (args.Length < 2)
 			{
 				Console.WriteLine("Usage: Transform <type> <input> <output>");
 				return;
 			}
 			inputPath = args[1];
 			string outputPath = "";
-			if (args.Count() < 3)
+			if (args.Length < 3)
 				outputPath = "new_" + inputPath;
 			else
 				outputPath = args[2];
@@ -34,7 +34,7 @@ namespace Transformation
 				if (ret == 0)
 					Console.WriteLine("Success: File '" + inputPath + "' is transformed and copied into file '" + outputPath + "'");
 				else
-					Console.WriteLine("Faliture: File '" + inputPath + "' is not transformed and copied into file '" + outputPath + "'");
+					Console.WriteLine("Failure: File '" + inputPath + "' is not transformed and copied into file '" + outputPath + "'");
 			}
 			else if (type == "FromSetCoveringToSplitingNoSkip")
 			{
@@ -42,7 +42,7 @@ namespace Transformation
 				if (ret == 0)
 					Console.WriteLine("Success: File '" + inputPath + "' is transformed and copied into file '" + outputPath + "'");
 				else
-					Console.WriteLine("Faliture: File '" + inputPath + "' is not transformed and copied into file '" + outputPath + "'");
+					Console.WriteLine("Failure: File '" + inputPath + "' is not transformed and copied into file '" + outputPath + "'");
 			}
 			else
 				Console.WriteLine("Unsupported type of conversion: " + type);
@@ -53,7 +53,7 @@ namespace Transformation
 			try
 			{
 				List<string[]> contentOld = Files.Read(inputPath);
-				List<BitArray> contentNew = null; //Transform.FromSetCoveringToSplitingSkipWeght(contentOld);
+				List<BitArray> contentNew = Transform.FromSetCoveringToSplitingSkipWeight(contentOld);
 				Files.Write(outputPath, contentNew);
 				return 0;
 			}

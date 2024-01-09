@@ -231,7 +231,7 @@ namespace UniversalOptimizer.Algorithm
                             try
                             {
                                 var data = this.ReflectionGetPropertyValue(f_def);
-                                s_data = data.ToString();
+                                s_data = data!.ToString() ?? "";
                                 if (s_data == "stepName")
                                 {
                                     s_data = stepNameValue;
@@ -277,7 +277,7 @@ namespace UniversalOptimizer.Algorithm
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns></returns>
-        public new string StringRep(
+        public string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

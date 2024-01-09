@@ -21,8 +21,10 @@ namespace GraphFileTransformations
             this.tezina = tezina;
         }
 
-        public int CompareTo(GranaGrafa other)
+        public int CompareTo(GranaGrafa? other)
         {
+            if (other == null)
+                return -1;
             if (izvorId - other.izvorId != 0)
                 return (izvorId - other.izvorId);
             if (odredisteId - other.odredisteId != 0)

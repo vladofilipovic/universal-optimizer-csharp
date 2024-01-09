@@ -7,27 +7,22 @@ namespace UniversalOptimizer.TargetSolution
     public class TargetSolutionVoidObjectStr : TargetSolution<object, string>, ICloneable
     {
 
-        private object _representation;
+        private object? _representation;
 
-        public TargetSolutionVoidObjectStr(string name)
-            : base(name, randomSeed: null, fitnessValue: 0, fitnessValues: new List<double>(), objectiveValue: 0, objectiveValues: new List<double>(), isFeasible: true, evaluationCacheIsUsed: false, evaluationCacheMaxSize: 0, distanceCalculationCacheIsUsed: false, distanceCalculationCacheMaxSize: 0)
+        public TargetSolutionVoidObjectStr()
+            : base(randomSeed: null, fitnessValue: 0, fitnessValues: new List<double>(), objectiveValue: 0, objectiveValues: new List<double>(), isFeasible: true, evaluationCacheIsUsed: false, evaluationCacheMaxSize: 0, distanceCalculationCacheIsUsed: false, distanceCalculationCacheMaxSize: 0)
         {
         }
 
-        public override string Argument(object representation) => representation.ToString();
+        public override string Argument(object? representation) => representation!.ToString() ?? "";
 
-        public override void InitRandom(TargetProblem problem) => _representation = null;
+        public override void InitRandom(TargetProblem problem) => _representation = default;
 
         public override void InitFrom(object representation, TargetProblem problem) => this._representation = representation;
 
         public override object NativeRepresentation(string representationStr) => representationStr;
 
-        public override QualityOfSolution CalculateQualityDirectly(object representation, TargetProblem problem) => new QualityOfSolution()
-        {
-            FitnessValue = 0.0,
-            ObjectiveValue = 0.0,
-            IsFeasible = true
-        };
+        public override QualityOfSolution CalculateQualityDirectly(object? representation, TargetProblem problem) => new QualityOfSolution(fitnessValue: 0.0, objectiveValue: 0.0, isFeasible: true);
 
         public static double RepresentationDistanceDirectly(object solution_code_1, string solution_code_2) => 0;
 

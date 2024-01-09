@@ -18,22 +18,23 @@ namespace GraphFileTransformations
 
         public static int transform(string putanjaUlaz, string putanjaIzlaz)
         {
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new();
             ISet<CvorGrafa> cvoroviGrafa = new SortedSet<CvorGrafa>();
-            int brojCvorova = 0;
+            int brojCvorova;
             ISet<GranaGrafa> graneGrafa = new SortedSet<GranaGrafa>();
-            int brojGrana = 0;
+            int brojGrana;
             try
             {
                 doc.Load(putanjaUlaz);
-                XmlNodeList elementi = doc.DocumentElement.LastChild.ChildNodes;
+                XmlElement? documentElement = doc.DocumentElement;
+                XmlNodeList elementi = documentElement!.LastChild!.ChildNodes;
                 foreach (XmlNode elemenat in elementi)
                 {
                     if (elemenat.Name == "node")
                     {
-                        int id = Convert.ToInt32(elemenat.Attributes["id"].Value);
-                        string oznaka = elemenat.FirstChild.InnerText;
-                        cvoroviGrafa.Add(new CvorGrafa(id, oznaka));
+                        int id = Convert.ToInt32(elemenat!.Attributes!["id"]!.Value);
+                        string oznaka = elemenat!.FirstChild!.InnerText;
+                        _ = cvoroviGrafa.Add(new CvorGrafa(id, oznaka));
                     }
                 }
                 brojCvorova = cvoroviGrafa.Count;
@@ -42,11 +43,11 @@ namespace GraphFileTransformations
                 {
                     if (elemenat.Name == "edge")
                     {
-                        int sourceId = Convert.ToInt32(elemenat.Attributes["source"].Value);
-                        int destinationId = Convert.ToInt32(elemenat.Attributes["target"].Value);
-                        string oznaka = elemenat.FirstChild.InnerText;
-                        double tezina = Convert.ToDouble(elemenat.LastChild.InnerText);
-                        graneGrafa.Add(new GranaGrafa(sourceId, destinationId, oznaka, tezina));
+                        int sourceId = Convert.ToInt32(elemenat!.Attributes!["source"]!.Value);
+                        int destinationId = Convert.ToInt32(elemenat!.Attributes!["target"]!.Value);
+                        string oznaka = elemenat!.FirstChild!.InnerText;
+                        double tezina = Convert.ToDouble(elemenat!.LastChild!.InnerText);
+                        _ = graneGrafa.Add(new GranaGrafa(sourceId, destinationId, oznaka, tezina));
                     }
                 }
                 brojGrana = graneGrafa.Count;
@@ -63,7 +64,7 @@ namespace GraphFileTransformations
                 mapa[i++] = c.id;
             try
             {
-                using (StreamWriter tokZaUpis = new StreamWriter(putanjaIzlaz))
+                using (StreamWriter tokZaUpis = new(putanjaIzlaz))
                 {
                     tokZaUpis.WriteLine(" " + brojCvorova + "\t" + brojGrana);
                     foreach (GranaGrafa g in graneGrafa)

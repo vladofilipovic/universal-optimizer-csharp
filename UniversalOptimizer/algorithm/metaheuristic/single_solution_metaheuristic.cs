@@ -19,10 +19,10 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     /// <typeparam name="R_co">The type of the co.</typeparam>
     /// <typeparam name="A_co">The type of the co.</typeparam>
     /// <seealso cref="UniversalOptimizer.Algorithm.Metaheuristic.Metaheuristic&lt;R_co, A_co&gt;" />
-    public abstract class SingleSolutionMetaheuristic<R_co, A_co> : Metaheuristic<R_co, A_co>
+    public abstract class SingleSolutionMetaheuristic<R_co, A_co> : Metaheuristic<R_co, A_co> 
     {
 
-        private TargetSolution<R_co, A_co> _currentSolution;
+        private readonly TargetSolution<R_co, A_co> _currentSolution;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SingleSolutionMetaheuristic{R_co, A_co}"/> class.
@@ -44,10 +44,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 TargetSolution<R_co, A_co> initialSolution)
                 : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem)
         {
-            if (initialSolution is not null)
-            {
-                _currentSolution = (TargetSolution<R_co, A_co>)initialSolution.Clone();
-            }
+            _currentSolution = (TargetSolution<R_co, A_co>)initialSolution.Clone();
         }
 
         /// <summary>
@@ -57,7 +54,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
-        public object Clone() => throw new NotImplementedException();
+        public new object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Property getter and setter for the current solution used during single solution 

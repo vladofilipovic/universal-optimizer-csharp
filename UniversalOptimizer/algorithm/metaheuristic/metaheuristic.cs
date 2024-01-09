@@ -18,7 +18,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     /// This class represent metaheuristic
     /// </summary>
     /// <seealso cref="uo.Algorithm" />
-    public abstract class Metaheuristic<R_co, A_co> : Algorithm<R_co, A_co>, ICloneable
+    public abstract class Metaheuristic<R_co, A_co> : Algorithm<R_co, A_co>, ICloneable 
     {
 
         public AdditionalStatisticsControl AdditionalStatisticsControl { get; set; }
@@ -26,6 +26,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         public FinishControl FinishControl { get; set; }
 
         public int RandomSeed { get; set; }
+
+        private Random _randomGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Metaheuristic{R_co, A_co}"/> class.
@@ -54,7 +56,19 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             {
                 RandomSeed = new Random().Next();
             }
+            _randomGenerator = new Random(RandomSeed);
             AdditionalStatisticsControl = additionalStatisticsControl;
+        }
+
+        /// <summary>
+        /// Gets the random generator.
+        /// </summary>
+        /// <value>
+        /// The random generator.
+        /// </value>
+        public Random RandomGenerator 
+        {  
+            get { return _randomGenerator; } 
         }
 
         /// <summary>
@@ -64,7 +78,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
-        public object Clone() => throw new NotImplementedException();
+        public new object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// One iteration within main loop of the metaheuristic algorithm.
@@ -94,14 +108,14 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 WriteOutputValuesIfNeeded("beforeIteration", "b_i");
                 MainLoopIteration();
                 WriteOutputValuesIfNeeded("afterIteration", "a_i");
-                Log.Debug("Iteration: " + this.Iteration.ToString() + ", Evaluations: " + this.Evaluation.ToString() + ", Best solution objective: " + this.BestSolution.ObjectiveValue.ToString() + ", Best solution fitness: " + this.BestSolution.FitnessValue.ToString() + ", Best solution: " + this.BestSolution.StringRepresentation());
+                Log.Debug("Iteration: " + this.Iteration.ToString() + ", Evaluations: " + this.Evaluation.ToString() + ", Best solution objective: " + this.BestSolution!.ObjectiveValue.ToString() + ", Best solution fitness: " + this.BestSolution!.FitnessValue.ToString() + ", Best solution: " + this.BestSolution!.StringRepresentation());
             }
         }
 
         /// <summary>
         /// Executing optimization by the metaheuristic algorithm.
         /// </summary>
-        public virtual void Optimize()
+        public override void Optimize()
         {
             this.ExecutionStarted = DateTime.Now;
             this.Init();

@@ -1,191 +1,153 @@
-///  
-/// ..  _py_ones_count_problem_bit_array_solutionTeSupport:
-/// 
-/// The :mod:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solutionTeSupport` 
-/// contains class :class:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solutionTeSupport.OnesCountProblemBinaryBitArraySolutionTeSupport`, 
-/// that represents supporting parts of the `Total enumeration` algorithm, where solution of the :ref:`Problem_Max_Ones` have `BitArray` 
-/// representation.
-/// 
-namespace SingleObjective.Teaching.OnesCountProblem {
-    
-    using sys;
-    
-    using Path = pathlib.Path;
-    
-    using deepcopy = copy.deepcopy;
-    
-    using choice = random.choice;
-    
-    using random = random.random;
-    
-    using Bits = bitstring.Bits;
-    
-    using BitArray = bitstring.BitArray;
-    
-    using BitStream = bitstring.BitStream;
-    
-    using pack = bitstring.pack;
-    
-    using ComplexCounterBitArrayFull = uo.utils.complex_counter_bit_array_full.ComplexCounterBitArrayFull;
-    
-    using logger = uo.utils.logger.logger;
-    
-    using ComplexCounterUniformAscending = uo.utils.complex_counter_uniform_distinct.ComplexCounterUniformAscending;
-    
-    using QualityOfSolution = uo.TargetSolution.TargetSolution.QualityOfSolution;
-    
-    using Algorithm = uo.Algorithm.algorithm.Algorithm;
-    
-    using ProblemSolutionTeSupport = uo.Algorithm.Exact.TotalEnumeration.problemSolutionTeSupport.ProblemSolutionTeSupport;
-    
-    using OnesCountProblem = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem.OnesCountProblem;
-    
-    using OnesCountProblemBinaryBitArraySolution = opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem_binary_bit_array_solution.OnesCountProblemBinaryBitArraySolution;
-    
-    public static class ones_count_problem_binary_bit_array_solutionTeSupport {
-        
-        public static object directory = Path(_file__).resolve();
-        
-        static ones_count_problem_binary_bit_array_solutionTeSupport() {
-            sys.path.append(directory);
-            sys.path.append(directory.parent);
-            sys.path.append(directory.parent.parent.parent);
-            sys.path.append(directory.parent.parent.parent.parent);
-            sys.path.append(directory.parent.parent.parent.parent.parent);
+
+namespace SingleObjective.Teaching.OnesCountProblem
+{
+
+    using UniversalOptimizer.utils;
+    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Algorithm;
+    using UniversalOptimizer.Algorithm.Exact.TotalEnumeration;
+
+    using SingleObjective.Teaching.OnesCountProblem;
+
+    using System;
+    using System.Collections;
+    using UniversalOptimizer.TargetProblem;
+
+    public class OnesCountProblemBinaryBitArraySolutionTeSupport : IProblemSolutionTeSupport<BitArray, string>
+    {
+
+        private ComplexCounterBitArrayFull? _bitArrayCounter;
+
+        public OnesCountProblemBinaryBitArraySolutionTeSupport()
+        {
+            _bitArrayCounter = null;
         }
-        
-        public class OnesCountProblemBinaryBitArraySolutionTeSupport
-            : ProblemSolutionTeSupport[BitArraystr] {
-            
-            private object _bit_array_counter;
-            
-            public OnesCountProblemBinaryBitArraySolutionTeSupport() {
-                _bit_array_counter = null;
-            }
-            
-            /// 
-            /// Internal copy of the `OnesCountProblemBinaryBitArraySolutionTeSupport`
-            /// 
-            /// :return: new `OnesCountProblemBinaryBitArraySolutionTeSupport` instance with the same properties
-            /// return type `OnesCountProblemBinaryBitArraySolutionTeSupport`
-            /// 
-            public virtual void _copy__() {
-                var sol = deepcopy(this);
-                return sol;
-            }
 
-            /// 
-            /// Copy the `OnesCountProblemBinaryBitArraySolutionTeSupport` instance
-            /// 
-            /// :return: new `OnesCountProblemBinaryBitArraySolutionTeSupport` instance with the same properties
-            /// return type `OnesCountProblemBinaryBitArraySolutionTeSupport`
-            /// 
-            public virtual void copy() => _copy__();
 
-            /// 
-            /// Resets internal counter of the total enumerator, so process will start over. Internal state of the solution 
-            /// will be set to reflect reset operation. 
-            /// 
-            /// :param `OnesCountProblem` problem: problem that is solved
-            /// :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
-            /// :param `Algorithm` optimizer: optimizer that is executed
-            /// 
-            public virtual object reset(object problem, object solution, object optimizer) {
-                _bit_array_counter = ComplexCounterBitArrayFull(problem.dimension);
-                _bit_array_counter.reset();
-                solution.InitFrom(_bit_array_counter.current_state(), problem);
-                optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                optimizer.Evaluation += 1;
-                solution.evaluate(problem);
-                optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-            }
-            
-            /// 
-            /// Progress internal counter of the total enumerator, so next configuration will be taken into consideration. 
-            /// Internal state of the solution will be set to reflect progress operation.  
-            /// 
-            /// :param `OnesCountProblem` problem: problem that is solved
-            /// :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
-            /// :param `Algorithm` optimizer: optimizer that is executed
-            /// 
-            public virtual object progress(object problem, object solution, object optimizer) {
-                _bit_array_counter.progress();
-                solution.InitFrom(_bit_array_counter.current_state(), problem);
-                optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                optimizer.Evaluation += 1;
-                solution.evaluate(problem);
-                optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-            }
-
-            /// 
-            /// Check if total enumeration process is not at end.  
-            /// 
-            /// :param `OnesCountProblem` problem: problem that is solved
-            /// :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
-            /// :param `Algorithm` optimizer: optimizer that is executed
-            /// :return: indicator if total enumeration process is not at end 
-            /// return type bool
-            /// 
-            public virtual bool can_progress(object problem, object solution, object optimizer) => _bit_array_counter.can_progress();
-
-            /// 
-            /// Returns overall number of evaluations required for finishing total enumeration process.  
-            /// 
-            /// :param `OnesCountProblem` problem: problem that is solved
-            /// :param `OnesCountProblemBinaryBitArraySolution` solution: solution used for the problem that is solved
-            /// :param `Algorithm` optimizer: optimizer that is executed
-            /// :return: overall number of evaluations required for finishing total enumeration process
-            /// return type int
-            /// 
-            public virtual int OverallNumberOfEvaluations(object problem, object solution, object optimizer) => pow(2, problem.dimension);
-
-            /// 
-            /// String representation of the te support structure
-            /// 
-            /// :param delimiter: delimiter between fields
-            /// :type delimiter: str
-            /// :param indentation: level of indentation
-            /// :type indentation: int, optional, default value 0
-            /// :param indentationSymbol: indentation symbol
-            /// :type indentationSymbol: str, optional, default value ''
-            /// :param groupStart: group start string 
-            /// :type groupStart: str, optional, default value '{'
-            /// :param groupEnd: group end string 
-            /// :type groupEnd: str, optional, default value '}'
-            /// :return: string representation of vns support instance
-            /// return type str
-            /// 
-            public new string StringRep(
-                string delimiter,
-                int indentation = 0,
-                string indentationSymbol = "",
-                string groupStart = "{",
-                string groupEnd = "}") => "OnesCountProblemBinaryBitArraySolutionTeSupport";
-
-            /// 
-            /// String representation of the te support instance
-            /// 
-            /// :return: string representation of the te support instance
-            /// return type str
-            /// 
-            public override string ToString() => this.StringRep("|");
-
-            /// 
-            /// Representation of the te support instance
-            /// 
-            /// :return: string representation of the te support instance
-            /// return type str
-            /// 
-            public virtual string _repr__() => this.StringRep("\n");
-
-            /// 
-            /// Formatted the te support instance
-            /// 
-            /// :param str spec: format specification
-            /// :return: formatted te support instance
-            /// return type str
-            /// 
-            public virtual string _format__(string spec) => this.StringRep("|");
+        /// <summary>
+        /// Resets internal counter of the total enumerator, so process will start over. Internal
+        /// state of the solution will be set to reflect reset operation.
+        /// </summary>
+        /// <param name="problem">The problem that is solved.</param>
+        /// <param name="solution">The solution used for the problem that is solved.</param>
+        /// <param name="optimizer">The optimizer that is executed.</param>
+        public void Reset(TargetProblem problem, TargetSolution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
+        {
+            if (problem == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
+            if (problem is not OnesCountProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
+            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            _bitArrayCounter = new ComplexCounterBitArrayFull(ocProblem.Dimension);
+            _bitArrayCounter.Reset();
+            solution.InitFrom(_bitArrayCounter.CurrentState(), problem);
+            optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
+            optimizer.Evaluation += 1;
+            solution.Evaluate(problem);
+            optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
         }
+
+        /// <summary>
+        /// Progress internal counter of the total enumerator, so next configuration will be taken
+        /// into consideration.
+        /// Internal state of the solution will be set to reflect progress operation.
+        /// </summary>
+        /// <param name="problem">The problem that is solved.</param>
+        /// <param name="solution">The solution used for the problem that is solved.</param>
+        /// <param name="optimizer">The optimizer that is executed.</param>
+        public void Progress(TargetProblem problem, TargetSolution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
+        {
+            if (_bitArrayCounter == null)
+                throw new ArgumentNullException(string.Format("Variable '{0}' is null.", nameof(_bitArrayCounter)));
+            _bitArrayCounter.Progress();
+            solution.InitFrom(_bitArrayCounter.CurrentState(), problem);
+            optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
+            optimizer.Evaluation += 1;
+            solution.Evaluate(problem);
+            optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
+        }
+
+        /// <summary>
+        /// Check if total enumeration process is not at end.
+        /// </summary>
+        /// <param name="problem">The problem that is solved.</param>
+        /// <param name="solution">The solution used for the problem that is solved.</param>
+        /// <param name="optimizer">The optimizer that is executed.</param>
+        /// <returns>
+        /// <c>true</c> if total enumeration process is not at end; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanProgress(TargetProblem problem, TargetSolution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
+        {
+            if (_bitArrayCounter == null)
+                throw new ArgumentNullException(string.Format("Variable '{0}' is null.", nameof(_bitArrayCounter)));
+            return _bitArrayCounter.CanProgress();
+        }
+
+
+        /// <summary>
+        /// Returns overall number of evaluations required for finishing total enumeration process.
+        /// </summary>
+        /// <param name="problem">The problem that is solved.</param>
+        /// <param name="solution">The solution used for the problem that is solved.</param>
+        /// <param name="optimizer">The optimizer that is executed.</param>
+        /// <returns></returns>
+        public long OverallNumberOfEvaluations(TargetProblem problem, TargetSolution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
+        {
+            if (problem == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
+            if (problem is not OnesCountProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
+            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            int dim = ocProblem.Dimension;
+            return (long) Math.Pow(2, dim);
+        }
+        /// 
+        /// String representation of the te support structure
+        /// 
+        /// :param delimiter: delimiter between fields
+        /// :type delimiter: str
+        /// :param indentation: level of indentation
+        /// :type indentation: int, optional, default value 0
+        /// :param indentationSymbol: indentation symbol
+        /// :type indentationSymbol: str, optional, default value ''
+        /// :param groupStart: group start string 
+        /// :type groupStart: str, optional, default value '{'
+        /// :param groupEnd: group end string 
+        /// :type groupEnd: str, optional, default value '}'
+        /// :return: string representation of vns support instance
+        /// return type str
+        /// 
+        public new string StringRep(
+            string delimiter,
+            int indentation = 0,
+            string indentationSymbol = "",
+            string groupStart = "{",
+            string groupEnd = "}") => "OnesCountProblemBinaryBitArraySolutionTeSupport";
+
+        /// 
+        /// String representation of the te support instance
+        /// 
+        /// :return: string representation of the te support instance
+        /// return type str
+        /// 
+        public override string ToString() => this.StringRep("|");
+
+        /// 
+        /// Representation of the te support instance
+        /// 
+        /// :return: string representation of the te support instance
+        /// return type str
+        /// 
+        public virtual string _repr__() => this.StringRep("\n");
+
+        /// 
+        /// Formatted the te support instance
+        /// 
+        /// :param str spec: format specification
+        /// :return: formatted te support instance
+        /// return type str
+        /// 
+        public virtual string _format__(string spec) => this.StringRep("|");
+
     }
 }

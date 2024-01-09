@@ -15,9 +15,11 @@ namespace GraphFileTransformations
         class FromGraphmlToPlainOptions
         {
             [Option('i', "input", Required = true, HelpText = "Path for the input file (with plain data).")]
-            public String Input { get; set; }
+            public required string Input { get; set; }
+
             [Option('o', "output", Required = true, HelpText = "Path for the output file (with graphml data).")]
-            public String Output { get; set; }
+            public required string Output { get; set; }
+            
             [Option('w', "wait", Required = false, Default=false, HelpText = "Set if program should wait for keystroke.")]
             public bool Wait { get; set; }
         }
@@ -26,9 +28,11 @@ namespace GraphFileTransformations
         class FromPlainToGraphmlOptions
         {
             [Option('i', "input", Required = true, HelpText = "Path for the input file (with graphml data).")]
-            public String Input { get; set; }
+            public required string Input { get; set; }
+
             [Option('o', "output", Required = true, HelpText = "Path for the output file (with plain data).")]
-            public String Output { get; set; }
+            public required string Output { get; set; }
+
             [Option('w', "wait", Required = false, Default = false, HelpText = "Set if program should wait for keystroke.")]
             public bool Wait { get; set; }
         }
@@ -48,7 +52,7 @@ namespace GraphFileTransformations
             if(opts.Wait)
             {
                 Console.WriteLine("Press any key to finish...");
-                Console.ReadLine();
+                _ = Console.ReadLine();
             }
             return ret;
         }
@@ -61,7 +65,7 @@ namespace GraphFileTransformations
             if (opts.Wait)
             {
                 Console.WriteLine("Press any key to finish...");
-                Console.ReadLine();
+                _ = Console.ReadLine();
             }
             return ret;
         }

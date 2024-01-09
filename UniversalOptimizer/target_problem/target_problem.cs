@@ -8,7 +8,12 @@ namespace UniversalOptimizer.TargetProblem
     /// <summary>
     /// Class that abstracts target problem, which should be solved.
     /// </summary>
-    public abstract class TargetProblem : ICloneable
+    /// <remarks>
+    /// Create new TargetProblem instance
+    /// </remarks>
+    /// <param name="name">name of the target problem</param>
+    /// <param name="isMinimization">should minimum or maximum be determined</param>
+    public abstract class TargetProblem(string name, bool isMinimization) : ICloneable
     {
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -25,7 +30,7 @@ namespace UniversalOptimizer.TargetProblem
         /// <value>
         ///   <c>true</c> if this instance is minimization; otherwise, <c>false</c>.
         /// </value>
-        public bool? IsMinimization { get; init; }
+        public bool IsMinimization { get; init; } = isMinimization;
 
         /// <summary>
         /// Gets the name.
@@ -33,19 +38,7 @@ namespace UniversalOptimizer.TargetProblem
         /// <value>
         /// The name.
         /// </value>
-        public string Name { get; init; }
-
-
-        /// <summary>
-        /// Create new TargetProblem instance
-        /// </summary>
-        /// <param name="name">name of the target problem</param>
-        /// <param name="isMinimization">should minimum or maximum be determined</param>
-        public TargetProblem(string name, bool? isMinimization)
-        {
-            Name = name;
-            IsMinimization = isMinimization;
-        }
+        public string Name { get; init; } = name;
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -64,7 +57,7 @@ namespace UniversalOptimizer.TargetProblem
         /// <param name="groupStart">The group start.</param>
         /// <param name="groupEnd">The group end.</param>
         /// <returns> string representation </returns>
-        public new string StringRep(
+        public string StringRep(
             string delimiter,
             int indentation = 0,
             string indentationSymbol = "",

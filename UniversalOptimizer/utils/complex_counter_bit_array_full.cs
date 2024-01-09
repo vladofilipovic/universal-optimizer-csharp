@@ -32,7 +32,7 @@ namespace UniversalOptimizer.utils
         /// </returns>
         public object Clone()
         {
-            ComplexCounterBitArrayFull cl = new ComplexCounterBitArrayFull(0);
+            ComplexCounterBitArrayFull cl = new(0);
             cl._number_of_counters = _number_of_counters;
             cl._counters = (BitArray)_counters.Clone();
             return cl;

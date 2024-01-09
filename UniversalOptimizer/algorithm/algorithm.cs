@@ -13,7 +13,7 @@ namespace UniversalOptimizer.Algorithm
     /// This class describes Algorithm
     /// </summary>
     /// <seealso cref="uo.Algorithm.Optimizer" />
-    public abstract class Algorithm<R_co, A_co> : Optimizer<R_co, A_co>
+    public abstract class Algorithm<R_co, A_co> : Optimizer<R_co, A_co>  
     {
 
         private int _evaluation;
@@ -113,11 +113,7 @@ namespace UniversalOptimizer.Algorithm
             {
                 throw new ArgumentException("Target problem have to be defined within algorithm.");
             }
-            if (TargetProblem.IsMinimization is null)
-            {
-                throw new ArgumentException("Information if minimization or maximization is set within target problem have to be defined.");
-            }
-            bool isMinimization = TargetProblem.IsMinimization ?? false;
+            bool isMinimization = TargetProblem.IsMinimization;
             if (sol1 is null)
             {
                 fit1 = null;

@@ -15,8 +15,8 @@ namespace Transformation
 					
 		public static void CopyFile( string iz, string u )
 		{
-			FileStream fsIz = null;
-			FileStream fsU = null;
+			FileStream? fsIz = null;
+			FileStream? fsU = null;
 			try
 			{
 				fsIz = new FileStream( iz, System.IO.FileMode.Open, System.IO.FileAccess.Read );
@@ -39,15 +39,15 @@ namespace Transformation
 
 		public static List<string[]> Read(string fajl)
 		{
-			List<string[]> ret = new List<string[]>();
-			StreamReader reader = new StreamReader((System.IO.Stream)File.OpenRead(fajl), Encoding.ASCII);
-			String ln = "";
+			List<string[]> ret = [];
+			StreamReader reader = new((System.IO.Stream)File.OpenRead(fajl), Encoding.ASCII);
+			string? ln = "";
 			while (ln != null)
 			{
 				if (ln != null)
 				{
 					ln = ln.Trim();
-					while (ln.IndexOf("  ") != -1)
+					while (ln.Contains("  ", StringComparison.CurrentCulture))
 						ln = ln.Replace("  ", " ");
 					string[] elements = ln.Split(" ".ToCharArray());
 					ret.Add(elements);
@@ -60,7 +60,7 @@ namespace Transformation
 
 		public static void Write(string fajl, List<BitArray> values)
 		{
-			StreamWriter writer = new StreamWriter((System.IO.Stream)File.OpenWrite(fajl), Encoding.ASCII);
+			StreamWriter writer = new((System.IO.Stream)File.OpenWrite(fajl), Encoding.ASCII);
 			foreach (BitArray ba in values)
 			{
 				foreach (bool b in ba)

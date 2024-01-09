@@ -1,31 +1,27 @@
 namespace SingleObjective.Teaching.FunctionOneVariableProblem
 {
+    using UniversalOptimizer.utils;
     using UniversalOptimizer.TargetProblem;
-
     using UniversalOptimizer.TargetSolution;
 
-    using System.Collections.Generic;
-
     using System;
-
+    using System.Collections.Generic;
     using System.Linq;
-    using UniversalOptimizer.utils;
+    using System.Security.Cryptography;
 
-
-
-    public class FunctionOneVariableProblemBinaryIntSolution : TargetSolution<int, double>
+    public class FunctionOneVariableProblemBinaryUIntSolution : TargetSolution<uint, double>
     {
 
         private double _domainFrom;
 
         private double _domainTo;
 
-        private int _numberOfIntervals;
+        private uint _numberOfIntervals;
 
-        private int _representation;
+        private uint _representation;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FunctionOneVariableProblemBinaryIntSolution"/> class.
+        /// Initializes a new instance of the <see cref="FunctionOneVariableProblemBinaryUIntSolution"/> class.
         /// </summary>
         /// <param name="domainFrom">The domain from.</param>
         /// <param name="domainTo">The domain to.</param>
@@ -35,16 +31,16 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="evaluationCacheMaxSize">Maximum size of the evaluation cache.</param>
         /// <param name="distanceCalculationCacheIsUsed">if set to <c>true</c> [distance calculation cache is used].</param>
         /// <param name="distanceCalculationCacheMaxSize">Maximum size of the distance calculation cache.</param>
-        public FunctionOneVariableProblemBinaryIntSolution(
+        public FunctionOneVariableProblemBinaryUIntSolution(
             double domainFrom,
             double domainTo,
-            int numberOfIntervals,
+            uint numberOfIntervals,
             int randomSeed,
             bool evaluationCacheIsUsed = false,
             int evaluationCacheMaxSize = 0,
             bool distanceCalculationCacheIsUsed = false,
             int distanceCalculationCacheMaxSize = 0)
-            : base("FunctionOneVariableProblemBinaryIntSolution", randomSeed: randomSeed, fitnessValue: Double.NegativeInfinity, fitnessValues: new List<double>(), objectiveValue: double.NegativeInfinity, objectiveValues: new List<double>(), isFeasible: false, evaluationCacheIsUsed: evaluationCacheIsUsed, evaluationCacheMaxSize: evaluationCacheMaxSize, distanceCalculationCacheIsUsed: distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize: distanceCalculationCacheMaxSize)
+            : base(randomSeed: randomSeed, fitnessValue: Double.NegativeInfinity, fitnessValues: new List<double>(), objectiveValue: double.NegativeInfinity, objectiveValues: new List<double>(), isFeasible: false, evaluationCacheIsUsed: evaluationCacheIsUsed, evaluationCacheMaxSize: evaluationCacheMaxSize, distanceCalculationCacheIsUsed: distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize: distanceCalculationCacheMaxSize)
         {
             _domainFrom = domainFrom;
             _domainTo = domainTo;
@@ -58,7 +54,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
-        public object Clone() => throw new NotImplementedException();
+        public new object Clone() => throw new NotImplementedException();
 
         /// <summary>
         /// Gets or sets the domain from.
@@ -102,7 +98,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <value>
         /// The number of intervals.
         /// </value>
-        public int NumberOfIntervals
+        public uint NumberOfIntervals
         {
             get
             {
@@ -118,7 +114,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// Makes to be feasible helper.
         /// </summary>
         /// <param name="problem">The problem.</param>
-        private void MakeToBeFeasibleHelper(object problem)
+        private void MakeToBeFeasibleHelper(FunctionOneVariableProblem problem)
         {
             if (_representation > _numberOfIntervals)
             {
@@ -135,17 +131,23 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// arguments of the solution
         /// return type A_co
         /// </returns>
-        public override double Argument(int representation) => DomainFrom + representation * (DomainTo - DomainFrom) / NumberOfIntervals;
-
+        public override double Argument(uint representation) => DomainFrom + representation * (DomainTo - DomainFrom) / NumberOfIntervals;
 
         /// <summary>
         /// Random initialization of the solution.
         /// </summary>
-        /// <param name="problem"></param>
+        /// <param name="problem">The problem that is solved by solution.</param>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="System.ArgumentException"></exception>
         public override void InitRandom(TargetProblem problem)
         {
-            _representation = (new Random()).Next(NumberOfIntervals);
-            MakeToBeFeasibleHelper(problem);
+            if (problem == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
+            if (problem is not FunctionOneVariableProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
+            FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
+            _representation = (uint) RandomNumberGenerator.GetInt32((int)NumberOfIntervals);
+            MakeToBeFeasibleHelper(fovProblem);
         }
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </summary>
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
-        public override void InitFrom(int representation, TargetProblem problem) => _representation = representation;
+        public override void InitFrom(uint representation, TargetProblem problem) => _representation = representation;
 
         /// <summary>
         /// Calculates the quality of solution directly.
@@ -162,21 +164,17 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="problem">The problem that is solved.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Problem type is not valid.</exception>
-        public override QualityOfSolution CalculateQualityDirectly(int representation, TargetProblem problem)
+        public override QualityOfSolution CalculateQualityDirectly(uint representation, TargetProblem problem)
         {
             var arg = Argument(representation);
             if (problem is not FunctionOneVariableProblem)
                 throw new ArgumentException("Problem type is not valid.");
             FunctionOneVariableProblem f1vp = (FunctionOneVariableProblem)problem;
-            double res = (double)f1vp.Expression.ReflectionEvaluateExpression();
-            return new QualityOfSolution()
-            {
-                FitnessValue = res,
-                FitnessValues = null,
-                ObjectiveValue = res,
-                ObjectiveValues = null,
-                IsFeasible = true
-            };
+            double res = (double)f1vp.Expression.ReflectionEvaluateExpression()!;
+            return new QualityOfSolution(
+                fitnessValue: res,
+                objectiveValue: res,
+                isFeasible: true);
         }
 
         /// <summary>
@@ -186,9 +184,9 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// int
         /// </returns>
-        public override int NativeRepresentation(string representationStr)
+        public override uint NativeRepresentation(string representationStr)
         {
-            var ret = Convert.ToInt32(representationStr, 2);
+            var ret = Convert.ToUInt32(representationStr, 2);
             return ret;
         }
 
@@ -200,10 +198,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// The distance.
         /// </returns>
-        public override double RepresentationDistanceDirectly(int representation_1, int representation_2)
+        public override double RepresentationDistanceDirectly(uint representation_1, uint representation_2)
         {
-            int x = representation_1 ^ representation_2;
-            return x;
+            uint x = representation_1 ^ representation_2;
+            //return OnesCountProblemBinaryUIntSolution x;
         }
 
         /// <summary>
