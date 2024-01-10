@@ -454,3 +454,6 @@ FodyWeavers.xsd
 .sonarqube/out/4/ProjectInfo.xml
 .sonarqube/out/sonar-project.properties
 .sonarqube
+/Optimizers/FunctionOneVariableProblemSolver/outputs/(7-x^2)(-3,3)-fun1v-vns-uint-max-2024-01-10-20-14-50.867.csv
+/Optimizers/FunctionOneVariableProblemSolver/outputs/(7-x^2)(-3,3)-fun1v-vns-uint-max-2024-01-10-20-17-15.741.csv
+/Optimizers/FunctionOneVariableProblemSolver/outputs/(7-x^2)(-3,3)-fun1v-vns-uint-max-2024-01-10-20-17-53.398.csv
