@@ -19,4 +19,9 @@
     <ProjectReference Include="..\..\UniversalOptimizer\UniversalOptimizer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="inputs\" />
+    <Folder Include="outputs\" />
+  </ItemGroup>
+
 </Project>

@@ -25,6 +25,8 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         ///     
         static void Main(string[] args)
         {
+            if (!Directory.Exists("logs"))
+                Directory.CreateDirectory("logs");
             Log.Logger = new LoggerConfiguration()
                             // add console as logging target
                             .WriteTo.Console()
@@ -34,8 +36,8 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                                           "important.json",
                                           restrictedToMinimumLevel: LogEventLevel.Warning)
                             // add a rolling file for all logs
-                            .WriteTo.File("all-.logs",
-                                          rollingInterval: RollingInterval.Day)
+                            .WriteTo.File("logs/all-.log",
+                                          rollingInterval: RollingInterval.Hour)
                             // set default minimum level
                             .MinimumLevel.Debug()
                             .CreateLogger();
