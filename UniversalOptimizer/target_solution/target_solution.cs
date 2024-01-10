@@ -192,6 +192,34 @@ namespace UniversalOptimizer.TargetSolution
         }
 
         /// <summary>
+        /// Gets the quality single.
+        /// </summary>
+        /// <value>
+        /// The quality single.
+        /// </value>
+        public QualityOfSolution QualitySingle        
+        {
+            get
+            {
+                return new QualityOfSolution(objectiveValue: _objectiveValue, fitnessValue: _fitnessValue, isFeasible: _isFeasible);
+            }
+        }
+
+        /// <summary>
+        /// Gets the quality multi.
+        /// </summary>
+        /// <value>
+        /// The quality multi.
+        /// </value>
+        public QualityOfSolution QualityMulti
+        {
+            get
+            {
+                return new QualityOfSolution(objectiveValues: _objectiveValues, fitnessValues: _fitnessValues, isFeasible: _isFeasible);
+            }
+        }
+
+        /// <summary>
         /// Property getter and setter for representation of the target solution.
         /// </summary>
         /// <value>

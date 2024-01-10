@@ -11,14 +11,9 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
 
     public class FunctionOneVariableProblemBinaryUIntSolution : TargetSolution<uint, double>
     {
-
         private double _domainFrom;
-
         private double _domainTo;
-
         private uint _numberOfIntervals;
-
-        private uint _representation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FunctionOneVariableProblemBinaryUIntSolution"/> class.
@@ -56,8 +51,15 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <exception cref="NotImplementedException"></exception>
         public override object Clone()
         {
-            return new FunctionOneVariableProblemBinaryUIntSolution(this._domainFrom, this._domainTo,
+            var sol = new FunctionOneVariableProblemBinaryUIntSolution(this._domainFrom, this._domainTo,
                 this._numberOfIntervals, this.RandomSeed);
+            sol.Representation = this.Representation;
+            sol.IsFeasible = this.IsFeasible;
+            sol.FitnessValue = this.FitnessValue;
+            sol.FitnessValues = this.FitnessValues;
+            sol.ObjectiveValue = this.ObjectiveValue;
+            sol.ObjectiveValues = this.ObjectiveValues;
+            return sol;
         }
         /// <summary>
         /// Gets or sets the domain from.
@@ -119,9 +121,9 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="problem">The problem.</param>
         private void MakeToBeFeasibleHelper(FunctionOneVariableProblem problem)
         {
-            if (_representation > _numberOfIntervals)
+            if (Representation > _numberOfIntervals)
             {
-                _representation = _numberOfIntervals;
+                Representation = _numberOfIntervals;
             }
         }
 
@@ -149,7 +151,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             if (problem is not FunctionOneVariableProblem)
                 throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
             FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
-            _representation = (uint) RandomNumberGenerator.GetInt32((int)NumberOfIntervals);
+            Representation = (uint) RandomNumberGenerator.GetInt32((int)NumberOfIntervals);
             MakeToBeFeasibleHelper(fovProblem);
         }
 
@@ -158,7 +160,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </summary>
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
-        public override void InitFrom(uint representation, TargetProblem problem) => _representation = representation;
+        public override void InitFrom(uint representation, TargetProblem problem) => Representation = representation;
 
         /// <summary>
         /// Calculates the quality of solution directly.
@@ -169,11 +171,14 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <exception cref="System.Exception">Problem type is not valid.</exception>
         public override QualityOfSolution CalculateQualityDirectly(uint representation, TargetProblem problem)
         {
-            var arg = Argument(representation);
+            double arg = Argument(representation);
             if (problem is not FunctionOneVariableProblem)
                 throw new ArgumentException("Problem type is not valid.");
             FunctionOneVariableProblem f1vp = (FunctionOneVariableProblem)problem;
-            double res = (double)f1vp.Expression.ReflectionEvaluateExpression()!;
+            double res = double.NaN;
+            object? resObj = f1vp.Expression.ReflectionEvaluateFunctionOneVariable(arg);
+            if(resObj is not null)
+                res = (double)f1vp.Expression.ReflectionEvaluateFunctionOneVariable(arg)!;
             return new QualityOfSolution(
                 fitnessValue: res,
                 objectiveValue: res,

@@ -38,7 +38,12 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </returns>
         public bool Shaking(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
-            if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+            if (problem == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
+            if (problem is not FunctionOneVariableProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'FunctionOneVariableProblem'.", nameof(problem)));
+            FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
+            if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
@@ -71,12 +76,12 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             if (tries < limit)
             {
                 optimizer.Evaluation += 1;
-                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+                if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                solution.Evaluate(problem);
+                solution.Evaluate(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
                 return true;
             }
@@ -98,12 +103,17 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </returns>
         public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
-            int representationLength = 32;
-            if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+            if (problem == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
+            if (problem is not FunctionOneVariableProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'FunctionOneVariableProblem'.", nameof(problem)));
+            FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
+            int representationLength = sizeof(uint) * 8;
+            if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
-            if (k < 1 || k > representationLength)
+            if (k < 1)
             {
                 return false;
             }
@@ -127,15 +137,15 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 }
                 solution.Representation ^= mask;
                 optimizer.Evaluation += 1;
-                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+                if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
                     solution.CopyFrom(startSolution);
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(problem);
+                var newTuple = solution.CalculateQuality(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization) == true)
+                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization) == true)
                 {
                     bestTuple = newTuple;
                     bestRep = solution.Representation;
@@ -168,12 +178,17 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </returns>
         public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
-            var representationLength = 32;
-            if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+            if (problem == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
+            if (problem is not FunctionOneVariableProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'FunctionOneVariableProblem'.", nameof(problem)));
+            FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
+            var representationLength = sizeof(uint) * 8;
+            if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
-            if (k < 1 || k > representationLength)
+            if (k < 1)
             {
                 return false;
             }
@@ -196,15 +211,15 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 }
                 solution.Representation ^= mask;
                 optimizer.Evaluation += 1;
-                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+                if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
                     solution.CopyFrom(startSolution);
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(problem);
+                var newTuple = solution.CalculateQuality(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization) == true)
+                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization) == true)
                 {
                     solution.FitnessValue = newTuple.FitnessValue ?? double.NaN;
                     solution.ObjectiveValue = newTuple.ObjectiveValue ?? double.NaN;

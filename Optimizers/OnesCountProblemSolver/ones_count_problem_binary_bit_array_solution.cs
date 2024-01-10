@@ -12,9 +12,6 @@ namespace SingleObjective.Teaching.OnesCountProblem
 
     public class OnesCountProblemBinaryBitArraySolution: TargetSolution<BitArray,string>
     {
-
-        public BitArray _representation;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="OnesCountProblemBinaryBitArraySolution"/> class.
         /// </summary>
@@ -34,7 +31,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                   evaluationCacheIsUsed: evaluationCacheIsUsed, evaluationCacheMaxSize: evaluationCacheMaxSize,
                   distanceCalculationCacheIsUsed: distanceCalculationCacheIsUsed, distanceCalculationCacheMaxSize: distanceCalculationCacheMaxSize)
         {
-            _representation = new BitArray(0);
+            Representation = new BitArray(0);
         }
 
         /// <summary>
@@ -68,7 +65,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             OnesCountProblem ocProblem = (OnesCountProblem) problem;
             int dim = ocProblem.Dimension;
             byte[] values =  RandomNumberGenerator.GetBytes(dim/8);
-            _representation = new BitArray(values);
+            Representation = new BitArray(values);
         }
 
         /// <summary>
@@ -77,7 +74,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public override void InitFrom(BitArray representation, TargetProblem problem) => _representation = new BitArray(representation);
+        public override void InitFrom(BitArray representation, TargetProblem problem) => Representation = new BitArray(representation);
 
         /// <summary>
         /// Calculates the quality directly.
@@ -90,7 +87,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             if (representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(representation)));
             int onesCount =  representation!.CountOnes();
-            return new QualityOfSolution(onesCount, onesCount, true);
+            return new QualityOfSolution(objectiveValue: onesCount, fitnessValue: onesCount, isFeasible: true);
         }
 
         /// <summary>

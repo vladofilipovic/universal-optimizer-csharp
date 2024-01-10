@@ -43,7 +43,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             if (problem is not OnesCountProblem)
                 throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
             OnesCountProblem ocProblem = (OnesCountProblem)problem;
-            if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+            if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
@@ -75,7 +75,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             if (tries < limit)
             {
                 optimizer.Evaluation += 1;
-                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+                if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
                     return false;
                 }
@@ -107,7 +107,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             if (problem is not OnesCountProblem)
                 throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
             OnesCountProblem ocProblem = (OnesCountProblem)problem;
-            if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+            if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
@@ -117,7 +117,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             }
             OnesCountProblemBinaryUIntSolution startSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone(); 
             uint? bestRep = null;
-            var bestTuple = new QualityOfSolution(solution.ObjectiveValue, solution.FitnessValue, solution.IsFeasible);
+            var bestTuple = solution.QualitySingle;
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
@@ -133,7 +133,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 }
                 solution.Representation ^= mask;
                 optimizer.Evaluation += 1;
-                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+                if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
                     solution.CopyFrom(startSolution);
                     return false;
@@ -179,7 +179,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             if (problem is not OnesCountProblem)
                 throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
             OnesCountProblem ocProblem = (OnesCountProblem)problem;
-            if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+            if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
@@ -188,7 +188,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 return false;
             }
             OnesCountProblemBinaryUIntSolution startSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone();
-            var bestTuple = new QualityOfSolution(solution.ObjectiveValue, solution.FitnessValue, solution.IsFeasible);
+            var bestTuple = solution.QualitySingle;
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
@@ -204,7 +204,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 }
                 solution.Representation ^= mask;
                 optimizer.Evaluation += 1;
-                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+                if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
                     solution.CopyFrom(startSolution);
                     return false;

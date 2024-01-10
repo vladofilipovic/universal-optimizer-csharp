@@ -18,13 +18,17 @@
         public IEnumerable<double>? FitnessValues { get; set; } = null;
         public bool? IsFeasible { get; set; } = null;
 
-        public QualityOfSolution(double? objectiveValue,
-            double? fitnessValue,
-            bool? isFeasible
+        public QualityOfSolution(double? objectiveValue = null,
+            IEnumerable<double>? objectiveValues = null,
+            double? fitnessValue = null,
+            IEnumerable<double>? fitnessValues = null,
+            bool? isFeasible = null
             )
         {
             ObjectiveValue = objectiveValue;
+            ObjectiveValues = objectiveValues;
             FitnessValue = fitnessValue;    
+            FitnessValues = fitnessValues;
             IsFeasible = isFeasible;
         }
 

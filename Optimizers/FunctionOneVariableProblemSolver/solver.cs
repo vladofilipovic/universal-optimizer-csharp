@@ -87,27 +87,26 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             if (opts.WriteToOutputFile)
             {
                 bool shouldAddTimestampToFileName = opts.OutputFileNameAppendTimeStamp;
-                string[] outputFilePathParts;
+                List<string> outputFilePathParts =[];
                 if (opts.OutputFilePath != "")
                 {
-                    outputFilePathParts = opts.OutputFilePath.Split("/");
+                    string[] temp = opts.OutputFilePath.Split("/");
+                    foreach(var s in temp)
+                        outputFilePathParts.Add(s);
                 }
                 else
                 {
-                    outputFilePathParts = new string[] {
-                        "outputs",
-                        "out"
-                    };
+                    outputFilePathParts = ["outputs", "out"];
                 }
-                string outputFileNameExt = outputFilePathParts[^1];
-                string[] outputFileNameParts = outputFileNameExt.Split(".");
+                string[] outputFileNameParts = outputFilePathParts[^1].Split(".");
                 string outputFileExt;
                 string outputFileName;
                 if (outputFileNameParts.Length > 1)
                 {
                     outputFileExt = outputFileNameParts[^1];
-                    outputFileNameParts = outputFileNameParts.Take(outputFileNameParts.Length - 1).ToArray();
-                    outputFileName = String.Join('.', outputFileNameParts);
+                    outputFileName = "";
+                    for(int i = 0; i < outputFileNameParts.Length-1; i++)
+                        outputFileName += (((i==0)?"":".") + outputFileNameParts[i]);
                 }
                 else
                 {
@@ -115,21 +114,21 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     outputFileName = outputFileNameParts[0];
                 }
                 var dt = DateTime.Now;
-                outputFilePathParts = outputFilePathParts.Take(outputFilePathParts.Length - 1).ToArray();
-                var outputFileDir = String.Join('/', outputFilePathParts);
+                outputFilePathParts.RemoveAt(outputFilePathParts.Count - 1);
+                var outputFileDir = String.Join("/", outputFilePathParts);
                 if (shouldAddTimestampToFileName)
                 {
-                    _ = outputFilePathParts.Append(outputFileName + "-fun1v-vns-" + opts.SolutionType + "-" + opts.OptimizationType[..3] + "-" + dt.ToString("%Y-%m-%d-%H-%M-%S.%f") + "." + outputFileExt);
+                    outputFilePathParts.Add(outputFileName + "-fun1v-vns-" + opts.SolutionType + "-" + opts.OptimizationType[..3] + "-" + dt.ToString("yyyy-MM-dd-HH-mm-ss.fff") + "." + outputFileExt);
                 }
                 else
                 {
-                    _ = outputFilePathParts.Append(outputFileName + "-fun1v-vns-" + opts.SolutionType + "-" + opts.OptimizationType[..3] + "." + outputFileExt);
+                    outputFilePathParts.Add(outputFileName + "-fun1v-vns-" + opts.SolutionType + "-" + opts.OptimizationType[..3] + "." + outputFileExt);
                 }
                 string outputFilePath = String.Join('/', outputFilePathParts);
                 Log.Debug(String.Format("Output file path: {0}", outputFilePath));
-                bool dirExists = System.IO.Directory.Exists(outputFileDir);
+                bool dirExists = Directory.Exists(outputFileDir);
                 if (!dirExists)
-                    _ = System.IO.Directory.CreateDirectory(outputFileDir);
+                    Directory.CreateDirectory(outputFileDir);
                 outputFile = new StreamWriter(outputFilePath, append: true, Encoding.UTF8);
                 // output control setup
                 if (opts.WriteToOutputFile)
@@ -146,19 +145,19 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             if (opts.RandomSeed > 0)
             {
                 rSeed = opts.RandomSeed;
-                Log.Information(string.Format("RandomSeed is predefined. Predefined seed value: %d", rSeed));
+                Log.Information(string.Format("RandomSeed is predefined. Predefined seed value: {0}", rSeed));
                 if (opts.WriteToOutputFile)
                 {
-                    outputFile.Write(string.Format("# RandomSeed is predefined. Predefined seed value:  %d\n", rSeed));
+                    outputFile.Write(string.Format("# RandomSeed is predefined. Predefined seed value: {0}\n", rSeed));
                 }
             }
             else
             {
                 rSeed = (new Random()).Next();
-                Log.Information(string.Format("RandomSeed is not predefined. Generated seed value:  %d", rSeed));
+                Log.Information(string.Format("RandomSeed is not predefined. Generated seed value: {0}", rSeed));
                 if (opts.WriteToOutputFile)
                 {
-                    outputFile.Write(string.Format("# RandomSeed is not predefined. Generated seed value:  %d\n", rSeed));
+                    outputFile.Write(string.Format("# RandomSeed is not predefined. Generated seed value: {0}\n", rSeed));
                 }
             }
             Random randomGenerator = new(rSeed);
@@ -172,10 +171,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             var startTime = DateTime.Now;
             if (opts.WriteToOutputFile)
             {
-                outputFile.Write(string.Format("# {} started at: {}\n", "vns", startTime));
-                outputFile.Write(string.Format("# execution parameters: {}\n", opts));
+                outputFile.Write(string.Format("# {0} started at: {1}\n", "vns", startTime));
+                outputFile.Write(string.Format("# execution parameters: {0}\n", opts));
             }
-            if (opts.SolutionType == "int")
+            if (opts.SolutionType == "uint")
             {
                 /// initial solution and vns support
                 var numberOfIntervals = opts.SolutionNumberOfIntervals;

@@ -3,3 +3,21 @@
 {"Timestamp":"2024-01-10T13:09:32.3576322+01:00","Level":"Fatal","MessageTemplate":"Exception: Access to the path 'C:\\vlado\\Science\\Prog\\optimization\\----universal.optimizer\\Optimizers\\FunctionOneVariableProblemSolver\\outputs' is denied.\n"}
 {"Timestamp":"2024-01-10T13:10:48.0709363+01:00","Level":"Fatal","MessageTemplate":"Exception: Access to the path 'C:\\vlado\\Science\\Prog\\optimization\\----universal.optimizer\\Optimizers\\FunctionOneVariableProblemSolver\\outputs' is denied.\n"}
 {"Timestamp":"2024-01-10T13:11:05.9112788+01:00","Level":"Fatal","MessageTemplate":"Exception: Access to the path 'C:\\vlado\\Science\\Prog\\optimization\\----universal.optimizer\\Optimizers\\FunctionOneVariableProblemSolver\\outputs' is denied.\n"}
+{"Timestamp":"2024-01-10T13:58:04.7991154+01:00","Level":"Fatal","MessageTemplate":"Exception: Access to the path 'C:\\vlado\\Science\\Prog\\optimization\\----universal.optimizer\\Optimizers\\FunctionOneVariableProblemSolver\\outputs' is denied.\n"}
+{"Timestamp":"2024-01-10T14:03:44.8143356+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'AppendPrepend1Iterator`1[System.String]' to type 'System.String[]'.\n"}
+{"Timestamp":"2024-01-10T14:22:01.2214138+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'ListPartition`1[System.String]' to type 'System.Collections.Generic.List`1[System.String]'.\n"}
+{"Timestamp":"2024-01-10T14:25:14.7705753+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'ListPartition`1[System.String]' to type 'System.Collections.Generic.List`1[System.String]'.\n"}
+{"Timestamp":"2024-01-10T14:26:39.1730058+01:00","Level":"Fatal","MessageTemplate":"Exception: Could not find a part of the path 'C:\\vlado\\Science\\Prog\\optimization\\----universal.optimizer\\Optimizers\\FunctionOneVariableProblemSolver\\inputs\\7-x^2f-3t3.txt'.\n"}
+{"Timestamp":"2024-01-10T14:28:57.0078365+01:00","Level":"Fatal","MessageTemplate":"Exception: Input string was not in a correct format. Failure to parse near offset 3. Expected an ASCII digit.\n"}
+{"Timestamp":"2024-01-10T14:29:16.4706107+01:00","Level":"Fatal","MessageTemplate":"Exception: Input string was not in a correct format. Failure to parse near offset 3. Expected an ASCII digit.\n"}
+{"Timestamp":"2024-01-10T14:36:09.8741346+01:00","Level":"Fatal","MessageTemplate":"Exception: Input string was not in a correct format. Failure to parse near offset 3. Expected an ASCII digit.\n"}
+{"Timestamp":"2024-01-10T14:46:58.6269818+01:00","Level":"Fatal","MessageTemplate":"Exception: Value 'local_search_best_improvement' for VNS localSearchType is not supported\n"}
+{"Timestamp":"2024-01-10T17:46:13.6892189+01:00","Level":"Fatal","MessageTemplate":"Exception: Value 'localSearchBestImprovement' for VNS localSearchType is not supported\n"}
+{"Timestamp":"2024-01-10T17:48:09.4795333+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'System.String' to type 'System.Double'.\n"}
+{"Timestamp":"2024-01-10T18:39:50.1553867+01:00","Level":"Fatal","MessageTemplate":"Exception: Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')\n"}
+{"Timestamp":"2024-01-10T19:04:05.3222392+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'System.Int32' to type 'System.Double'.\n"}
+{"Timestamp":"2024-01-10T19:23:25.8136632+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'System.Int32' to type 'System.Double'.\n"}
+{"Timestamp":"2024-01-10T19:32:19.4620997+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'System.Int32' to type 'System.Double'.\n"}
+{"Timestamp":"2024-01-10T19:48:39.5321691+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'System.Int32' to type 'System.Double'.\n"}
+{"Timestamp":"2024-01-10T20:17:15.9667359+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'System.Int32' to type 'System.Double'.\n"}
+{"Timestamp":"2024-01-10T20:17:53.5716814+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'System.Int32' to type 'System.Double'.\n"}

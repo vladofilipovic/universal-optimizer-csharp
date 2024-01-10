@@ -16,8 +16,6 @@ namespace SingleObjective.Teaching.OnesCountProblem
     /// <seealso cref="UniversalOptimizer.TargetSolution.TargetSolution&lt;System.UInt32, System.String&gt;" />
     public class OnesCountProblemBinaryUIntSolution: TargetSolution<uint,string>
     {
-        private uint _representation;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="OnesCountProblemBinaryUIntSolution"/> class.
         /// </summary>
@@ -49,9 +47,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         private void MakeToBeFeasibleHelper(OnesCountProblem problem)
         {
             uint mask = 0xFFFFFFFF;
-            mask <<= 32 - problem.Dimension;
-            mask >>= 32 - problem.Dimension;
-            this._representation &= mask;
+            mask <<= 8 * sizeof(uint) - problem.Dimension;
+            mask >>= 8 * sizeof(uint) - problem.Dimension;
+            Representation &= mask;
         }
 
         /// <summary>
@@ -78,11 +76,11 @@ namespace SingleObjective.Teaching.OnesCountProblem
             {
                 throw new ArgumentException("Problem dimension should be positive!");
             }
-            if (specificProblem.Dimension >= 32)
+            if (specificProblem.Dimension >= 8 * sizeof(uint))
             {
                 throw new ArgumentException("Problem dimension should be less than 32!");
             }
-            _representation = (uint) RandomNumberGenerator.GetInt32( (int)(Math.Pow(2, specificProblem.Dimension) - 1));
+            Representation = (uint) RandomNumberGenerator.GetInt32( (int)(Math.Pow(2, specificProblem.Dimension) - 1));
             MakeToBeFeasibleHelper(specificProblem);
         }
 
@@ -92,7 +90,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public override void InitFrom(uint representation, TargetProblem problem) => this._representation = representation;
+        public override void InitFrom(uint representation, TargetProblem problem) => this.Representation = representation;
 
         /// <summary>
         /// Calculates the quality directly.
@@ -103,7 +101,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         public override QualityOfSolution CalculateQualityDirectly(uint representation, TargetProblem problem)
         {
             var ones_count = representation.CountOnes();
-            return new QualityOfSolution(ones_count, ones_count, true);
+            return new QualityOfSolution(objectiveValue: ones_count, fitnessValue: ones_count, isFeasible: true);
         }
 
         /// <summary>

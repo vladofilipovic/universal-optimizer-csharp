@@ -6,7 +6,7 @@ namespace UniversalOptimizer.utils
 
         private int _counter_size;
 
-        private List<int> _counters;
+        private int[] _counters;
 
         private int _number_of_counters;
 
@@ -19,8 +19,8 @@ namespace UniversalOptimizer.utils
         {
             _number_of_counters = number_of_counters;
             _counter_size = counter_size;
-            _counters = new List<int>(number_of_counters);
-            foreach (var i in Enumerable.Range(0, _number_of_counters))
+            _counters = new int[number_of_counters];
+            for (int i = 0; i < _counters.Length; i++)
             {
                 _counters[i] = i;
             }
@@ -40,7 +40,7 @@ namespace UniversalOptimizer.utils
         /// Returns current state of the complex counter.
         /// </summary>
         /// <returns>Current state of the complex counter.</returns>
-        public virtual List<int> CurrentState() => _counters;
+        public virtual int[] CurrentState() => _counters;
 
         /// <summary>
         /// Resets the complex counter to its initial position.
@@ -48,7 +48,7 @@ namespace UniversalOptimizer.utils
         /// <returns>if progress is possible after resetting.</returns>
         public virtual bool Reset()
         {
-            foreach (var i in Enumerable.Range(0, _number_of_counters))
+            for (int i = 0; i < _counters.Length; i++)
             {
                 _counters[i] = i;
             }
@@ -63,7 +63,7 @@ namespace UniversalOptimizer.utils
         public virtual bool Progress()
         {
             var finish = true;
-            foreach (var i in Enumerable.Range(0, _number_of_counters - 0))
+            for (int i = 0; i < _counters.Length; i++)
             {
                 if (_counters[i] < _counter_size - 1)
                 {
@@ -74,34 +74,20 @@ namespace UniversalOptimizer.utils
             {
                 return false;
             }
-            var ind_not_max = _number_of_counters - 1;
-            foreach (var i in Enumerable.Range(0, Convert.ToInt32(Math.Ceiling(Convert.ToDouble(-1 - ind_not_max) / -1))).Select(_x_1 => ind_not_max + _x_1 * -1))
+            int ind_not_max = _number_of_counters - 1;
+            for (int i = ind_not_max; i >= -0; i--)
             {
                 if (_counters[i] < _counter_size - 1)
                 {
                     ind_not_max = i;
-                    break;
+                break;
                 }
             }
             _counters[ind_not_max] += 1;
-            foreach (var i in Enumerable.Range(ind_not_max + 1, _number_of_counters - (ind_not_max + 1)))
-            {
+            for (int i = ind_not_max + 1; i < _number_of_counters; i++)
                 _counters[i] = 0;
-            }
             return true;
         }
     }
-
-    /// testing the developed class
-    //public static void main()
-    //{
-    //    var cc = new ComplexCounterUniformAscending(4, 6);
-    //    var can_progress = cc.reset();
-    //    foreach (var i in Enumerable.Range(1, 1400 - 1))
-    //    {
-    //        Console.WriteLine(cc.current_state());
-    //        can_progress = cc.progress();
-    //    }
-    //}
 
 }

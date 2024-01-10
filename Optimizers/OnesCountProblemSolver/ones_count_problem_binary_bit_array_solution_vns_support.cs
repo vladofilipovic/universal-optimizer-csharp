@@ -43,7 +43,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             OnesCountProblem ocProblem = (OnesCountProblem)problem;
             if (solution.Representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
-            if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+            if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
@@ -75,7 +75,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             if (tries < limit)
             {
                 optimizer.Evaluation += 1;
-                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+                if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
                     return false;
                 }
@@ -107,7 +107,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             OnesCountProblem ocProblem = (OnesCountProblem)problem;
             if (solution.Representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
-            if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+            if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
@@ -117,7 +117,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             }
             OnesCountProblemBinaryBitArraySolution startSolution = (OnesCountProblemBinaryBitArraySolution)solution.Clone();
             BitArray? bestRep = null;
-            var bestTuple = new QualityOfSolution(solution.ObjectiveValue, solution.FitnessValue, solution.IsFeasible);
+            var bestTuple = solution.QualitySingle;
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
@@ -126,12 +126,12 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 /// collect positions for inversion from indexes
                 var positions = indexes.CurrentState();
                 /// invert and compare, switch of new is better
-                for ( var i = 0; i<positions.Count; i++ )
+                for ( var i = 0; i<positions.Length; i++ )
                 {
                     solution.Representation[i] = !solution.Representation[i];
                 }
                 optimizer.Evaluation += 1;
-                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+                if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
                     solution.CopyFrom(startSolution);
                     return false;
@@ -144,7 +144,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                     bestTuple = newTuple;
                     bestRep = new BitArray(solution.Representation);
                 }
-                for (var i = 0; i < positions.Count; i++)
+                for (var i = 0; i < positions.Length; i++)
                 {
                     solution.Representation[i] = !solution.Representation[i];
                 }
@@ -182,7 +182,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             OnesCountProblem ocProblem = (OnesCountProblem)problem;
             if (solution.Representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
-            if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+            if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
@@ -191,7 +191,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 return false;
             }
             OnesCountProblemBinaryBitArraySolution startSolution = (OnesCountProblemBinaryBitArraySolution)solution.Clone();
-            var bestTuple = new QualityOfSolution(solution.ObjectiveValue, solution.FitnessValue, solution.IsFeasible);
+            var bestTuple = solution.QualitySingle;
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
@@ -200,12 +200,12 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 /// collect positions for inversion from indexes
                 var positions = indexes.CurrentState();
                 /// invert and compare, switch and exit if new is better
-                for (var i = 0; i < positions.Count; i++)
+                for (var i = 0; i < positions.Length; i++)
                 {
                     solution.Representation[i] = !solution.Representation[i];
                 }
                 optimizer.Evaluation += 1;
-                if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
+                if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
                     solution.CopyFrom(startSolution);
                     return false;
@@ -220,7 +220,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                     solution.IsFeasible = newTuple.IsFeasible;
                     return true;
                 }
-                for (var i = 0; i < positions.Count; i++)
+                for (var i = 0; i < positions.Length; i++)
                 {
                     solution.Representation[i] = !solution.Representation[i];
                 }
