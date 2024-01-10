@@ -15,7 +15,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using System.Linq;
     using UniversalOptimizer.utils;
 
-    public class FunctionOneVariableProblemBinaryUIntSolutionVnsSupport : IProblemSolutionVnsSupport<int, double>
+    public class FunctionOneVariableProblemBinaryUIntSolutionVnsSupport : IProblemSolutionVnsSupport<uint, double>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FunctionOneVariableProblemBinaryUIntSolutionVnsSupport"/> class.
@@ -36,7 +36,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// if shaking is successful
         /// </returns>
-        public bool Shaking(int k, TargetProblem problem, TargetSolution<int, double> solution, Metaheuristic<int, double> optimizer)
+        public bool Shaking(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
             if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
             {
@@ -52,10 +52,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 {
                     _ = positions.Append((new Random()).Next(representationLength));
                 }
-                var mask = 0;
+                uint mask = 0;
                 foreach (var p in positions)
                 {
-                    mask |= 1 << p;
+                    mask |= (uint)(1 << p);
                 }
                 solution.Representation ^= mask;
                 var all_ok = true;
@@ -96,7 +96,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// Solution - result of the local search procedure.
         /// </returns>
-        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<int, double> solution, Metaheuristic<int, double> optimizer)
+        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
             int representationLength = 32;
             if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
@@ -108,7 +108,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 return false;
             }
             FunctionOneVariableProblemBinaryUIntSolution startSolution = (FunctionOneVariableProblemBinaryUIntSolution)solution.Clone();
-            int? bestRep = null;
+            uint? bestRep = null;
             var bestTuple = new QualityOfSolution(objectiveValue: solution.ObjectiveValue,
                     fitnessValue: solution.FitnessValue,
                     isFeasible: solution.IsFeasible ?? false);
@@ -120,10 +120,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 /// collect positions for inversion from indexes
                 var positions = indexes.CurrentState();
                 /// invert and compare, switch of new is better
-                var mask = 0;
+                uint mask = 0;
                 foreach (var i in positions)
                 {
-                    mask |= 1 << i;
+                    mask |= (uint)(1 << i);
                 }
                 solution.Representation ^= mask;
                 optimizer.Evaluation += 1;
@@ -146,7 +146,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             }
             if (bestRep is not null)
             {
-                solution.Representation = (int)bestRep;
+                solution.Representation = (uint)bestRep;
                 solution.ObjectiveValue = bestTuple.ObjectiveValue ?? double.NaN;
                 solution.FitnessValue = bestTuple.FitnessValue ?? double.NaN;
                 solution.IsFeasible = bestTuple.IsFeasible;
@@ -166,7 +166,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// Solution - result of the local search procedure.
         /// </returns>
-        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<int, double> solution, Metaheuristic<int, double> optimizer)
+        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
             var representationLength = 32;
             if (optimizer.FinishControl.CheckEvaluations && optimizer.Evaluation > optimizer.FinishControl.EvaluationsMax)
@@ -189,10 +189,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 /// collect positions for inversion from indexes
                 var positions = indexes.CurrentState();
                 /// invert and compare, switch and exit if new is better
-                var mask = 0;
+                uint mask = 0;
                 foreach (var i in positions)
                 {
-                    mask |= 1 << i;
+                    mask |= (uint)(1 << i);
                 }
                 solution.Representation ^= mask;
                 optimizer.Evaluation += 1;

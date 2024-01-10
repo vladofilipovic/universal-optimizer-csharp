@@ -1,28 +1,22 @@
-///
-///
+
 namespace SingleObjective.Teaching.OnesCountProblem
 {
-
+    using UniversalOptimizer.TargetSolution;
     using UniversalOptimizer.Algorithm;
-
     using UniversalOptimizer.Algorithm.Metaheuristic;
-
     using UniversalOptimizer.Algorithm.Exact.TotalEnumeration;
-
     using UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch;
 
     using SingleObjective.Teaching.OnesCountProblem;
-
     using static SingleObjective.Teaching.OnesCountProblem.CommandLineHelper;
 
 
     using System;
+    using System.Text;
     using Serilog;
     using Serilog.Formatting.Json;
     using Serilog.Events;
     using CommandLine;
-    using System.Text;
-    using UniversalOptimizer.TargetSolution;
 
     public static class Solver
     {

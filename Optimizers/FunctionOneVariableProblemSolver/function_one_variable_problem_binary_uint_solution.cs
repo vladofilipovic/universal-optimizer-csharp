@@ -204,7 +204,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         public override double RepresentationDistanceDirectly(uint representation_1, uint representation_2)
         {
             uint x = representation_1 ^ representation_2;
-            //return OnesCountProblemBinaryUIntSolution x;
+            return x.CountOnes();
         }
 
         /// <summary>

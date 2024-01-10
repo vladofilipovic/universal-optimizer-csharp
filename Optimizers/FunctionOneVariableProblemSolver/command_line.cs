@@ -83,7 +83,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem {
             public required string SolutionType { get; set; }
 
             [Option("solutionNumberOfIntervals", Required = true, Default = 10000, HelpText = "Numbers of intervals within domain used for solution representation.")]
-            public int SolutionNumberOfIntervals { get; set; }
+            public uint SolutionNumberOfIntervals { get; set; }
         }
 
         [Verb("idle", HelpText = "Execute idle algorithm for the 'function_one_variable_problem'.")]

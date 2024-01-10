@@ -177,10 +177,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             {
                 /// initial solution and vns support
                 var numberOfIntervals = opts.SolutionNumberOfIntervals;
-                TargetSolution<int, double> solution = new FunctionOneVariableProblemBinaryUIntSolution(domainFrom: problem.DomainLow, domainTo: problem.DomainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
-                IProblemSolutionVnsSupport<int, double> vns_support = new FunctionOneVariableProblemBinaryUIntSolutionVnsSupport();
+                TargetSolution<uint, double> solution = new FunctionOneVariableProblemBinaryUIntSolution(domainFrom: problem.DomainLow, domainTo: problem.DomainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
+                IProblemSolutionVnsSupport<uint, double> vns_support = new FunctionOneVariableProblemBinaryUIntSolutionVnsSupport();
                 /// solver construction 
-                var solver = new VnsOptimizer<int, double>(
+                var solver = new VnsOptimizer<uint, double>(
                     finishControl: finishControl,
                     randomSeed: rSeed,
                     additionalStatisticsControl: additionalStatisticsControl,
