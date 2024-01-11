@@ -118,10 +118,8 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 return false;
             }
             FunctionOneVariableProblemBinaryUIntSolution startSolution = (FunctionOneVariableProblemBinaryUIntSolution)solution.Clone();
-            uint? bestRep = null;
-            var bestTuple = new QualityOfSolution(objectiveValue: solution.ObjectiveValue,
-                    fitnessValue: solution.FitnessValue,
-                    isFeasible: solution.IsFeasible ?? false);
+            FunctionOneVariableProblemBinaryUIntSolution bestSolution = (FunctionOneVariableProblemBinaryUIntSolution)solution.Clone();
+            bool betterSolutionFound = false;
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, representationLength);
             var in_loop = indexes.Reset();
@@ -143,23 +141,20 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(fovProblem);
+                solution.Evaluate(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization == true) == true)
+                if (optimizer.IsFirstBetter(solution, bestSolution, fovProblem) == true)
                 {
-                    bestTuple = newTuple;
-                    bestRep = solution.Representation;
+                    betterSolutionFound = true;
+                    bestSolution.CopyFrom(solution);
                 }
                 solution.Representation ^= mask;
                 /// increment indexes and set in_loop accordingly
                 in_loop = indexes.Progress();
             }
-            if (bestRep is not null)
+            if (betterSolutionFound)
             {
-                solution.Representation = (uint)bestRep;
-                solution.ObjectiveValue = bestTuple.ObjectiveValue ?? double.NaN;
-                solution.FitnessValue = bestTuple.FitnessValue ?? double.NaN;
-                solution.IsFeasible = bestTuple.IsFeasible;
+                solution.CopyFrom(bestSolution);
                 return true;
             }
             solution.CopyFrom(startSolution);
@@ -193,9 +188,6 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 return false;
             }
             FunctionOneVariableProblemBinaryUIntSolution startSolution = (FunctionOneVariableProblemBinaryUIntSolution)solution.Clone();
-            var bestTuple = new QualityOfSolution(objectiveValue: solution.ObjectiveValue,
-                fitnessValue: solution.FitnessValue,
-                isFeasible: solution.IsFeasible ?? false);
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, representationLength);
             var in_loop = indexes.Reset();
@@ -217,13 +209,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(fovProblem);
+                solution.Evaluate(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization == true) == true)
+                if (optimizer.IsFirstBetter(solution, startSolution, fovProblem) == true)
                 {
-                    solution.FitnessValue = newTuple.FitnessValue ?? double.NaN;
-                    solution.ObjectiveValue = newTuple.ObjectiveValue ?? double.NaN;
-                    solution.IsFeasible = newTuple.IsFeasible;
                     return true;
                 }
                 solution.Representation ^= mask;

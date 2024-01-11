@@ -116,8 +116,8 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 return false;
             }
             OnesCountProblemBinaryBitArraySolution startSolution = (OnesCountProblemBinaryBitArraySolution)solution.Clone();
-            BitArray? bestRep = null;
-            var bestTuple = solution.QualitySingle;
+            OnesCountProblemBinaryBitArraySolution bestSolution = (OnesCountProblemBinaryBitArraySolution)solution.Clone();
+            bool betterSolutionFound = false; 
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
@@ -137,12 +137,12 @@ namespace SingleObjective.Teaching.OnesCountProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(problem);
+                solution.Evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization == true) == true)
+                if (optimizer.IsFirstBetter(solution, bestSolution, problem) == true)
                 {
-                    bestTuple = newTuple;
-                    bestRep = new BitArray(solution.Representation);
+                    betterSolutionFound = true;
+                    bestSolution.CopyFrom(solution);
                 }
                 for (var i = 0; i < positions.Length; i++)
                 {
@@ -151,12 +151,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 /// increment indexes and set in_loop according to the state
                 in_loop = indexes.Progress();
             }
-            if (bestRep is not null)
+            if (betterSolutionFound)
             {
-                solution.Representation = bestRep;
-                solution.ObjectiveValue = bestTuple.ObjectiveValue ?? double.NaN;
-                solution.FitnessValue = bestTuple.FitnessValue ?? double.NaN;
-                solution.IsFeasible = bestTuple.IsFeasible;
+                solution.CopyFrom(bestSolution);
                 return true;
             }
             solution.CopyFrom(startSolution);
@@ -191,7 +188,6 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 return false;
             }
             OnesCountProblemBinaryBitArraySolution startSolution = (OnesCountProblemBinaryBitArraySolution)solution.Clone();
-            var bestTuple = solution.QualitySingle;
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
@@ -211,13 +207,10 @@ namespace SingleObjective.Teaching.OnesCountProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(problem);
+                solution.Evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization == true) == true)
+                if (optimizer.IsFirstBetter(solution, startSolution, problem) == true)
                 {
-                    solution.ObjectiveValue = newTuple.ObjectiveValue ?? double.NaN;
-                    solution.FitnessValue = newTuple.FitnessValue ?? double.NaN;
-                    solution.IsFeasible = newTuple.IsFeasible;
                     return true;
                 }
                 for (var i = 0; i < positions.Length; i++)
