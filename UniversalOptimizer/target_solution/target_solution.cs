@@ -238,6 +238,18 @@ namespace UniversalOptimizer.TargetSolution
             }
         }
 
+        /// <summary>
+        /// Obtains the feasible representation.
+        /// </summary>
+        /// <param name="problem">The problem.</param>
+        /// <returns></returns>
+        public virtual R_co ObtainFeasibleRepresentation(TargetProblem problem)
+        {
+            if(Representation is null)
+                throw new ArgumentNullException(nameof(Representation));
+            return Representation;
+        }
+
         public virtual void CopyFrom(TargetSolution<R_co, A_co> original)
         {
             this._fitnessValue = original._fitnessValue;

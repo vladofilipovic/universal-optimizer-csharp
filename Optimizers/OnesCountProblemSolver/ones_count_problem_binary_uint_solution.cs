@@ -40,16 +40,19 @@ namespace SingleObjective.Teaching.OnesCountProblem
 
 
         /// <summary>
-        /// Makes to be feasible helper.
+        /// Obtains the feasible representation.
         /// </summary>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        private void MakeToBeFeasibleHelper(OnesCountProblem problem)
+        public override uint ObtainFeasibleRepresentation(TargetProblem problem)
         {
+            if (problem is not OnesCountProblem)
+                throw new ArgumentException(string.Format("Specified problem should have type 'OnesCountProblem'"));
+            OnesCountProblem ocProblem = (OnesCountProblem)problem;
             uint mask = 0xFFFFFFFF;
-            mask <<= 8 * sizeof(uint) - problem.Dimension;
-            mask >>= 8 * sizeof(uint) - problem.Dimension;
-            Representation &= mask;
+            mask <<= 8 * sizeof(uint) - ocProblem.Dimension;
+            mask >>= 8 * sizeof(uint) - ocProblem.Dimension;
+            return Representation & mask;
         }
 
         /// <summary>
@@ -80,8 +83,8 @@ namespace SingleObjective.Teaching.OnesCountProblem
             {
                 throw new ArgumentException("Problem dimension should be less than 32!");
             }
-            Representation = (uint) RandomNumberGenerator.GetInt32( (int)(Math.Pow(2, specificProblem.Dimension) - 1));
-            MakeToBeFeasibleHelper(specificProblem);
+            Representation = (uint) RandomNumberGenerator.GetInt32(int.MaxValue);
+            Representation = ObtainFeasibleRepresentation(specificProblem);
         }
 
         /// <summary>

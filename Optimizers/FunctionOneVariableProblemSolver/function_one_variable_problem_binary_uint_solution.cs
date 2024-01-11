@@ -116,15 +116,15 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         }
 
         /// <summary>
-        /// Makes to be feasible helper.
+        /// Obtains the feasible representation.
         /// </summary>
         /// <param name="problem">The problem.</param>
-        private void MakeToBeFeasibleHelper(FunctionOneVariableProblem problem)
+        /// <returns></returns>
+        public override uint ObtainFeasibleRepresentation(TargetProblem problem)
         {
             if (Representation > _numberOfIntervals)
-            {
-                Representation = _numberOfIntervals;
-            }
+                return Representation % _numberOfIntervals;
+            return Representation;
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
             FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
             Representation = (uint) RandomNumberGenerator.GetInt32((int)NumberOfIntervals);
-            MakeToBeFeasibleHelper(fovProblem);
+            Representation = ObtainFeasibleRepresentation(fovProblem);
         }
 
         /// <summary>
