@@ -66,8 +66,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             if(problemSolutionVnsSupport is null)
                 throw new NullReferenceException(nameof(problemSolutionVnsSupport));
             _problemSolutionVnsSupport = problemSolutionVnsSupport;
-            _implementedLocalSearches.Add("LocalSearchBestImprovement", problemSolutionVnsSupport.LocalSearchBestImprovement);
-            _implementedLocalSearches.Add("LocalSearchFirstImprovement", problemSolutionVnsSupport.LocalSearchFirstImprovement);
+            _implementedLocalSearches.Add("localSearchBestImprovement", problemSolutionVnsSupport.LocalSearchBestImprovement);
+            _implementedLocalSearches.Add("localSearchFirstImprovement", problemSolutionVnsSupport.LocalSearchFirstImprovement);
             if (!_implementedLocalSearches.TryGetValue(_localSearchType, out ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>? value))
             {
                 throw new ArgumentException(String.Format("Value '{0}' for VNS localSearchType is not supported", _localSearchType));

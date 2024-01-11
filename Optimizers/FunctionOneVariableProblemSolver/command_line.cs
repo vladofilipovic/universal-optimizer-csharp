@@ -76,7 +76,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem {
             [Option("kMax", Required = true, Default = 3, HelpText = "VNS parameter k max.")]
             public int KMax { get; set; }
 
-            [Option("localSearchType", Required = true, Default = "LocalSearchBestImprovement", HelpText = "VNS parameter that determines local search type. It can have one of values: 'LocalSearchBestImprovement', 'LocalSearchFirstImprovement'.")]
+            [Option("localSearchType", Required = true, Default = "localSearchBestImprovement", HelpText = "VNS parameter that determines local search type. It can have one of values: 'localSearchBestImprovement', 'localSearchFirstImprovement'.")]
             public required string LocalSearchType { get; set; }
 
             [Option("solutionType", Required = true, Default = "int", HelpText = "VNS parameter that determines solution (representation) type.")]
