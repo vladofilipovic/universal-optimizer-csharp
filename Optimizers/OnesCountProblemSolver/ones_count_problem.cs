@@ -76,7 +76,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <exception cref="System.NotImplementedException"></exception>
         public override object Clone()
         {
-            return new OnesCountProblem(this.Dimension, this.IsMinimization);
+            return new OnesCountProblem(this.Dimension, this.IsMinimization == true);
         }
 
         /// <summary>

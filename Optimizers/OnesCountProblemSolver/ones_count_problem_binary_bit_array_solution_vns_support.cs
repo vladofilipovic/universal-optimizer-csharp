@@ -139,7 +139,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                 var newTuple = solution.CalculateQuality(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization) == true)
+                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization == true) == true)
                 {
                     bestTuple = newTuple;
                     bestRep = new BitArray(solution.Representation);
@@ -213,7 +213,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                 var newTuple = solution.CalculateQuality(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization) == true)
+                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization == true) == true)
                 {
                     solution.ObjectiveValue = newTuple.ObjectiveValue ?? double.NaN;
                     solution.FitnessValue = newTuple.FitnessValue ?? double.NaN;

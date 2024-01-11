@@ -160,7 +160,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
                 /// update auxiliary structure that keeps all solution codes
                 AdditionalStatisticsControl.AddToAllSolutionCodesIfRequired(CurrentSolution.StringRepresentation());
                 AdditionalStatisticsControl.AddToMoreLocalOptimaIfRequired(CurrentSolution.StringRepresentation(), CurrentSolution.FitnessValue, BestSolution!.StringRepresentation());
-                var new_is_better = QualityOfSolution.IsFirstFitnessBetter(CurrentSolution.QualitySingle, BestSolution.QualitySingle, TargetProblem.IsMinimization);
+                var new_is_better = QualityOfSolution.IsFirstFitnessBetter(CurrentSolution.QualitySingle, BestSolution.QualitySingle, TargetProblem.IsMinimization == true);
                 var make_move = new_is_better;
                 if (new_is_better is null)
                 {

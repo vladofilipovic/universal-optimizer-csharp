@@ -145,7 +145,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                 var newTuple = solution.CalculateQuality(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization) == true)
+                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization == true) == true)
                 {
                     bestTuple = newTuple;
                     bestRep = solution.Representation;
@@ -219,7 +219,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
                 var newTuple = solution.CalculateQuality(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization) == true)
+                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization == true) == true)
                 {
                     solution.FitnessValue = newTuple.FitnessValue ?? double.NaN;
                     solution.ObjectiveValue = newTuple.ObjectiveValue ?? double.NaN;

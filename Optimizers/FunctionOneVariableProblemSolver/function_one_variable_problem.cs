@@ -98,7 +98,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         public override object Clone()
         {
             FunctionOneVariableProblem cl = new(
-                IsMinimization, Expression, DomainLow, DomainHigh);
+                IsMinimization == true, Expression, DomainLow, DomainHigh);
             return cl;
         }
 
