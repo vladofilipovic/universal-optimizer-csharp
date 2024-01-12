@@ -1,7 +1,7 @@
 ///  
 /// ..  _py_ones_count_problem:
 /// 
-/// The :mod:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem` contains class :class:`~opt.SingleObjective.Teaching.OnesCountProblem.ones_count_problem.OnesCountProblem`, that represents :ref:`Problem_Max_Ones`.
+/// The :mod:`~opt.SingleObjective.Teaching.OnesCountProblemMax.ones_count_problem` contains class :class:`~opt.SingleObjective.Teaching.OnesCountProblemMax.ones_count_problem.OnesCountProblemMax`, that represents :ref:`Problem_Max_Ones`.
 /// 
 namespace SingleObjective.Teaching.OnesCountProblem
 {
@@ -11,17 +11,16 @@ namespace SingleObjective.Teaching.OnesCountProblem
 
     using UniversalOptimizer.TargetProblem;
 
-    public class OnesCountProblem : TargetProblem
+    public class OnesCountProblemMax : TargetProblem
     {
 
         private int _dimension;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OnesCountProblem"/> class.
+        /// Initializes a new instance of the <see cref="OnesCountProblemMax"/> class.
         /// </summary>
         /// <param name="dimension">The dimension.</param>
-        /// <param name="isMinimization">if set to <c>true</c> [is minimization].</param>
-        public OnesCountProblem(int dimension, bool isMinimization) : base("OnesCountProblem", isMinimization)
+        public OnesCountProblemMax(int dimension) : base("OnesCountProblemMax", isMinimization:false)
         {
             _dimension = dimension;
         }
@@ -61,10 +60,10 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="inputFormat">The input format.</param>
         /// <param name="isMinimization">if set to <c>true</c> [is minimization].</param>
         /// <returns></returns>
-        public static OnesCountProblem FromInputFile(string inputFilePath, string inputFormat, bool isMinimization)
+        public static OnesCountProblemMax FromInputFile(string inputFilePath, string inputFormat)
         {
-            var dimension = OnesCountProblem.LoadFromFileHelper(inputFilePath, inputFormat);
-            return new OnesCountProblem(dimension: dimension, isMinimization: isMinimization);
+            var dimension = OnesCountProblemMax.LoadFromFileHelper(inputFilePath, inputFormat);
+            return new OnesCountProblemMax(dimension: dimension);
         }
 
         /// <summary>
@@ -76,7 +75,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <exception cref="System.NotImplementedException"></exception>
         public override object Clone()
         {
-            return new OnesCountProblem(this.Dimension, this.IsMinimization == true);
+            return new OnesCountProblemMax(Dimension);
         }
 
         /// <summary>

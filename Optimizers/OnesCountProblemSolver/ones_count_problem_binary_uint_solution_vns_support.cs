@@ -30,7 +30,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// inside shakingPoints 
         /// 
         /// :param int k: int parameter for VNS
-        /// :param `OnesCountProblem` problem: problem that is solved
+        /// :param `OnesCountProblemMax` problem: problem that is solved
         /// :param `OnesCountProblemBinaryUIntSolution` solution: solution used for the problem that is solved
         /// :param `Algorithm` optimizer: optimizer that is executed
         /// :return: if shaking is successful
@@ -40,9 +40,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
+            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
@@ -94,7 +94,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// Executes "best improvement" variant of the local search procedure 
         /// 
         /// :param int k: int parameter for VNS
-        /// :param `OnesCountProblem` problem: problem that is solved
+        /// :param `OnesCountProblemMax` problem: problem that is solved
         /// :param `OnesCountProblemBinaryUIntSolution` solution: solution used for the problem that is solved
         /// :param `Algorithm` optimizer: optimizer that is executed
         /// :return: result of the local search procedure 
@@ -104,9 +104,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
+            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
@@ -173,9 +173,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
+            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;

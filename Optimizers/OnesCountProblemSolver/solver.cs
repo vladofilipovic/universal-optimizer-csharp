@@ -211,7 +211,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         //                var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
         //                var additionalStatisticsControl = AdditionalStatisticsControl(keep: additionalStatistics_keep, maxLocalOptima: maxLocalOptima);
         //                /// problem to be solved
-        //                var problem = OnesCountProblem.from_input_file(input_filePath: input_filePath, input_format: input_format);
+        //                var problem = OnesCountProblemMax.from_input_file(input_filePath: input_filePath, input_format: input_format);
         //                var start_time = datetime.now();
         //                if (writeToOutputFile)
         //                {

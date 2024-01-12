@@ -38,9 +38,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
+            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
             if (solution.Representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
@@ -102,9 +102,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
+            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
             if (solution.Representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
@@ -174,9 +174,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
+            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
             if (solution.Representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))

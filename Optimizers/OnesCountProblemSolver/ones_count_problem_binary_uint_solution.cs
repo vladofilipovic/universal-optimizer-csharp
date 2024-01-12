@@ -11,7 +11,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using UniversalOptimizer.utils;
 
     /// <summary>
-    /// Class for solving OnesCountProblem, with binary int representation.
+    /// Class for solving OnesCountProblemMax, with binary int representation.
     /// </summary>
     /// <seealso cref="UniversalOptimizer.TargetSolution.TargetSolution&lt;System.UInt32, System.String&gt;" />
     public class OnesCountProblemBinaryUIntSolution: TargetSolution<uint,string>
@@ -38,6 +38,23 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
         }
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public override object Clone()
+        {
+            OnesCountProblemBinaryUIntSolution cl = new(randomSeed: RandomSeed);
+            cl.FitnessValue = FitnessValue;
+            cl.FitnessValues = FitnessValues;
+            cl.ObjectiveValue = ObjectiveValue;
+            cl.ObjectiveValues = ObjectiveValues;
+            cl.IsFeasible = IsFeasible;
+            cl.Representation = Representation;
+            return cl;
+        }
 
         /// <summary>
         /// Obtains the feasible representation.
@@ -46,9 +63,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns></returns>
         public override uint ObtainFeasibleRepresentation(TargetProblem problem)
         {
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Specified problem should have type 'OnesCountProblem'"));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Specified problem should have type 'OnesCountProblemMax'"));
+            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
             uint mask = 0xFFFFFFFF;
             mask <<= 8 * sizeof(uint) - ocProblem.Dimension;
             mask >>= 8 * sizeof(uint) - ocProblem.Dimension;
@@ -72,9 +89,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem specificProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
+            OnesCountProblemMax specificProblem = (OnesCountProblemMax)problem;
             if (specificProblem.Dimension <= 0)
             {
                 throw new ArgumentException("Problem dimension should be positive!");

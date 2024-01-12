@@ -51,15 +51,15 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <exception cref="NotImplementedException"></exception>
         public override object Clone()
         {
-            var sol = new FunctionOneVariableProblemBinaryUIntSolution(this._domainFrom, this._domainTo,
+            var clone = new FunctionOneVariableProblemBinaryUIntSolution(this._domainFrom, this._domainTo,
                 this._numberOfIntervals, this.RandomSeed);
-            sol.Representation = this.Representation;
-            sol.IsFeasible = this.IsFeasible;
-            sol.FitnessValue = this.FitnessValue;
-            sol.FitnessValues = this.FitnessValues;
-            sol.ObjectiveValue = this.ObjectiveValue;
-            sol.ObjectiveValues = this.ObjectiveValues;
-            return sol;
+            clone.IsFeasible = this.IsFeasible;
+            clone.FitnessValue = this.FitnessValue;
+            clone.FitnessValues = this.FitnessValues;
+            clone.ObjectiveValue = this.ObjectiveValue;
+            clone.ObjectiveValues = this.ObjectiveValues;
+            clone.Representation = this.Representation;
+            return clone;
         }
         /// <summary>
         /// Gets or sets the domain from.

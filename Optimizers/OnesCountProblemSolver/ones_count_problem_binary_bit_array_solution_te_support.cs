@@ -35,9 +35,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
+            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
             _bitArrayCounter = new ComplexCounterBitArrayFull(ocProblem.Dimension);
             _bitArrayCounter.Reset();
             solution.InitFrom(_bitArrayCounter.CurrentState(), problem);
@@ -95,9 +95,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountProblemMax)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
+            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
             int dim = ocProblem.Dimension;
             return (long) Math.Pow(2, dim);
         }
