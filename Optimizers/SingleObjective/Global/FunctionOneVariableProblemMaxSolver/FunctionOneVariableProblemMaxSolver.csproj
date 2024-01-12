@@ -17,11 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\UniversalOptimizer\UniversalOptimizer.csproj" />
+    <Folder Include="outputs\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="outputs\" />
+    <ProjectReference Include="..\..\..\..\UniversalOptimizer\UniversalOptimizer.csproj" />
   </ItemGroup>
 
 </Project>

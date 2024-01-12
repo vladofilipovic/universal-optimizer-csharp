@@ -13,12 +13,12 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using System.Collections;
     using UniversalOptimizer.TargetProblem;
 
-    public class OnesCountProblemBinaryBitArraySolutionTeSupport : IProblemSolutionTeSupport<BitArray, string>
+    public class OnesCountMaxProblemBinaryBitArraySolutionTeSupport : IProblemSolutionTeSupport<BitArray, string>
     {
 
         private ComplexCounterBitArrayFull? _bitArrayCounter;
 
-        public OnesCountProblemBinaryBitArraySolutionTeSupport()
+        public OnesCountMaxProblemBinaryBitArraySolutionTeSupport()
         {
             _bitArrayCounter = null;
         }
@@ -35,9 +35,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblemMax)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
-            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
             _bitArrayCounter = new ComplexCounterBitArrayFull(ocProblem.Dimension);
             _bitArrayCounter.Reset();
             solution.InitFrom(_bitArrayCounter.CurrentState(), problem);
@@ -95,9 +95,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblemMax)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
-            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
             int dim = ocProblem.Dimension;
             return (long) Math.Pow(2, dim);
         }
@@ -122,7 +122,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             int indentation = 0,
             string indentationSymbol = "",
             string groupStart = "{",
-            string groupEnd = "}") => "OnesCountProblemBinaryBitArraySolutionTeSupport";
+            string groupEnd = "}") => "OnesCountMaxProblemBinaryBitArraySolutionTeSupport";
 
         /// 
         /// String representation of the te support instance

@@ -1,60 +1,61 @@
-
-namespace SingleObjective.Teaching.OnesCountProblem
+namespace SingleObjective.Teaching.FunctionOneVariableProblem
 {
-
-    using UniversalOptimizer.utils;
     using UniversalOptimizer.TargetProblem;
+
     using UniversalOptimizer.TargetSolution;
-    using UniversalOptimizer.Algorithm;
-    using UniversalOptimizer.Algorithm.Exact.TotalEnumeration;
+
     using UniversalOptimizer.Algorithm.Metaheuristic;
+
     using UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch;
 
-    using SingleObjective.Teaching.OnesCountProblem;
+    using System.Collections.Generic;
 
     using System;
-    using System.Collections.Generic;
+
     using System.Linq;
-    using System.Security.Cryptography;
+    using UniversalOptimizer.utils;
 
-    public class OnesCountProblemBinaryUIntSolutionVnsSupport: IProblemSolutionVnsSupport<uint,string>
+    public class FunctionOneVariableMaxProblemBinaryUintSolutionVnsSupport : IProblemSolutionVnsSupport<uint, double>
     {
-
-        public OnesCountProblemBinaryUIntSolutionVnsSupport()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FunctionOneVariableMaxProblemBinaryUintSolutionVnsSupport"/> class.
+        /// </summary>
+        public FunctionOneVariableMaxProblemBinaryUintSolutionVnsSupport()
         {
         }
 
- 
-        /// 
-        /// Random VNS shaking of k parts such that new solution code does not differ more than k from all solution codes 
-        /// inside shakingPoints 
-        /// 
-        /// :param int k: int parameter for VNS
-        /// :param `OnesCountProblemMax` problem: problem that is solved
-        /// :param `OnesCountProblemBinaryUIntSolution` solution: solution used for the problem that is solved
-        /// :param `Algorithm` optimizer: optimizer that is executed
-        /// :return: if shaking is successful
-        /// return type bool
-        /// 
-        public bool Shaking(int k, TargetProblem problem, TargetSolution<uint, string> solution, Metaheuristic<uint, string> optimizer)
+        /// <summary>
+        /// Random VNS shaking of several parts such that new solution code does not differ more
+        /// than supplied from all solution codes inside collection.
+        /// </summary>
+        /// <param name="k">The k parameter for VNS.</param>
+        /// <param name="problem">The problem that is solved.</param>
+        /// <param name="solution">The solution used for the problem that is solved.</param>
+        /// <param name="optimizer">The optimizer that is executed.</param>
+        /// <param name="solutionRepresentations">The solution representations that should be shaken.</param>
+        /// <returns>
+        /// if shaking is successful
+        /// </returns>
+        public bool Shaking(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblemMax)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
-            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
+            if (problem is not FunctionOneVariableMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'FunctionOneVariableMaxProblem'.", nameof(problem)));
+            FunctionOneVariableMaxProblem fovProblem = (FunctionOneVariableMaxProblem)problem;
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
             var tries = 0;
             var limit = 10000;
+            int representationLength = 32;
             while (tries < limit)
             {
                 var positions = new List<int>();
                 foreach (var i in Enumerable.Range(0, k - 0))
                 {
-                    positions.Append(RandomNumberGenerator.GetInt32(ocProblem.Dimension));
+                    _ = positions.Append((new Random()).Next(representationLength));
                 }
                 uint mask = 0;
                 foreach (var p in positions)
@@ -63,7 +64,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 }
                 solution.Representation ^= mask;
                 var all_ok = true;
-                if (solution.Representation.CountOnes() > ocProblem.Dimension)
+                if (Convert.ToString(solution.Representation, 2).Count(c => c == '1') > representationLength)
                 {
                     all_ok = false;
                 }
@@ -80,7 +81,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                solution.Evaluate(problem);
+                solution.Evaluate(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
                 return true;
             }
@@ -90,36 +91,37 @@ namespace SingleObjective.Teaching.OnesCountProblem
             }
         }
 
-        /// 
-        /// Executes "best improvement" variant of the local search procedure 
-        /// 
-        /// :param int k: int parameter for VNS
-        /// :param `OnesCountProblemMax` problem: problem that is solved
-        /// :param `OnesCountProblemBinaryUIntSolution` solution: solution used for the problem that is solved
-        /// :param `Algorithm` optimizer: optimizer that is executed
-        /// :return: result of the local search procedure 
-        /// return type OnesCountProblemBinaryUIntSolution
-        /// 
-        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<uint, string> solution, Metaheuristic<uint, string> optimizer)
+        /// <summary>
+        /// Executes "best improvement" variant of the local search procedure.
+        /// </summary>
+        /// <param name="k">The k parameter for VNS.</param>
+        /// <param name="problem">The problem that is solved.</param>
+        /// <param name="solution">The solution used for the problem that is solved.</param>
+        /// <param name="optimizer">The optimizer that is executed.</param>
+        /// <returns>
+        /// Solution - result of the local search procedure.
+        /// </returns>
+        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblemMax)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
-            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
+            if (problem is not FunctionOneVariableMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'FunctionOneVariableMaxProblem'.", nameof(problem)));
+            FunctionOneVariableMaxProblem fovProblem = (FunctionOneVariableMaxProblem)problem;
+            int representationLength = sizeof(uint) * 8;
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
-            if (k < 1 || k > ocProblem.Dimension)
+            if (k < 1)
             {
                 return false;
             }
-            OnesCountProblemBinaryUIntSolution startSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone();
-            OnesCountProblemBinaryUIntSolution bestSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone();
+            FunctionOneVariableMaxProblemBinaryUintSolution startSolution = (FunctionOneVariableMaxProblemBinaryUintSolution)solution.Clone();
+            FunctionOneVariableMaxProblemBinaryUintSolution bestSolution = (FunctionOneVariableMaxProblemBinaryUintSolution)solution.Clone();
             bool betterSolutionFound = false;
             /// initialize indexes
-            var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
+            var indexes = new ComplexCounterUniformAscending(k, representationLength);
             var in_loop = indexes.Reset();
             while (in_loop)
             {
@@ -139,9 +141,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                solution.Evaluate(problem);
+                solution.Evaluate(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (optimizer.IsFirstBetter(solution, bestSolution, problem) == true)
+                if (optimizer.IsFirstBetter(solution, bestSolution, fovProblem) == true)
                 {
                     betterSolutionFound = true;
                     bestSolution.CopyFrom(solution);
@@ -167,27 +169,27 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
         /// <returns>
-        /// if the local search procedure is successful.
+        /// Solution - result of the local search procedure.
         /// </returns>
-        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<uint, string> solution,       Metaheuristic<uint, string> optimizer)
+        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblemMax)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
-            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
+            if (problem is not FunctionOneVariableMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'FunctionOneVariableMaxProblem'.", nameof(problem)));
+            FunctionOneVariableMaxProblem fovProblem = (FunctionOneVariableMaxProblem)problem;
+            var representationLength = sizeof(uint) * 8;
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
-            if (k < 1 || k > ocProblem.Dimension)
+            if (k < 1)
             {
                 return false;
             }
-            OnesCountProblemBinaryUIntSolution startSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone();
-            var bestTuple = solution.QualitySingle;
+            FunctionOneVariableMaxProblemBinaryUintSolution startSolution = (FunctionOneVariableMaxProblemBinaryUintSolution)solution.Clone();
             /// initialize indexes
-            var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
+            var indexes = new ComplexCounterUniformAscending(k, representationLength);
             var in_loop = indexes.Reset();
             while (in_loop)
             {
@@ -207,9 +209,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                solution.Evaluate(problem);
+                solution.Evaluate(fovProblem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (optimizer.IsFirstBetter(solution, startSolution, problem) == true)
+                if (optimizer.IsFirstBetter(solution, startSolution, fovProblem) == true)
                 {
                     return true;
                 }
@@ -235,7 +237,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             int indentation = 0,
             string indentationSymbol = "",
             string groupStart = "{",
-            string groupEnd = "}") => "OnesCountProblemBinaryUIntSolutionVnsSupport";
+            string groupEnd = "}") => "FunctionOneVariableMaxProblemBinaryUintSolutionVnsSupport";
 
         /// <summary>
         /// Converts to string.
@@ -243,7 +245,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public override string ToString() => this.StringRep("|");
+        public override string ToString() => StringRep("|");
 
     }
 }

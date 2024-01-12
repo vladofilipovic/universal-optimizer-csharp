@@ -14,12 +14,12 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using UniversalOptimizer.TargetProblem;
     using UniversalOptimizer.Algorithm.Metaheuristic;
 
-    public class OnesCountProblemBinaryBitArraySolutionVnsSupport: IProblemSolutionVnsSupport<BitArray, string>
+    public class OnesCountMaxProblemBinaryBitArraySolutionVnsSupport: IProblemSolutionVnsSupport<BitArray, string>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OnesCountProblemBinaryBitArraySolutionVnsSupport"/> class.
+        /// Initializes a new instance of the <see cref="OnesCountMaxProblemBinaryBitArraySolutionVnsSupport"/> class.
         /// </summary>
-        public OnesCountProblemBinaryBitArraySolutionVnsSupport()
+        public OnesCountMaxProblemBinaryBitArraySolutionVnsSupport()
         {
         }
 
@@ -38,9 +38,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblemMax)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
-            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
             if (solution.Representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
@@ -102,9 +102,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblemMax)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
-            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
             if (solution.Representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
@@ -115,8 +115,8 @@ namespace SingleObjective.Teaching.OnesCountProblem
             {
                 return false;
             }
-            OnesCountProblemBinaryBitArraySolution startSolution = (OnesCountProblemBinaryBitArraySolution)solution.Clone();
-            OnesCountProblemBinaryBitArraySolution bestSolution = (OnesCountProblemBinaryBitArraySolution)solution.Clone();
+            OnesCountMaxProblemBinaryBitArraySolution startSolution = (OnesCountMaxProblemBinaryBitArraySolution)solution.Clone();
+            OnesCountMaxProblemBinaryBitArraySolution bestSolution = (OnesCountMaxProblemBinaryBitArraySolution)solution.Clone();
             bool betterSolutionFound = false; 
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
@@ -174,9 +174,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblemMax)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblemMax'.", nameof(problem)));
-            OnesCountProblemMax ocProblem = (OnesCountProblemMax)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
             if (solution.Representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
@@ -187,7 +187,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             {
                 return false;
             }
-            OnesCountProblemBinaryBitArraySolution startSolution = (OnesCountProblemBinaryBitArraySolution)solution.Clone();
+            OnesCountMaxProblemBinaryBitArraySolution startSolution = (OnesCountMaxProblemBinaryBitArraySolution)solution.Clone();
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
@@ -238,7 +238,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             int indentation = 0,
             string indentationSymbol = "",
             string groupStart = "{",
-            string groupEnd = "}") => "OnesCountProblemBinaryBitArraySolutionVnsSupport";
+            string groupEnd = "}") => "OnesCountMaxProblemBinaryBitArraySolutionVnsSupport";
 
         /// <summary>
         /// Converts to string.

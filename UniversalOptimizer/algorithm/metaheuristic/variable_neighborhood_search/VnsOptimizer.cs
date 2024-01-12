@@ -131,6 +131,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             _kCurrent = KMin;
             CurrentSolution = (TargetSolution<R_co, A_co>)SolutionTemplate!.Clone();
             CurrentSolution.InitRandom(TargetProblem);
+            Evaluation = 1;
             CurrentSolution.Evaluate(TargetProblem);
             CopyToBestSolution(CurrentSolution);   
         }
@@ -155,27 +156,13 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             while (_kCurrent <= KMax)
             {
                 WriteOutputValuesIfNeeded("beforeStepInIteration", "ls");
-                _lsMethod((int)_kCurrent, TargetProblem, CurrentSolution, this);
+                bool improvement = _lsMethod((int)_kCurrent, TargetProblem, CurrentSolution, this);
                 WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
-                /// update auxiliary structure that keeps all solution codes
-                AdditionalStatisticsControl.AddToAllSolutionCodesIfRequired(CurrentSolution.StringRepresentation());
-                AdditionalStatisticsControl.AddToMoreLocalOptimaIfRequired(CurrentSolution.StringRepresentation(), CurrentSolution.FitnessValue, BestSolution!.StringRepresentation());
-                var new_is_better = IsFirstBetter(CurrentSolution, BestSolution, TargetProblem);
-                var make_move = new_is_better;
-                if (new_is_better is null)
+                if (improvement)
                 {
-                    if (CurrentSolution.StringRepresentation() == BestSolution.StringRepresentation())
-                    {
-                        make_move = false;
-                    }
-                    else
-                    {
-                        Log.Debug("VnsOptimizer::MainLoopIteration: Same solution quality, generating random true with probability 0.5");
-                        make_move = (new Random()).NextDouble() < 0.5;
-                    }
-                }
-                if (make_move == true)
-                {
+                    /// update auxiliary structure that keeps all solution codes
+                    AdditionalStatisticsControl.AddToAllSolutionCodesIfRequired(CurrentSolution.StringRepresentation());
+                    AdditionalStatisticsControl.AddToMoreLocalOptimaIfRequired(CurrentSolution.StringRepresentation(), CurrentSolution.FitnessValue, BestSolution!.StringRepresentation());
                     CopyToBestSolution(CurrentSolution);
                     _kCurrent = KMin;
                 }

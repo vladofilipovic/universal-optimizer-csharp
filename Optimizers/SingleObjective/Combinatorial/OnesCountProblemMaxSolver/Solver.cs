@@ -211,7 +211,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         //                var maxLocalOptima = parameters["additionalStatisticsMaxLocalOptima"];
         //                var additionalStatisticsControl = AdditionalStatisticsControl(keep: additionalStatistics_keep, maxLocalOptima: maxLocalOptima);
         //                /// problem to be solved
-        //                var problem = OnesCountProblemMax.from_input_file(input_filePath: input_filePath, input_format: input_format);
+        //                var problem = OnesCountMaxProblem.from_input_file(input_filePath: input_filePath, input_format: input_format);
         //                var start_time = datetime.now();
         //                if (writeToOutputFile)
         //                {
@@ -230,13 +230,13 @@ namespace SingleObjective.Teaching.OnesCountProblem
         //                    object vns_support = null;
         //                    if (solution_type == "BitArray")
         //                    {
-        //                        solution = OnesCountProblemBinaryBitArraySolution(randomSeed: rSeed);
-        //                        vns_support = OnesCountProblemBinaryBitArraySolutionVnsSupport();
+        //                        solution = OnesCountMaxProblemBinaryBitArraySolution(randomSeed: rSeed);
+        //                        vns_support = OnesCountMaxProblemBinaryBitArraySolutionVnsSupport();
         //                    }
         //                    else if (solution_type == "int")
         //                    {
-        //                        solution = OnesCountProblemBinaryUIntSolution(rSeed);
-        //                        vns_support = OnesCountProblemBinaryUIntSolutionVnsSupport();
+        //                        solution = OnesCountMaxProblemBinaryUintSolution(rSeed);
+        //                        vns_support = OnesCountMaxProblemBinaryUintSolutionVnsSupport();
         //                    }
         //                    else
         //                    {
@@ -264,9 +264,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         //                    object te_support = null;
         //                    if (solution_type == "BitArray")
         //                    {
-        //                        solution = OnesCountProblemBinaryBitArraySolution(rSeed);
+        //                        solution = OnesCountMaxProblemBinaryBitArraySolution(rSeed);
         //                        solution.isCaching = evaluationCacheIsUsed;
-        //                        te_support = OnesCountProblemBinaryBitArraySolutionTeSupport();
+        //                        te_support = OnesCountMaxProblemBinaryBitArraySolutionTeSupport();
         //                    }
         //                    else
         //                    {
