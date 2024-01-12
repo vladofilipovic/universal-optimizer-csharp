@@ -24,12 +24,11 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <summary>
         /// Initializes a new instance of the <see cref="FunctionOneVariableMaxProblem"/> class.
         /// </summary>
-        /// <param name="isMinimization">if set to <c>true</c> [is minimization].</param>
         /// <param name="expression">The expression.</param>
         /// <param name="domainLow">The domain low.</param>
         /// <param name="domainHigh">The domain high.</param>
-        public FunctionOneVariableMaxProblem(bool isMinimization, string expression, double domainLow, double domainHigh)
-            : base("FunctionOneVariableMaxProblem", isMinimization)
+        public FunctionOneVariableMaxProblem(string expression, double domainLow, double domainHigh)
+            : base("FunctionOneVariableMaxProblem", isMinimization:false, isMultiObjective:false)
         {
             _expression = expression;
             _domainLow = domainLow;
@@ -39,9 +38,8 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <summary>
         /// Initializes a new instance of the <see cref="FunctionOneVariableMaxProblem"/> class.
         /// </summary>
-        /// <param name="isMinimization">if set to <c>true</c> [is minimization].</param>
         /// <param name="fovpe">The elements of the Function One Variable Problem.</param>
-        public FunctionOneVariableMaxProblem(bool isMinimization, FunctionOneVariableMaxProblemElements fovpe) : this(isMinimization, fovpe.Expression, fovpe.DomainLow, fovpe.DomainHigh)
+        public FunctionOneVariableMaxProblem(FunctionOneVariableMaxProblemElements fovpe) : this(fovpe.Expression, fovpe.DomainLow, fovpe.DomainHigh)
         {
         }
 
@@ -85,7 +83,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="inputFilePath">The input file path.</param>
         /// <param name="inputFormat">The input format.</param>
         public FunctionOneVariableMaxProblem(bool isMinimization, string inputFilePath, string inputFormat) :
-            this(isMinimization, LoadFromFileHelper(inputFilePath, inputFormat))
+            this(LoadFromFileHelper(inputFilePath, inputFormat))
         {
         }
 
@@ -97,8 +95,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </returns>
         public override object Clone()
         {
-            FunctionOneVariableMaxProblem cl = new(
-                IsMinimization == true, Expression, DomainLow, DomainHigh);
+            FunctionOneVariableMaxProblem cl = new(Expression, DomainLow, DomainHigh);
             return cl;
         }
 

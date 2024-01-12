@@ -15,7 +15,7 @@ namespace UniversalOptimizer.Algorithm
     /// <seealso cref="uo.Algorithm.Optimizer" />
     public abstract class Algorithm<R_co, A_co> : Optimizer<R_co, A_co>
     {
-        private TargetSolution<R_co, A_co>? _solutionTemplate;
+        private readonly TargetSolution<R_co, A_co>? _solutionTemplate;
         private int _evaluation;
         private int _iteration;
         private int _iterationBestFound;
@@ -118,7 +118,7 @@ namespace UniversalOptimizer.Algorithm
                 throw new ArgumentNullException(nameof(problem.IsMultiObjective));
             if (problem.IsMinimization is null)
                 throw new ArgumentNullException(nameof(problem.IsMinimization));
-            if ((bool)problem.IsMultiObjective)
+            if (!(bool)problem.IsMultiObjective)
             {
                 double? fit1 = sol1.FitnessValue;
                 double? fit2 = sol2.FitnessValue;
