@@ -17,10 +17,10 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using System.Linq;
     using System.Security.Cryptography;
 
-    public class OnesCountProblemBinaryUIntSolutionVnsSupport: IProblemSolutionVnsSupport<uint,string>
+    public class OnesCountMaxProblemBinaryUintSolutionVnsSupport: IProblemSolutionVnsSupport<uint,string>
     {
 
-        public OnesCountProblemBinaryUIntSolutionVnsSupport()
+        public OnesCountMaxProblemBinaryUintSolutionVnsSupport()
         {
         }
 
@@ -30,8 +30,8 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// inside shakingPoints 
         /// 
         /// :param int k: int parameter for VNS
-        /// :param `OnesCountProblem` problem: problem that is solved
-        /// :param `OnesCountProblemBinaryUIntSolution` solution: solution used for the problem that is solved
+        /// :param `OnesCountMaxProblem` problem: problem that is solved
+        /// :param `OnesCountMaxProblemBinaryUintSolution` solution: solution used for the problem that is solved
         /// :param `Algorithm` optimizer: optimizer that is executed
         /// :return: if shaking is successful
         /// return type bool
@@ -40,9 +40,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
@@ -94,19 +94,19 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// Executes "best improvement" variant of the local search procedure 
         /// 
         /// :param int k: int parameter for VNS
-        /// :param `OnesCountProblem` problem: problem that is solved
-        /// :param `OnesCountProblemBinaryUIntSolution` solution: solution used for the problem that is solved
+        /// :param `OnesCountMaxProblem` problem: problem that is solved
+        /// :param `OnesCountMaxProblemBinaryUintSolution` solution: solution used for the problem that is solved
         /// :param `Algorithm` optimizer: optimizer that is executed
         /// :return: result of the local search procedure 
-        /// return type OnesCountProblemBinaryUIntSolution
+        /// return type OnesCountMaxProblemBinaryUintSolution
         /// 
         public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<uint, string> solution, Metaheuristic<uint, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
@@ -115,9 +115,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
             {
                 return false;
             }
-            OnesCountProblemBinaryUIntSolution startSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone(); 
-            uint? bestRep = null;
-            var bestTuple = solution.QualitySingle;
+            OnesCountMaxProblemBinaryUintSolution startSolution = (OnesCountMaxProblemBinaryUintSolution)solution.Clone();
+            OnesCountMaxProblemBinaryUintSolution bestSolution = (OnesCountMaxProblemBinaryUintSolution)solution.Clone();
+            bool betterSolutionFound = false;
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
@@ -139,23 +139,20 @@ namespace SingleObjective.Teaching.OnesCountProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(problem);
+                solution.Evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization) == true)
+                if (optimizer.IsFirstBetter(solution, bestSolution, problem) == true)
                 {
-                    bestTuple = newTuple;
-                    bestRep = solution.Representation;
+                    betterSolutionFound = true;
+                    bestSolution.CopyFrom(solution);
                 }
                 solution.Representation ^= mask;
                 /// increment indexes and set in_loop accordingly
                 in_loop = indexes.Progress();
             }
-            if (bestRep is not null)
+            if (betterSolutionFound)
             {
-                solution.Representation = (uint) bestRep;
-                solution.ObjectiveValue = bestTuple.ObjectiveValue ?? double.NaN;
-                solution.FitnessValue = bestTuple.FitnessValue ?? double.NaN;
-                solution.IsFeasible = bestTuple.IsFeasible;
+                solution.CopyFrom(bestSolution);
                 return true;
             }
             solution.CopyFrom(startSolution);
@@ -176,9 +173,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
@@ -187,7 +184,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             {
                 return false;
             }
-            OnesCountProblemBinaryUIntSolution startSolution = (OnesCountProblemBinaryUIntSolution)solution.Clone();
+            OnesCountMaxProblemBinaryUintSolution startSolution = (OnesCountMaxProblemBinaryUintSolution)solution.Clone();
             var bestTuple = solution.QualitySingle;
             /// initialize indexes
             var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
@@ -210,13 +207,10 @@ namespace SingleObjective.Teaching.OnesCountProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(problem);
+                solution.Evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, problem.IsMinimization) == true)
+                if (optimizer.IsFirstBetter(solution, startSolution, problem) == true)
                 {
-                    solution.FitnessValue = newTuple.FitnessValue ?? double.NaN;
-                    solution.ObjectiveValue = newTuple.ObjectiveValue ?? double.NaN;
-                    solution.IsFeasible = newTuple.IsFeasible;
                     return true;
                 }
                 solution.Representation ^= mask;
@@ -224,7 +218,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 in_loop = indexes.Progress();
             }
             solution.CopyFrom(startSolution);
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -241,7 +235,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
             int indentation = 0,
             string indentationSymbol = "",
             string groupStart = "{",
-            string groupEnd = "}") => "OnesCountProblemBinaryUIntSolutionVnsSupport";
+            string groupEnd = "}") => "OnesCountMaxProblemBinaryUintSolutionVnsSupport";
 
         /// <summary>
         /// Converts to string.

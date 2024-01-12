@@ -13,7 +13,7 @@ namespace UniversalOptimizer.Algorithm
     /// This class describes Algorithm
     /// </summary>
     /// <seealso cref="uo.Algorithm.Optimizer" />
-    public abstract class Algorithm<R_co, A_co> : Optimizer<R_co, A_co>  
+    public abstract class Algorithm<R_co, A_co> : Optimizer<R_co, A_co>
     {
         private TargetSolution<R_co, A_co>? _solutionTemplate;
         private int _evaluation;
@@ -23,7 +23,7 @@ namespace UniversalOptimizer.Algorithm
         public Algorithm(string name, OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co>? solutionTemplate)
                 : base(name, outputControl: outputControl, targetProblem: targetProblem)
         {
-            _solutionTemplate = solutionTemplate;   
+            _solutionTemplate = solutionTemplate;
             _evaluation = 0;
             _iteration = 0;
             _iterationBestFound = 0;
@@ -112,6 +112,41 @@ namespace UniversalOptimizer.Algorithm
             }
         }
 
+        public virtual bool? IsFirstBetter(TargetSolution<R_co, A_co> sol1, TargetSolution<R_co, A_co> sol2, TargetProblem problem)
+        {
+            if(problem.IsMultiObjective is null)
+                throw new ArgumentNullException(nameof(problem.IsMultiObjective));
+            if (problem.IsMinimization is null)
+                throw new ArgumentNullException(nameof(problem.IsMinimization));
+            if ((bool)problem.IsMultiObjective)
+            {
+                double? fit1 = sol1.FitnessValue;
+                double? fit2 = sol2.FitnessValue;
+                if (fit1 is null)
+                {
+                    if (fit2 is not null)
+                        return false;
+                    else
+                        return null;
+                }
+                else
+                {
+                    if (fit2 is null)
+                        return true;
+                    if (((bool)problem.IsMinimization && fit1 < fit2) || ((bool)problem.IsMinimization && fit1 > fit2))
+                        return true;
+                    if (fit1 == fit2)
+                        return null;
+                    return false;
+                }
+            }
+            else
+            {
+                throw new NotImplementedException("Comparison between solutions for multi objective optimization is not currently supported.");
+            }
+        }
+
+
         /// <summary>
         /// Initializes this algorithm.
         /// </summary>
@@ -135,38 +170,38 @@ namespace UniversalOptimizer.Algorithm
             string groupEnd = "}")
         {
             var s = delimiter;
-            for(int i=0; i<indentation; i++)
+            for (int i = 0; i < indentation; i++)
             {
                 s += indentationSymbol;
             }
             s = groupStart;
-            for(int i=0; i<indentation; i++)
+            for (int i = 0; i < indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "name=" + Name + delimiter;
-            for(int i=0; i<indentation; i++)
+            for (int i = 0; i < indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "TargetProblem=" + TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
-            for(int i=0; i<indentation; i++)
+            for (int i = 0; i < indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "OutputControl=" + OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
             s += "_evaluation=" + _evaluation.ToString() + delimiter;
-            for(int i=0; i<indentation; i++)
+            for (int i = 0; i < indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "executionStarted=" + ExecutionStarted.ToString() + delimiter;
-            for(int i=0; i<indentation; i++)
+            for (int i = 0; i < indentation; i++)
             {
                 s += indentationSymbol;
             }
             s += "executionEnded=" + ExecutionEnded.ToString() + delimiter;
-            for(int i=0; i<indentation; i++)
+            for (int i = 0; i < indentation; i++)
             {
                 s += indentationSymbol;
             }

@@ -1,26 +1,25 @@
-namespace SingleObjective.Teaching.FunctionOneVariableProblem
+
+namespace SingleObjective.Teaching.OnesCountProblem
 {
-    using UniversalOptimizer.TargetProblem;
-
+    using UniversalOptimizer.utils;
     using UniversalOptimizer.TargetSolution;
-
-    using UniversalOptimizer.Algorithm.Metaheuristic;
-
+    using UniversalOptimizer.Algorithm;
     using UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch;
-
-    using System.Collections.Generic;
+    using SingleObjective.Teaching.OnesCountProblem;
 
     using System;
-
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
-    using UniversalOptimizer.utils;
+    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Algorithm.Metaheuristic;
 
-    public class FunctionOneVariableProblemBinaryUIntSolutionVnsSupport : IProblemSolutionVnsSupport<uint, double>
+    public class OnesCountMaxProblemBinaryBitArraySolutionVnsSupport: IProblemSolutionVnsSupport<BitArray, string>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FunctionOneVariableProblemBinaryUIntSolutionVnsSupport"/> class.
+        /// Initializes a new instance of the <see cref="OnesCountMaxProblemBinaryBitArraySolutionVnsSupport"/> class.
         /// </summary>
-        public FunctionOneVariableProblemBinaryUIntSolutionVnsSupport()
+        public OnesCountMaxProblemBinaryBitArraySolutionVnsSupport()
         {
         }
 
@@ -32,39 +31,39 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="problem">The problem that is solved.</param>
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
-        /// <param name="solutionRepresentations">The solution representations that should be shaken.</param>
         /// <returns>
         /// if shaking is successful
         /// </returns>
-        public bool Shaking(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
+        public bool Shaking(int k, TargetProblem problem, TargetSolution<BitArray, string> solution, Metaheuristic<BitArray, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not FunctionOneVariableProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'FunctionOneVariableProblem'.", nameof(problem)));
-            FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
+            if (solution.Representation == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
             var tries = 0;
             var limit = 10000;
-            int representationLength = 32;
             while (tries < limit)
             {
                 var positions = new List<int>();
-                foreach (var i in Enumerable.Range(0, k - 0))
+                for (int i=0; i<k; i++)
                 {
-                    _ = positions.Append((new Random()).Next(representationLength));
+                    positions.Append(optimizer.RandomGenerator.Next(0, ocProblem.Dimension));
                 }
-                uint mask = 0;
-                foreach (var p in positions)
+                var repr = new BitArray(solution.Representation);
+                foreach (int pos in positions)
                 {
-                    mask |= (uint)(1 << p);
+                    repr[pos] = !repr[pos];
                 }
-                solution.Representation ^= mask;
+                solution.Representation = repr;
                 var all_ok = true;
-                if (Convert.ToString(solution.Representation, 2).Count(c => c == '1') > representationLength)
+                if (solution.Representation!.CountOnes() > ocProblem.Dimension)
                 {
                     all_ok = false;
                 }
@@ -81,14 +80,12 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                solution.Evaluate(fovProblem);
+                solution.Evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
+                optimizer.WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         /// <summary>
@@ -99,43 +96,40 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
         /// <returns>
-        /// Solution - result of the local search procedure.
+        /// if the local search procedure is successful.
         /// </returns>
-        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
+        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<BitArray, string> solution, Metaheuristic<BitArray, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not FunctionOneVariableProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'FunctionOneVariableProblem'.", nameof(problem)));
-            FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
-            int representationLength = sizeof(uint) * 8;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
+            if (solution.Representation == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
-            if (k < 1)
+            if (k < 1 || k > ocProblem.Dimension)
             {
                 return false;
             }
-            FunctionOneVariableProblemBinaryUIntSolution startSolution = (FunctionOneVariableProblemBinaryUIntSolution)solution.Clone();
-            uint? bestRep = null;
-            var bestTuple = new QualityOfSolution(objectiveValue: solution.ObjectiveValue,
-                    fitnessValue: solution.FitnessValue,
-                    isFeasible: solution.IsFeasible ?? false);
+            OnesCountMaxProblemBinaryBitArraySolution startSolution = (OnesCountMaxProblemBinaryBitArraySolution)solution.Clone();
+            OnesCountMaxProblemBinaryBitArraySolution bestSolution = (OnesCountMaxProblemBinaryBitArraySolution)solution.Clone();
+            bool betterSolutionFound = false; 
             /// initialize indexes
-            var indexes = new ComplexCounterUniformAscending(k, representationLength);
+            var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
             while (in_loop)
             {
                 /// collect positions for inversion from indexes
                 var positions = indexes.CurrentState();
                 /// invert and compare, switch of new is better
-                uint mask = 0;
-                foreach (var i in positions)
+                for ( var i = 0; i<positions.Length; i++ )
                 {
-                    mask |= (uint)(1 << i);
+                    solution.Representation[i] = !solution.Representation[i];
                 }
-                solution.Representation ^= mask;
                 optimizer.Evaluation += 1;
                 if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
@@ -143,23 +137,23 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(fovProblem);
+                solution.Evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization) == true)
+                if (optimizer.IsFirstBetter(solution, bestSolution, problem) == true)
                 {
-                    bestTuple = newTuple;
-                    bestRep = solution.Representation;
+                    betterSolutionFound = true;
+                    bestSolution.CopyFrom(solution);
                 }
-                solution.Representation ^= mask;
-                /// increment indexes and set in_loop accordingly
+                for (var i = 0; i < positions.Length; i++)
+                {
+                    solution.Representation[i] = !solution.Representation[i];
+                }
+                /// increment indexes and set in_loop according to the state
                 in_loop = indexes.Progress();
             }
-            if (bestRep is not null)
+            if (betterSolutionFound)
             {
-                solution.Representation = (uint)bestRep;
-                solution.ObjectiveValue = bestTuple.ObjectiveValue ?? double.NaN;
-                solution.FitnessValue = bestTuple.FitnessValue ?? double.NaN;
-                solution.IsFeasible = bestTuple.IsFeasible;
+                solution.CopyFrom(bestSolution);
                 return true;
             }
             solution.CopyFrom(startSolution);
@@ -174,42 +168,38 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
         /// <returns>
-        /// Solution - result of the local search procedure.
+        /// if the local search procedure is successful.
         /// </returns>
-        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
+        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<BitArray, string> solution, Metaheuristic<BitArray, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not FunctionOneVariableProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'FunctionOneVariableProblem'.", nameof(problem)));
-            FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
-            var representationLength = sizeof(uint) * 8;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
+            if (solution.Representation == null)
+                throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(solution.Representation)));
             if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
             {
                 return false;
             }
-            if (k < 1)
+            if (k < 1 || k > ocProblem.Dimension)
             {
                 return false;
             }
-            FunctionOneVariableProblemBinaryUIntSolution startSolution = (FunctionOneVariableProblemBinaryUIntSolution)solution.Clone();
-            var bestTuple = new QualityOfSolution(objectiveValue: solution.ObjectiveValue,
-                fitnessValue: solution.FitnessValue,
-                isFeasible: solution.IsFeasible ?? false);
+            OnesCountMaxProblemBinaryBitArraySolution startSolution = (OnesCountMaxProblemBinaryBitArraySolution)solution.Clone();
             /// initialize indexes
-            var indexes = new ComplexCounterUniformAscending(k, representationLength);
+            var indexes = new ComplexCounterUniformAscending(k, ocProblem.Dimension);
             var in_loop = indexes.Reset();
             while (in_loop)
             {
                 /// collect positions for inversion from indexes
                 var positions = indexes.CurrentState();
                 /// invert and compare, switch and exit if new is better
-                uint mask = 0;
-                foreach (var i in positions)
+                for (var i = 0; i < positions.Length; i++)
                 {
-                    mask |= (uint)(1 << i);
+                    solution.Representation[i] = !solution.Representation[i];
                 }
-                solution.Representation ^= mask;
                 optimizer.Evaluation += 1;
                 if (optimizer.FinishControl.IsFinished(optimizer.Evaluation, optimizer.Iteration, optimizer.ElapsedSeconds()))
                 {
@@ -217,16 +207,16 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     return false;
                 }
                 optimizer.WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
-                var newTuple = solution.CalculateQuality(fovProblem);
+                solution.Evaluate(problem);
                 optimizer.WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-                if (QualityOfSolution.IsFirstFitnessBetter(newTuple, bestTuple, fovProblem.IsMinimization) == true)
+                if (optimizer.IsFirstBetter(solution, startSolution, problem) == true)
                 {
-                    solution.FitnessValue = newTuple.FitnessValue ?? double.NaN;
-                    solution.ObjectiveValue = newTuple.ObjectiveValue ?? double.NaN;
-                    solution.IsFeasible = newTuple.IsFeasible;
                     return true;
                 }
-                solution.Representation ^= mask;
+                for (var i = 0; i < positions.Length; i++)
+                {
+                    solution.Representation[i] = !solution.Representation[i];
+                }
                 /// increment indexes and set in_loop accordingly
                 in_loop = indexes.Progress();
             }
@@ -248,7 +238,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             int indentation = 0,
             string indentationSymbol = "",
             string groupStart = "{",
-            string groupEnd = "}") => "FunctionOneVariableProblemBinaryUIntSolutionVnsSupport";
+            string groupEnd = "}") => "OnesCountMaxProblemBinaryBitArraySolutionVnsSupport";
 
         /// <summary>
         /// Converts to string.
@@ -256,8 +246,21 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public override string ToString() => StringRep("|");
+        public override string ToString() => this.StringRep("|");
+
+        /// <summary>
+        /// Representation of this instance.
+        /// </summary>
+        /// <returns></returns>
+        public virtual string _repr__() => this.StringRep("\n");
+
+        /// <summary>
+        /// Formats the specified spec.
+        /// </summary>
+        /// <param name="spec">The spec.</param>
+        /// <returns></returns>
+        public virtual string _format__(string spec) => this.StringRep("|");
 
     }
-}
 
+}

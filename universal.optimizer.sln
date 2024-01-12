@@ -11,13 +11,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransformationGraphFiles", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransformationProblemInstances", "Tools\transformation.problem.instance\TransformationProblemInstances\TransformationProblemInstances.csproj", "{00E73DEF-C27E-43F1-AB33-656F754D5218}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionOneVariableProblemSolver", "Optimizers\FunctionOneVariableProblemSolver\FunctionOneVariableProblemSolver.csproj", "{47C05198-4335-477C-8915-2921877D7FC3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Optimizers", "Optimizers", "{5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solvers", "Solvers", "{5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniversalOptimizerTest", "UniversalOptimizerTest\UniversalOptimizerTest.csproj", "{0AB5F040-75B0-4E68-9E03-F5B5D7443647}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnesCountProblemSolver", "Optimizers\OnesCountProblemSolver\OnesCountProblemSolver.csproj", "{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MultiObjective", "MultiObjective", "{354289B5-18EE-46C5-8B5C-E4AA40A6B268}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalOptimizerTest", "UniversalOptimizerTest\UniversalOptimizerTest.csproj", "{0AB5F040-75B0-4E68-9E03-F5B5D7443647}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SingleObjective", "SingleObjective", "{19072A69-ED35-4FD9-BC42-2EE602AD4B31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Global", "Global", "{EB16945C-4EBB-428D-9699-CF9F728BC93A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Combinatorial", "Combinatorial", "{B61A3726-DD31-4AED-8C63-601883D89EDC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnesCountProblemMaxSolver", "Optimizers\SingleObjective\Combinatorial\OnesCountProblemMaxSolver\OnesCountProblemMaxSolver.csproj", "{7136FEF8-B630-4C01-BBDE-487AF6665126}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionOneVariableProblemMaxSolver", "Optimizers\SingleObjective\Global\FunctionOneVariableProblemMaxSolver\FunctionOneVariableProblemMaxSolver.csproj", "{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,18 +45,18 @@ Global
 		{00E73DEF-C27E-43F1-AB33-656F754D5218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00E73DEF-C27E-43F1-AB33-656F754D5218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00E73DEF-C27E-43F1-AB33-656F754D5218}.Release|Any CPU.Build.0 = Release|Any CPU
-		{47C05198-4335-477C-8915-2921877D7FC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47C05198-4335-477C-8915-2921877D7FC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47C05198-4335-477C-8915-2921877D7FC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47C05198-4335-477C-8915-2921877D7FC3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0AB5F040-75B0-4E68-9E03-F5B5D7443647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0AB5F040-75B0-4E68-9E03-F5B5D7443647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AB5F040-75B0-4E68-9E03-F5B5D7443647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AB5F040-75B0-4E68-9E03-F5B5D7443647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7136FEF8-B630-4C01-BBDE-487AF6665126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7136FEF8-B630-4C01-BBDE-487AF6665126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7136FEF8-B630-4C01-BBDE-487AF6665126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7136FEF8-B630-4C01-BBDE-487AF6665126}.Release|Any CPU.Build.0 = Release|Any CPU
+		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,8 +64,12 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CEC6E848-97AD-4417-9D9F-ECF154CF9173} = {BCBD56A8-471A-4D2A-AA73-C91240382D47}
 		{00E73DEF-C27E-43F1-AB33-656F754D5218} = {BCBD56A8-471A-4D2A-AA73-C91240382D47}
-		{47C05198-4335-477C-8915-2921877D7FC3} = {5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}
-		{1EB10BD8-64BE-401C-B6FD-E1E9106EAB65} = {5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}
+		{354289B5-18EE-46C5-8B5C-E4AA40A6B268} = {5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}
+		{19072A69-ED35-4FD9-BC42-2EE602AD4B31} = {5DF1C3F1-41AF-4CD6-86CA-7AC6A3E1BCE9}
+		{EB16945C-4EBB-428D-9699-CF9F728BC93A} = {19072A69-ED35-4FD9-BC42-2EE602AD4B31}
+		{B61A3726-DD31-4AED-8C63-601883D89EDC} = {19072A69-ED35-4FD9-BC42-2EE602AD4B31}
+		{7136FEF8-B630-4C01-BBDE-487AF6665126} = {B61A3726-DD31-4AED-8C63-601883D89EDC}
+		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8} = {EB16945C-4EBB-428D-9699-CF9F728BC93A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E9C1655-9598-4E24-962A-C12A47F4906D}

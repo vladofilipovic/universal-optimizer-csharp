@@ -110,8 +110,8 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             {
                 WriteOutputValuesIfNeeded("beforeIteration", "b_i");
                 Iteration += 1;
-                _progressMethod(this.TargetProblem, CurrentSolution, this);
-                bool? new_is_better = QualityOfSolution.IsFirstFitnessBetter(CurrentSolution.QualitySingle, BestSolution!.QualitySingle, TargetProblem.IsMinimization);
+                _progressMethod(TargetProblem, CurrentSolution, this);
+                bool? new_is_better = IsFirstBetter(CurrentSolution, BestSolution!, TargetProblem);
                 if(new_is_better == true)
                 {
                     CopyToBestSolution(CurrentSolution);

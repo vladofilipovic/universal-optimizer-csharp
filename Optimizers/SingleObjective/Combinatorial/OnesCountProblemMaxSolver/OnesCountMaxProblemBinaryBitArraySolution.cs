@@ -9,18 +9,19 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using System.Linq;
     using System.Security.Cryptography;
     using UniversalOptimizer.utils;
+    using System.Linq.Expressions;
 
-    public class OnesCountProblemBinaryBitArraySolution: TargetSolution<BitArray,string>
+    public class OnesCountMaxProblemBinaryBitArraySolution: TargetSolution<BitArray,string>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OnesCountProblemBinaryBitArraySolution"/> class.
+        /// Initializes a new instance of the <see cref="OnesCountMaxProblemBinaryBitArraySolution"/> class.
         /// </summary>
         /// <param name="randomSeed">The random seed.</param>
         /// <param name="evaluationCacheIsUsed">if set to <c>true</c> [evaluation cache is used].</param>
         /// <param name="evaluationCacheMaxSize">Maximum size of the evaluation cache.</param>
         /// <param name="distanceCalculationCacheIsUsed">if set to <c>true</c> [distance calculation cache is used].</param>
         /// <param name="distanceCalculationCacheMaxSize">Maximum size of the distance calculation cache.</param>
-        public OnesCountProblemBinaryBitArraySolution(
+        public OnesCountMaxProblemBinaryBitArraySolution(
             int? randomSeed = null,
             bool evaluationCacheIsUsed = false,
             int evaluationCacheMaxSize = 0,
@@ -35,12 +36,25 @@ namespace SingleObjective.Teaching.OnesCountProblem
         }
 
         /// <summary>
-        /// Clones this instance.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public override OnesCountProblemBinaryBitArraySolution Clone() => throw new NotImplementedException();
-
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public override object Clone()
+        {
+            OnesCountMaxProblemBinaryBitArraySolution cl = new(randomSeed: RandomSeed);
+            cl.FitnessValue = FitnessValue;
+            cl.FitnessValues = FitnessValues;
+            cl.ObjectiveValue = ObjectiveValue;
+            cl.ObjectiveValues = ObjectiveValues;
+            cl.IsFeasible = IsFeasible;
+            if (Representation is not null)
+                cl.Representation = new BitArray(Representation);
+            else
+                cl.Representation = null;
+            return cl;
+        }
 
         /// <summary>
         /// Arguments the specified representation.
@@ -55,14 +69,14 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="problem">The problem that is solved by solution.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">string.Format("Parameter '{0}' is null.", nameof(problem))</exception>
-        /// <exception cref="ArgumentException">string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem))</exception>
+        /// <exception cref="ArgumentException">string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem))</exception>
         public override void InitRandom(TargetProblem problem)
         {
             if (problem == null) 
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if(problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem ocProblem = (OnesCountProblem) problem;
+            if(problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem) problem;
             int dim = ocProblem.Dimension;
             byte[] values =  RandomNumberGenerator.GetBytes(dim/8);
             Representation = new BitArray(values);
@@ -74,7 +88,10 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public override void InitFrom(BitArray representation, TargetProblem problem) => Representation = new BitArray(representation);
+        public override void InitFrom(BitArray representation, TargetProblem problem)
+        {
+            Representation = new BitArray(representation);
+        }
 
         /// <summary>
         /// Calculates the quality directly.

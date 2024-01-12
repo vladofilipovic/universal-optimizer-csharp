@@ -11,20 +11,20 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using UniversalOptimizer.utils;
 
     /// <summary>
-    /// Class for solving OnesCountProblem, with binary int representation.
+    /// Class for solving OnesCountMaxProblem, with binary int representation.
     /// </summary>
     /// <seealso cref="UniversalOptimizer.TargetSolution.TargetSolution&lt;System.UInt32, System.String&gt;" />
-    public class OnesCountProblemBinaryUIntSolution: TargetSolution<uint,string>
+    public class OnesCountMaxProblemBinaryUintSolution: TargetSolution<uint,string>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OnesCountProblemBinaryUIntSolution"/> class.
+        /// Initializes a new instance of the <see cref="OnesCountMaxProblemBinaryUintSolution"/> class.
         /// </summary>
         /// <param name="randomSeed">The random seed.</param>
         /// <param name="evaluationCacheIsUsed">if set to <c>true</c> [evaluation cache is used].</param>
         /// <param name="evaluationCacheMaxSize">Maximum size of the evaluation cache.</param>
         /// <param name="distanceCalculationCacheIsUsed">if set to <c>true</c> [distance calculation cache is used].</param>
         /// <param name="distanceCalculationCacheMaxSize">Maximum size of the distance calculation cache.</param>
-        public OnesCountProblemBinaryUIntSolution(
+        public OnesCountMaxProblemBinaryUintSolution(
             int? randomSeed = null,
             bool evaluationCacheIsUsed = false,
             int evaluationCacheMaxSize = 0,
@@ -38,6 +38,23 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
         }
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        public override object Clone()
+        {
+            OnesCountMaxProblemBinaryUintSolution cl = new(randomSeed: RandomSeed);
+            cl.FitnessValue = FitnessValue;
+            cl.FitnessValues = FitnessValues;
+            cl.ObjectiveValue = ObjectiveValue;
+            cl.ObjectiveValues = ObjectiveValues;
+            cl.IsFeasible = IsFeasible;
+            cl.Representation = Representation;
+            return cl;
+        }
 
         /// <summary>
         /// Obtains the feasible representation.
@@ -46,9 +63,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns></returns>
         public override uint ObtainFeasibleRepresentation(TargetProblem problem)
         {
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Specified problem should have type 'OnesCountProblem'"));
-            OnesCountProblem ocProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Specified problem should have type 'OnesCountMaxProblem'"));
+            OnesCountMaxProblem ocProblem = (OnesCountMaxProblem)problem;
             uint mask = 0xFFFFFFFF;
             mask <<= 8 * sizeof(uint) - ocProblem.Dimension;
             mask >>= 8 * sizeof(uint) - ocProblem.Dimension;
@@ -72,9 +89,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not OnesCountProblem)
-                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            OnesCountProblem specificProblem = (OnesCountProblem)problem;
+            if (problem is not OnesCountMaxProblem)
+                throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem)));
+            OnesCountMaxProblem specificProblem = (OnesCountMaxProblem)problem;
             if (specificProblem.Dimension <= 0)
             {
                 throw new ArgumentException("Problem dimension should be positive!");

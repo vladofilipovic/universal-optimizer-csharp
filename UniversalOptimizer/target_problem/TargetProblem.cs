@@ -13,7 +13,7 @@ namespace UniversalOptimizer.TargetProblem
     /// </remarks>
     /// <param name="name">name of the target problem</param>
     /// <param name="isMinimization">should minimum or maximum be determined</param>
-    public abstract class TargetProblem(string name, bool isMinimization) : ICloneable
+    public abstract class TargetProblem(string name, bool? isMinimization=null, bool? isMultiObjective=null) : ICloneable
     {
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -30,7 +30,9 @@ namespace UniversalOptimizer.TargetProblem
         /// <value>
         ///   <c>true</c> if this instance is minimization; otherwise, <c>false</c>.
         /// </value>
-        public bool IsMinimization { get; init; } = isMinimization;
+        public bool? IsMinimization { get; init; } = isMinimization;
+
+        public bool? IsMultiObjective { get; init; } = isMultiObjective;
 
         /// <summary>
         /// Gets the name.

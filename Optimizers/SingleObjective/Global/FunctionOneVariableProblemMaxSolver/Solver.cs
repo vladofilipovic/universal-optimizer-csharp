@@ -167,7 +167,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             /// additional statistic control setup
             var additionalStatisticsControl = new AdditionalStatisticsControl(keep: opts.AdditionalStatisticsKeep, maxLocalOptima: opts.AdditionalStatisticsMaxLocalOptima);
             /// problem to be solved
-            var problem = new FunctionOneVariableProblem(isMinimization: isMinimization, inputFilePath: opts.InputFilePath, inputFormat: opts.InputFormat);
+            var problem = new FunctionOneVariableMaxProblem(isMinimization: isMinimization, inputFilePath: opts.InputFilePath, inputFormat: opts.InputFormat);
             var startTime = DateTime.Now;
             if (opts.WriteToOutputFile)
             {
@@ -178,8 +178,8 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             {
                 /// initial solution and vns support
                 var numberOfIntervals = opts.SolutionNumberOfIntervals;
-                TargetSolution<uint, double> solution = new FunctionOneVariableProblemBinaryUIntSolution(domainFrom: problem.DomainLow, domainTo: problem.DomainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
-                IProblemSolutionVnsSupport<uint, double> vns_support = new FunctionOneVariableProblemBinaryUIntSolutionVnsSupport();
+                TargetSolution<uint, double> solution = new FunctionOneVariableMaxProblemBinaryUintSolution(domainFrom: problem.DomainLow, domainTo: problem.DomainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
+                IProblemSolutionVnsSupport<uint, double> vns_support = new FunctionOneVariableMaxProblemBinaryUintSolutionVnsSupport();
                 /// solver construction 
                 var solver = new VnsOptimizer<uint, double>(
                     finishControl: finishControl,

@@ -9,14 +9,14 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using System.Linq;
     using System.Security.Cryptography;
 
-    public class FunctionOneVariableProblemBinaryUIntSolution : TargetSolution<uint, double>
+    public class FunctionOneVariableMaxProblemBinaryUintSolution : TargetSolution<uint, double>
     {
         private double _domainFrom;
         private double _domainTo;
         private uint _numberOfIntervals;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FunctionOneVariableProblemBinaryUIntSolution"/> class.
+        /// Initializes a new instance of the <see cref="FunctionOneVariableMaxProblemBinaryUintSolution"/> class.
         /// </summary>
         /// <param name="domainFrom">The domain from.</param>
         /// <param name="domainTo">The domain to.</param>
@@ -26,7 +26,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="evaluationCacheMaxSize">Maximum size of the evaluation cache.</param>
         /// <param name="distanceCalculationCacheIsUsed">if set to <c>true</c> [distance calculation cache is used].</param>
         /// <param name="distanceCalculationCacheMaxSize">Maximum size of the distance calculation cache.</param>
-        public FunctionOneVariableProblemBinaryUIntSolution(
+        public FunctionOneVariableMaxProblemBinaryUintSolution(
             double domainFrom,
             double domainTo,
             uint numberOfIntervals,
@@ -51,15 +51,15 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <exception cref="NotImplementedException"></exception>
         public override object Clone()
         {
-            var sol = new FunctionOneVariableProblemBinaryUIntSolution(this._domainFrom, this._domainTo,
+            var clone = new FunctionOneVariableMaxProblemBinaryUintSolution(this._domainFrom, this._domainTo,
                 this._numberOfIntervals, this.RandomSeed);
-            sol.Representation = this.Representation;
-            sol.IsFeasible = this.IsFeasible;
-            sol.FitnessValue = this.FitnessValue;
-            sol.FitnessValues = this.FitnessValues;
-            sol.ObjectiveValue = this.ObjectiveValue;
-            sol.ObjectiveValues = this.ObjectiveValues;
-            return sol;
+            clone.IsFeasible = this.IsFeasible;
+            clone.FitnessValue = this.FitnessValue;
+            clone.FitnessValues = this.FitnessValues;
+            clone.ObjectiveValue = this.ObjectiveValue;
+            clone.ObjectiveValues = this.ObjectiveValues;
+            clone.Representation = this.Representation;
+            return clone;
         }
         /// <summary>
         /// Gets or sets the domain from.
@@ -148,9 +148,9 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
-            if (problem is not FunctionOneVariableProblem)
+            if (problem is not FunctionOneVariableMaxProblem)
                 throw new ArgumentException(string.Format("Parameter '{0}' have not type 'OnesCountProblem'.", nameof(problem)));
-            FunctionOneVariableProblem fovProblem = (FunctionOneVariableProblem)problem;
+            FunctionOneVariableMaxProblem fovProblem = (FunctionOneVariableMaxProblem)problem;
             Representation = (uint) RandomNumberGenerator.GetInt32((int)NumberOfIntervals);
             Representation = ObtainFeasibleRepresentation(fovProblem);
         }
@@ -172,9 +172,9 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         public override QualityOfSolution CalculateQualityDirectly(uint representation, TargetProblem problem)
         {
             double arg = Argument(representation);
-            if (problem is not FunctionOneVariableProblem)
+            if (problem is not FunctionOneVariableMaxProblem)
                 throw new ArgumentException("Problem type is not valid.");
-            FunctionOneVariableProblem f1vp = (FunctionOneVariableProblem)problem;
+            FunctionOneVariableMaxProblem f1vp = (FunctionOneVariableMaxProblem)problem;
             double res = double.NaN;
             object? resObj = f1vp.Expression.ReflectionEvaluateFunctionOneVariable(arg);
             if(resObj is not null)
