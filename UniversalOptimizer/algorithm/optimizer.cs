@@ -113,7 +113,7 @@ namespace UniversalOptimizer.Algorithm
         /// <value>
         /// The best solution so far.
         /// </value>
-        public TargetSolution<R_co, A_co>? BestSolution
+        public virtual TargetSolution<R_co, A_co>? BestSolution
         {
             get
             {
@@ -121,7 +121,14 @@ namespace UniversalOptimizer.Algorithm
             }
             set
             {
-                _bestSolution = value;
+                if (value == null)
+                {
+                    _bestSolution = null;
+                    return;
+                }
+                _bestSolution = value.Clone() as TargetSolution<R_co, A_co>;
+                TimeSpan duration = DateTime.Now - ExecutionStarted;
+                _timeWhenBestObtained = duration.TotalNanoseconds;
             }
         }
 

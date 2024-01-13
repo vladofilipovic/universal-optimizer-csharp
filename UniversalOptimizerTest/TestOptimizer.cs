@@ -179,21 +179,6 @@ namespace UniversalOptimizerTest
         //        Assert.NotSame(optimizer, clone);
         //    }
 
-        //    // Best solution can be copied to another solution.
-        //    [Fact]
-        //    public void Test_Optimizer_CopyToBestSolution()
-        //    {
-        //        // Arrange
-        //        Optimizer<object, object> optimizer = new Optimizer<object, object>("Optimizer", new OutputControl(), new FunctionOneVariableProblem(true, "expression", 0.0, 1.0));
-        //        TargetSolution<object, object> solution = new TargetSolution<object, object>();
-
-        //        // Act
-        //        optimizer.CopyToBestSolution(solution);
-
-        //        // Assert
-        //        Assert.Equal(solution, optimizer.BestSolution);
-        //    }
-
         //    // Optimizer can be optimized.
         //    [Fact]
         //    public void Test_Optimizer_Optimize()

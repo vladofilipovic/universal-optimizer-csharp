@@ -103,12 +103,19 @@ namespace UniversalOptimizer.Algorithm
         /// </summary>
         /// <param name="solution">The solution that is source for coping operation.</param>
         /// <returns></returns>
-        public override void CopyToBestSolution(TargetSolution<R_co, A_co>? solution)
+        public override TargetSolution<R_co, A_co>? BestSolution
         {
-            base.CopyToBestSolution(solution);
-            if (solution is not null)
+            get
             {
-                this.IterationBestFound = _iteration;
+                return base.BestSolution;
+            }
+            set
+            {
+                base.BestSolution = value;
+                if (value is not null)
+                {
+                    IterationBestFound = _iteration;
+                }
             }
         }
 
