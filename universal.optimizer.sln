@@ -25,8 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Combinatorial", "Combinator
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnesCountProblemMaxSolver", "Optimizers\SingleObjective\Combinatorial\OnesCountProblemMaxSolver\OnesCountProblemMaxSolver.csproj", "{7136FEF8-B630-4C01-BBDE-487AF6665126}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionOneVariableProblemMaxSolver", "Optimizers\SingleObjective\Global\FunctionOneVariableProblemMaxSolver\FunctionOneVariableProblemMaxSolver.csproj", "{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Constraint", "Constraint", "{1958A5D4-A4CB-4379-889A-9CE8106B35CF}"
 	ProjectSection(SolutionItems) = preProject
 		Optimizers\SingleObjective\Constraint\README.md = Optimizers\SingleObjective\Constraint\README.md
@@ -34,10 +32,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Constraint", "Constraint", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{555657DA-5FCB-411A-ACD7-2BA2A081CECF}"
 	ProjectSection(SolutionItems) = preProject
-		opt-so-glob-function-one-variable-max-all.cmd = opt-so-glob-function-one-variable-max-all.cmd
 		EXECUTE-SONARQUBE-CUSTOM-SCANNER.md = EXECUTE-SONARQUBE-CUSTOM-SCANNER.md
 		README.md = README.md
+		solver-opt-so-glob-function-one-variable-max-all.cmd = solver-opt-so-glob-function-one-variable-max-all.cmd
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionOneVariableMaxProblemSolver", "Optimizers\SingleObjective\Global\FunctionOneVariableMaxProblemSolver\FunctionOneVariableMaxProblemSolver.csproj", "{98E8EF02-0429-4458-B4B5-92D6B16AA3E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +65,10 @@ Global
 		{7136FEF8-B630-4C01-BBDE-487AF6665126}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7136FEF8-B630-4C01-BBDE-487AF6665126}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7136FEF8-B630-4C01-BBDE-487AF6665126}.Release|Any CPU.Build.0 = Release|Any CPU
-		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98E8EF02-0429-4458-B4B5-92D6B16AA3E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E8EF02-0429-4458-B4B5-92D6B16AA3E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E8EF02-0429-4458-B4B5-92D6B16AA3E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E8EF02-0429-4458-B4B5-92D6B16AA3E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,8 +81,8 @@ Global
 		{EB16945C-4EBB-428D-9699-CF9F728BC93A} = {19072A69-ED35-4FD9-BC42-2EE602AD4B31}
 		{B61A3726-DD31-4AED-8C63-601883D89EDC} = {19072A69-ED35-4FD9-BC42-2EE602AD4B31}
 		{7136FEF8-B630-4C01-BBDE-487AF6665126} = {B61A3726-DD31-4AED-8C63-601883D89EDC}
-		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8} = {EB16945C-4EBB-428D-9699-CF9F728BC93A}
 		{1958A5D4-A4CB-4379-889A-9CE8106B35CF} = {19072A69-ED35-4FD9-BC42-2EE602AD4B31}
+		{98E8EF02-0429-4458-B4B5-92D6B16AA3E9} = {EB16945C-4EBB-428D-9699-CF9F728BC93A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E9C1655-9598-4E24-962A-C12A47F4906D}
