@@ -21,7 +21,7 @@ namespace UniversalOptimizer.Algorithm
         private int _evaluationBestFound;
         private int _iterationBestFound;
 
-        public Algorithm(string name, OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co>? solutionTemplate)
+        protected Algorithm(string name, OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co>? solutionTemplate)
                 : base(name, outputControl: outputControl, targetProblem: targetProblem)
         {
             _solutionTemplate = solutionTemplate;
@@ -121,29 +121,44 @@ namespace UniversalOptimizer.Algorithm
         /// </summary>
         /// <param name="solution">The solution that is source for coping operation.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Bug", "S4275:Getters and setters should access the expected fields", Justification = "<Pending>")]
         public override TargetSolution<R_co, A_co>? BestSolution
         {
             get
             {
                 return base.BestSolution;
             }
+
             set
             {
                 base.BestSolution = value;
                 if (value is not null)
                 {
                     IterationBestFound = _iteration;
-                    EvaluationBestFound = _evaluationBestFound;
+                    EvaluationBestFound = _evaluation;
                 }
             }
         }
 
+        /// <summary>
+        /// Determines whether [is first better] [the specified sol1].
+        /// </summary>
+        /// <param name="sol1">The sol1.</param>
+        /// <param name="sol2">The sol2.</param>
+        /// <param name="problem">The problem.</param>
+        /// <returns></returns>
+        /// <exception cref="System.MissingFieldException">
+        /// IsMultiObjective
+        /// or
+        /// IsMinimization
+        /// </exception>
+        /// <exception cref="System.NotImplementedException">Comparison between solutions for multi objective optimization is not currently supported.</exception>
         public virtual bool? IsFirstBetter(TargetSolution<R_co, A_co> sol1, TargetSolution<R_co, A_co> sol2, TargetProblem problem)
         {
             if(problem.IsMultiObjective is null)
-                throw new ArgumentNullException(nameof(problem.IsMultiObjective));
+                throw new MissingFieldException(nameof(problem.IsMultiObjective));
             if (problem.IsMinimization is null)
-                throw new ArgumentNullException(nameof(problem.IsMinimization));
+                throw new MissingFieldException(nameof(problem.IsMinimization));
             if (!(bool)problem.IsMultiObjective)
             {
                 double? fit1 = sol1.FitnessValue;

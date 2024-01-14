@@ -33,8 +33,6 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 
         private readonly string _localSearchType;
 
-        private TargetSolution<R_co, A_co>? _currentSolution;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="VnsOptimizer{R_co, A_co}"/> class.
         /// </summary>
@@ -64,14 +62,13 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         {
             _localSearchType = localSearchType;
             _implementedLocalSearches = new Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>>();
-            if(problemSolutionVnsSupport is null)
-                throw new NullReferenceException(nameof(problemSolutionVnsSupport));
+            ArgumentNullException.ThrowIfNull(problemSolutionVnsSupport);
             _problemSolutionVnsSupport = problemSolutionVnsSupport;
             _implementedLocalSearches.Add("localSearchBestImprovement", problemSolutionVnsSupport.LocalSearchBestImprovement);
             _implementedLocalSearches.Add("localSearchFirstImprovement", problemSolutionVnsSupport.LocalSearchFirstImprovement);
             if (!_implementedLocalSearches.TryGetValue(_localSearchType, out ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>? value))
             {
-                throw new ArgumentException(String.Format("Value '{0}' for VNS localSearchType is not supported", _localSearchType));
+                throw new ArgumentException(nameof(_localSearchType));
             }
             _lsMethod = value;
             _shakingMethod = problemSolutionVnsSupport.Shaking;
@@ -102,7 +99,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         {
             get
             {
-                return (int)_kMin;
+                return _kMin;
             }
         }
 
@@ -116,7 +113,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         {
             get
             {
-                return (int)_kMax;
+                return _kMax;
             }
         }
 
@@ -134,7 +131,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             CurrentSolution.InitRandom(TargetProblem);
             Evaluation = 1;
             CurrentSolution.Evaluate(TargetProblem);
-            CopyToBestSolution(CurrentSolution);   
+            BestSolution = CurrentSolution;   
         }
 
         /// 
@@ -195,7 +192,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             s.Append(groupStart);
             s.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
             s.Append(delimiter);
-            s.Append("currentSolution=" + _currentSolution!.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter);
+            s.Append("currentSolution=" + CurrentSolution!.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter);
             for(int i=0; i<indentation; i++)
             {
                 s.Append(indentationSymbol);

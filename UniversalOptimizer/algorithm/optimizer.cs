@@ -21,7 +21,7 @@ namespace UniversalOptimizer.Algorithm
         private readonly string _name;
         private OutputControl _outputControl;
         private readonly TargetProblem _targetProblem;
-        private double _timeWhenBestFound;
+        private double? _timeWhenBestFound;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Optimizer{R_co, A_co}"/> class.
@@ -29,12 +29,12 @@ namespace UniversalOptimizer.Algorithm
         /// <param name="name">The name.</param>
         /// <param name="outputControl">The output control.</param>
         /// <param name="targetProblem">The target problem.</param>
-        public Optimizer(string name, OutputControl outputControl, TargetProblem targetProblem)
+        protected Optimizer(string name, OutputControl outputControl, TargetProblem targetProblem)
         {
             _name = name;
             _outputControl = outputControl;
             _targetProblem = targetProblem;
-            _timeWhenBestFound = 0.0;
+            _timeWhenBestFound = null;
         }
 
         /// <summary>
@@ -44,7 +44,10 @@ namespace UniversalOptimizer.Algorithm
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public virtual object Clone() => throw new NotImplementedException();
+        public virtual object Clone()
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Property getter for the name of the optimizer.
@@ -116,7 +119,7 @@ namespace UniversalOptimizer.Algorithm
         /// <value>
         /// The time when execution ended.
         /// </value>
-        public double TimeWhenBestFound
+        public double? TimeWhenBestFound
         {
             get
             {
@@ -214,7 +217,7 @@ namespace UniversalOptimizer.Algorithm
             }
             string s_data;
             var output = OutputControl.OutputFile;
-            var should_write = false;
+            bool should_write = false;
             if (stepName == "afterAlgorithm")
             {
                 should_write = true;
@@ -279,24 +282,6 @@ namespace UniversalOptimizer.Algorithm
                 }
                 output?.Write("\n");
             }
-        }
-
-        /// <summary>
-        /// Copies function argument to become the best solution within optimizer instance and update
-        /// info about time and iteration when the best solution is updated.
-        /// </summary>
-        /// <param name="solution">The solution that is source for coping operation.</param>
-        /// <returns></returns>
-        public virtual void CopyToBestSolution(TargetSolution<R_co, A_co>? solution)
-        {
-            if (solution == null)
-            {
-                _bestSolution = null;
-                return;
-            }
-            _bestSolution = solution.Clone() as TargetSolution<R_co, A_co>;
-            TimeSpan duration = DateTime.UtcNow - ExecutionStarted;
-            _timeWhenBestFound = duration.TotalNanoseconds;
         }
 
         /// 

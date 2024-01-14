@@ -16,9 +16,9 @@ namespace UniversalOptimizer.TargetSolution
     /// <typeparam name="A_co">The type for the solution arguments.</typeparam>
     public abstract class TargetSolution<R_co, A_co> : ICloneable 
     {
-        private double _fitnessValue;
+        private double? _fitnessValue;
         private IEnumerable<double> _fitnessValues;
-        private double _objectiveValue;
+        private double? _objectiveValue;
         private IEnumerable<double> _objectiveValues;
         private bool? _isFeasible;
         private int _randomSeed;
@@ -42,7 +42,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <param name="evaluationCacheMaxSize">Maximum size of the evaluation cache.</param>
         /// <param name="distanceCalculationCacheIsUsed">if set to <c>true</c> [distance calculation cache is used].</param>
         /// <param name="distanceCalculationCacheMaxSize">Maximum size of the distance calculation cache.</param>
-        public TargetSolution(
+        protected TargetSolution(
             int? randomSeed,
             double fitnessValue,
             List<double> fitnessValues,
@@ -104,7 +104,7 @@ namespace UniversalOptimizer.TargetSolution
         /// The fitness value.
         /// </value>
         /// 
-        public double FitnessValue
+        public double? FitnessValue
         {
             get
             {
@@ -142,7 +142,7 @@ namespace UniversalOptimizer.TargetSolution
         /// The objective value.
         /// </value>
         /// 
-        public double ObjectiveValue
+        public double? ObjectiveValue
         {
             get
             {
@@ -354,8 +354,8 @@ namespace UniversalOptimizer.TargetSolution
         public virtual void Evaluate(TargetProblem targetProblem)
         {
             QualityOfSolution qos = CalculateQuality(targetProblem);
-            ObjectiveValue = qos.ObjectiveValue?? double.NaN;
-            FitnessValue = qos.FitnessValue ?? double.NaN;
+            ObjectiveValue = qos.ObjectiveValue;
+            FitnessValue = qos.FitnessValue;
             IsFeasible = qos.IsFeasible;
         }
 

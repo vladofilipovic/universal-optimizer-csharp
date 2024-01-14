@@ -46,7 +46,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
         {
             _currentPopulation = [];
-            CopyToBestSolution(null);
+            BestSolution = null;
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
     {
 
         private TargetSolution<R_co, A_co>? _currentSolution;
-        private IProblemSolutionTeSupport<R_co, A_co> _problemSolutionTeSupport;
+        private readonly IProblemSolutionTeSupport<R_co, A_co> _problemSolutionTeSupport;
         private readonly ProblemSolutionTeSupportCanProgressMethod<R_co, A_co> _canProgressMethod;
         private readonly ProblemSolutionTeSupportProgressMethod<R_co, A_co> _progressMethod;
         private readonly ProblemSolutionTeSupportResetMethod<R_co, A_co> _resetMethod;
@@ -45,7 +45,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             _overallNumberOfEvaluationsMethod = problemSolutionTeSupport.OverallNumberOfEvaluations;
             /// current and best solution
             _currentSolution = null;
-            CopyToBestSolution(null);
+            BestSolution = null;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             Evaluation += 1;
             CurrentSolution.Evaluate(TargetProblem);
             WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
-            CopyToBestSolution(CurrentSolution);
+            BestSolution = CurrentSolution;
             Iteration = 1;
         }
 
@@ -115,7 +115,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
                 bool? new_is_better = IsFirstBetter(CurrentSolution, BestSolution!, TargetProblem);
                 if(new_is_better == true)
                 {
-                    CopyToBestSolution(CurrentSolution);
+                    BestSolution = CurrentSolution;
                 }
                 WriteOutputValuesIfNeeded("afterIteration", "a_i");
                 if (!_canProgressMethod(TargetProblem, CurrentSolution, this))

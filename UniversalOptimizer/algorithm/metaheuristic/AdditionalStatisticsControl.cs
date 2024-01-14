@@ -28,8 +28,9 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalStatisticsControl"/> class.
         /// </summary>
+        /// <param name="isActive">if set to <c>true</c> [is active].</param>
         /// <param name="keep">The keep.</param>
-        /// <param name="maxLocalOptima">The maximum local optima.</param>
+        /// <param name="maxLocalOptimaCount">The maximum local optima count.</param>
         public AdditionalStatisticsControl(bool isActive, string keep = "", int maxLocalOptimaCount = 10)
         {
             _isActive = isActive;
@@ -50,7 +51,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         {
             _keepAllSolutionCodes = false;
             _keepMoreLocalOptima = false;
-            var kep = keep.Split("&");
+            var kep = keep.Split(",");
             foreach (var ke in kep)
             {
                 var k = ke.Trim();
