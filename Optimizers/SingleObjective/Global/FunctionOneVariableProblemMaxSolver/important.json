@@ -24,3 +24,4 @@
 {"Timestamp":"2024-01-12T22:26:06.9939614+01:00","Level":"Fatal","MessageTemplate":"Exception: Value cannot be null. (Parameter 'IsMultiObjective')\n"}
 {"Timestamp":"2024-01-12T22:29:34.6614061+01:00","Level":"Fatal","MessageTemplate":"Exception: Comparison between solutions for multi objective optimization is not currently supported.\n"}
 {"Timestamp":"2024-01-12T22:43:27.9929776+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'System.Int32' to type 'System.Double'.\n"}
+{"Timestamp":"2024-01-14T14:30:19.1907990+01:00","Level":"Fatal","MessageTemplate":"Exception: Unable to cast object of type 'System.Int32' to type 'System.Double'.\n"}

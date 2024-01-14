@@ -82,7 +82,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="isMinimization">if set to <c>true</c> [is minimization].</param>
         /// <param name="inputFilePath">The input file path.</param>
         /// <param name="inputFormat">The input format.</param>
-        public FunctionOneVariableMaxProblem(bool isMinimization, string inputFilePath, string inputFormat) :
+        public FunctionOneVariableMaxProblem(string inputFilePath, string inputFormat) :
             this(LoadFromFileHelper(inputFilePath, inputFormat))
         {
         }

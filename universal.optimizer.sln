@@ -28,6 +28,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionOneVariableProblemMaxSolver", "Optimizers\SingleObjective\Global\FunctionOneVariableProblemMaxSolver\FunctionOneVariableProblemMaxSolver.csproj", "{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Constraint", "Constraint", "{1958A5D4-A4CB-4379-889A-9CE8106B35CF}"
+	ProjectSection(SolutionItems) = preProject
+		Optimizers\SingleObjective\Constraint\README.md = Optimizers\SingleObjective\Constraint\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

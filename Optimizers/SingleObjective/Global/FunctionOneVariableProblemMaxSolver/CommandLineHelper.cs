@@ -13,9 +13,6 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem {
         [Verb("variable_neighborhood_search", HelpText = "Execute VNS metaheuristic for 'function_one_variable_problem'.")]
         public class VariableNeighborhoodSearchOptions
         {
-            [Option("optimizationType", Required = true, Default = "minimization", HelpText = "Decide if minimization or maximization will be executed. Possible values: minimization, maximization")]
-            public required string OptimizationType { get; set; }
-
             [Option("writeToOutputFile", Required = true, Default = true, HelpText = "Should results of metaheuristic execution be written to output file.")]
             public bool WriteToOutputFile { get; set; }
 

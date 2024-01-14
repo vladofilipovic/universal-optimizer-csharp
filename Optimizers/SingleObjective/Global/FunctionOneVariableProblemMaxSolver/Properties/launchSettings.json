@@ -1,11 +1,15 @@
 {
   "profiles": {
-    "FunctionOneVariableProblemSolver-1": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "FunctionOneVariableMaxProblemSolver-1": {
       "commandName": "Project",
-      "commandLineArgs": "variable_neighborhood_search --optimizationType maximization --writeToOutputFile True --outputFilePath outputs/(7-x^2)(-3,3).csv --outputFileNameAppendTimeStamp True --outputFields bestSolution --outputMoments afterIteration, afterAlgorithm --inputFilePath inputs/(7-x^2)(-3,3).txt --inputFormat txt --solutionType uint --solutionNumberOfIntervals 2000 --finishCriteria evaluations --finishEvaluationsMax 500 --finishIterationsMax 0 --finishSecondsMax 0 --randomSeed 0 --solutionEvaluationCacheIsUsed False --solutionEvaluationCacheMaxSize 1000 --solutionDistanceCalculationCacheIsUsed False --solutionDistanceCalculationCacheMaxSize 1000 --additionalStatisticsKeep None  --additionalStatisticsMaxLocalOptima 5 --kMin 1 --kMax 3 --localSearchType localSearchBestImprovement ",
+      "commandLineArgs": "variable_neighborhood_search --writeToOutputFile true --outputFilePath outputs/(7-x^2)(-3,3).csv --outputFileNameAppendTimeStamp true --outputFields bestSolution --outputMoments afterIteration, afterAlgorithm --inputFilePath inputs/(7-x^2)(-3,3).txt --inputFormat txt --solutionType uint --solutionNumberOfIntervals 2000 --finishCriteria evaluations --finishEvaluationsMax 500 --finishIterationsMax 0 --finishSecondsMax 0 --randomSeed 0 --solutionEvaluationCacheIsUsed false --solutionEvaluationCacheMaxSize 1000 --solutionDistanceCalculationCacheIsUsed false --solutionDistanceCalculationCacheMaxSize 1000 --additionalStatisticsIsActive false --additionalStatisticsKeep none --additionalStatisticsMaxLocalOptimaCount 5 --kMin 1 --kMax 3 --localSearchType localSearchBestImprovement ",
       "workingDirectory": "C:\\vlado\\Science\\Prog\\optimization\\----universal.optimizer\\Optimizers\\SingleObjective\\Global\\FunctionOneVariableProblemMaxSolver"
     },
-    "FunctionOneVariableProblemSolver-2": {
+    "FunctionOneVariableMaxProblemSolver-2": {
       "commandName": "Project",
       "commandLineArgs": "idle"
     }
