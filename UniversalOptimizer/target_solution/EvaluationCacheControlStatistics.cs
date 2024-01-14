@@ -6,6 +6,7 @@ namespace UniversalOptimizer.TargetSolution
     using System;
 
     using System.Linq;
+    using System.Text;
 
 
     /// <summary>
@@ -144,33 +145,33 @@ namespace UniversalOptimizer.TargetSolution
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart + delimiter;
+            s.Append(groupStart + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_isCaching=" + _isCaching.ToString() + delimiter;
+            s.Append("_isCaching=" + _isCaching.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_cacheHitCount=" + _cacheHitCount.ToString() + delimiter;
+            s.Append("_cacheHitCount=" + _cacheHitCount.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_cacheRequestCount=" + _cacheRequestCount.ToString() + delimiter;
+            s.Append("_cacheRequestCount=" + _cacheRequestCount.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

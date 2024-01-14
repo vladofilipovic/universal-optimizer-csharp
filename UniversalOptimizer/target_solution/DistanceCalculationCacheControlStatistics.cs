@@ -3,6 +3,7 @@ namespace UniversalOptimizer.TargetSolution
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Class that represents control statistics for solution code distance calculation cache.
@@ -137,33 +138,33 @@ namespace UniversalOptimizer.TargetSolution
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart + delimiter;
+            s.Append(groupStart + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_isCaching=" + _isCaching.ToString() + delimiter;
+            s.Append("_isCaching=" + _isCaching.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_cacheHitCount=" + _cacheHitCount.ToString() + delimiter;
+            s.Append("_cacheHitCount=" + _cacheHitCount.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_cache_requests_count=" + _cacheRequestCount.ToString() + delimiter;
+            s.Append("_cache_requests_count=" + _cacheRequestCount.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

@@ -54,7 +54,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
                 var positions = new List<int>();
                 for (int i=0; i<k; i++)
                 {
-                    positions.Append(optimizer.RandomGenerator.Next(0, ocProblem.Dimension));
+                    _ = positions.Append(optimizer.RandomGenerator.Next(0, ocProblem.Dimension));
                 }
                 var repr = new BitArray(solution.Representation);
                 foreach (int pos in positions)

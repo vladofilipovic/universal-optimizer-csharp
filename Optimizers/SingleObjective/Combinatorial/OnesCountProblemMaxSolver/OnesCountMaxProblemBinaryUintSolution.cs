@@ -9,6 +9,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using System.Linq;
     using System.Security.Cryptography;
     using UniversalOptimizer.utils;
+    using System.Text;
 
     /// <summary>
     /// Class for solving OnesCountMaxProblem, with binary int representation.
@@ -166,27 +167,26 @@ namespace SingleObjective.Teaching.OnesCountProblem
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart;
-            s += base.StringRep(delimiter, indentation, indentationSymbol, "", "");
-            s += delimiter;
-            s += delimiter;
+            s.Append(groupStart);
+            s.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
+            s.Append(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "StringRepresentation()=" + this.StringRepresentation();
-            s += delimiter;
+            s.Append("StringRepresentation()=" + this.StringRepresentation());
+            s.Append(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

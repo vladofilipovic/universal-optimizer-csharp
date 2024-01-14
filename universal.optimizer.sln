@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnesCountProblemMaxSolver",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionOneVariableProblemMaxSolver", "Optimizers\SingleObjective\Global\FunctionOneVariableProblemMaxSolver\FunctionOneVariableProblemMaxSolver.csproj", "{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Constraint", "Constraint", "{1958A5D4-A4CB-4379-889A-9CE8106B35CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,7 @@ Global
 		{B61A3726-DD31-4AED-8C63-601883D89EDC} = {19072A69-ED35-4FD9-BC42-2EE602AD4B31}
 		{7136FEF8-B630-4C01-BBDE-487AF6665126} = {B61A3726-DD31-4AED-8C63-601883D89EDC}
 		{078A15EA-5035-4A0E-9BA7-A9A36FAA7BD8} = {EB16945C-4EBB-428D-9699-CF9F728BC93A}
+		{1958A5D4-A4CB-4379-889A-9CE8106B35CF} = {19072A69-ED35-4FD9-BC42-2EE602AD4B31}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E9C1655-9598-4E24-962A-C12A47F4906D}

@@ -11,6 +11,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     using System;
 
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// This class represent population metaheuristic.
@@ -83,25 +84,25 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart;
-            s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
-            s += delimiter;
+            s.Append(groupStart);
+            s.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
+            s.Append(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "CurrentPopulation=" + CurrentPopulation.ToString() + delimiter;
+            s.Append("CurrentPopulation=" + CurrentPopulation.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

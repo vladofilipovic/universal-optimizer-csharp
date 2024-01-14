@@ -4,6 +4,7 @@ namespace UniversalOptimizer.TargetProblem
     using System;
 
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Class that abstracts target problem, which should be solved.
@@ -66,28 +67,28 @@ namespace UniversalOptimizer.TargetProblem
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart + delimiter;
+            s.Append(groupStart + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "Name=" + Name + delimiter;
+            s.Append("Name=" + Name + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "IsMinimization=" + IsMinimization.ToString();
+            s.Append("IsMinimization=" + IsMinimization.ToString());
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

@@ -3,11 +3,11 @@ namespace UniversalOptimizer.Algorithm
     using TargetProblem;
     using TargetSolution;
 
-
     using System;
-    using System.Linq;
-    using System.Transactions;
     using System.Data.SqlTypes;
+    using System.Linq;
+    using System.Text;
+    using System.Transactions;
 
     /// <summary>
     /// This class describes Algorithm
@@ -18,6 +18,7 @@ namespace UniversalOptimizer.Algorithm
         private readonly TargetSolution<R_co, A_co>? _solutionTemplate;
         private int _evaluation;
         private int _iteration;
+        private int _evaluationBestFound;
         private int _iterationBestFound;
 
         public Algorithm(string name, OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co>? solutionTemplate)
@@ -85,6 +86,23 @@ namespace UniversalOptimizer.Algorithm
         /// <value>
         /// The iteration.
         /// </value>
+        public int EvaluationBestFound
+        {
+            get
+            {
+                return _evaluationBestFound;
+            }
+            set
+            {
+                _evaluationBestFound = value;
+            }
+        }
+        /// <summary>
+        /// Property getter and setter for the iteration number when the best solution is found.
+        /// </summary>
+        /// <value>
+        /// The iteration.
+        /// </value>
         public int IterationBestFound
         {
             get
@@ -115,6 +133,7 @@ namespace UniversalOptimizer.Algorithm
                 if (value is not null)
                 {
                     IterationBestFound = _iteration;
+                    EvaluationBestFound = _evaluationBestFound;
                 }
             }
         }
@@ -176,44 +195,44 @@ namespace UniversalOptimizer.Algorithm
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s = groupStart;
+            s.Append(groupStart);
             for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "name=" + Name + delimiter;
+            s.Append("name=" + Name + delimiter);
             for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "TargetProblem=" + TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
+            s.Append("TargetProblem=" + TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
             for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "OutputControl=" + OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
-            s += "_evaluation=" + _evaluation.ToString() + delimiter;
+            s.Append("OutputControl=" + OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
+            s.Append("_evaluation=" + _evaluation.ToString() + delimiter);
             for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "executionStarted=" + ExecutionStarted.ToString() + delimiter;
+            s.Append("executionStarted=" + ExecutionStarted.ToString() + delimiter);
             for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "executionEnded=" + ExecutionEnded.ToString() + delimiter;
+            s.Append("executionEnded=" + ExecutionEnded.ToString() + delimiter);
             for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

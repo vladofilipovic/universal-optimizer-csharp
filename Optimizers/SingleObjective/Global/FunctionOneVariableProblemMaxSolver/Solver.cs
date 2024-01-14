@@ -113,7 +113,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     outputFileExt = "txt";
                     outputFileName = outputFileNameParts[0];
                 }
-                var dt = DateTime.Now;
+                var dt = DateTime.UtcNow;
                 outputFilePathParts.RemoveAt(outputFilePathParts.Count - 1);
                 var outputFileDir = String.Join("/", outputFilePathParts);
                 if (shouldAddTimestampToFileName)
@@ -165,10 +165,10 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             var finishControl = new FinishControl(criteria: opts.FinishCriteria, evaluationsMax: opts.FinishEvaluationsMax, iterationsMax: opts.FinishIterationsMax, secondsMax: opts.FinishSecondsMax);
             /// solution evaluations and calculations cache setup
             /// additional statistic control setup
-            var additionalStatisticsControl = new AdditionalStatisticsControl(keep: opts.AdditionalStatisticsKeep, maxLocalOptima: opts.AdditionalStatisticsMaxLocalOptima);
+            var additionalStatisticsControl = new AdditionalStatisticsControl(isActive: opts.AdditionalStatisticsIsActive, keep: opts.AdditionalStatisticsKeep, maxLocalOptimaCount: opts.AdditionalStatisticsMaxLocalOptimaCount);
             /// problem to be solved
             var problem = new FunctionOneVariableMaxProblem(isMinimization: isMinimization, inputFilePath: opts.InputFilePath, inputFormat: opts.InputFormat);
-            var startTime = DateTime.Now;
+            var startTime = DateTime.UtcNow;
             if (opts.WriteToOutputFile)
             {
                 outputFile.Write(string.Format("# {0} started at: {1}\n", "vns", startTime));

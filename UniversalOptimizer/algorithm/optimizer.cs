@@ -9,16 +9,19 @@ namespace UniversalOptimizer.Algorithm
 
     using System.Linq;
     using UniversalOptimizer.utils;
+    using Serilog;
+    using System.Text;
+    using UniversalOptimizer.Algorithm.Metaheuristic;
 
-    public abstract class Optimizer<R_co, A_co>: ICloneable
+    public abstract class Optimizer<R_co, A_co> : ICloneable
     {
         private TargetSolution<R_co, A_co>? _bestSolution;
         private DateTime _executionEnded;
         private DateTime _executionStarted;
         private readonly string _name;
         private OutputControl _outputControl;
-        private TargetProblem _targetProblem;
-        private double _timeWhenBestObtained;
+        private readonly TargetProblem _targetProblem;
+        private double _timeWhenBestFound;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Optimizer{R_co, A_co}"/> class.
@@ -31,7 +34,7 @@ namespace UniversalOptimizer.Algorithm
             _name = name;
             _outputControl = outputControl;
             _targetProblem = targetProblem;
-            _timeWhenBestObtained = 0.0;
+            _timeWhenBestFound = 0.0;
         }
 
         /// <summary>
@@ -108,6 +111,24 @@ namespace UniversalOptimizer.Algorithm
         }
 
         /// <summary>
+        /// Property getter for time when best is obtained.
+        /// </summary>
+        /// <value>
+        /// The time when execution ended.
+        /// </value>
+        public double TimeWhenBestFound
+        {
+            get
+            {
+                return _timeWhenBestFound;
+            }
+            set
+            {
+                _timeWhenBestFound = value;
+            }
+        }
+
+        /// <summary>
         /// Property getter for the best solution obtained during optimizer execution.
         /// </summary>
         /// <value>
@@ -127,8 +148,8 @@ namespace UniversalOptimizer.Algorithm
                     return;
                 }
                 _bestSolution = value.Clone() as TargetSolution<R_co, A_co>;
-                TimeSpan duration = DateTime.Now - ExecutionStarted;
-                _timeWhenBestObtained = duration.TotalNanoseconds;
+                TimeSpan duration = DateTime.UtcNow - ExecutionStarted;
+                _timeWhenBestFound = duration.TotalNanoseconds;
             }
         }
 
@@ -161,15 +182,16 @@ namespace UniversalOptimizer.Algorithm
                 if (output is null)
                     return;
                 var f_hs = OutputControl.FieldsHeadings;
-                var line = "";
+                StringBuilder line = new StringBuilder("");
                 foreach (var f_h in f_hs)
                 {
                     output.Write(f_h);
-                    line += f_h;
-                    output.Write("\t");
-                    line += "\t";
+                    line.Append(f_h);
+                    output.Write('\t');
+                    line.Append('\t');
                 }
                 output.Write("\n");
+                Log.Debug(line.ToString());
             }
         }
 
@@ -186,74 +208,76 @@ namespace UniversalOptimizer.Algorithm
         /// <exception cref="ValueError">Supplied step name '" + stepName + "' is not valid.</exception>
         public void WriteOutputValuesIfNeeded(string stepName, string stepNameValue)
         {
-            string s_data;
-            if (OutputControl.WriteToOutput)
+            if (!OutputControl.WriteToOutput)
             {
-                var output = OutputControl.OutputFile;
-                var should_write = false;
-                if (stepName == "afterAlgorithm")
+                return;
+            }
+            string s_data;
+            var output = OutputControl.OutputFile;
+            var should_write = false;
+            if (stepName == "afterAlgorithm")
+            {
+                should_write = true;
+            }
+            else if (stepName == "beforeAlgorithm")
+            {
+                should_write = OutputControl.WriteBeforeAlgorithm;
+            }
+            else if (stepName == "afterIteration")
+            {
+                should_write = OutputControl.WriteAfterIteration;
+            }
+            else if (stepName == "beforeIteration")
+            {
+                should_write = OutputControl.WriteBeforeIteration;
+            }
+            else if (stepName == "afterEvaluation")
+            {
+                should_write = OutputControl.WriteAfterEvaluation;
+            }
+            else if (stepName == "beforeEvaluation")
+            {
+                should_write = OutputControl.WriteBeforeEvaluation;
+            }
+            else if (stepName == "afterStepInIteration")
+            {
+                should_write = OutputControl.WriteAfterStepInIteration;
+            }
+            else if (stepName == "beforeStepInIteration")
+            {
+                should_write = OutputControl.WriteBeforeStepInIteration;
+            }
+            else
+            {
+                throw new ArgumentException("Supplied step name '" + stepName + "' is not valid.");
+            }
+            if (should_write)
+            {
+                StringBuilder line = new StringBuilder("");
+                var fields_def = OutputControl.FieldsDefinitions;
+                foreach (var f_def in fields_def)
                 {
-                    should_write = true;
-                }
-                else if (stepName == "beforeAlgorithm")
-                {
-                    should_write = OutputControl.WriteBeforeAlgorithm;
-                }
-                else if (stepName == "afterIteration")
-                {
-                    should_write = OutputControl.WriteAfterIteration;
-                }
-                else if (stepName == "beforeIteration")
-                {
-                    should_write = OutputControl.WriteBeforeIteration;
-                }
-                else if (stepName == "afterEvaluation")
-                {
-                    should_write = OutputControl.WriteAfterEvaluation;
-                }
-                else if (stepName == "beforeEvaluation")
-                {
-                    should_write = OutputControl.WriteBeforeEvaluation;
-                }
-                else if (stepName == "afterStepInIteration")
-                {
-                    should_write = OutputControl.WriteAfterStepInIteration;
-                }
-                else if (stepName == "beforeStepInIteration")
-                {
-                    should_write = OutputControl.WriteBeforeStepInIteration;
-                }
-                else
-                {
-                    throw new ArgumentException("Supplied step name '" + stepName + "' is not valid.");
-                }
-                if (should_write)
-                {
-                    var line = "";
-                    var fields_def = OutputControl.FieldsDefinitions;
-                    foreach (var f_def in fields_def)
+                    if (f_def != "")
                     {
-                        if (f_def != "")
+                        try
                         {
-                            try
+                            var data = this.ReflectionGetPropertyValue(f_def);
+                            s_data = data!.ToString() ?? "";
+                            if (s_data == "stepName")
                             {
-                                var data = this.ReflectionGetPropertyValue(f_def);
-                                s_data = data!.ToString() ?? "";
-                                if (s_data == "stepName")
-                                {
-                                    s_data = stepNameValue;
-                                }
+                                s_data = stepNameValue;
                             }
-                            catch
-                            {
-                                s_data = "XXX";
-                            }
-                            output?.Write(s_data + "\t");
-                            line += s_data + "\t";
                         }
+                        catch
+                        {
+                            s_data = "XXX";
+                        }
+                        output?.Write(s_data + "\t");
+                        line.Append(s_data + "\t");
+                        Log.Debug(line.ToString());
                     }
-                    output?.Write("\n");
                 }
+                output?.Write("\n");
             }
         }
 
@@ -263,16 +287,16 @@ namespace UniversalOptimizer.Algorithm
         /// </summary>
         /// <param name="solution">The solution that is source for coping operation.</param>
         /// <returns></returns>
-        public virtual void CopyToBestSolution(TargetSolution<R_co, A_co>?solution)
+        public virtual void CopyToBestSolution(TargetSolution<R_co, A_co>? solution)
         {
             if (solution == null)
             {
                 _bestSolution = null;
                 return;
             }
-            _bestSolution = solution.Clone() as TargetSolution<R_co,A_co>;
-            TimeSpan duration = DateTime.Now - ExecutionStarted;
-            _timeWhenBestObtained = duration.TotalNanoseconds;
+            _bestSolution = solution.Clone() as TargetSolution<R_co, A_co>;
+            TimeSpan duration = DateTime.UtcNow - ExecutionStarted;
+            _timeWhenBestFound = duration.TotalNanoseconds;
         }
 
         /// 
@@ -296,46 +320,46 @@ namespace UniversalOptimizer.Algorithm
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
-            for(int i=0; i<indentation; i++)
+            StringBuilder s = new StringBuilder(delimiter);
+            for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s = groupStart;
-            for(int i=0; i<indentation; i++)
+            s.Append(groupStart);
+            for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "name=" + Name + delimiter;
-            for(int i=0; i<indentation; i++)
+            s.Append("name=" + Name + delimiter);
+            for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "TargetProblem=" + TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
-            s += "_OutputControl=" + OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
-            s += "executionStarted=" + ExecutionStarted.ToString() + delimiter;
-            for(int i=0; i<indentation; i++)
+            s.Append("TargetProblem=" + TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
+            s.Append("_OutputControl=" + OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
+            s.Append("executionStarted=" + ExecutionStarted.ToString() + delimiter);
+            for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "executionEnded=" + ExecutionEnded.ToString() + delimiter;
-            for(int i=0; i<indentation; i++)
+            s.Append("executionEnded=" + ExecutionEnded.ToString() + delimiter);
+            for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_timeWhenBestObtained=" + _timeWhenBestObtained.ToString() + delimiter;
-            for(int i=0; i<indentation; i++)
+            s.Append("_timeWhenBestFound=" + _timeWhenBestFound.ToString() + delimiter);
+            for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "execution time=" + (ExecutionEnded - ExecutionStarted).TotalSeconds.ToString() + delimiter;
-            s += "bestSolution=" + BestSolution?.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
-            for(int i=0; i<indentation; i++)
+            s.Append("execution time=" + (ExecutionEnded - ExecutionStarted).TotalSeconds.ToString() + delimiter);
+            s.Append("bestSolution=" + BestSolution?.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter);
+            for (int i = 0; i < indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
     }

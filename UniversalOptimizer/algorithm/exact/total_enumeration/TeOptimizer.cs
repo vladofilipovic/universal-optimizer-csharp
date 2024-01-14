@@ -11,6 +11,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
     using System.Linq;
     using Serilog;
     using System.Reflection.Metadata.Ecma335;
+    using System.Text;
 
 
     /// 
@@ -99,7 +100,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// <returns></returns>
         public override void Optimize()
         {            
-            ExecutionStarted = DateTime.Now;
+            ExecutionStarted = DateTime.UtcNow;
             Init();
             if (CurrentSolution is null)
                 throw new ArgumentNullException(nameof(CurrentSolution));
@@ -122,7 +123,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
                     break;
                 }
             }
-            ExecutionEnded = DateTime.Now;
+            ExecutionEnded = DateTime.UtcNow;
             this.WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
         }
 
@@ -142,24 +143,24 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart;
-            s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
-            s += delimiter;
+            s.Append(groupStart);
+            s.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
+            s.Append(delimiter);
             if( CurrentSolution is not null )
-                s += "CurrentSolution=" + CurrentSolution.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
+                s.Append("CurrentSolution=" + CurrentSolution.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter);
             else
-                s += "CurrentSolution=null" + delimiter;
+                s.Append("CurrentSolution=null" + delimiter);
             for (int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
     }

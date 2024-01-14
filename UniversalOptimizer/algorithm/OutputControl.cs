@@ -6,6 +6,7 @@ namespace UniversalOptimizer.Algorithm
     using System;
 
     using System.Linq;
+    using System.Text;
 
 
     /// <summary>
@@ -14,20 +15,20 @@ namespace UniversalOptimizer.Algorithm
     /// 
     public class OutputControl
     {
-        public List<string> _fieldsDefinitions;
-        public List<string> _fieldsHeadings;
+        private List<string> _fieldsDefinitions;
+        private List<string> _fieldsHeadings;
         private StreamWriter? _outputFile;
-        public bool _writeAfterAlgorithm;
-        public bool _writeAfterEvaluation;
-        public bool _writeAfterIteration;
-        public bool _writeAfterStepInIteration;
-        public bool _writeBeforeAlgorithm;
-        public bool _writeBeforeEvaluation;
-        public bool _writeBeforeIteration;
+        private bool _writeAfterAlgorithm;
+        private bool _writeAfterEvaluation;
+        private bool _writeAfterIteration;
+        private bool _writeAfterStepInIteration;
+        private bool _writeBeforeAlgorithm;
+        private bool _writeBeforeEvaluation;
+        private bool _writeBeforeIteration;
         public bool _writeBeforeStepInIteration;
         private readonly bool _writeToOutput;
 
-        public OutputControl(bool writeToOutput = false, StreamWriter? outputFile = null, string fields = "iteration, evaluation, \"stepName\", bestSolution.argument(), bestSolution.fitnessValue, bestSolution.objectiveValue, bestSolution.isFeasible", string moments = "afterAlgorithm")
+        public OutputControl(bool writeToOutput = false, StreamWriter? outputFile = null, string fields = "iteration, evaluation, stepName, bestSolution.argument(), bestSolution.fitnessValue, bestSolution.objectiveValue, bestSolution.isFeasible", string moments = "afterAlgorithm")
         {
             _writeToOutput = writeToOutput;
             _outputFile = outputFile;
@@ -408,43 +409,43 @@ namespace UniversalOptimizer.Algorithm
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart + delimiter;
+            s.Append(groupStart + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "writeToOutput=" + WriteToOutput.ToString() + delimiter;
+            s.Append("writeToOutput=" + WriteToOutput.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += $"outputFile={OutputFile}{delimiter}";
+            s.Append($"outputFile={OutputFile}{delimiter}");
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "fieldsHeadings=" + FieldsHeadings.ToString() + delimiter;
+            s.Append("fieldsHeadings=" + FieldsHeadings.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "fieldsDefinitions=" + FieldsDefinitions.ToString() + delimiter;
+            s.Append("fieldsDefinitions=" + FieldsDefinitions.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "moments=" + Moments.ToString() + delimiter;
+            s.Append("moments=" + Moments.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

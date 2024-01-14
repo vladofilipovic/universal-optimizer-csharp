@@ -11,6 +11,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
     using System;
     using System.Linq;
     using Serilog;
+    using System.Text;
 
 
     /// <summary>
@@ -32,7 +33,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 
         private readonly string _localSearchType;
 
-        public TargetSolution<R_co, A_co>? _currentSolution;
+        private TargetSolution<R_co, A_co>? _currentSolution;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VnsOptimizer{R_co, A_co}"/> class.
@@ -126,7 +127,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         {
             if (SolutionTemplate is null)
             {
-                throw new ArgumentNullException(nameof(SolutionTemplate));
+                throw new FieldAccessException(nameof(SolutionTemplate));
             }
             _kCurrent = KMin;
             CurrentSolution = (TargetSolution<R_co, A_co>)SolutionTemplate!.Clone();
@@ -143,10 +144,10 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         {
             if (CurrentSolution is null)
             {
-                throw new ArgumentNullException(nameof(CurrentSolution));
+                throw new FieldAccessException(nameof(CurrentSolution));
             }
             WriteOutputValuesIfNeeded("beforeStepInIteration", "shaking");
-            if (!_shakingMethod((int)_kCurrent, TargetProblem, CurrentSolution!, this))
+            if (!_shakingMethod(_kCurrent, TargetProblem, CurrentSolution!, this))
             {
                 WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
                 return;
@@ -156,14 +157,11 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             while (_kCurrent <= KMax)
             {
                 WriteOutputValuesIfNeeded("beforeStepInIteration", "ls");
-                bool improvement = _lsMethod((int)_kCurrent, TargetProblem, CurrentSolution, this);
+                bool improvement = _lsMethod(_kCurrent, TargetProblem, CurrentSolution, this);
                 WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
                 if (improvement)
                 {
-                    /// update auxiliary structure that keeps all solution codes
-                    AdditionalStatisticsControl.AddToAllSolutionCodesIfRequired(CurrentSolution.StringRepresentation());
-                    AdditionalStatisticsControl.AddToMoreLocalOptimaIfRequired(CurrentSolution.StringRepresentation(), CurrentSolution.FitnessValue, BestSolution!.StringRepresentation());
-                    CopyToBestSolution(CurrentSolution);
+                    UpdateAdditionalStatisticsIfRequired(CurrentSolution);
                     _kCurrent = KMin;
                 }
                 else
@@ -189,37 +187,37 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart;
-            s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
-            s += delimiter;
-            s += "currentSolution=" + _currentSolution!.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter;
+            s.Append(groupStart);
+            s.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
+            s.Append(delimiter);
+            s.Append("currentSolution=" + _currentSolution!.StringRep(delimiter, indentation + 1, indentationSymbol, groupStart, groupEnd) + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "kMin=" + KMin.ToString() + delimiter;
+            s.Append("kMin=" + KMin.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "kMax=" + KMax.ToString() + delimiter;
-            s += delimiter;
+            s.Append("kMax=" + KMax.ToString() + delimiter);
+            s.Append(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_localSearchType=" + _localSearchType.ToString() + delimiter;
+            s.Append("_localSearchType=" + _localSearchType + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
     }

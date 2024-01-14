@@ -12,6 +12,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     using System.Linq;
 
     using Serilog;
+    using System.Text;
 
 
     /// <summary>
@@ -27,7 +28,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
 
         public int RandomSeed { get; set; }
 
-        private Random _randomGenerator;
+        private readonly Random _randomGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Metaheuristic{R_co, A_co}"/> class.
@@ -38,7 +39,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
         /// <param name="targetProblem">The target problem.</param>
-        public Metaheuristic(
+        protected Metaheuristic(
             string name,
             FinishControl finishControl,
             int? randomSeed,
@@ -85,7 +86,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <returns>elapsed time (in seconds)</returns>
         public double ElapsedSeconds()
         {
-            var delta = DateTime.Now - ExecutionStarted;
+            var delta = DateTime.UtcNow - ExecutionStarted;
             return delta.TotalSeconds;
         }
 
@@ -104,17 +105,32 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             }
         }
 
+        public void UpdateAdditionalStatisticsIfRequired(TargetSolution<R_co,A_co> solution)
+        {
+            if (AdditionalStatisticsControl == null)
+                throw new FieldAccessException(nameof(AdditionalStatisticsControl));
+            if (!AdditionalStatisticsControl.IsActive)
+            {
+                return;
+            }
+            if (AdditionalStatisticsControl.KeepAllSolutionCodes)
+                AdditionalStatisticsControl.AddToAllSolutionCodes(solution.StringRepresentation());
+            if (AdditionalStatisticsControl.KeepMoreLocalOptima)
+                AdditionalStatisticsControl.AddToMoreLocalOptima(solution.StringRepresentation(), solution.FitnessValue, BestSolution?.StringRepresentation()??"invalid");
+        }
+
+
         /// <summary>
         /// Executing optimization by the metaheuristic algorithm.
         /// </summary>
         public override void Optimize()
         {
-            this.ExecutionStarted = DateTime.Now;
+            this.ExecutionStarted = DateTime.UtcNow;
             this.Init();
             this.WriteOutputHeadersIfNeeded();
             WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
             MainLoop();
-            this.ExecutionEnded = DateTime.Now;
+            this.ExecutionEnded = DateTime.UtcNow;
             WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
         }
 
@@ -134,49 +150,49 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart;
-            s = base.StringRep(delimiter, indentation, indentationSymbol, "", "");
-            s += delimiter;
+            s.Append(groupStart);
+            s.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
+            s.Append(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "randomSeed=" + this.RandomSeed.ToString() + delimiter;
+            s.Append("randomSeed=" + this.RandomSeed.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "finishControl=" + this.FinishControl.ToString() + delimiter;
+            s.Append("finishControl=" + this.FinishControl.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "additionalStatisticsControl=" + this.AdditionalStatisticsControl.ToString() + delimiter;
+            s.Append("additionalStatisticsControl=" + this.AdditionalStatisticsControl.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_iteration=" + this.Iteration.ToString() + delimiter;
+            s.Append("_iteration=" + this.Iteration.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "_iterationBestFound=" + IterationBestFound.ToString() + delimiter;
+            s.Append("_iterationBestFound=" + IterationBestFound.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>
@@ -188,7 +204,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         public override string ToString()
         {
             var s = this.StringRep("|");
-            return s;
+            return s.ToString();
         }
 
     }

@@ -8,7 +8,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using Serilog;
     using System;
     using System.Linq;
-
+    using System.Text;
     using UniversalOptimizer.TargetProblem;
 
     public class OnesCountMaxProblem : TargetProblem
@@ -110,21 +110,21 @@ namespace SingleObjective.Teaching.OnesCountProblem
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart;
-            s += base.StringRep(delimiter, indentation, indentationSymbol, "", "");
-            s += delimiter;
+            s.Append(groupStart);
+            s.Append(base.StringRep(delimiter, indentation, indentationSymbol, "", ""));
+            s.Append(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "dimension=" + this.Dimension.ToString() + delimiter;
-            s += groupEnd;
-            return s;
+            s.Append("dimension=" + this.Dimension.ToString() + delimiter);
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

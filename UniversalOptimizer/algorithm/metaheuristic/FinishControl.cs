@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace UniversalOptimizer.Algorithm.Metaheuristic
 {
     /// <summary>
@@ -217,38 +219,38 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart + delimiter;
+            s.Append(groupStart + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "criteria=" + Criteria.ToString() + delimiter;
+            s.Append("criteria=" + Criteria.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "evaluationsMax=" + EvaluationsMax.ToString() + delimiter;
+            s.Append("evaluationsMax=" + EvaluationsMax.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "iterationsMax=" + IterationsMax.ToString() + delimiter;
+            s.Append("iterationsMax=" + IterationsMax.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "secondsMax=" + SecondsMax.ToString() + delimiter;
+            s.Append("secondsMax=" + SecondsMax.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

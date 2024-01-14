@@ -5,6 +5,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     using System;
     using System.Linq;
     using static System.Runtime.InteropServices.JavaScript.JSType;
+    using System.Text;
 
 
     /// <summary>
@@ -14,29 +15,28 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     /// 
     public class AdditionalStatisticsControl
     {
-        public List<string> _canBeKept;
-        public bool _keepAllSolutionCodes;
-        public bool _keepMoreLocalOptima;
-        private int _maxLocalOptima;
+        private readonly bool _isActive;
+        private bool _keepAllSolutionCodes;
+        private bool _keepMoreLocalOptima;
+
         private HashSet<string> _allSolutionCodes;
+        private readonly int _maxLocalOptimaCount;
         private Dictionary<string, double> _moreLocalOptima;
-        private Random _random;
+
+        private readonly Random _random;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalStatisticsControl"/> class.
         /// </summary>
         /// <param name="keep">The keep.</param>
         /// <param name="maxLocalOptima">The maximum local optima.</param>
-        public AdditionalStatisticsControl(string keep = "", int maxLocalOptima = 10)
+        public AdditionalStatisticsControl(bool isActive, string keep = "", int maxLocalOptimaCount = 10)
         {
-            _allSolutionCodes = new HashSet<string>();
-            _moreLocalOptima = new Dictionary<string, double>();
-            _canBeKept = new List<string> {
-                    "allSolutionCode",
-                    "moreLocalOptima"
-                };
-            _maxLocalOptima = maxLocalOptima;
+            _isActive = isActive;
+            _maxLocalOptimaCount = maxLocalOptimaCount;
             _random = new Random();
+            _allSolutionCodes = [];
+            _moreLocalOptima = new Dictionary<string, double>();
             DetermineKeepHelper(keep);
         }
 
@@ -44,8 +44,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// Helper function that determines which criteria should be checked during.
         /// </summary>
         /// <param name="keep">The keep - comma-separated list of values that should be kept
-        /// (currently keep contains strings `allSolutionCode`, `moreLocalOptima`).</param>
-        /// <exception cref="ValueError">Invalid value for keep '{}'. Should be one of:{}.".format(k, "allSolutionCode, moreLocalOptima")</exception> 
+        /// (currently keep contains strings `allSolutionCode`, `moreLocalOptima`.</param>
+        /// <exception cref="ValueError">"Invalid value for keep '" + k + "'. Should be either empty string or 'none', either comma-separated sequence of: 'allSolutionCode', 'moreLocalOptima'."</exception> 
         private void DetermineKeepHelper(string keep)
         {
             _keepAllSolutionCodes = false;
@@ -54,7 +54,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             foreach (var ke in kep)
             {
                 var k = ke.Trim();
-                if (k == "" || k == "None")
+                if (k == "" || k=="none")
                 {
                     continue;
                 }
@@ -68,52 +68,24 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid value for keep '" + k + "'. Should be one of: allSolutionCode, moreLocalOptima");
+                    throw new ArgumentException("Invalid value for keep '" + k + "'. Should be either empty string or 'none', either comma-separated sequence of: 'allSolutionCode', 'moreLocalOptima'.");
                 }
             }
-            _allSolutionCodes = new HashSet<string>();
-            _moreLocalOptima = new Dictionary<string, double>();
+            _allSolutionCodes = [];
+            _moreLocalOptima = [];
         }
 
         /// <summary>
-        /// Property getter for maximum number of local optima that will be kept.
+        /// Property getter for indicator if additional statistics is active.
         /// </summary>
         /// <value>
-        /// The maximum number of local optima that will be kept.
+        /// Indicator if additional statistics is active.
         /// </value>
-        public int MaxLocalOptima
+        public bool IsActive
         {
             get
             {
-                return _maxLocalOptima;
-            }
-        }
-
-        /// <summary>
-        /// Property getter for keep property - comma-separated list of values to be kept.
-        /// </summary>
-        /// <value>
-        /// The keep.
-        /// </value>
-        public string Keep
-        {
-            get
-            {
-                var ret = "";
-                if (_keepAllSolutionCodes)
-                {
-                    ret += "allSolutionCode, ";
-                }
-                if (_keepMoreLocalOptima)
-                {
-                    ret += "moreLocalOptima, ";
-                }
-                ret = ret[..^2];
-                return ret;
-            }
-            set
-            {
-                DetermineKeepHelper(value);
+                return _isActive;
             }
         }
 
@@ -145,6 +117,41 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             }
         }
 
+
+        /// <summary>
+        /// Property getter for keep property - comma-separated list of values to be kept.
+        /// </summary>
+        /// <value>
+        /// The keep.
+        /// </value>
+        public string Keep
+        {
+            get
+            {
+                var ret = "";
+                if (_keepAllSolutionCodes)
+                {
+                    ret += "allSolutionCode, ";
+                }
+                if (_keepMoreLocalOptima)
+                {
+                    ret += "moreLocalOptima, ";
+                }
+                ret = ret[..^2];
+                return ret;
+            }
+            set
+            {
+                DetermineKeepHelper(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets all solution codes.
+        /// </summary>
+        /// <value>
+        /// All solution codes.
+        /// </value>
         public HashSet<string> AllSolutionCodes
         {
             get
@@ -153,6 +160,28 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             }
         }
 
+
+        /// <summary>
+        /// Property getter for maximum number of local optima that will be kept.
+        /// </summary>
+        /// <value>
+        /// The maximum number of local optima that will be kept.
+        /// </value>
+        public int MaxLocalOptimaCount
+        {
+            get
+            {
+                return _maxLocalOptimaCount;
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the more local optima.
+        /// </summary>
+        /// <value>
+        /// The more local optima.
+        /// </value>
         public Dictionary<string, double> MoreLocalOptima
         {
             get
@@ -161,17 +190,15 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             }
         }
 
+
         /// <summary>
-        /// Adds to all solution codes if required.
+        /// Adds to all solution codes.
         /// </summary>
         /// <param name="representation">The solution representation to be inserted into all 
         /// solution code.</param>
-        public virtual void AddToAllSolutionCodesIfRequired(string representation)
+        public void AddToAllSolutionCodes(string representation)
         {
-            if (KeepAllSolutionCodes)
-            {
-                _ = _allSolutionCodes!.Add(representation);
-            }
+            _ = _allSolutionCodes!.Add(representation);
         }
 
         /// <summary>
@@ -185,7 +212,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// </param>
         /// <returns>If adding is successful e.g. currentSolution is new element in the structure 
         /// </returns>
-        public virtual bool AddToMoreLocalOptimaIfRequired(string solutionToAddRep, double? solutionToAddFitness, string bestSolutionRep)
+        public bool AddToMoreLocalOptima(string solutionToAddRep, double? solutionToAddFitness, string bestSolutionRep)
         {
             if (!solutionToAddFitness.HasValue)
             {
@@ -199,13 +226,12 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             {
                 return false;
             }
-            if (_moreLocalOptima.Count >= _maxLocalOptima)
+            if (_moreLocalOptima.Count >= _maxLocalOptimaCount)
             {
                 /// removing random, just taking care not to remove the best ones
                 while (true)
                 {
-                    var code = _moreLocalOptima.Keys.
-                                ToArray()[_random.Next(_moreLocalOptima.Keys.Count)];
+                    var code = _moreLocalOptima.Keys.ToArray()[_random.Next(_moreLocalOptima.Keys.Count)];
                     if (code != bestSolutionRep)
                     {
                         _ = _moreLocalOptima.Remove(code);
@@ -233,35 +259,35 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart + delimiter;
+            s.Append(groupStart + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "keep=" + Keep.ToString() + delimiter;
+            s.Append("keep=" + Keep.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
             if (KeepAllSolutionCodes)
             {
                 for(int i=0; i<indentation; i++)
                 {
-                    s += indentationSymbol;
+                    s.Append(indentationSymbol);
                 }
-                s += "all solution codes=" + _allSolutionCodes.Count.ToString() + delimiter;
+                s.Append("all solution codes=" + _allSolutionCodes.Count.ToString() + delimiter);
             }
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

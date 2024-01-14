@@ -6,6 +6,7 @@ namespace UniversalOptimizer.TargetSolution
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using UniversalOptimizer.TargetProblem;
 
     /// <summary>
@@ -418,64 +419,64 @@ namespace UniversalOptimizer.TargetSolution
             string groupStart = "{",
             string groupEnd = "}")
         {
-            var s = delimiter;
+            StringBuilder s = new StringBuilder(delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupStart + delimiter;
+            s.Append(groupStart + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "fitnessValue=" + FitnessValue.ToString() + delimiter;
+            s.Append("fitnessValue=" + FitnessValue.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "fitnessValues=" + FitnessValues.ToString() + delimiter;
+            s.Append("fitnessValues=" + FitnessValues.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "objectiveValue=" + ObjectiveValue.ToString() + delimiter;
+            s.Append("objectiveValue=" + ObjectiveValue.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "objectiveValues=" + ObjectiveValues.ToString() + delimiter;
+            s.Append("objectiveValues=" + ObjectiveValues.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "isFeasible=" + IsFeasible.ToString() + delimiter;
+            s.Append("isFeasible=" + IsFeasible.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += "representation()=" + Representation!.ToString() + delimiter;
+            s.Append("representation()=" + Representation!.ToString() + delimiter);
             for(int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
             if(EvaluationCacheCS is not null)
-                s += "EvaluationCacheCS(static)=" + EvaluationCacheCS.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}");
+                s.Append("EvaluationCacheCS(static)=" + EvaluationCacheCS.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}"));
             else
-                s += "EvaluationCacheCS(static)=null" + delimiter;
+                s.Append("EvaluationCacheCS(static)=null" + delimiter);
             for (int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
             if (RepresentationDistanceCacheCS is not null)
-                s += "RepresentationDistanceCacheCS(static)=" + RepresentationDistanceCacheCS.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter;
+                s.Append("RepresentationDistanceCacheCS(static)=" + RepresentationDistanceCacheCS.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
             else
-                s += "RepresentationDistanceCacheCS(static)=null" + delimiter;
+                s.Append("RepresentationDistanceCacheCS(static)=null" + delimiter);
             for (int i=0; i<indentation; i++)
             {
-                s += indentationSymbol;
+                s.Append(indentationSymbol);
             }
-            s += groupEnd;
-            return s;
+            s.Append(groupEnd);
+            return s.ToString();
         }
 
         /// <summary>

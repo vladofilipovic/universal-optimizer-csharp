@@ -64,11 +64,14 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem {
             [Option("solutionDistanceCalculationCacheMaxSize", Required = true, Default = 0, HelpText = "Maximum cache size for cache used in distance calculations between two solutions. Value 0 means that there is no limit on cache size.")]
             public int SolutionDistanceCalculationCacheMaxSize { get; set; }
 
-            [Option("additionalStatisticsKeep", Required = true, Default = "None", HelpText = "Comma-separated list of statistical data will be calculated and keep during solving. Currently, data within list can be: 'allSolutionCode', 'distance_among_solutions'.")]
+            [Option("additionalStatisticsIsActive", Required = true, Default = false, HelpText = "Indicator if additional statistics is active, or not.")]
+            public required bool AdditionalStatisticsIsActive { get; set; }
+
+            [Option("additionalStatisticsKeep", Required = true, Default = "none", HelpText = "Comma-separated list of statistical data will be calculated and keep during solving. Currently, data within list can be: 'allSolutionCode', 'distance_among_solutions'.")]
             public required string AdditionalStatisticsKeep { get; set; }
 
-            [Option("additionalStatisticsMaxLocalOptima", Required = true, Default = 0, HelpText = "Parameter maximum number of local optima kept during execution.")]
-            public int AdditionalStatisticsMaxLocalOptima { get; set; }
+            [Option("additionalStatisticsMaxLocalOptimaCount", Required = true, Default = 0, HelpText = "Parameter maximum number of local optima kept during execution.")]
+            public int AdditionalStatisticsMaxLocalOptimaCount { get; set; }
 
             [Option("kMin", Required = true, Default = 1, HelpText = "VNS parameter k min.")]
             public int KMin { get; set; }

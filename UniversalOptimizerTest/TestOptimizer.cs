@@ -42,8 +42,8 @@ namespace UniversalOptimizerTest
         //{
         //    // Arrange
         //    Optimizer<object, object> optimizer = new Optimizer<object, object>("Optimizer", new OutputControl(), new FunctionOneVariableProblem(true, "expression", 0.0, 1.0));
-        //    DateTime startTime = DateTime.Now;
-        //    DateTime endTime = DateTime.Now.AddSeconds(10);
+        //    DateTime startTime = DateTime.UtcNow;
+        //    DateTime endTime = DateTime.UtcNow.AddSeconds(10);
 
         //    // Act
         //    optimizer.ExecutionStarted = startTime;
