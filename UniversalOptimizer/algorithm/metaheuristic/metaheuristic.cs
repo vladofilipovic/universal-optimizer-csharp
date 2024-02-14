@@ -74,13 +74,6 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         }
 
         /// <summary>
-        /// One iteration within main loop of the metaheuristic algorithm.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public virtual void MainLoopIteration() => throw new NotImplementedException();
-
-        /// <summary>
         /// Calculate time elapsed during execution of the metaheuristic algorithm.
         /// </summary>
         /// <returns>elapsed time (in seconds)</returns>
@@ -89,6 +82,33 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             var delta = DateTime.UtcNow - ExecutionStarted;
             return delta.TotalSeconds;
         }
+
+        /// <summary>
+        /// Updates the additional statistics if required.
+        /// </summary>
+        /// <param name="solution">The solution.</param>
+        /// <exception cref="System.FieldAccessException">AdditionalStatisticsControl</exception>
+        public void UpdateAdditionalStatisticsIfRequired(TargetSolution<R_co, A_co> solution)
+        {
+            if (AdditionalStatisticsControl == null)
+                throw new FieldAccessException(nameof(AdditionalStatisticsControl));
+            if (!AdditionalStatisticsControl.IsActive)
+            {
+                return;
+            }
+            if (AdditionalStatisticsControl.KeepAllSolutionCodes)
+                AdditionalStatisticsControl.AddToAllSolutionCodes(solution.StringRepresentation());
+            if (AdditionalStatisticsControl.KeepMoreLocalOptima)
+                AdditionalStatisticsControl.AddToMoreLocalOptima(solution.StringRepresentation(), solution.FitnessValue, BestSolution?.StringRepresentation() ?? "invalid");
+        }
+
+        /// <summary>
+        /// One iteration within main loop of the metaheuristic algorithm.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public virtual void MainLoopIteration() => throw new NotImplementedException();
+
 
         /// <summary>
         /// Main loop of the metaheuristic algorithm.
@@ -104,21 +124,6 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 Log.Debug("Iteration: " + this.Iteration.ToString() + ", Evaluations: " + this.Evaluation.ToString() + ", Best solution objective: " + this.BestSolution!.ObjectiveValue.ToString() + ", Best solution fitness: " + this.BestSolution!.FitnessValue.ToString() + ", Best solution: " + this.BestSolution!.StringRepresentation());
             }
         }
-
-        public void UpdateAdditionalStatisticsIfRequired(TargetSolution<R_co,A_co> solution)
-        {
-            if (AdditionalStatisticsControl == null)
-                throw new FieldAccessException(nameof(AdditionalStatisticsControl));
-            if (!AdditionalStatisticsControl.IsActive)
-            {
-                return;
-            }
-            if (AdditionalStatisticsControl.KeepAllSolutionCodes)
-                AdditionalStatisticsControl.AddToAllSolutionCodes(solution.StringRepresentation());
-            if (AdditionalStatisticsControl.KeepMoreLocalOptima)
-                AdditionalStatisticsControl.AddToMoreLocalOptima(solution.StringRepresentation(), solution.FitnessValue, BestSolution?.StringRepresentation()??"invalid");
-        }
-
 
         /// <summary>
         /// Executing optimization by the metaheuristic algorithm.
