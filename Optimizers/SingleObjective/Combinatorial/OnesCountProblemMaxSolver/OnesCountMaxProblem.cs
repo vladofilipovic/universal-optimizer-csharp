@@ -9,9 +9,9 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using System;
     using System.Linq;
     using System.Text;
-    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Problem;
 
-    public class OnesCountMaxProblem : TargetProblem
+    public class OnesCountMaxProblem : Problem
     {
 
         private int _dimension;

@@ -5,8 +5,8 @@
 namespace UniversalOptimizer.Algorithm.Metaheuristic
 {
     using UniversalOptimizer.Algorithm;
-    using UniversalOptimizer.TargetProblem;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Problem;
+    using UniversalOptimizer.Solution;
 
     using System;
     using System.Linq;
@@ -38,16 +38,16 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="randomSeed">The random seed.</param>
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
-        /// <param name="targetProblem">The target problem.</param>
+        /// <param name="problem">The target problem.</param>
         protected Metaheuristic(
             string name,
             FinishControl finishControl,
             int? randomSeed,
             AdditionalStatisticsControl additionalStatisticsControl,
             OutputControl outputControl,
-            TargetProblem targetProblem,
-            TargetSolution<R_co, A_co>? solutionTemplate)
-            : base(name, outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
+            Problem problem,
+            Solution<R_co, A_co>? solutionTemplate)
+            : base(name, outputControl: outputControl, problem: problem, solutionTemplate: solutionTemplate)
         {
             FinishControl = finishControl;
             if (randomSeed is not null && randomSeed != 0)
@@ -88,7 +88,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// </summary>
         /// <param name="solution">The solution.</param>
         /// <exception cref="System.FieldAccessException">AdditionalStatisticsControl</exception>
-        public void UpdateAdditionalStatisticsIfRequired(TargetSolution<R_co, A_co> solution)
+        public void UpdateAdditionalStatisticsIfRequired(Solution<R_co, A_co> solution)
         {
             if (AdditionalStatisticsControl == null)
                 throw new FieldAccessException(nameof(AdditionalStatisticsControl));

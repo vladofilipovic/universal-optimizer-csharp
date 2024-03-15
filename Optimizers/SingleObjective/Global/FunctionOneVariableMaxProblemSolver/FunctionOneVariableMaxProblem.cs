@@ -4,7 +4,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using System.Collections.Generic;
     using System.Linq;
     using System.IO;
-    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Problem;
     using System.Text;
     using Serilog;
 
@@ -15,7 +15,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         public double DomainHigh { get; set; } = 0;
     }
 
-    public class FunctionOneVariableMaxProblem : TargetProblem
+    public class FunctionOneVariableMaxProblem : Problem
     {
         private double _domainHigh;
         private double _domainLow;

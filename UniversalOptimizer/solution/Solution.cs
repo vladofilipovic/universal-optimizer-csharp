@@ -1,5 +1,5 @@
 
-namespace UniversalOptimizer.TargetSolution
+namespace UniversalOptimizer.Solution
 {
     using Serilog.Debugging;
     using System;
@@ -7,14 +7,14 @@ namespace UniversalOptimizer.TargetSolution
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Problem;
 
     /// <summary>
     /// Class that abstracts target solution. 
     /// </summary>
     /// <typeparam name="R_co">The type for the solution representation.</typeparam>
     /// <typeparam name="A_co">The type for the solution arguments.</typeparam>
-    public abstract class TargetSolution<R_co, A_co> : ICloneable 
+    public abstract class Solution<R_co, A_co> : ICloneable 
     {
         private double? _fitnessValue;
         private IEnumerable<double> _fitnessValues;
@@ -30,7 +30,7 @@ namespace UniversalOptimizer.TargetSolution
         public static DistanceCalculationCacheControlStatistics<R_co>? RepresentationDistanceCacheCS = null;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TargetSolution{R_co, A_co}"/> class.
+        /// Initializes a new instance of the <see cref="Solution{R_co, A_co}"/> class.
         /// </summary>
         /// <param name="randomSeed">The random seed.</param>
         /// <param name="fitnessValue">The fitness value.</param>
@@ -42,7 +42,7 @@ namespace UniversalOptimizer.TargetSolution
         /// <param name="evaluationCacheMaxSize">Maximum size of the evaluation cache.</param>
         /// <param name="distanceCalculationCacheIsUsed">if set to <c>true</c> [distance calculation cache is used].</param>
         /// <param name="distanceCalculationCacheMaxSize">Maximum size of the distance calculation cache.</param>
-        protected TargetSolution(
+        protected Solution(
             int? randomSeed,
             double fitnessValue,
             List<double> fitnessValues,
@@ -244,14 +244,14 @@ namespace UniversalOptimizer.TargetSolution
         /// </summary>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public virtual R_co ObtainFeasibleRepresentation(TargetProblem problem)
+        public virtual R_co ObtainFeasibleRepresentation(Problem problem)
         {
             if(Representation is null)
                 throw new ArgumentNullException(nameof(Representation));
             return Representation;
         }
 
-        public virtual void CopyFrom(TargetSolution<R_co, A_co> original)
+        public virtual void CopyFrom(Solution<R_co, A_co> original)
         {
             this._fitnessValue = original._fitnessValue;
             this._fitnessValues = original._fitnessValues;
@@ -286,7 +286,7 @@ namespace UniversalOptimizer.TargetSolution
         /// </summary>
         /// <param name="problem">The problem that is solved by solution.</param>
         /// 
-        public abstract void InitRandom(TargetProblem problem);
+        public abstract void InitRandom(Problem problem);
 
         /// <summary>
         /// Obtain native representation from solution code of this instance.
@@ -302,7 +302,7 @@ namespace UniversalOptimizer.TargetSolution
         /// </summary>
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
-        public abstract void InitFrom(R_co representation, TargetProblem problem);
+        public abstract void InitFrom(R_co representation, Problem problem);
 
         /// <summary>
         /// Calculates the quality of solution directly.
@@ -310,14 +310,14 @@ namespace UniversalOptimizer.TargetSolution
         /// <param name="representation">The native representation of the solution for which objective value, fitness and feasibility are calculated.</param>
         /// <param name="problem">The problem that is solved.</param>
         /// <returns></returns>
-        public abstract QualityOfSolution CalculateQualityDirectly(R_co? representation, TargetProblem problem);
+        public abstract QualityOfSolution CalculateQualityDirectly(R_co? representation, Problem problem);
 
         /// <summary>
         /// Calculate fitness, objective and feasibility of the solution, with optional cache consultation.
         /// </summary>
-        /// <param name="targetProblem">The target problem that is solved.</param>
+        /// <param name="problem">The target problem that is solved.</param>
         /// <returns>Objective value(s), fitness value(s) and feasibility of the solution instance</returns>
-        public virtual QualityOfSolution CalculateQuality(TargetProblem targetProblem)
+        public virtual QualityOfSolution CalculateQuality(Problem problem)
         {
             QualityOfSolution qos;
             var eccs = EvaluationCacheCS;
@@ -330,7 +330,7 @@ namespace UniversalOptimizer.TargetSolution
                     eccs.IncrementCacheHitCount();
                     return eccs.Cache[rep];
                 }
-                qos = CalculateQualityDirectly(Representation, targetProblem);
+                qos = CalculateQualityDirectly(Representation, problem);
                 if (eccs.Cache.Count >= eccs.MaxCacheSize)
                 {
                     /// removing random
@@ -342,7 +342,7 @@ namespace UniversalOptimizer.TargetSolution
             }
             else
             {
-                qos = CalculateQualityDirectly(Representation, targetProblem);
+                qos = CalculateQualityDirectly(Representation, problem);
                 return qos;
             }
         }
@@ -350,10 +350,10 @@ namespace UniversalOptimizer.TargetSolution
         /// <summary>
         /// Evaluates the specified target problem with this solution instance.
         /// </summary>
-        /// <param name="targetProblem">The target problem that is solved.</param>
-        public virtual void Evaluate(TargetProblem targetProblem)
+        /// <param name="problem">The target problem that is solved.</param>
+        public virtual void Evaluate(Problem problem)
         {
-            QualityOfSolution qos = CalculateQuality(targetProblem);
+            QualityOfSolution qos = CalculateQuality(problem);
             ObjectiveValue = qos.ObjectiveValue;
             FitnessValue = qos.FitnessValue;
             IsFeasible = qos.IsFeasible;

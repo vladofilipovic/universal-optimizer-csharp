@@ -1,28 +1,28 @@
-namespace UniversalOptimizer.TargetSolution
+namespace UniversalOptimizer.Solution
 {
 
-    using UniversalOptimizer.TargetProblem;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Problem;
+    using UniversalOptimizer.Solution;
 
-    public class TargetSolutionVoidObjectStr : TargetSolution<object, string>, ICloneable
+    public class SolutionVoidObjectStr : Solution<object, string>, ICloneable
     {
 
         private object? _representation;
 
-        public TargetSolutionVoidObjectStr()
+        public SolutionVoidObjectStr()
             : base(randomSeed: null, fitnessValue: 0, fitnessValues: new List<double>(), objectiveValue: 0, objectiveValues: new List<double>(), isFeasible: true, evaluationCacheIsUsed: false, evaluationCacheMaxSize: 0, distanceCalculationCacheIsUsed: false, distanceCalculationCacheMaxSize: 0)
         {
         }
 
         public override string Argument(object? representation) => representation!.ToString() ?? "";
 
-        public override void InitRandom(TargetProblem problem) => _representation = default;
+        public override void InitRandom(Problem problem) => _representation = default;
 
-        public override void InitFrom(object representation, TargetProblem problem) => this._representation = representation;
+        public override void InitFrom(object representation, Problem problem) => this._representation = representation;
 
         public override object NativeRepresentation(string representationStr) => representationStr;
 
-        public override QualityOfSolution CalculateQualityDirectly(object? representation, TargetProblem problem) => new QualityOfSolution(fitnessValue: 0.0, objectiveValue: 0.0, isFeasible: true);
+        public override QualityOfSolution CalculateQualityDirectly(object? representation, Problem problem) => new QualityOfSolution(fitnessValue: 0.0, objectiveValue: 0.0, isFeasible: true);
 
         public static double RepresentationDistanceDirectly(object solution_code_1, string solution_code_2) => 0;
 

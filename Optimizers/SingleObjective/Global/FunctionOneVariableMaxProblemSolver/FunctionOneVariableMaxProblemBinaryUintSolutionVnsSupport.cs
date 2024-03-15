@@ -1,8 +1,8 @@
 namespace SingleObjective.Teaching.FunctionOneVariableProblem
 {
-    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Problem;
 
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Solution;
 
     using UniversalOptimizer.Algorithm.Metaheuristic;
 
@@ -36,7 +36,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// if shaking is successful
         /// </returns>
-        public bool Shaking(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
+        public bool Shaking(int k, Problem problem, Solution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -101,7 +101,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// Solution - result of the local search procedure.
         /// </returns>
-        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
+        public bool LocalSearchBestImprovement(int k, Problem problem, Solution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -171,7 +171,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <returns>
         /// Solution - result of the local search procedure.
         /// </returns>
-        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<uint, double> solution, Metaheuristic<uint, double> optimizer)
+        public bool LocalSearchFirstImprovement(int k, Problem problem, Solution<uint, double> solution, Metaheuristic<uint, double> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));

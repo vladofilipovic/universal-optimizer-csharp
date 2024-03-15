@@ -7,6 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "UniversalOptimizer.Algorithm")]
 
-[assembly: SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "UniversalOptimizer.TargetProblem")]
+[assembly: SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "UniversalOptimizer.Problem")]
 
-[assembly: SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "UniversalOptimizer.TargetSolution")]
+[assembly: SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "UniversalOptimizer.Solution")]

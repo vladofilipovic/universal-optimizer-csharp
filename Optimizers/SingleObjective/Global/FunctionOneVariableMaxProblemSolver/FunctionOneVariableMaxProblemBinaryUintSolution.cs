@@ -1,8 +1,8 @@
 namespace SingleObjective.Teaching.FunctionOneVariableProblem
 {
     using UniversalOptimizer.utils;
-    using UniversalOptimizer.TargetProblem;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Problem;
+    using UniversalOptimizer.Solution;
 
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using System.Security.Cryptography;
     using System.Text;
 
-    public class FunctionOneVariableMaxProblemBinaryUintSolution : TargetSolution<uint, double>
+    public class FunctionOneVariableMaxProblemBinaryUintSolution : Solution<uint, double>
     {
         private double _domainFrom;
         private double _domainTo;
@@ -121,7 +121,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </summary>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public override uint ObtainFeasibleRepresentation(TargetProblem problem)
+        public override uint ObtainFeasibleRepresentation(Problem problem)
         {
             if (Representation > _numberOfIntervals)
                 return Representation % _numberOfIntervals;
@@ -145,7 +145,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="problem">The problem that is solved by solution.</param>
         /// <exception cref="System.ArgumentNullException"></exception>
         /// <exception cref="System.ArgumentException"></exception>
-        public override void InitRandom(TargetProblem problem)
+        public override void InitRandom(Problem problem)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -161,7 +161,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// </summary>
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
-        public override void InitFrom(uint representation, TargetProblem problem) => Representation = representation;
+        public override void InitFrom(uint representation, Problem problem) => Representation = representation;
 
         /// <summary>
         /// Calculates the quality of solution directly.
@@ -170,7 +170,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
         /// <param name="problem">The problem that is solved.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Problem type is not valid.</exception>
-        public override QualityOfSolution CalculateQualityDirectly(uint representation, TargetProblem problem)
+        public override QualityOfSolution CalculateQualityDirectly(uint representation, Problem problem)
         {
             double arg = Argument(representation);
             if (problem is not FunctionOneVariableMaxProblem)

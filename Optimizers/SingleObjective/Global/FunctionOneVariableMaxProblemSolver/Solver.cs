@@ -14,7 +14,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
     using Serilog.Events;
     using CommandLine;
     using System.Text;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Solution;
 
     public class Solver
     {
@@ -164,7 +164,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
             {
                 /// initial solution and vns support
                 var numberOfIntervals = opts.SolutionNumberOfIntervals;
-                TargetSolution<uint, double> solution = new FunctionOneVariableMaxProblemBinaryUintSolution(domainFrom: problem.DomainLow, domainTo: problem.DomainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
+                Solution<uint, double> solution = new FunctionOneVariableMaxProblemBinaryUintSolution(domainFrom: problem.DomainLow, domainTo: problem.DomainHigh, numberOfIntervals: numberOfIntervals, randomSeed: rSeed);
                 IProblemSolutionVnsSupport<uint, double> vns_support = new FunctionOneVariableMaxProblemBinaryUintSolutionVnsSupport();
                 /// solver construction 
                 var solver = new VnsOptimizer<uint, double>(
@@ -172,7 +172,7 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     randomSeed: rSeed,
                     additionalStatisticsControl: additionalStatisticsControl,
                     outputControl: outputControl,   
-                    targetProblem: problem,
+                    problem: problem,
                     solutionTemplate: solution, 
                     problemSolutionVnsSupport: vns_support,
                     kMin: opts.KMin,

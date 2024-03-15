@@ -10,14 +10,14 @@ namespace UniversalOptimizerTest
         //    // Arrange
         //    string name = "Optimizer";
         //    OutputControl outputControl = new OutputControl();
-        //    TargetProblem targetProblem = new FunctionOneVariableProblem(true, "expression", 0.0, 1.0);
-        //    //Mock<TargetProblem> targetProblem = new Mock<TargetProblem>();
+        //    Problem problem = new FunctionOneVariableProblem(true, "expression", 0.0, 1.0);
+        //    //Mock<Problem> problem = new Mock<Problem>();
         //    // Act
-        //    Optimizer<object, object> optimizer = new Optimizer<object, object>(name, outputControl, targetProblem);
+        //    Optimizer<object, object> optimizer = new Optimizer<object, object>(name, outputControl, problem);
         //    // Assert
         //    Assert.Equal(name, optimizer.Name);
         //    Assert.Equal(outputControl, optimizer.OutputControl);
-        //    Assert.Equal(targetProblem, optimizer.TargetProblem);
+        //    Assert.Equal(problem, optimizer.Problem);
         //}
 
         //// Best solution can be set and retrieved from Optimizer.
@@ -26,11 +26,11 @@ namespace UniversalOptimizerTest
         //{
         //    // Arrange
         //    Optimizer<object, object> optimizer = new Optimizer<object, object>("Optimizer", new OutputControl(), new FunctionOneVariableProblem(true, "expression", 0.0, 1.0));
-        //    TargetSolution<object, object> solution = new TargetSolution<object, object>();
+        //    Solution<object, object> solution = new Solution<object, object>();
 
         //    // Act
         //    optimizer.BestSolution = solution;
-        //    TargetSolution<object, object>? retrievedSolution = optimizer.BestSolution;
+        //    Solution<object, object>? retrievedSolution = optimizer.BestSolution;
 
         //    // Assert
         //    Assert.Equal(solution, retrievedSolution);
@@ -97,12 +97,12 @@ namespace UniversalOptimizerTest
         //{
         //    // Arrange
         //    Optimizer<object, object> optimizer = new Optimizer<object, object>("Optimizer", new OutputControl(), new FunctionOneVariableProblem(true, "expression", 0.0, 1.0));
-        //    TargetSolution<object, object> solution = new TargetSolution<object, object>();
+        //    Solution<object, object> solution = new Solution<object, object>();
 
         //    // Act
         //    optimizer.BestSolution = solution;
         //    optimizer.BestSolution = null;
-        //    TargetSolution<object, object>? retrievedSolution = optimizer.BestSolution;
+        //    Solution<object, object>? retrievedSolution = optimizer.BestSolution;
 
         //    // Assert
         //    Assert.Null(retrievedSolution);
@@ -199,18 +199,18 @@ namespace UniversalOptimizerTest
         //        // Arrange
         //        string name = "Optimizer";
         //        OutputControl outputControl = new OutputControl();
-        //        TargetProblem targetProblem = new FunctionOneVariableProblem(true, "expression", 0.0, 1.0);
-        //        Optimizer<object, object> optimizer = new Optimizer<object, object>(name, outputControl, targetProblem);
+        //        Problem problem = new FunctionOneVariableProblem(true, "expression", 0.0, 1.0);
+        //        Optimizer<object, object> optimizer = new Optimizer<object, object>(name, outputControl, problem);
 
         //        // Act
         //        string optimizerName = optimizer.Name;
         //        OutputControl optimizerOutputControl = optimizer.OutputControl;
-        //        TargetProblem optimizerTargetProblem = optimizer.TargetProblem;
+        //        Problem optimizerProblem = optimizer.Problem;
 
         //        // Assert
         //        Assert.Equal(name, optimizerName);
         //        Assert.Equal(outputControl, optimizerOutputControl);
-        //        Assert.Equal(targetProblem, optimizerTargetProblem);
+        //        Assert.Equal(problem, optimizerProblem);
         //    }
         }
     }

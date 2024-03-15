@@ -2,7 +2,7 @@
 namespace SingleObjective.Teaching.OnesCountProblem
 {
     using UniversalOptimizer.utils;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Solution;
     using UniversalOptimizer.Algorithm;
     using UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch;
     using SingleObjective.Teaching.OnesCountProblem;
@@ -11,7 +11,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Problem;
     using UniversalOptimizer.Algorithm.Metaheuristic;
 
     public class OnesCountMaxProblemBinaryBitArraySolutionVnsSupport: IProblemSolutionVnsSupport<BitArray, string>
@@ -34,7 +34,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns>
         /// if shaking is successful
         /// </returns>
-        public bool Shaking(int k, TargetProblem problem, TargetSolution<BitArray, string> solution, Metaheuristic<BitArray, string> optimizer)
+        public bool Shaking(int k, Problem problem, Solution<BitArray, string> solution, Metaheuristic<BitArray, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -98,7 +98,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns>
         /// if the local search procedure is successful.
         /// </returns>
-        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<BitArray, string> solution, Metaheuristic<BitArray, string> optimizer)
+        public bool LocalSearchBestImprovement(int k, Problem problem, Solution<BitArray, string> solution, Metaheuristic<BitArray, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -170,7 +170,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns>
         /// if the local search procedure is successful.
         /// </returns>
-        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<BitArray, string> solution, Metaheuristic<BitArray, string> optimizer)
+        public bool LocalSearchFirstImprovement(int k, Problem problem, Solution<BitArray, string> solution, Metaheuristic<BitArray, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));

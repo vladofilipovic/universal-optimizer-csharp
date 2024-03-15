@@ -1,7 +1,7 @@
 namespace UniversalOptimizer.Algorithm
 {
-    using TargetProblem;
-    using TargetSolution;
+    using Problem;
+    using Solution;
 
     using System;
     using System.Data.SqlTypes;
@@ -15,14 +15,14 @@ namespace UniversalOptimizer.Algorithm
     /// <seealso cref="uo.Algorithm.Optimizer" />
     public abstract class Algorithm<R_co, A_co> : Optimizer<R_co, A_co>
     {
-        private readonly TargetSolution<R_co, A_co>? _solutionTemplate;
+        private readonly Solution<R_co, A_co>? _solutionTemplate;
         private int _evaluation;
         private int _iteration;
         private int _evaluationBestFound;
         private int _iterationBestFound;
 
-        protected Algorithm(string name, OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co>? solutionTemplate)
-                : base(name, outputControl: outputControl, targetProblem: targetProblem)
+        protected Algorithm(string name, OutputControl outputControl, Problem problem, Solution<R_co, A_co>? solutionTemplate)
+                : base(name, outputControl: outputControl, problem: problem)
         {
             _solutionTemplate = solutionTemplate;
             _evaluation = 0;
@@ -36,7 +36,7 @@ namespace UniversalOptimizer.Algorithm
         /// <value>
         /// The solution template.
         /// </value>
-        public TargetSolution<R_co, A_co>? SolutionTemplate
+        public Solution<R_co, A_co>? SolutionTemplate
         {
             get
             {
@@ -122,7 +122,7 @@ namespace UniversalOptimizer.Algorithm
         /// <param name="solution">The solution that is source for coping operation.</param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Bug", "S4275:Getters and setters should access the expected fields", Justification = "<Pending>")]
-        public override TargetSolution<R_co, A_co>? BestSolution
+        public override Solution<R_co, A_co>? BestSolution
         {
             get
             {
@@ -153,7 +153,7 @@ namespace UniversalOptimizer.Algorithm
         /// IsMinimization
         /// </exception>
         /// <exception cref="System.NotImplementedException">Comparison between solutions for multi objective optimization is not currently supported.</exception>
-        public virtual bool? IsFirstBetter(TargetSolution<R_co, A_co> sol1, TargetSolution<R_co, A_co> sol2, TargetProblem problem)
+        public virtual bool? IsFirstBetter(Solution<R_co, A_co> sol1, Solution<R_co, A_co> sol2, Problem problem)
         {
             if(problem.IsMultiObjective is null)
                 throw new MissingFieldException(nameof(problem.IsMultiObjective));
@@ -225,7 +225,7 @@ namespace UniversalOptimizer.Algorithm
             {
                 s.Append(indentationSymbol);
             }
-            s.Append("TargetProblem=" + TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
+            s.Append("Problem=" + Problem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
             for (int i = 0; i < indentation; i++)
             {
                 s.Append(indentationSymbol);

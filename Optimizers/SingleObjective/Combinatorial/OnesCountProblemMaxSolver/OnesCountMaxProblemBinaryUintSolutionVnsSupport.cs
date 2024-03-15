@@ -3,8 +3,8 @@ namespace SingleObjective.Teaching.OnesCountProblem
 {
 
     using UniversalOptimizer.utils;
-    using UniversalOptimizer.TargetProblem;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Problem;
+    using UniversalOptimizer.Solution;
     using UniversalOptimizer.Algorithm;
     using UniversalOptimizer.Algorithm.Exact.TotalEnumeration;
     using UniversalOptimizer.Algorithm.Metaheuristic;
@@ -36,7 +36,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// :return: if shaking is successful
         /// return type bool
         /// 
-        public bool Shaking(int k, TargetProblem problem, TargetSolution<uint, string> solution, Metaheuristic<uint, string> optimizer)
+        public bool Shaking(int k, Problem problem, Solution<uint, string> solution, Metaheuristic<uint, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -100,7 +100,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// :return: result of the local search procedure 
         /// return type OnesCountMaxProblemBinaryUintSolution
         /// 
-        public bool LocalSearchBestImprovement(int k, TargetProblem problem, TargetSolution<uint, string> solution, Metaheuristic<uint, string> optimizer)
+        public bool LocalSearchBestImprovement(int k, Problem problem, Solution<uint, string> solution, Metaheuristic<uint, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -169,7 +169,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns>
         /// if the local search procedure is successful.
         /// </returns>
-        public bool LocalSearchFirstImprovement(int k, TargetProblem problem, TargetSolution<uint, string> solution,       Metaheuristic<uint, string> optimizer)
+        public bool LocalSearchFirstImprovement(int k, Problem problem, Solution<uint, string> solution,       Metaheuristic<uint, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));

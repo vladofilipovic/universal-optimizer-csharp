@@ -3,8 +3,8 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
 {
 
     using UniversalOptimizer.Algorithm;
-    using UniversalOptimizer.TargetProblem;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Problem;
+    using UniversalOptimizer.Solution;
     using UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch;
 
     using System.Collections.Generic;
@@ -40,7 +40,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// <param name="randomSeed">The random seed.</param>
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
-        /// <param name="targetProblem">The target problem.</param>
+        /// <param name="problem">The target problem.</param>
         /// <param name="solutionTemplate">The initial solution.</param>
         /// <param name="problemSolutionVnsSupport">The problem solution VNS support.</param>
         /// <param name="kMin">The k minimum.</param>
@@ -52,13 +52,13 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             int? randomSeed,
             AdditionalStatisticsControl additionalStatisticsControl,
             OutputControl outputControl,
-            TargetProblem targetProblem,
-            TargetSolution<R_co, A_co>? solutionTemplate,
+            Problem problem,
+            Solution<R_co, A_co>? solutionTemplate,
             IProblemSolutionVnsSupport<R_co, A_co> problemSolutionVnsSupport,
             int kMin,
             int kMax,
             string localSearchType)
-            : base("VnsOptimizer", finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
+            : base("VnsOptimizer", finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, problem: problem, solutionTemplate: solutionTemplate)
         {
             _localSearchType = localSearchType;
             _implementedLocalSearches = new Dictionary<string, ProblemSolutionVnsSupportLocalSearchMethod<R_co, A_co>>();
@@ -86,7 +86,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
         /// <exception cref="NotImplementedException"></exception>
         public override object Clone()
         {
-            return new VnsOptimizer<R_co, A_co>(this.FinishControl, this.RandomSeed, this.AdditionalStatisticsControl, this.OutputControl, this.TargetProblem, this.SolutionTemplate, this._problemSolutionVnsSupport, this.KMin, this.KMax, this._localSearchType);
+            return new VnsOptimizer<R_co, A_co>(this.FinishControl, this.RandomSeed, this.AdditionalStatisticsControl, this.OutputControl, this.Problem, this.SolutionTemplate, this._problemSolutionVnsSupport, this.KMin, this.KMax, this._localSearchType);
         }
 
         /// <summary>
@@ -127,10 +127,10 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
                 throw new FieldAccessException(nameof(SolutionTemplate));
             }
             _kCurrent = KMin;
-            CurrentSolution = (TargetSolution<R_co, A_co>)SolutionTemplate!.Clone();
-            CurrentSolution.InitRandom(TargetProblem);
+            CurrentSolution = (Solution<R_co, A_co>)SolutionTemplate!.Clone();
+            CurrentSolution.InitRandom(Problem);
             Evaluation = 1;
-            CurrentSolution.Evaluate(TargetProblem);
+            CurrentSolution.Evaluate(Problem);
             BestSolution = CurrentSolution;   
         }
 
@@ -144,7 +144,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
                 throw new FieldAccessException(nameof(CurrentSolution));
             }
             WriteOutputValuesIfNeeded("beforeStepInIteration", "shaking");
-            if (!_shakingMethod(_kCurrent, TargetProblem, CurrentSolution!, this))
+            if (!_shakingMethod(_kCurrent, Problem, CurrentSolution!, this))
             {
                 WriteOutputValuesIfNeeded("afterStepInIteration", "shaking");
                 return;
@@ -154,7 +154,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic.VariableNeighborhoodSearch
             while (_kCurrent <= KMax)
             {
                 WriteOutputValuesIfNeeded("beforeStepInIteration", "ls");
-                bool improvement = _lsMethod(_kCurrent, TargetProblem, CurrentSolution, this);
+                bool improvement = _lsMethod(_kCurrent, Problem, CurrentSolution, this);
                 WriteOutputValuesIfNeeded("afterStepInIteration", "ls");
                 if (improvement)
                 {

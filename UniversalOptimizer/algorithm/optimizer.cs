@@ -1,9 +1,9 @@
 namespace UniversalOptimizer.Algorithm
 {
 
-    using TargetProblem;
+    using Problem;
 
-    using TargetSolution;
+    using Solution;
 
     using System;
 
@@ -15,12 +15,12 @@ namespace UniversalOptimizer.Algorithm
 
     public abstract class Optimizer<R_co, A_co> : ICloneable
     {
-        private TargetSolution<R_co, A_co>? _bestSolution;
+        private Solution<R_co, A_co>? _bestSolution;
         private DateTime _executionEnded;
         private DateTime _executionStarted;
         private readonly string _name;
         private OutputControl _outputControl;
-        private readonly TargetProblem _targetProblem;
+        private readonly Problem _problem;
         private double? _timeWhenBestFound;
 
         /// <summary>
@@ -28,12 +28,12 @@ namespace UniversalOptimizer.Algorithm
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="outputControl">The output control.</param>
-        /// <param name="targetProblem">The target problem.</param>
-        protected Optimizer(string name, OutputControl outputControl, TargetProblem targetProblem)
+        /// <param name="problem">The target problem.</param>
+        protected Optimizer(string name, OutputControl outputControl, Problem problem)
         {
             _name = name;
             _outputControl = outputControl;
-            _targetProblem = targetProblem;
+            _problem = problem;
             _timeWhenBestFound = null;
         }
 
@@ -69,11 +69,11 @@ namespace UniversalOptimizer.Algorithm
         /// <value>
         /// The target problem to be solved.
         /// </value>
-        public TargetProblem TargetProblem
+        public Problem Problem
         {
             get
             {
-                return _targetProblem;
+                return _problem;
             }
         }
 
@@ -137,7 +137,7 @@ namespace UniversalOptimizer.Algorithm
         /// <value>
         /// The best solution so far.
         /// </value>
-        public virtual TargetSolution<R_co, A_co>? BestSolution
+        public virtual Solution<R_co, A_co>? BestSolution
         {
             get
             {
@@ -150,7 +150,7 @@ namespace UniversalOptimizer.Algorithm
                     _bestSolution = null;
                     return;
                 }
-                _bestSolution = value.Clone() as TargetSolution<R_co, A_co>;
+                _bestSolution = value.Clone() as Solution<R_co, A_co>;
                 TimeSpan duration = DateTime.UtcNow - ExecutionStarted;
                 _timeWhenBestFound = duration.TotalNanoseconds;
             }
@@ -320,7 +320,7 @@ namespace UniversalOptimizer.Algorithm
             {
                 s.Append(indentationSymbol);
             }
-            s.Append("TargetProblem=" + TargetProblem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
+            s.Append("Problem=" + Problem.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
             s.Append("_OutputControl=" + OutputControl.StringRep(delimiter, indentation + 1, indentationSymbol, "{", "}") + delimiter);
             s.Append("executionStarted=" + ExecutionStarted.ToString() + delimiter);
             for (int i = 0; i < indentation; i++)

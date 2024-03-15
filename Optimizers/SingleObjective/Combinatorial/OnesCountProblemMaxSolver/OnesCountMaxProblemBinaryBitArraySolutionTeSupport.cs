@@ -3,7 +3,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
 {
 
     using UniversalOptimizer.utils;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Solution;
     using UniversalOptimizer.Algorithm;
     using UniversalOptimizer.Algorithm.Exact.TotalEnumeration;
 
@@ -11,7 +11,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
 
     using System;
     using System.Collections;
-    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Problem;
 
     public class OnesCountMaxProblemBinaryBitArraySolutionTeSupport : IProblemSolutionTeSupport<BitArray, string>
     {
@@ -31,7 +31,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="problem">The problem that is solved.</param>
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
-        public void Reset(TargetProblem problem, TargetSolution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
+        public void Reset(Problem problem, Solution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -55,7 +55,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="problem">The problem that is solved.</param>
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
-        public void Progress(TargetProblem problem, TargetSolution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
+        public void Progress(Problem problem, Solution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
         {
             if (_bitArrayCounter == null)
                 throw new ArgumentNullException(string.Format("Variable '{0}' is null.", nameof(_bitArrayCounter)));
@@ -76,7 +76,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns>
         /// <c>true</c> if total enumeration process is not at end; otherwise, <c>false</c>.
         /// </returns>
-        public bool CanProgress(TargetProblem problem, TargetSolution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
+        public bool CanProgress(Problem problem, Solution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
         {
             if (_bitArrayCounter == null)
                 throw new ArgumentNullException(string.Format("Variable '{0}' is null.", nameof(_bitArrayCounter)));
@@ -91,7 +91,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="solution">The solution used for the problem that is solved.</param>
         /// <param name="optimizer">The optimizer that is executed.</param>
         /// <returns></returns>
-        public long OverallNumberOfEvaluations(TargetProblem problem, TargetSolution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
+        public long OverallNumberOfEvaluations(Problem problem, Solution<BitArray, string> solution, Algorithm<BitArray, string> optimizer)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));

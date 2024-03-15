@@ -4,9 +4,9 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
 
     using UniversalOptimizer.Algorithm;
 
-    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Problem;
 
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Solution;
 
     using System;
 
@@ -23,7 +23,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     public abstract class SingleSolutionMetaheuristic<R_co, A_co> : Metaheuristic<R_co, A_co> 
     {
 
-        private TargetSolution<R_co, A_co>? _currentSolution;
+        private Solution<R_co, A_co>? _currentSolution;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SingleSolutionMetaheuristic{R_co, A_co}"/> class.
@@ -33,7 +33,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="randomSeed">The random seed.</param>
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
-        /// <param name="targetProblem">The target problem.</param>
+        /// <param name="problem">The target problem.</param>
         /// <param name="solutionTemplate">The template for the solution.</param>
         public SingleSolutionMetaheuristic(
                 string name,
@@ -41,9 +41,9 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
                 int? randomSeed,
                 AdditionalStatisticsControl additionalStatisticsControl,
                 OutputControl outputControl,
-                TargetProblem targetProblem,
-                TargetSolution<R_co, A_co>? solutionTemplate)
-                : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
+                Problem problem,
+                Solution<R_co, A_co>? solutionTemplate)
+                : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, problem: problem, solutionTemplate: solutionTemplate)
         {
             _currentSolution = null;
             BestSolution = null;
@@ -57,7 +57,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <value>
         /// The current solution.
         /// </value>
-        public TargetSolution<R_co,A_co>? CurrentSolution
+        public Solution<R_co,A_co>? CurrentSolution
         {
             get
             {

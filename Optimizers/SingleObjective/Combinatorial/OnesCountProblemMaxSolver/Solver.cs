@@ -1,7 +1,7 @@
 
 namespace SingleObjective.Teaching.OnesCountProblem
 {
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Solution;
     using UniversalOptimizer.Algorithm;
     using UniversalOptimizer.Algorithm.Metaheuristic;
     using UniversalOptimizer.Algorithm.Exact.TotalEnumeration;
@@ -245,7 +245,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         //                    /// solver construction parameters
         //                    var vnsConstructionParams = VnsOptimizerConstructionParameters();
         //                    vnsConstructionParams.OutputControl = OutputControl;
-        //                    vnsConstructionParams.TargetProblem = problem;
+        //                    vnsConstructionParams.Problem = problem;
         //                    vnsConstructionParams.solutionTemplate = solution;
         //                    vnsConstructionParams.problemSolutionVnsSupport = vns_support;
         //                    vnsConstructionParams.finishControl = finishControl;
@@ -275,7 +275,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         //                    /// solver construction parameters
         //                    var te_constructionParams = TeOptimizerConstructionParameters();
         //                    te_constructionParams.OutputControl = OutputControl;
-        //                    te_constructionParams.TargetProblem = problem;
+        //                    te_constructionParams.Problem = problem;
         //                    te_constructionParams.solutionTemplate = solution;
         //                    te_constructionParams.problemSolutionTeSupport = te_support;
         //                    solver = OnesCountProblemSolver.from_total_enumeration(te_constructionParams);
@@ -285,7 +285,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         //                    /// solver construction parameters
         //                    var ilp_constructionParams = OnesCountProblemIntegerLinearProgrammingSolverConstructionParameters();
         //                    ilp_constructionParams.OutputControl = OutputControl;
-        //                    ilp_constructionParams.TargetProblem = problem;
+        //                    ilp_constructionParams.Problem = problem;
         //                    solver = OnesCountProblemSolver.from_integer_linear_programming(ilp_constructionParams);
         //                }
         //                else

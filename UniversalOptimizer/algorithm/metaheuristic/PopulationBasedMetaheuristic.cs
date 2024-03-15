@@ -4,9 +4,9 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
 
     using UniversalOptimizer.Algorithm;
 
-    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Problem;
 
-    using TargetSolution;
+    using Solution;
 
     using System;
 
@@ -22,7 +22,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
     public abstract class PopulationBasedMetaheuristic<R_co, A_co> : Metaheuristic<R_co, A_co> 
     {
 
-        private IEnumerable<TargetSolution<R_co,A_co>> _currentPopulation = [];
+        private IEnumerable<Solution<R_co,A_co>> _currentPopulation = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PopulationBasedMetaheuristic{R_co, A_co}"/> 
@@ -33,7 +33,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <param name="randomSeed">The random seed.</param>
         /// <param name="additionalStatisticsControl">The additional statistics control.</param>
         /// <param name="outputControl">The output control.</param>
-        /// <param name="targetProblem">The target problem.</param>
+        /// <param name="problem">The target problem.</param>
         /// <param name="solutionTemplate">The template for the solution.</param>
         public PopulationBasedMetaheuristic(
             string name,
@@ -41,9 +41,9 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             int randomSeed,
             AdditionalStatisticsControl additionalStatisticsControl,
             OutputControl outputControl,
-            TargetProblem targetProblem,
-            TargetSolution<R_co, A_co>? solutionTemplate)
-            : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
+            Problem problem,
+            Solution<R_co, A_co>? solutionTemplate)
+            : base(name, finishControl: finishControl, randomSeed: randomSeed, additionalStatisticsControl: additionalStatisticsControl, outputControl: outputControl, problem: problem, solutionTemplate: solutionTemplate)
         {
             _currentPopulation = [];
             BestSolution = null;
@@ -56,7 +56,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// The current solutions.
         /// </value>
         /// 
-        public IEnumerable<TargetSolution<R_co, A_co>> CurrentPopulation
+        public IEnumerable<Solution<R_co, A_co>> CurrentPopulation
         {
             get
             {

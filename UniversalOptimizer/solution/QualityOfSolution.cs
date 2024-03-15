@@ -1,11 +1,11 @@
-﻿namespace UniversalOptimizer.TargetSolution
+﻿namespace UniversalOptimizer.Solution
 {
     using Serilog.Debugging;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using UniversalOptimizer.TargetProblem;
+    using UniversalOptimizer.Problem;
 
     /// <summary>
     /// Quality of the solution - encompasses objective value, fitness and feasibility  

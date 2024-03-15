@@ -1,8 +1,8 @@
 namespace SingleObjective.Teaching.OnesCountProblem
 {
 
-    using UniversalOptimizer.TargetProblem;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Problem;
+    using UniversalOptimizer.Solution;
 
     using System;
     using System.Collections;
@@ -14,8 +14,8 @@ namespace SingleObjective.Teaching.OnesCountProblem
     /// <summary>
     /// Class for solving OnesCountMaxProblem, with binary int representation.
     /// </summary>
-    /// <seealso cref="UniversalOptimizer.TargetSolution.TargetSolution&lt;System.UInt32, System.String&gt;" />
-    public class OnesCountMaxProblemBinaryUintSolution: TargetSolution<uint,string>
+    /// <seealso cref="UniversalOptimizer.Solution.Solution&lt;System.UInt32, System.String&gt;" />
+    public class OnesCountMaxProblemBinaryUintSolution: Solution<uint,string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OnesCountMaxProblemBinaryUintSolution"/> class.
@@ -62,7 +62,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// </summary>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public override uint ObtainFeasibleRepresentation(TargetProblem problem)
+        public override uint ObtainFeasibleRepresentation(Problem problem)
         {
             if (problem is not OnesCountMaxProblem)
                 throw new ArgumentException(string.Format("Specified problem should have type 'OnesCountMaxProblem'"));
@@ -86,7 +86,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="problem">The problem that is solved by solution.</param>
         /// <returns></returns>
         /// <exception cref="ValueError">
-        public override void InitRandom(TargetProblem problem)
+        public override void InitRandom(Problem problem)
         {
             if (problem == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -111,7 +111,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public override void InitFrom(uint representation, TargetProblem problem) => this.Representation = representation;
+        public override void InitFrom(uint representation, Problem problem) => this.Representation = representation;
 
         /// <summary>
         /// Calculates the quality directly.
@@ -119,7 +119,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public override QualityOfSolution CalculateQualityDirectly(uint representation, TargetProblem problem)
+        public override QualityOfSolution CalculateQualityDirectly(uint representation, Problem problem)
         {
             var ones_count = representation.CountOnes();
             return new QualityOfSolution(objectiveValue: ones_count, fitnessValue: ones_count, isFeasible: true);

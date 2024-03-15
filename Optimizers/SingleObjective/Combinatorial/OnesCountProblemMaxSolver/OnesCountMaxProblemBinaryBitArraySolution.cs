@@ -1,8 +1,8 @@
 namespace SingleObjective.Teaching.OnesCountProblem
 {
 
-    using UniversalOptimizer.TargetProblem;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Problem;
+    using UniversalOptimizer.Solution;
 
     using System;
     using System.Collections;
@@ -12,7 +12,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
     using System.Linq.Expressions;
     using System.Text;
 
-    public class OnesCountMaxProblemBinaryBitArraySolution: TargetSolution<BitArray,string>
+    public class OnesCountMaxProblemBinaryBitArraySolution: Solution<BitArray,string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OnesCountMaxProblemBinaryBitArraySolution"/> class.
@@ -71,7 +71,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">string.Format("Parameter '{0}' is null.", nameof(problem))</exception>
         /// <exception cref="ArgumentException">string.Format("Parameter '{0}' have not type 'OnesCountMaxProblem'.", nameof(problem))</exception>
-        public override void InitRandom(TargetProblem problem)
+        public override void InitRandom(Problem problem)
         {
             if (problem == null) 
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(problem)));
@@ -89,7 +89,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public override void InitFrom(BitArray representation, TargetProblem problem)
+        public override void InitFrom(BitArray representation, Problem problem)
         {
             Representation = new BitArray(representation);
         }
@@ -100,7 +100,7 @@ namespace SingleObjective.Teaching.OnesCountProblem
         /// <param name="representation">The representation.</param>
         /// <param name="problem">The problem.</param>
         /// <returns></returns>
-        public override QualityOfSolution CalculateQualityDirectly(BitArray? representation, TargetProblem problem)
+        public override QualityOfSolution CalculateQualityDirectly(BitArray? representation, Problem problem)
         {
             if (representation == null)
                 throw new ArgumentNullException(string.Format("Parameter '{0}' is null.", nameof(representation)));

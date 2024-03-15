@@ -1,4 +1,4 @@
-namespace UniversalOptimizer.TargetProblem
+namespace UniversalOptimizer.Problem
 {
 
     using System;
@@ -10,11 +10,11 @@ namespace UniversalOptimizer.TargetProblem
     /// Class that abstracts target problem, which should be solved.
     /// </summary>
     /// <remarks>
-    /// Create new TargetProblem instance
+    /// Create new Problem instance
     /// </remarks>
     /// <param name="name">name of the target problem</param>
     /// <param name="isMinimization">should minimum or maximum be determined</param>
-    public abstract class TargetProblem(string name, bool? isMinimization=null, bool? isMultiObjective=null) : ICloneable
+    public abstract class Problem(string name, bool? isMinimization=null, bool? isMultiObjective=null) : ICloneable
     {
         /// <summary>
         /// Creates a new object that is a copy of the current instance.

@@ -7,11 +7,12 @@
     "FunctionOneVariableMaxProblemSolver-1": {
       "commandName": "Project",
       "commandLineArgs": "variable_neighborhood_search --writeToOutputFile true --outputFilePath outputs/(7-x^2)(-3,3).csv --outputFileNameAppendTimeStamp true --outputFields bestSolution --outputMoments afterIteration, afterAlgorithm --inputFilePath inputs/(7-x^2)(-3,3).txt --inputFormat txt --solutionType uint --solutionNumberOfIntervals 2000 --finishCriteria evaluations --finishEvaluationsMax 500 --finishIterationsMax 0 --finishSecondsMax 0 --randomSeed 0 --solutionEvaluationCacheIsUsed false --solutionEvaluationCacheMaxSize 1000 --solutionDistanceCalculationCacheIsUsed false --solutionDistanceCalculationCacheMaxSize 1000 --additionalStatisticsIsActive false --additionalStatisticsKeep none --additionalStatisticsMaxLocalOptimaCount 5 --kMin 1 --kMax 3 --localSearchType localSearchBestImprovement ",
-      "workingDirectory": "C:\\vlado\\Science\\Prog\\optimization\\----universal.optimizer\\Optimizers\\SingleObjective\\Global\\FunctionOneVariableProblemMaxSolver"
+      "workingDirectory": "C:\\vlado\\Science\\Prog\\optimization\\ModOptGroup----universal-optimizer-sci-csharp\\Optimizers\\SingleObjective\\Global\\FunctionOneVariableMaxProblemSolver"
     },
     "FunctionOneVariableMaxProblemSolver-2": {
       "commandName": "Project",
-      "commandLineArgs": "idle"
+      "commandLineArgs": "idle",
+      "workingDirectory": "C:\\vlado\\Science\\Prog\\optimization\\ModOptGroup----universal-optimizer-sci-csharp\\Optimizers\\SingleObjective\\Global\\FunctionOneVariableMaxProblemSolver"
     }
   }
 }

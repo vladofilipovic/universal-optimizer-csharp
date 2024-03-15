@@ -4,8 +4,8 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
 {
 
     using UniversalOptimizer.Algorithm;
-    using UniversalOptimizer.TargetProblem;
-    using UniversalOptimizer.TargetSolution;
+    using UniversalOptimizer.Problem;
+    using UniversalOptimizer.Solution;
 
     using System;
     using System.Linq;
@@ -20,7 +20,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
     public class TeOptimizer<R_co, A_co> : Algorithm<R_co, A_co> 
     {
 
-        private TargetSolution<R_co, A_co>? _currentSolution;
+        private Solution<R_co, A_co>? _currentSolution;
         private readonly IProblemSolutionTeSupport<R_co, A_co> _problemSolutionTeSupport;
         private readonly ProblemSolutionTeSupportCanProgressMethod<R_co, A_co> _canProgressMethod;
         private readonly ProblemSolutionTeSupportProgressMethod<R_co, A_co> _progressMethod;
@@ -31,11 +31,11 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// Initializes a new instance of the <see cref="TeOptimizer{R_co, A_co}"/> class.
         /// </summary>
         /// <param name="outputControl">The output control.</param>
-        /// <param name="targetProblem">The target problem.</param>
+        /// <param name="problem">The target problem.</param>
         /// <param name="solutionTemplate">The template for the solution.</param>
         /// <param name="problemSolutionTeSupport">The problem solution TE support.</param>
-        public TeOptimizer(OutputControl outputControl, TargetProblem targetProblem, TargetSolution<R_co, A_co>? solutionTemplate, IProblemSolutionTeSupport<R_co, A_co> problemSolutionTeSupport)
-            : base("TotalEnumeration", outputControl: outputControl, targetProblem: targetProblem, solutionTemplate: solutionTemplate)
+        public TeOptimizer(OutputControl outputControl, Problem problem, Solution<R_co, A_co>? solutionTemplate, IProblemSolutionTeSupport<R_co, A_co> problemSolutionTeSupport)
+            : base("TotalEnumeration", outputControl: outputControl, problem: problem, solutionTemplate: solutionTemplate)
         {
             _problemSolutionTeSupport = problemSolutionTeSupport;
             /// total enumeration support
@@ -56,7 +56,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
         public override object Clone() { 
-            return new TeOptimizer<R_co, A_co>(this.OutputControl, this.TargetProblem, this.SolutionTemplate, this._problemSolutionTeSupport);
+            return new TeOptimizer<R_co, A_co>(this.OutputControl, this.Problem, this.SolutionTemplate, this._problemSolutionTeSupport);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// <value>
         /// The current solution.
         /// </value>
-        public TargetSolution<R_co, A_co>? CurrentSolution
+        public Solution<R_co, A_co>? CurrentSolution
         {
             get
             {
@@ -84,11 +84,11 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         {
             if (SolutionTemplate is null) 
                 throw new ArgumentNullException(nameof(SolutionTemplate));
-            CurrentSolution = (TargetSolution<R_co, A_co>) SolutionTemplate.Clone();
-            _resetMethod(TargetProblem, CurrentSolution, this);
+            CurrentSolution = (Solution<R_co, A_co>) SolutionTemplate.Clone();
+            _resetMethod(Problem, CurrentSolution, this);
             WriteOutputValuesIfNeeded("beforeEvaluation", "b_e");
             Evaluation += 1;
-            CurrentSolution.Evaluate(TargetProblem);
+            CurrentSolution.Evaluate(Problem);
             WriteOutputValuesIfNeeded("afterEvaluation", "a_e");
             BestSolution = CurrentSolution;
             Iteration = 1;
@@ -104,21 +104,21 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             Init();
             if (CurrentSolution is null)
                 throw new ArgumentNullException(nameof(CurrentSolution));
-            Log.Debug("Overall number of evaluations: " + _overallNumberOfEvaluationsMethod(TargetProblem, CurrentSolution, this));
+            Log.Debug("Overall number of evaluations: " + _overallNumberOfEvaluationsMethod(Problem, CurrentSolution, this));
             WriteOutputHeadersIfNeeded();
             WriteOutputValuesIfNeeded("beforeAlgorithm", "b_a");
             while (true)
             {
                 WriteOutputValuesIfNeeded("beforeIteration", "b_i");
                 Iteration += 1;
-                _progressMethod(TargetProblem, CurrentSolution, this);
-                bool? new_is_better = IsFirstBetter(CurrentSolution, BestSolution!, TargetProblem);
+                _progressMethod(Problem, CurrentSolution, this);
+                bool? new_is_better = IsFirstBetter(CurrentSolution, BestSolution!, Problem);
                 if(new_is_better == true)
                 {
                     BestSolution = CurrentSolution;
                 }
                 WriteOutputValuesIfNeeded("afterIteration", "a_i");
-                if (!_canProgressMethod(TargetProblem, CurrentSolution, this))
+                if (!_canProgressMethod(Problem, CurrentSolution, this))
                 {
                     break;
                 }
