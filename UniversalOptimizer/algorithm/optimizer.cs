@@ -287,7 +287,7 @@ namespace UniversalOptimizer.Algorithm
         /// 
         /// Method for optimization   
         /// 
-        public virtual void Optimize() => throw new NotImplementedException();
+        public virtual Solution<R_co, A_co>? Optimize() => throw new NotImplementedException();
 
         /// <summary>
         /// String representation of the optimizer instance.

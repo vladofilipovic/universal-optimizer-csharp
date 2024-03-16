@@ -98,7 +98,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
         /// Method for optimization with Total Enumeration.
         /// </summary>
         /// <returns></returns>
-        public override void Optimize()
+        public override Solution<R_co, A_co>? Optimize()
         {            
             ExecutionStarted = DateTime.UtcNow;
             Init();
@@ -125,6 +125,7 @@ namespace UniversalOptimizer.Algorithm.Exact.TotalEnumeration
             }
             ExecutionEnded = DateTime.UtcNow;
             this.WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
+            return this.BestSolution;
         }
 
         /// <summary>

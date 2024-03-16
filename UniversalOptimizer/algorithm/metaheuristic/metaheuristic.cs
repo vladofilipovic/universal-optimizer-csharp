@@ -128,7 +128,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
         /// <summary>
         /// Executing optimization by the metaheuristic algorithm.
         /// </summary>
-        public override void Optimize()
+        public override Solution<R_co, A_co>? Optimize()
         {
             this.ExecutionStarted = DateTime.UtcNow;
             this.Init();
@@ -137,6 +137,7 @@ namespace UniversalOptimizer.Algorithm.Metaheuristic
             MainLoop();
             this.ExecutionEnded = DateTime.UtcNow;
             WriteOutputValuesIfNeeded("afterAlgorithm", "a_a");
+            return this.BestSolution;
         }
 
         /// <summary>

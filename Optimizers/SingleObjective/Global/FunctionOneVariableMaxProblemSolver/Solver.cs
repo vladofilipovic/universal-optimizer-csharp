@@ -180,9 +180,9 @@ namespace SingleObjective.Teaching.FunctionOneVariableProblem
                     localSearchType: opts.LocalSearchType);
                 if (solver is not null)
                 {
-                    solver.Optimize();
+                    var bs = solver.Optimize();
                     Log.Debug("Method VNS finished.");
-                    Log.Information(string.Format("best solution representation:{0:b}, best solution argument:{1}, best solution objective:{2}, best solution fitness:{3}, iterations:{4}, evaluations:{5}, start time:{6}, stop time:{7}", solver.BestSolution!.Representation, solver.BestSolution!.StringRepresentation(), solver.BestSolution.ObjectiveValue, solver.BestSolution.FitnessValue, solver.Iteration, solver.Evaluation, solver.ExecutionStarted, solver.ExecutionEnded));
+                    Log.Information(string.Format("best solution representation:{0:b}, best solution argument:{1}, best solution objective:{2}, best solution fitness:{3}, iterations:{4}, evaluations:{5}, start time:{6}, stop time:{7}", bs!.Representation, bs!.StringRepresentation(), bs.ObjectiveValue, bs.FitnessValue, solver.Iteration, solver.Evaluation, solver.ExecutionStarted, solver.ExecutionEnded));
                     Log.Debug("Solver ended.");
                 }
                 else {
